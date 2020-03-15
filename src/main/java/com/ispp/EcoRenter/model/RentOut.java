@@ -35,6 +35,8 @@ public class RentOut extends DomainEntity {
 	
 	@Transient
 	private Date endDate;
+
+	private boolean isActive;
 	
 	// Constructors -------------------------------
 	
@@ -77,12 +79,17 @@ public class RentOut extends DomainEntity {
 		this.endDate = endDate;
 	}
 	
+	public boolean getIsActive() {
+		return isActive;
+	}
+
+
+	public void setIsActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+	
+	
 	// Associations ------------------------------
-	
-	
-
-
-
 	@NotNull
 	@Valid
 	@ManyToOne(optional = false)
