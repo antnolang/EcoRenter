@@ -2,18 +2,17 @@ package com.ispp.EcoRenter.services;
 
 import java.util.Collection;
 
-
-import com.ispp.EcoRenter.model.Owner;
-import com.ispp.EcoRenter.model.Smallholding;
-import com.ispp.EcoRenter.service.OwnerService;
-import com.ispp.EcoRenter.service.SmallholdingService;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.util.Assert;
+
+import com.ispp.EcoRenter.model.Owner;
+import com.ispp.EcoRenter.model.Smallholding;
+import com.ispp.EcoRenter.service.OwnerService;
+import com.ispp.EcoRenter.service.SmallholdingService;
 
 @SpringBootTest
 public class SmallholdingServiceTest {
@@ -51,7 +50,7 @@ public class SmallholdingServiceTest {
         smallholding = this.smallholdingService.create();
         smallholding.setTitle("Huerto 1");
         smallholding.setDescription("Huerto grande y cultivable");
-        smallholding.setSize("40 metros cuadrados");
+        smallholding.setSize(40);
         smallholding.setFarmingType("Cultivo de hortalizas");
         smallholding.setPrice(40.0);
         smallholding.setProvince("Sevilla");
@@ -82,7 +81,7 @@ public class SmallholdingServiceTest {
         smallholding = this.smallholdingService.create();
         smallholding.setTitle("");
         smallholding.setDescription("Huerto grande y cultivable");
-        smallholding.setSize("40 metros cuadrados");
+        smallholding.setSize(40);
         smallholding.setFarmingType("Cultivo de hortalizas");
         smallholding.setPrice(40.0);
         smallholding.setProvince("Sevilla");

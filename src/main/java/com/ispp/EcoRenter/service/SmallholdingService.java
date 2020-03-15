@@ -5,13 +5,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import com.ispp.EcoRenter.model.Actor;
-import com.ispp.EcoRenter.model.Owner;
-import com.ispp.EcoRenter.model.RentOut;
-import com.ispp.EcoRenter.model.Renter;
-import com.ispp.EcoRenter.model.Smallholding;
-import com.ispp.EcoRenter.repository.SmallholdingRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -21,6 +14,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
+
+import com.ispp.EcoRenter.model.Actor;
+import com.ispp.EcoRenter.model.Owner;
+import com.ispp.EcoRenter.model.RentOut;
+import com.ispp.EcoRenter.model.Renter;
+import com.ispp.EcoRenter.model.Smallholding;
+import com.ispp.EcoRenter.repository.SmallholdingRepository;
 
 @Service
 public class SmallholdingService {
@@ -200,7 +200,7 @@ public class SmallholdingService {
         }
        
         result.setTitle(smallholding.getTitle().trim());
-        result.setSize(smallholding.getSize().trim());
+        result.setSize(smallholding.getSize());
         result.setDescription(smallholding.getDescription().trim());
         result.setFarmingType(smallholding.getFarmingType().trim());
         result.setPrice(smallholding.getPrice());

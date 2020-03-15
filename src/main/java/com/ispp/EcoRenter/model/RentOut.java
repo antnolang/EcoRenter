@@ -30,8 +30,8 @@ public class RentOut extends DomainEntity {
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date startDate;
 	
-	@Min(1)
-	private Integer month;
+	@Min(0)
+	private int month;
 	
 	@Transient
 	private Date endDate;
@@ -53,26 +53,22 @@ public class RentOut extends DomainEntity {
 		this.startDate = startDate;
 	}
 
-	public Integer getMonth() {
+	public int getMonth() {
 		return month;
 	}
 
-	public void setMonth(Integer month) {
+	public void setMonth(int month) {
 		this.month = month;
 	}
 	
 	public Date getEndDate() {
 		Calendar cal;
 		
-		if (this.month != null) {
-			cal = Calendar.getInstance();
-			cal.setTime(this.startDate);
-			cal.add(Calendar.MONTH, this.month);
-			
-			this.endDate = cal.getTime();
-		} else {
-			this.endDate = null;
-		}
+		cal = Calendar.getInstance();
+		cal.setTime(this.startDate);
+		cal.add(Calendar.MONTH, this.month);
+		
+		this.endDate = cal.getTime();
 		
 		return endDate;
 	}

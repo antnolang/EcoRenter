@@ -34,8 +34,11 @@ CREATE TABLE `administrator` (
   `user_account_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_2a5vcjo3stlfcwadosjfq49l1` (`user_account_id`),
-  KEY `FK_q8xtaapphhoue8f1skpjv81p7` (`photo_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `UK_jj3mmcc0vjobqibj67dvuwihk` (`email`),
+  KEY `FK_q8xtaapphhoue8f1skpjv81p7` (`photo_id`),
+  CONSTRAINT `FK_2a5vcjo3stlfcwadosjfq49l1` FOREIGN KEY (`user_account_id`) REFERENCES `user_account` (`id`),
+  CONSTRAINT `FK_q8xtaapphhoue8f1skpjv81p7` FOREIGN KEY (`photo_id`) REFERENCES `photo` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -49,11 +52,12 @@ CREATE TABLE `comment` (
   `id` int(11) NOT NULL,
   `version` int(11) NOT NULL,
   `text` varchar(255) DEFAULT NULL,
-  `written_moment` datetime NOT NULL,
+  `written_moment` datetime(6) NOT NULL,
   `rent_out_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FKjei8pnwif8vhbu7n0t1nkf5tf` (`rent_out_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `FKjei8pnwif8vhbu7n0t1nkf5tf` (`rent_out_id`),
+  CONSTRAINT `FKjei8pnwif8vhbu7n0t1nkf5tf` FOREIGN KEY (`rent_out_id`) REFERENCES `rent_out` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,12 +71,13 @@ CREATE TABLE `customization` (
   `id` int(11) NOT NULL,
   `version` int(11) NOT NULL,
   `discount_codes` varchar(255) DEFAULT NULL,
+  `eco_truki` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `gold_level` int(11) NOT NULL,
   `silver_level` int(11) NOT NULL,
-  `eco_truki` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_kwvi1eq3k3nnn2jc10wyci9jv` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -84,7 +89,7 @@ DROP TABLE IF EXISTS `hibernate_sequence`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `hibernate_sequence` (
   `next_val` bigint(20) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,8 +113,11 @@ CREATE TABLE `owner` (
   `iban` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_hc0nwk401f7t7pohcq2vounjc` (`user_account_id`),
-  KEY `FK_r4iqvt4tk4jpapqdqb9rsfy07` (`photo_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `UK_kcaoebbgb82ro5cw9nqhw19qb` (`email`),
+  KEY `FK_r4iqvt4tk4jpapqdqb9rsfy07` (`photo_id`),
+  CONSTRAINT `FK_hc0nwk401f7t7pohcq2vounjc` FOREIGN KEY (`user_account_id`) REFERENCES `user_account` (`id`),
+  CONSTRAINT `FK_r4iqvt4tk4jpapqdqb9rsfy07` FOREIGN KEY (`photo_id`) REFERENCES `photo` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,7 +135,7 @@ CREATE TABLE `photo` (
   `structure` longblob,
   `suffix` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,15 +149,18 @@ CREATE TABLE `rent_out` (
   `id` int(11) NOT NULL,
   `version` int(11) NOT NULL,
   `month` int(11) DEFAULT NULL,
-  `start_date` datetime NOT NULL,
+  `start_date` datetime(6) NOT NULL,
   `renter_id` int(11) NOT NULL,
   `smallholding_id` int(11) NOT NULL,
   `valuation_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK2w4idcn2jnkaxbh3r2pebf5ie` (`renter_id`),
   KEY `FKi1vsr0uw536n5xewcq6hupv0b` (`smallholding_id`),
-  KEY `FKbw5w7l7d1djjia82bwqjkjndr` (`valuation_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `FKbw5w7l7d1djjia82bwqjkjndr` (`valuation_id`),
+  CONSTRAINT `FK2w4idcn2jnkaxbh3r2pebf5ie` FOREIGN KEY (`renter_id`) REFERENCES `renter` (`id`),
+  CONSTRAINT `FKbw5w7l7d1djjia82bwqjkjndr` FOREIGN KEY (`valuation_id`) REFERENCES `valuation` (`id`),
+  CONSTRAINT `FKi1vsr0uw536n5xewcq6hupv0b` FOREIGN KEY (`smallholding_id`) REFERENCES `smallholding` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -172,8 +183,11 @@ CREATE TABLE `renter` (
   `iban` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_32merbwan7h6a2mgwcxpyxlts` (`user_account_id`),
-  KEY `FK_2mp2pw1716eb4hf20jtowwx3s` (`photo_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `UK_8lx5melb9aiqsx6uaw8ssbb5r` (`email`),
+  KEY `FK_2mp2pw1716eb4hf20jtowwx3s` (`photo_id`),
+  CONSTRAINT `FK_2mp2pw1716eb4hf20jtowwx3s` FOREIGN KEY (`photo_id`) REFERENCES `photo` (`id`),
+  CONSTRAINT `FK_32merbwan7h6a2mgwcxpyxlts` FOREIGN KEY (`user_account_id`) REFERENCES `user_account` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -198,13 +212,14 @@ CREATE TABLE `smallholding` (
   `postal_code` varchar(255) DEFAULT NULL,
   `price` double NOT NULL,
   `province` varchar(255) DEFAULT NULL,
-  `size` varchar(255) DEFAULT NULL,
+  `size` int(11) NOT NULL,
   `status` varchar(255) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `owner_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FKt41w5r3e6kec8wt0oq2r20cs1` (`owner_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `FKt41w5r3e6kec8wt0oq2r20cs1` (`owner_id`),
+  CONSTRAINT `FKt41w5r3e6kec8wt0oq2r20cs1` FOREIGN KEY (`owner_id`) REFERENCES `owner` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -218,8 +233,10 @@ CREATE TABLE `smallholding_photos` (
   `smallholding_id` int(11) NOT NULL,
   `photos_id` int(11) NOT NULL,
   UNIQUE KEY `UK_33kylxybbnpwcxp2myq46wk2w` (`photos_id`),
-  KEY `FK19104dxu3xkf40ux1yah94y3x` (`smallholding_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `FK19104dxu3xkf40ux1yah94y3x` (`smallholding_id`),
+  CONSTRAINT `FK19104dxu3xkf40ux1yah94y3x` FOREIGN KEY (`smallholding_id`) REFERENCES `smallholding` (`id`),
+  CONSTRAINT `FKb78d844pinbt9yblhjx7svm5d` FOREIGN KEY (`photos_id`) REFERENCES `photo` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -237,7 +254,7 @@ CREATE TABLE `user_account` (
   `username` varchar(60) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_castjbvpeeus0r8lbpehiu0e4` (`username`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -250,8 +267,9 @@ DROP TABLE IF EXISTS `user_account_authorities`;
 CREATE TABLE `user_account_authorities` (
   `user_account_id` int(11) NOT NULL,
   `authority` varchar(255) DEFAULT NULL,
-  KEY `FKqg5yuqktw7kjmodb7k1rg3f2o` (`user_account_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `FKqg5yuqktw7kjmodb7k1rg3f2o` (`user_account_id`),
+  CONSTRAINT `FKqg5yuqktw7kjmodb7k1rg3f2o` FOREIGN KEY (`user_account_id`) REFERENCES `user_account` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -265,9 +283,9 @@ CREATE TABLE `valuation` (
   `id` int(11) NOT NULL,
   `version` int(11) NOT NULL,
   `mark` int(11) NOT NULL,
-  `valuation_moment` datetime NOT NULL,
+  `valuation_moment` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -279,4 +297,4 @@ CREATE TABLE `valuation` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-13 20:28:53
+-- Dump completed on 2020-03-15 11:48:01

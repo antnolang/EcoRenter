@@ -11,7 +11,6 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -28,14 +27,14 @@ public class Smallholding extends DomainEntity {
 	@NotBlank
 	private String title;
 	
-	@NotBlank
-	private String size;
+	@Min(1)
+	private int size;
 	
 	@NotBlank
 	private String description;
 	
 	@NotBlank
-	@Pattern(regexp = "^[^0-9]*$")
+	@Pattern(regexp = "^[^0-9]+$")
 	private String farmingType;
 	
 	@DecimalMin(value = "0.0")
@@ -43,11 +42,11 @@ public class Smallholding extends DomainEntity {
 	private double price;
 	
 	@NotBlank
-	@Pattern(regexp = "^[^0-9]*$")
+	@Pattern(regexp = "^[^0-9]+$")
 	private String province;
 	
 	@NotBlank
-	@Pattern(regexp = "^[^0-9]*$")
+	@Pattern(regexp = "^[^0-9]+$")
 	private String locality;
 	
 	@NotBlank
@@ -92,11 +91,11 @@ public class Smallholding extends DomainEntity {
 		this.title = title;
 	}
 
-	public String getSize() {
+	public int getSize() {
 		return size;
 	}
 
-	public void setSize(String size) {
+	public void setSize(int size) {
 		this.size = size;
 	}
 
