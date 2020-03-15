@@ -26,6 +26,8 @@ before_install:
   - mysql -e "create database eco_renter;"
   - mysql -e "create user 'spring_dev'@'%' identified by '5ecurePa55w0rd*';"
   - mysql -e "grant all on eco_renter.* to 'spring_dev'@'%';"
+  - mysql eco_renter < src/main/resources/schema-mysql.sql
+  - mysql eco_renter < src/main/resources/data-mysql.sql
 before_deploy:
   if ! [ "$IS_TAGGED" ]; then
     export IS_TAGGED=1;
