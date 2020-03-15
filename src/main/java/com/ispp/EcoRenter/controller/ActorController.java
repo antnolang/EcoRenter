@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ispp.EcoRenter.model.Actor;
+import com.ispp.EcoRenter.model.Customisation;
 import com.ispp.EcoRenter.model.Owner;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.service.ActorService;
@@ -42,13 +43,13 @@ public class ActorController {
 	@GetMapping(value = "/display")
 	public ModelAndView findOne(@RequestParam(required = false, defaultValue = "0") int actorId) {
 		ModelAndView result;
+		Customisation customisation;
 		Actor actor, principal;
 		boolean isMyProfile;
 		Renter renter;
 		Owner owner;
 		int principalId;
-		String iban, role;
-		String level;
+		String iban, role, level, discountCodes, ecoTruki;
 		
 		iban = "";
 		
@@ -88,6 +89,15 @@ public class ActorController {
 			
 			actor = (actorId == 0) ? principal : this.actorService.findOne(actorId);
 			role = this.actorService.getRole(actor);
+			
+//			if (role == Authority.RENTER) {
+//				customisation = this.customisationService.find();
+//				
+//				ecoTruki = customisation.getEcoTruki();
+//				discountCodes = customisation.getDiscountCodes();
+//				
+//				
+//			}
 			
 			result.addObject("actor", actor);
 			result.addObject("role", role);

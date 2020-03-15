@@ -14,6 +14,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.ispp.EcoRenter.security.Authority;
+
 
 
 @Configuration
@@ -34,6 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/").permitAll()
 		.antMatchers("/static/**").permitAll()
 		.antMatchers("/smallholding/**").permitAll()
+		.antMatchers("/actor/administrator/**").hasAnyAuthority(Authority.ADMIN)
 		.antMatchers("/actor/display").authenticated()
 		.antMatchers("/owner/smallholding/**").hasAnyAuthority("OWNER")
 		.antMatchers("/resources/**").permitAll()

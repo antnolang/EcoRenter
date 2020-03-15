@@ -14,8 +14,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.ispp.EcoRenter.model.Actor;
+import com.ispp.EcoRenter.model.Administrator;
 import com.ispp.EcoRenter.repository.ActorRepository;
 import com.ispp.EcoRenter.security.Authority;
+import com.ispp.EcoRenter.security.UserAccount;
 
 @Service
 public class ActorService {
@@ -43,7 +45,7 @@ public class ActorService {
     	
     	principal = this.findByPrincipal();
     	
-    	Assert.isTrue(!principal.getUserAccount().isBanned(), "Usuario baneado");
+    	Assert.isTrue(!principal.getUserAccount().getIsBanned(), "Usuario baneado");
     	
     	optionalActor = this.actorRepository.findById(actorId);
     	
@@ -68,7 +70,36 @@ public class ActorService {
     }
     
     // Other business methods
-
+    public void ban(Actor actor) {
+    	Assert.notNull(actor, "Actor desconocido");
+    	Assert.isTrue(!actor.getUserAccount().getIsBanned(), "El actor ya esta baneado");
+    	Assert.isTrue(this.findByPrincipal() instanceof Administrator, "Accion realizable por un admin");
+    	
+    	UserAccount userAccount;
+    	
+    	userAccount = actor.getUserAccount();
+    	
+    	userAccount.setIsBanned(true);
+    	this.actorRepository.flush();
+    	
+    	Assert.isTrue(actor.getUserAccount().getIsBanned(), "Banear actor");
+    }
+    
+    public void unBan(Actor actor) {
+    	Assert.notNull(actor, "Actor desconocido");
+    	Assert.isTrue(actor.getUserAccount().getIsBanned(), "El actor ya esta baneado");
+    	Assert.isTrue(this.findByPrincipal() instanceof Administrator, "Accion realizable por un admin");
+    	
+    	UserAccount userAccount;
+    	
+    	userAccount = actor.getUserAccount();
+    	
+    	userAccount.setIsBanned(false);
+    	this.actorRepository.flush();
+    	
+    	Assert.isTrue(!actor.getUserAccount().getIsBanned(), "Desbanear actor");
+    }
+    
     public Actor findByPrincipal(){
 		Actor result;
     	UserDetails userAccount;
