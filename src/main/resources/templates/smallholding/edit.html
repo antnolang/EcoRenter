@@ -28,7 +28,8 @@
 
                 <p>
                     <strong>Tamaño:</strong>
-                    <input type="text" th:field="*{size}" class="small" th:errorclass="fieldError"/>
+                    <input type="text" th:field="*{size}" class="small" th:errorclass="fieldError"
+                           placeholder="El valor debe de estar especificado en m2"/>
                     <p th:if="${#fields.hasErrors('size')}">
                         <span th:errors="*{size}"></span>
                     </p>
