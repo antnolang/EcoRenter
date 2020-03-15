@@ -4,11 +4,7 @@
 <head>
     <title th:if="${smallholding.id != 0}">Editar parcela</title>
     <title th:if="${smallholding.id == 0}">Publicar parcela</title>
-    <!-- JS/CSS -->
-    <style type="text/css">
-    
 
-    </style>
 </head>
 
 <body>
@@ -36,10 +32,10 @@
         <div class="row justify-content-center">
             <div class="media-container-column col-lg-8" data-form-type="formoid">
                
-               <form th:action="@{/owner/smallholding/edit}" th:object="${smallholding}" method="post" class="mbr-form form-with-styler" data-form-title="Mobirise Form">
+               <form th:action="@{/owner/smallholding/edit}" id="myForm" th:object="${smallholding}" method="post" class="mbr-form form-with-styler" data-form-title="Mobirise Form">
                     <!-- De momento latitud y longitud, no se calcula automaticamente -->
-                    <input type="hidden" value="40.7127837" id="latitude" name="latitude">
-                    <input type="hidden" value="-74.0059413" id="longitude" name="longitude">
+                    <input type="hidden" value="0.0" id="latitude" name="latitude" data-geocomplete="lat">
+                    <input type="hidden" value="0.0" id="longitude" name="longitude" data-geocomplete="lng">
  					<input type="hidden" th:field="*{id}" th:value="${smallholding.id}"/>
             		<input type="hidden" th:field="*{version}" th:value="${smallholding.version}"/>
                     
@@ -47,56 +43,56 @@
                     
                         <div data-for="message" class="col-md-12 form-group">
                          <label for="email-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Dirección</label>
-                            <input type="text" th:field="*{address}"  th:errorclass="fieldError" data-form-field="Message" class="form-control display-7" id="message-form1-17"></input>
+                            <input type="text"  id="txtAddress1" data-geocomplete="street address" placeholder="Escribe una dirección" th:field="*{address}"  th:errorclass="fieldError" data-form-field="Message" class="form-control display-7" ></input>
                             <p th:if="${#fields.hasErrors('address')}" style="color: red !important;">
                         		<span th:errors="*{address}"></span>
                     		</p>
                         </div>
                         <div class="col-md-4  form-group" data-for="name">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Título</label>
-                            <input type="text" th:field="*{title}"  th:errorclass="fieldError"  data-form-field="Name" required="required" class="form-control display-7" id="name-form1-17">
+                            <input type="text" th:field="*{title}"  th:errorclass="fieldError"  data-form-field="Name" required="required" class="form-control display-7"  >
                         	<p th:if="${#fields.hasErrors('title')}" style="color: red !important;">
 			                 	<span th:errors="*{title}"></span>
 			                </p>
                         </div>
 						<div class="col-md-4  form-group" data-for="name">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">m²</label>
-                            <input  type="number" th:field="*{size}"  th:errorclass="fieldError"  data-form-field="Name" required="required" class="form-control display-7" id="name-form1-17">
+                            <input  type="number" th:field="*{size}"  th:errorclass="fieldError"  data-form-field="Name" required="required" class="form-control display-7"  >
 		                    <p th:if="${#fields.hasErrors('size')}" style="color: red !important;">
 		                        <span th:errors="*{size}"></span>
 			                </p>
                         </div>
                  		<div class="col-md-4  form-group" data-for="name">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Precio (al mes)</label>
-                            <input  type="number" th:field="*{price}" step="1" th:errorclass="fieldError"  data-form-field="Name" required="required" class="form-control display-7" id="name-form1-17">
+                            <input  type="number" th:field="*{price}" step="1" th:errorclass="fieldError"  data-form-field="Name" required="required" class="form-control display-7"  >
 		                    <p th:if="${#fields.hasErrors('price')}" style="color: red !important;">
 		                        <span th:errors="*{price}"></span>
 			                </p>
                         </div>
                         <div data-for="message" class="col-md-12 form-group">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Descripción</label>
-                            <textarea  type="text" th:field="*{description}"  th:errorclass="fieldError"  data-form-field="Name" required="required" class="form-control display-7" id="name-form1-17"></textarea>
+                            <textarea  type="text" th:field="*{description}"  th:errorclass="fieldError"  data-form-field="Name" required="required" class="form-control display-7"  ></textarea>
 		                    <p th:if="${#fields.hasErrors('description')}" style="color: red !important;">
 		                        <span th:errors="*{description}" ></span>
 			                </p>
                         </div>
                         <div class="col-md-4  form-group" data-for="name">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Provincia</label>
-                            <input  type="text" th:field="*{province}" th:errorclass="fieldError"  data-form-field="Name" required="required" class="form-control display-7" id="name-form1-17">
+                            <input  type="text" data-geocomplete="county" th:field="*{province}" th:errorclass="fieldError"  data-form-field="Name" required="required" class="form-control display-7"  >
 		                    <p th:if="${#fields.hasErrors('province')}" style="color: red !important;">
 		                        <span th:errors="*{province}"></span>
 			                </p>
                         </div>
                         <div class="col-md-4  form-group" data-for="name">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Localidad</label>
-                            <input  type="text" th:field="*{locality}" th:errorclass="fieldError"  data-form-field="Name" required="required" class="form-control display-7" id="name-form1-17">
+                            <input  type="text" data-geocomplete="city" th:field="*{locality}" th:errorclass="fieldError"  data-form-field="Name" required="required" class="form-control display-7"  >
 		                    <p th:if="${#fields.hasErrors('locality')}" style="color: red !important;">
 		                        <span th:errors="*{locality}"></span>
 			                </p>
                         </div>
                         <div class="col-md-4  form-group" data-for="name">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Código postal</label>
-                            <input  type="number" th:field="*{postalCode}" th:errorclass="fieldError"  data-form-field="Name" required="required" class="form-control display-7" id="name-form1-17">
+                            <input  type="number" data-geocomplete="zip code" th:field="*{postalCode}" th:errorclass="fieldError"  data-form-field="Name" required="required" class="form-control display-7"  >
 		                    <p th:if="${#fields.hasErrors('postalCode')}" style="color: red !important;">
 		                        <span th:errors="*{postalCode}"></span>
 			                </p>
@@ -104,7 +100,7 @@
                         
 						<div class="col-md-4  form-group" data-for="name">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Tipo de cultivo</label>
-		                    <select th:field="*{farmingType}" th:errorclass="fieldError" data-form-field="Name" required="required" class="form-control display-7" id="name-form1-17">
+		                    <select th:field="*{farmingType}" th:errorclass="fieldError" data-form-field="Name" required="required" class="form-control display-7"  >
 		                      	<option th:value="'Perenne'" class="form-control-label  mbr-fonts-style display-7" style="color: #2a3d2e !important;">Perenne</option>
 						  		<option th:value="'Cíclico'" class="form-control-label  mbr-fonts-style display-7" style="color: #2a3d2e !important;">Cíclico</option>
 						    	<option th:value="'Bienal'" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Bienal</option>
@@ -117,14 +113,14 @@
                         
                         <div class="col-md-4  form-group" data-for="name">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Meses máximos en alquiler</label>
-                            <input  type="number" th:field="*{maxDuration}" th:errorclass="fieldError"  data-form-field="Name" required="required" class="form-control display-7" id="name-form1-17">
+                            <input  type="number" th:field="*{maxDuration}" th:errorclass="fieldError"  data-form-field="Name" required="required" class="form-control display-7"  >
 		                    <p th:if="${#fields.hasErrors('maxDuration')}" style="color: red !important;">
 		                        <span th:errors="*{maxDuration}"></span>
 			                </p>
                         </div>
 						<div class="col-md-4  form-group" data-for="name">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Imágenes</label>
-                            <input  type="text" th:field="*{images}" placeholder="urls separadas por comas"   th:errorclass="fieldError"  data-form-field="Name" required="required" class="form-control display-7" id="name-form1-17">
+                            <input  type="text" th:field="*{images}" placeholder="urls separadas por comas"   th:errorclass="fieldError"  data-form-field="Name" required="required" class="form-control display-7"  >
 		                    <p th:if="${#fields.hasErrors('images')}" style="color: red !important;">
 		                        <span th:errors="*{images}"></span>
 			                </p>
@@ -166,6 +162,5 @@
     </div>
 
 </div>
-
 </body>
 </html>
