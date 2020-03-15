@@ -1,5 +1,7 @@
 package com.ispp.EcoRenter.controller;
 
+import java.util.Collection;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +15,12 @@ import com.ispp.EcoRenter.model.Actor;
 import com.ispp.EcoRenter.model.Customisation;
 import com.ispp.EcoRenter.model.Owner;
 import com.ispp.EcoRenter.model.Renter;
+import com.ispp.EcoRenter.model.Smallholding;
 import com.ispp.EcoRenter.service.ActorService;
 import com.ispp.EcoRenter.service.CustomisationService;
 import com.ispp.EcoRenter.service.OwnerService;
 import com.ispp.EcoRenter.service.RenterService;
+import com.ispp.EcoRenter.service.SmallholdingService;
 
 @Controller
 @RequestMapping("/actor")
@@ -36,6 +40,9 @@ public class ActorController {
 	@Autowired
 	private RenterService renterService;
 	
+	@Autowired
+	private SmallholdingService smallholdingService;
+	
 	public ActorController() {
 		super();
 	}
@@ -50,6 +57,7 @@ public class ActorController {
 		Owner owner;
 		int principalId;
 		String iban, role, level, discountCodes, ecoTruki;
+		Collection<Smallholding> smallholdings;
 		
 		iban = "";
 		
@@ -90,20 +98,29 @@ public class ActorController {
 			actor = (actorId == 0) ? principal : this.actorService.findOne(actorId);
 			role = this.actorService.getRole(actor);
 			
-//			if (role == Authority.RENTER) {
-//				customisation = this.customisationService.find();
-//				
-//				ecoTruki = customisation.getEcoTruki();
-//				discountCodes = customisation.getDiscountCodes();
-//				
-//				
-//			}
+			// Req 9.6, Req 9.10, Req 9.11 ------------------------------
+			if (isMyProfile && this.actorService.isASpecificRole(actor, "RENTER")) {
+				smallholdings = this.smallholdingService.findSmallholdingsByActiveRentOut(actor.getId());
+				
+				result.addObject("smallholdings", smallholdings);
+				
+				if (!smallholdings.isEmpty()) {
+					customisation = this.customisationService.find();
+					
+					ecoTruki = customisation.getEcoTruki();
+					discountCodes = customisation.getDiscountCodes();
+					
+					result.addObject("ecoTruki", ecoTruki);
+					result.addObject("discountCodes", discountCodes);
+				}
+				
+			}
 			
 			result.addObject("actor", actor);
 			result.addObject("role", role);
 			result.addObject("isMyProfile", isMyProfile);
 		} catch (Throwable oops) {
-			result = new ModelAndView("actor/display");
+			result = new ModelAndView("redirect:/miscellaneous/error");
 			
 			log.info("ActorController::display - Error al procesar la petición.");
 		}

@@ -36,7 +36,7 @@ public class CustomisationService {
 
 		return result;
 	}
-	
+		
 	public String getLevelByOwner(Owner owner) {
 		String result;
 		Customisation customisation;

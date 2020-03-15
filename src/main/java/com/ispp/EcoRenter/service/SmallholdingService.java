@@ -275,5 +275,12 @@ public class SmallholdingService {
         return result;
     }
 
-
+    public Collection<Smallholding> findSmallholdingsByActiveRentOut(int renterId) {
+    	Collection<Smallholding> results;
+    	 	
+    	results = this.smallholdingRepository.findSmallholdingsByActiveRentOut(renterId);
+    	
+    	return results;
+    }
+    
 }
