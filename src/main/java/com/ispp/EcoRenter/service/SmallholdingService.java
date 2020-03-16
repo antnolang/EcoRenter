@@ -82,6 +82,19 @@ public class SmallholdingService {
         return result;
 
     }
+    
+    public Smallholding rent(Smallholding smallholding){
+        Assert.notNull(smallholding, "La parcela debe existir");
+       
+
+        Smallholding result;
+
+        result = this.smallholdingRepository.save(smallholding);
+
+        return result;
+
+    }
+
 
     public void deactivate(Smallholding smallholding){
         Assert.notNull(smallholding, "La parcela no debe ser nula");
