@@ -1,5 +1,7 @@
 package com.ispp.EcoRenter.controller.renter;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -28,8 +30,9 @@ public class SmallholdingRenterController {
 	@Value("pk_test_76RlPdxYR4nMYOpmKbYA8xE9000VDDeCpk")
 	private String stripePublicKey;
 	
-	@PostMapping("/rent")
-	public String checkout(Model model,@RequestParam final int smallholdingId) {
+
+    @PostMapping(value = "/rent", params = "saveRent")
+	public String checkout(Model model,@RequestParam final int smallholdingId,@PathParam("email") String email,@PathParam("name") String name,@PathParam("iban") String iban) {
 		
 		//Stripe
 		model.addAttribute("amount", 50 * 100); // in cents
@@ -47,14 +50,14 @@ public class SmallholdingRenterController {
 		this.smallholdingService.rent(sh);
 		
 		RentOut rent = this.rentoutService.create();
-		
+		//Comprueba que no esté alquilado etc, seteale el IBAN
 		rent.setSmallholding(sh);
 		
 		this.rentoutService.save(rent);
 		
 		model.addAttribute("payment succesfull", "El pago se ha realizado con éxito.");
 		
-		return "/smallholding/display?smallholdingId=" + smallholdingId;
+		return "redirect:/smallholding/display?smallholdingId=" + smallholdingId;
 	}
 
 

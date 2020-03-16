@@ -87,11 +87,17 @@ public class SmallholdingController {
 
 		principal = null;
 		isRentedByRenter = null;
+		result = new ModelAndView("smallholding/display");
 		try {
 			principal = this.actorService.findByPrincipal();
+			
+		
+			
 			if (principal instanceof Renter) {
 				isRentedByRenter = this.smallholdingService.isSmallholdingRentedByRenter(principal.getId(),
 						smallholdingId);
+				result.addObject("correoRenter",principal.getEmail());
+				result.addObject("nombreCompleto",principal.getFullname());
 			} 
 		} catch (Exception e) {
 			isRentedByRenter = false;
@@ -101,11 +107,12 @@ public class SmallholdingController {
 			smallholding = this.smallholdingService.findOneToDisplay(smallholdingId);
 			comments = this.commentService.findCommentsBySmallholdingId(smallholdingId);
 
-			result = new ModelAndView("smallholding/display");
+
 			result.addObject("smallholding", smallholding);
 			result.addObject("comments", comments);
 			result.addObject("isRentedByRenter", isRentedByRenter);
-
+			
+			
 			if(principal != null && principal instanceof Owner && smallholding.getOwner().equals(principal)){
 				result.addObject("ownerPrincipal", true);
 			} else {
