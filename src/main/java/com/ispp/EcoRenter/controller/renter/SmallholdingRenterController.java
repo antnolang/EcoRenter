@@ -5,10 +5,10 @@ import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.ispp.EcoRenter.helper.ChargeRequest;
 import com.ispp.EcoRenter.model.RentOut;
@@ -32,12 +32,16 @@ public class SmallholdingRenterController {
 	
 
     @PostMapping(value = "/rent", params = "saveRent")
-	public String checkout(Model model,@RequestParam final int smallholdingId,@PathParam("email") String email,@PathParam("name") String name,@PathParam("iban") String iban) {
+	public ModelAndView checkout(@RequestParam final int smallholdingId,@PathParam("email") String email,@PathParam("name") String name,@PathParam("iban") String iban) {
 		
+    	
+    	ModelAndView result;
+    	
+    	result = new ModelAndView("redirect:/smallholding/display?smallholdingId=" + smallholdingId);	
 		//Stripe
-		model.addAttribute("amount", 50 * 100); // in cents
-		model.addAttribute("stripePublicKey", stripePublicKey);
-		model.addAttribute("currency", ChargeRequest.Currency.EUR);
+    	result.addObject("amount", 50 * 100); // in cents
+    	result.addObject("stripePublicKey", stripePublicKey);
+    	result.addObject("currency", ChargeRequest.Currency.EUR);
 		
 		
 		//Logic
@@ -55,9 +59,9 @@ public class SmallholdingRenterController {
 		
 		this.rentoutService.save(rent);
 		
-		model.addAttribute("payment succesfull", "El pago se ha realizado con éxito.");
+		result.addObject("messagePay", "El pago se ha realizado con éxito.");
 		
-		return "redirect:/smallholding/display?smallholdingId=" + smallholdingId;
+		return result;
 	}
 
 
