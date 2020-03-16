@@ -57,8 +57,10 @@
 										</div>
 									</div>
 								
-									<div class="active-smallholding" sec:authorize="hasAuthority('RENTER')" th:if="${isMyProfile && smallholdings.size() > 0}">
-										<h3> Parcelas asociadas a mis alquileres activos </h3> 
+									
+									<div class="align-left aside-content" sec:authorize="hasAuthority('RENTER')" th:if="${isMyProfile && smallholdings.size() > 0}">
+										<h3 class="mbr-title pt-2 mbr-fonts-style display-2">
+										<span> Parcelas asociadas a mis alquileres activos </span></h3>
 										<table class="table table-striped">
 											<thead class="thead-dark">
 												<tr>
@@ -83,8 +85,9 @@
 										</table>
 									</div>	
 	                           
-	                           		<div class="info" sec:authorize="hasAuthority('RENTER')" th:if="${isMyProfile && smallholdings.size() > 0}">
-	                           			<h3>Consejos y Códigos de descuentos</h3>
+	                           		<div class="align-left aside-content" sec:authorize="hasAuthority('RENTER')" th:if="${isMyProfile && smallholdings.size() > 0}">
+										<h3 class="mbr-title pt-2 mbr-fonts-style display-2">
+										<span> Consejos y Códigos de descuentos </span></h3>										
 	                           			<p th:if="${isMyProfile && ecoTruki != null && ecoTruki != ''}">
 	                           				<strong> Eco Truki: </strong>
 	                           				<span th:text="${ecoTruki}"></span>
