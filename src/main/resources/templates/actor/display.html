@@ -56,8 +56,51 @@
 												<span th:text="${role}"></span></p>
 										</div>
 									</div>
+								
 									
+									<div class="align-left aside-content" sec:authorize="hasAuthority('RENTER')" th:if="${isMyProfile && smallholdings.size() > 0}">
+										<h3 class="mbr-title pt-2 mbr-fonts-style display-2">
+										<span> Parcelas asociadas a mis alquileres activos </span></h3>
+										<table class="table table-striped">
+											<thead class="thead-dark">
+												<tr>
+													<th></th>
+													<th>Titulo</th>
+													<th>Descripción</th>
+													<th>Localidad</th>
+													<th>Provincia</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="sh : ${smallholdings}">
+													<td>
+														<a th:href="@{/smallholding/display(smallholdingId=${sh.id})}">Mostrar</a>
+													</td>
+													<td th:text="${sh.title}"></td>
+													<td th:text="${sh.description}"></td>
+													<td th:text="${sh.locality}"></td>
+													<td th:text="${sh.province}"></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>	
 	                           
+	                           		<div class="align-left aside-content" sec:authorize="hasAuthority('RENTER')" th:if="${isMyProfile && smallholdings.size() > 0}">
+										<h3 class="mbr-title pt-2 mbr-fonts-style display-2">
+										<span> Consejos y Códigos de descuentos </span></h3>										
+	                           			<p th:if="${isMyProfile && ecoTruki != null && ecoTruki != ''}">
+	                           				<strong> Eco Truki: </strong>
+	                           				<span th:text="${ecoTruki}"></span>
+	                           			</p>
+	                           			
+	                           			<p th:if="${isMyProfile && discountCodes != null && discountCodes != ''}">
+	                           				<strong> Código de descuento: </strong>
+	                           				<span th:text="${discountCodes}"></span>
+	                           			</p>
+	                           		</div>
+	                           	
+	                           		
+	                           	
 									<!--Btn-->
 									<!-- <div th:if="${isMyProfile}" class="mbr-section-btn pt-3 align-left"><a href="" class="btn btn-secondary-outline display-4">Editar perfil</a></div> -->
 									

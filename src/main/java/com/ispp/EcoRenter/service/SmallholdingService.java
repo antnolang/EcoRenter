@@ -17,7 +17,6 @@ import org.springframework.validation.Validator;
 
 import com.ispp.EcoRenter.model.Actor;
 import com.ispp.EcoRenter.model.Owner;
-import com.ispp.EcoRenter.model.RentOut;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.model.Smallholding;
 import com.ispp.EcoRenter.repository.SmallholdingRepository;
@@ -41,9 +40,6 @@ public class SmallholdingService {
     @Autowired
     private Validator validator;
     
-    @Autowired
-    private RentOutService rentOutService;
-
     // Constructor
 
     public SmallholdingService(){
@@ -274,23 +270,23 @@ public class SmallholdingService {
 
     public Boolean isSmallholdingRentedByRenter(int renterId, int smallholdingId){
         Boolean result;
-        Collection<RentOut> rentOuts;
+        Collection<Smallholding> smallholdingsRented;
+        Smallholding smallholding;
 
-        result = null;
-        rentOuts = this.rentOutService.findRentOutsBySmallholdingAndRenter(smallholdingId, renterId);
-        if(rentOuts.size() == 0)
-            result = false;
-        else {
-            for(RentOut ro: rentOuts){
-                result = this.smallholdingRepository.isSmallholdingRentedByRenter(renterId, smallholdingId, ro.getEndDate());
-                if(result)
-                    break;
-            }
-        }
-            
+        smallholdingsRented = this.smallholdingRepository.findSmallholdingsByActiveRentOut(renterId);
+        smallholding = this.findOne(smallholdingId);
+
+        result = (smallholdingsRented.contains(smallholding) ? true : false);              
 
         return result;
     }
 
-
+    public Collection<Smallholding> findSmallholdingsByActiveRentOut(int renterId) {
+    	Collection<Smallholding> results;
+    	 	
+    	results = this.smallholdingRepository.findSmallholdingsByActiveRentOut(renterId);
+    	
+    	return results;
+    }
+    
 }

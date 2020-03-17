@@ -1,14 +1,18 @@
 package com.ispp.EcoRenter.service;
 
 import java.util.Collection;
+
 import java.util.Date;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.ispp.EcoRenter.model.RentOut;
+
 import com.ispp.EcoRenter.model.Renter;
+
 import com.ispp.EcoRenter.repository.RentOutRepository;
 
 @Service
@@ -29,6 +33,7 @@ public class RentOutService {
     }
 
     // CRUD methods
+
 
     public RentOut create() {
     	
@@ -58,7 +63,9 @@ public class RentOutService {
     	
     	return result;
     }
+    
     // Other business method
+
 
     public Collection<RentOut> findRentOutsBySmallholdingAndRenter(int smallholdingId, int renterId){
         Collection<RentOut> result;

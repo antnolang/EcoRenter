@@ -148,7 +148,8 @@ DROP TABLE IF EXISTS `rent_out`;
 CREATE TABLE `rent_out` (
   `id` int(11) NOT NULL,
   `version` int(11) NOT NULL,
-  `month` int(11) DEFAULT NULL,
+  `is_active` bit(1) NOT NULL,
+  `month` int(11) NOT NULL,
   `start_date` datetime(6) NOT NULL,
   `renter_id` int(11) NOT NULL,
   `smallholding_id` int(11) NOT NULL,
@@ -297,4 +298,4 @@ CREATE TABLE `valuation` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-15 11:48:01
+-- Dump completed on 2020-03-15 16:18:21

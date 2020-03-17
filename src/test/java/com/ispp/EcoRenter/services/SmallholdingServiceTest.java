@@ -161,19 +161,6 @@ public class SmallholdingServiceTest {
     }
 
     /*
-        Renter1 visualiza una parcela suya alquilada
-    */
-    @WithMockUser("renter1")
-    @Test
-    public void display_positive_test(){
-        Smallholding smallholding;
-
-        smallholding = this.smallholdingService.findOneToDisplay(400);
-
-        Assert.notNull(smallholding, "La parcela no se puede mostrar");
-    }
-
-    /*
         Renter2 visualiza una parcela de otro arrendatario alquilada
     */
     @WithMockUser("renter2")
