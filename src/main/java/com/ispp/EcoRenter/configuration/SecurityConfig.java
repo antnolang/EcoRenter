@@ -1,31 +1,24 @@
 package com.ispp.EcoRenter.configuration;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import com.ispp.EcoRenter.security.Authority;
-
 
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-
 	@Autowired
-	DataSource dataSource;
-
-	@Autowired
-	UserDetailsService userDetailsService;
+	private UserDetailsService userDetailsService;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -34,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/").permitAll()
 		.antMatchers("/static/**").permitAll()
 		.antMatchers("/smallholding/**").permitAll()
-		.antMatchers("/actor/administrator/**").hasAnyAuthority(Authority.ADMIN)
+		.antMatchers("/actor/administrator/**").hasAnyAuthority("ADMIN")
 		.antMatchers("/actor/display").authenticated()
 		.antMatchers("/owner/smallholding/**").hasAnyAuthority("OWNER")
 		.antMatchers("/resources/**").permitAll()
@@ -49,23 +42,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		;
 	}
 
-
-
+	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
-
-
 		auth.userDetailsService(userDetailsService);
-
-
 	}
 
 
-
 	@Bean
-	public static PasswordEncoder passwordEncoder() {
-		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder(5);
 	}
 
 
@@ -73,7 +59,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
 		authenticationProvider.setUserDetailsService(userDetailsService);
-		authenticationProvider.setPasswordEncoder(passwordEncoder());
+		authenticationProvider.setPasswordEncoder(this.passwordEncoder());
+		
 		return authenticationProvider;
 	}
 }

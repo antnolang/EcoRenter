@@ -30,13 +30,14 @@ public class MyUserDetailsService implements UserDetailsService{
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
 		Optional<UserAccount> user = userAccountRepository.findByUsername(username);
+		UserDetails result;
 		
 		if(user!=null) {
 			Collection<Authority> auths = new ArrayList<Authority>();
 			
 			UserAccount currentUser = user.get();
 			
-			currentUser.setPassword(passwordEncoder.encode(user.get().getPassword()));
+			currentUser.setPassword(currentUser.getPassword());
 			Authority newAuth = new Authority();
 			
 			
@@ -50,8 +51,8 @@ public class MyUserDetailsService implements UserDetailsService{
 
 		}
 		
+		result = user.map(MyUserDetails::new).get();
 		
-		return user.map(MyUserDetails::new).get();
-
+		return result;
 	}
 }
