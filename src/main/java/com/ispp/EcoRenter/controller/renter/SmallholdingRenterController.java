@@ -5,6 +5,7 @@ import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,52 +20,49 @@ import com.ispp.EcoRenter.service.SmallholdingService;
 @Controller
 @RequestMapping("/renter/smallholding")
 public class SmallholdingRenterController {
-	
+
 	@Autowired
 	private RentOutService rentoutService;
-	
-	
+
 	@Autowired
 	private SmallholdingService smallholdingService;
-	
-	
 
-    @PostMapping(value = "/rent", params = "saveRent")
-	public ModelAndView checkout(@RequestParam final int smallholdingId,@PathParam("email") String email,@PathParam("name") String name,@PathParam("iban") String iban) {
-		
-    	
-    	ModelAndView result;
-    	
-    	result = new ModelAndView("redirect:/smallholding/display?smallholdingId=" + smallholdingId);	
-	
-		
-		
-		//Logic
-		
+	@PostMapping(value = "/rent", params = "saveRent")
+	public ModelAndView checkout(@RequestParam final int smallholdingId, @PathParam("email") String email,
+			@PathParam("name") String name, @PathParam("iban") String iban) {
+
+		ModelAndView result;
+
+		result = new ModelAndView("redirect:/smallholding/display?smallholdingId=" + smallholdingId);
+
+		// Logic
+
 		Smallholding sh = this.smallholdingService.findOne(smallholdingId);
-		
-		
+
 		try {
-			
+
+			Assert.notNull(iban, "No puede ser nulo el iban");
+
+			Assert.isTrue(iban.matches("[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}"),"Ponga bien el iban por favor.");
+
 			this.smallholdingService.rent(sh);
-			
+
 			RentOut rent = this.rentoutService.create();
-			
+
 			rent.setSmallholding(sh);
-			
+
 			rent.getRenter().setIban(iban);
-			
+
 			this.rentoutService.save(rent);
-			
-		}catch(Exception ex) {
+
+		} catch (Exception ex) {
 			System.out.println(ex.getLocalizedMessage());
+			result.addObject(ex.getMessage(), "error");
 		}
-		
-		
+
 		result.addObject("isRented", true);
-		
+
 		return result;
 	}
-
 
 }
