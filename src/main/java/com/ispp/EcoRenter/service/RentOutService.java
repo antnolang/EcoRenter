@@ -47,7 +47,11 @@ public class RentOutService {
     
     public RentOut save(RentOut rent) {
     	RentOut result;
+    	Renter principal = this.renterService.findByPrincipal();
     	
+    	
+    	Assert.notNull(rent, "No debe ser nulo.");
+    	Assert.isTrue(rent.getRenter().equals(principal), "No la está alquilando el usuario logeado.");
     	
     	
     	result = this.rentOutRepository.save(rent);

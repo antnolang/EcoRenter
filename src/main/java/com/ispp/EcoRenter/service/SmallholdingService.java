@@ -85,10 +85,14 @@ public class SmallholdingService {
     
     public Smallholding rent(Smallholding smallholding){
         Assert.notNull(smallholding, "La parcela debe existir");
-       
-
+        Assert.isTrue(smallholding.getStatus().equals("NO ALQUILADA"), "No se puede alquilar una parcela alquilada.");
+        
         Smallholding result;
-
+        
+        
+        smallholding.setAvailable(false);
+        smallholding.setStatus("ALQUILADA");
+        
         result = this.smallholdingRepository.save(smallholding);
 
         return result;
