@@ -36,7 +36,8 @@
 				<div class="mbr-section-btn align-center"><a th:href="@{~/smallholding/display?smallholdingId=} + ${sh.id}" class="btn btn-warning-outline display-4">Ver parcela</a></div>
 			</div>
 			
-
+			<div class="container">
+			<div class="row justify-content-center">
 			<div  th:if="${smallholdingPage.totalPages > 0 && requestURI == 'smallholding/list'}" 
 				th:each="pageNumber : ${pageNumbers}">
 				<nav aria-label="Page navigation example">
@@ -61,6 +62,8 @@
 					 </li>
 				 </ul>
 			</nav>
+			</div>
+			</div>
 			</div>
 			
 			
