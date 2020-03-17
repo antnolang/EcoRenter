@@ -33,7 +33,7 @@ public class SmallholdingRenterController {
 
 		ModelAndView result;
 
-		result = new ModelAndView("redirect:/smallholding/display?smallholdingId=" + smallholdingId);
+		result = new ModelAndView("redirect:/smallholding/list");
 
 		// Logic
 
