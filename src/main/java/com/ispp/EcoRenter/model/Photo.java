@@ -1,8 +1,7 @@
 package com.ispp.EcoRenter.model;
 
-import java.sql.Blob;
-
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -14,14 +13,25 @@ public class Photo extends DomainEntity {
 
 	@NotBlank
 	private String name;
+	
+	@NotBlank
 	private String suffix;
-	private String content;
-	private Blob structure;
+	
+	@Lob
+	private byte[] data;
 	
 	public Photo() {
 		super();
 	}
 
+	public Photo(String name, String suffix, byte[] data) {
+		super();
+		
+		this.name = name;
+		this.suffix = suffix;
+		this.data = data;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -38,21 +48,12 @@ public class Photo extends DomainEntity {
 		this.suffix = suffix;
 	}
 
-	public String getContent() {
-		return content;
+	public byte[] getData() {
+		return data;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setData(byte[] data) {
+		this.data = data;
 	}
-
-	public Blob getStructure() {
-		return structure;
-	}
-
-	public void setStructure(Blob structure) {
-		this.structure = structure;
-	}
-	
 	
 }
