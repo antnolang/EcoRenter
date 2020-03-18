@@ -4,11 +4,19 @@
 
 Conectamos amantes de los productos ecológicos con particulares que tienen parcelas sin cultivar. Nosotros nos encargamos de buscarte uno, solo necesitas entusiasmo por cultivar.
 
-## ¿Qué ventajas tienes con nosotros?
+Cada mes publicaremos EcoTrukis !! No te lo pierdas!!!
+
+## ¿Qué ventajas tienes como arrendador?
+
+* Automatización de pago de alquiler y contrato.
+* Disfruta de nuestros niveles para aparecer en los primeros puestos de búsquedas.
+* Disfruta de nuestras ofertas y cupones descuentos exclusivos en tiendas agrícolas.
+
+## ¿Qué ventajas tienes como arrendador?
 
 * Localiza tu huerto más cercano.
 * Pago seguro y automático.
-* Disfruta de nuestras ofertas y niveles.
+* Disfruta de nuestras ofertas y cupones descuentos exclusivos en tiendas agrícolas.
 
 Visita nuestra [landing page](https://ecorenter.github.io/)
 
