@@ -53,7 +53,7 @@ public class Smallholding extends DomainEntity {
 	private String address;
 	
 	@NotBlank
-	@Pattern(regexp = "\\d{5}$")
+	@Pattern(regexp = "^\\d{5}$")
 	private String postalCode;
 	
 	@NotBlank
