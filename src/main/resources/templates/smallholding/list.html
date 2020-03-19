@@ -66,6 +66,34 @@
 			</div>
 			</div>
 			
+			<p> hola </p>
+			<div class="container-map">
+				<div id="map"></div>
+			</div>
+			<script>
+				var map;
+				function initMap() {
+					map = new google.maps.Map(document.getElementById('map'), {
+						center: {lat: 37.1824646, lng: -5.7817506},
+						zoom: 8
+					});
+				}
+			</script>
+			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAB58EHyhLWDPcDS56wNgCig1GK_cDp7xs&callback=initMap"
+			        async defer></script>
+			
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
 			
 			<div th:if="${smallholdingPage.getTotalElements() == 0}">
 				<span>No existen resultados</span>
