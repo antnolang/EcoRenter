@@ -1,3 +1,198 @@
-INSERT INTO customization VALUES (1,0,'','eco_truki uno','ecoRenter@gmail.com',12,3);
-INSERT INTO user_account VALUES (32,0,FALSE,'$2a$05$liN1q4inTShcELQ373gIeOyeVDl1mWqAMUEEDmC.jnMw1il7TWp0S','admin1');
-INSERT INTO administrator VALUES (100,0,'admin1@gmail.com','https://estaticos.muyinteresante.es/media/cache/400x300_thumb/uploads/images/dossier/5e6b9e535cafe8decee46032/fe-lix-rodri-guez-de-la-fuente.jpg','Name cero','Surname cero','+34 694567234',NULL,32);
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+
+--
+-- Data for Name: photo; Type: TABLE DATA; Schema: public; Owner: spring_dev
+--
+
+COPY public.photo (id, version, content, name, structure, suffix) FROM stdin;
+\.
+
+
+--
+-- Data for Name: user_account; Type: TABLE DATA; Schema: public; Owner: spring_dev
+--
+
+COPY public.user_account (id, version, is_banned, password, username) FROM stdin;
+32	0	f	$2a$05$liN1q4inTShcELQ373gIeOyeVDl1mWqAMUEEDmC.jnMw1il7TWp0S	admin1
+33	0	f	$2a$05$6w7s9gZZvfqw9ISAYMerM.I6zuZ55xWdKFv.ImSf7pbxs9PWUDt2q	admin2
+34	0	f	$2a$05$TXrmZFnAZ2l68enU7HfNM.aaPC4lZ8zHqwkvht5bwaqeGxloJFoo2	admin3
+35	0	f	$2a$05$oXJJJqeGSlc3GiFN2ONWR.RbOTIcnLJDtTIN2Bjt3zT/ZpYzTtGZq	renter1
+36	0	f	$2a$05$VUSDb8CtGycEFeUraQXDju9wvaZV.7hx0N4WOztxdOWhguEyqHHD.	renter2
+37	0	f	$2a$05$Cs1X5xHsGL0WRsKrIPH9fun87WTwmOzq3wsNZxbt28oMqt1Mg7fT2	renter3
+38	0	f	$2a$05$Qjj6LqOW50IwinLR9DX98uZI1XpChRheNT/hxzrmxO3h/Ir0fRihu	renter4
+39	0	f	$2a$05$wGuvdVHNSrimkzTXFV5u7.CFyk2yC2hGFgFUjFW1NyFDov2DTiK0G	renter5
+40	0	f	2a$05$/ARaRb4RujSes87W0F0A8uSbitG8d4R05MtSbeSOt7Gj19fk1UEEW	renter6
+41	0	f	$2a$05$Xo0hdHzfrukD/I7Zx6GcvuZ0pRAgi8kuR4kglWyfEbhYCcxD1zmF6	owner1
+42	0	f	$2a$05$JvN7zmxSim7Ric0OLgG/LOawVVFjD7b40NKkaj85dKA5qDzlXHZJ.	owner2
+43	0	f	$2a$05$zmLQhjKpuXVyFp8S1pFWV.VEm6.yE9NVIi2SvOg5cddnKuxEpogDC	owner3
+44	0	f	$2a$05$SRT2IDzfqwmiJGZ0hoamquDzWBCMMOOkSdek2PY0fP0J5.S5ZVC1a	owner4
+45	0	f	$2a$05$4DfmD4m/F1PXV9NUg/dgCOe1vQyVeP2P9WNEq/.r5q/xsBIDA1vpK	owner5
+46	0	t	$2a$05$wNvvKVjAf4/uou6YdVsb8./RpRUt7VMayezVk/pxGzd/J/dQtB3TK	owner6
+\.
+
+
+--
+-- Data for Name: administrator; Type: TABLE DATA; Schema: public; Owner: spring_dev
+--
+
+COPY public.administrator (id, version, email, image, name, surname, telephone_number, photo_id, user_account_id) FROM stdin;
+100	0	admin1@gmail.com	https://estaticos.muyinteresante.es/media/cache/400x300_thumb/uploads/images/dossier/5e6b9e535cafe8decee46032/fe-lix-rodri-guez-de-la-fuente.jpg	Name cero	Surname cero	+34 694567234	\N	32
+101	0	admin2@gmail.com		Name uno	Surname uno	+34 694567235	\N	33
+102	0	admin3@gmail.com		Name dos	Surname dos	+34 694567236	\N	34
+\.
+
+
+--
+-- Data for Name: owner; Type: TABLE DATA; Schema: public; Owner: spring_dev
+--
+
+COPY public.owner (id, version, email, image, name, surname, telephone_number, photo_id, user_account_id, accumulated_months, iban) FROM stdin;
+200	0	owner1@hotmail.com	https://estaticos.muyinteresante.es/media/cache/400x300_thumb/uploads/images/dossier/5e6b9e535cafe8decee46032/fe-lix-rodri-guez-de-la-fuente.jpg	Name uno	Surname uno	654873021	\N	41	12	ES9000246912501234567891
+201	0	owner2@hotmail.com		Name dos	Surname dos	+34 654873022	\N	42	0	
+202	0	owner3@hotmail.com		Name tres	Surname tres	+34 654873023	\N	43	0	ES7100302053091234567895
+203	0	owner4@hotmail.com		Name cuatro	Surname cuatro	+34 654873024	\N	44	0	
+204	0	owner5@hotmail.com		Name cinco	Surname cinco	+34 654873025	\N	45	0	ES1000492352082414205416
+205	0	owner6@hotmail.com		Name seis	Surname seis	+34 654873026	\N	46	0	
+\.
+
+
+--
+-- Data for Name: renter; Type: TABLE DATA; Schema: public; Owner: spring_dev
+--
+
+COPY public.renter (id, version, email, image, name, surname, telephone_number, photo_id, user_account_id, iban) FROM stdin;
+300	0	renter1@yahoo.com	https://estaticos.muyinteresante.es/media/cache/400x300_thumb/uploads/images/dossier/5e6b9e535cafe8decee46032/fe-lix-rodri-guez-de-la-fuente.jpg	Name uno	Surname uno	+34 680043654	\N	35	ES6621000418401234567891
+301	0	renter2@yahoo.com		Name dos	Surname dos	+34 680043655	\N	36	
+302	0	renter3@yahoo.com		Name tres	Surname tres	+34 680043656	\N	37	ES6000491500051234567892
+303	0	renter4@yahoo.com		Name cuatro	Surname cuatro	+34 680043657	\N	38	
+304	0	renter5@yahoo.com		Name cinco	Surname cinco	+34 680043658	\N	39	ES9420805801101234567891
+305	0	renter6@yahoo.com		Name seis	Surname seis	+34 680043659	\N	40	
+\.
+
+
+--
+-- Data for Name: smallholding; Type: TABLE DATA; Schema: public; Owner: spring_dev
+--
+
+COPY public.smallholding (id, version, address, description, farming_type, images, is_available, latitude, locality, longitude, max_duration, postal_code, price, province, size, status, title, owner_id) FROM stdin;
+400	0	Address 1	description 1	frutales	https://estaticos.muyinteresante.es/media/cache/253x190_thumb/uploads/images/pyr/55520750c0ea197b3fd51123/correr-lluvia1_0.jpg,https://estaticos.muyinteresante.es/media/cache/400x300_thumb/uploads/images/article/5e60d8485bafe8798a0afd47/vph-vacuna-1_0.jpg	f	40.7127837	Morón	-74.0059413	10	41710	99.989999999999995	Sevilla	100	ALQUILADA	Title 1	200
+401	0	Address 2	description 2	olivar	https://estaticos.muyinteresante.es/media/cache/400x300_thumb/uploads/images/article/5e46996c5bafe8fb241ac4dd/medusa-picarte.jpg,https://estaticos.muyinteresante.es/media/cache/400x300_thumb/uploads/images/gallery/5d9208eb5cafe81a0f3c986a/delfin0.jpg	t	37.1824646	Utrera	-5.7817506	3	41710	199.99000000000001	Sevilla	200	NO ALQUILADA	Title 2	200
+402	0	Address 3	description 3	Frutos secos	https://estaticos.muyinteresante.es/media/cache/400x300_thumb/uploads/images/article/5e5e4a3b5cafe82459780259/nino-mochila.jpg,https://estaticos.muyinteresante.es/media/cache/400x300_thumb/uploads/images/article/5e60d8485bafe8798a0afd47/vph-vacuna-1_0.jpg	f	36.2757882	Conil	-6.0889112	1	42000	199.99000000000001	Malaga	200	ALQUILADA	Title 3	200
+403	0	Address 4	description 4	olivar	https://estaticos.muyinteresante.es/media/cache/400x300_thumb/uploads/images/dossier/5d821ae55cafe8af888ea771/plastico.jpg,https://estaticos.muyinteresante.es/media/cache/400x300_thumb/uploads/images/article/5e5668815cafe887f4dd01f9/pajaros-tv.jpg	t	37.1824646	Getafe	-3.7302679	2	45678	499.99000000000001	Madrid	250	NO ALQUILADA	Title 4	200
+404	0	Address 5	description 5	hortalizas	https://estaticos.muyinteresante.es/media/cache/760x570_thumb/uploads/images/article/5e5767525bafe82274623981/nieve-sangre.jpg	f	43.4620412	Santander	-3.8099719	10	21344	100	Santander	50	ALQUILADA	Title 5	200
+405	0	Address 6	description 6	viñedos	https://estaticos.muyinteresante.es/media/cache/400x300_thumb/uploads/images/article/5e54ff935cafe897d809909a/serpiente-arcoiris.jpg	t	37.1824646	Utrera	-5.7817516	3	41710	1000	Sevilla	75	NO ALQUILADA	Title 6	200
+406	0	Address 7	description 7	olivar	https://estaticos.muyinteresante.es/media/cache/400x300_thumb/uploads/images/article/5e531b2c5bafe8bf90a4d1e8/caracol-greta-thunberg_0.jpg	f	39.4699014	Villarejo	-0.3759513	2	54666	199.99000000000001	Valencia	200	ALQUILADA	Title 7	202
+407	0	Address 8	description 8	cultivos industriales	https://estaticos.muyinteresante.es/media/cache/400x300_thumb/uploads/images/article/5e4d23485cafe84e4e985ba6/craneo-cabra.jpg,https://estaticos.muyinteresante.es/media/cache/400x300_thumb/uploads/images/test/58592ed55bafe81b218b4580/lemur.jpg	f	36.8414197	Almería	-2.4628135	1	11710	199.99000000000001	Malaga	139	ALQUILADA	Title 8	202
+408	0	Address 9	description 9	olivar	https://estaticos.muyinteresante.es/media/cache/400x300_thumb/uploads/images/article/5e4a4d405cafe8b615ea4554/presa-gigante1.jpg,https://estaticos.muyinteresante.es/media/cache/400x300_thumb/uploads/images/gallery/5e4aa5135bafe890e3ddb12d/google-earth.jpg	t	37.1830237	Punta umbría	-6.9662203	9	36730	499.99000000000001	Madrid	240	NO ALQUILADA	Title 9	204
+409	0	Address 10	description 10	hortalizas	https://estaticos.muyinteresante.es/media/cache/400x300_thumb/uploads/images/article/5e46996c5bafe8fb241ac4dd/medusa-picarte.jpg,https://estaticos.muyinteresante.es/media/cache/400x300_thumb/uploads/images/gallery/5d9208eb5cafe81a0f3c986a/delfin0.jpg	f	43.4620412	Santander	-3.8099719	5	44330	100	Santander	150	DISPUTA	Title 10	204
+\.
+
+
+--
+-- Data for Name: valuation; Type: TABLE DATA; Schema: public; Owner: spring_dev
+--
+
+COPY public.valuation (id, version, mark, valuation_moment) FROM stdin;
+700	0	3	2019-08-09 13:13:00
+701	0	5	2020-01-21 18:20:00
+702	0	4	2018-07-15 17:13:00
+703	0	5	2019-05-20 22:20:00
+\.
+
+
+--
+-- Data for Name: rent_out; Type: TABLE DATA; Schema: public; Owner: spring_dev
+--
+
+COPY public.rent_out (id, version, is_active, month, start_date, renter_id, smallholding_id, valuation_id) FROM stdin;
+500	0	t	1	2020-02-21 00:00:00	300	400	\N
+501	0	t	1	2020-02-20 00:00:00	300	402	\N
+502	0	t	7	2019-08-07 00:00:00	302	404	700
+503	0	t	2	2020-01-21 00:00:00	304	405	701
+504	0	t	1	2020-02-27 00:00:00	304	407	\N
+505	0	f	6	2018-04-15 00:00:00	304	403	\N
+506	0	f	6	2019-05-20 00:00:00	300	400	\N
+507	0	f	6	2019-05-20 00:00:00	300	400	\N
+\.
+
+
+--
+-- Data for Name: comment; Type: TABLE DATA; Schema: public; Owner: spring_dev
+--
+
+COPY public.comment (id, version, text, written_moment, rent_out_id) FROM stdin;
+600	0	Text 1	2020-03-05 13:00:00	500
+601	0	Text 2	2020-03-05 14:00:00	500
+602	0	Text 3	2020-03-05 15:00:00	500
+603	0	Text 4	2020-03-05 15:01:00	500
+604	0	Text 5	2020-03-05 16:30:00	500
+605	0	Text 6	2020-03-05 17:07:00	500
+606	0	Text 7	2020-02-20 18:08:00	501
+607	0	Text 8	2020-02-20 19:09:00	501
+608	0	Text 9	2020-01-21 10:00:00	504
+609	0	Text 10	2020-01-21 10:05:00	504
+\.
+
+
+--
+-- Data for Name: customization; Type: TABLE DATA; Schema: public; Owner: spring_dev
+--
+
+COPY public.customization (id, version, discount_codes, eco_truki, email, gold_level, silver_level) FROM stdin;
+1	0		eco_truki uno	ecoRenter@gmail.com	12	3
+\.
+
+
+--
+-- Name: hibernate_sequence; Type: SEQUENCE SET; Schema: public; Owner: spring_dev
+--
+
+SELECT pg_catalog.setval('public.hibernate_sequence', 1, false);
+
+
+--
+-- Data for Name: smallholding_photos; Type: TABLE DATA; Schema: public; Owner: spring_dev
+--
+
+COPY public.smallholding_photos (smallholding_id, photos_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: user_account_authorities; Type: TABLE DATA; Schema: public; Owner: spring_dev
+--
+
+COPY public.user_account_authorities (user_account_id, authority) FROM stdin;
+32	ADMIN
+33	ADMIN
+34	ADMIN
+35	RENTER
+36	RENTER
+37	RENTER
+38	RENTER
+39	RENTER
+40	RENTER
+41	OWNER
+42	OWNER
+43	OWNER
+44	OWNER
+45	OWNER
+46	OWNER
+\.
+
+
+--
+-- PostgreSQL database dump complete
+--
+
