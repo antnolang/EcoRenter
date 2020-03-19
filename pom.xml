@@ -9,11 +9,11 @@
 		<version>2.2.5.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.ispp</groupId>
-	<artifactId>EcoRenter</artifactId>
+	<groupId>com.dp2</groupId>
+	<artifactId>Spring</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>EcoRenter</name>
-	<description>Project which allows to rent plots for ecological cultivation</description>
+	<name>dp2Spring</name>
+	<description>Project for DP2</description>
 
 	<properties>
 		<java.version>1.8</java.version>

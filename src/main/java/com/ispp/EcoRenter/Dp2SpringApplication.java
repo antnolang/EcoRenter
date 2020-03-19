@@ -8,10 +8,10 @@ import com.ispp.EcoRenter.repository.UserAccountRepository;
 
 @SpringBootApplication
 @EnableJpaRepositories(basePackageClasses = UserAccountRepository.class)
-public class EcoRenterApplication {
+public class Dp2SpringApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EcoRenterApplication.class, args);
+		SpringApplication.run(Dp2SpringApplication.class, args);
 	}
 
 }
