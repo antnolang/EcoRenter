@@ -14,7 +14,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.Range;
 
 @Entity
 @Table(name = "smallholding")
@@ -60,10 +59,8 @@ public class Smallholding extends DomainEntity {
 	@Pattern(regexp = "^ALQUILADA|NO ALQUILADA|DISPUTA$")
 	private String status;
 	
-	@Range(min = 0, max = 90)
 	private String latitude;
 	
-	@Range(min = -180, max = 180)
 	private String longitude;
 	
 	@Min(1)

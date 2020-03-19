@@ -1,5 +1,5 @@
 # Database
-spring.jpa.hibernate.ddl-auto=update
+spring.jpa.hibernate.ddl-auto=none
 spring.jpa.hibernate.naming-strategy=org.hibernate.cfg.ImprovedNamingStrategy
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQL94Dialect
 spring.datasource.url=jdbc:postgresql://localhost:5432/eco_renter

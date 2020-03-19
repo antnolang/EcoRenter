@@ -3,29 +3,24 @@ branches:
   except:
   - "/^\\d{2}\\.\\d{2}\\.\\d*$/"
 language: java
-services:
-  - mysql
 jdk:
   - openjdk8
 addons:
+  postgresql: "9.4"
   sonarcloud:
     organization: "antnolang"
     token:
       secure: "Q6Spfxy0d3Zvf8il0y2Brzhzvsvt6pez5F3a8nDCiT7ABSfLtNMv0csfq73JWx0LtZ2v7gaHCJ2PifCHODEaHXWtyQpZhnKZ9BwRytN0n47UazpphfDTqipz/q9Xbl0CcDzsspje+P2I5Z5KAfcoCCE1aVP+9MpDJZS+JoGLcJHTpr6gGNvzxMJD47LmtDMhWjAHjovBjXEiCKdQg8hilRmw/h1vqGWZpbR8QtxDP2eAH8ZQKkwIKdBd6jcO4tSw2Op2Hm+Ke/ObQHhxqkbdp+QoBUInsQci0jUun/pZ9/BGgBjU/hO5BIYUYHHPhFMPDsyilDMJAbJ5sEcJ7KZJgk/Sv5Q3HUw8aiHNqDfcirXBoIWR69rn0/CQfxRzHqVlAe/GFw1CMytdoWy7E70Wc+qp2qU3tRHU87yA5GW5DGmBbzldq0TNFH7i4Y2pQoKzsuHhgMy1xKysAGrHrvo8E3KWX+seYEi0gG1krD7ofK/43TSZLDn3nwjUEkaz/T/SOuAXIWGbCZfNdU8ful+DtpNbTEvwY8iMRlYECkj+QATrSuu9fgakC1pI4NLaKXemnHsGRMPxJ9y4gOe7bA+MiiTHwHv3xQoLzMnfeMV18Ptugm7YQNsCzA0lWwmLcR49f0111P0tJJprioXAQPeKik/+96Jwvdy8ugSwTyq6x4c="
-before_install:
-  - mysql -e "create database eco_renter;"
-  - mysql -e "create user 'spring_dev'@'%' identified by '5ecurePa55w0rd*';"
-  - mysql -e "grant all on eco_renter.* to 'spring_dev'@'%';"
 before_script:
-  - wget https://repo.mysql.com//mysql-apt-config_0.8.15-1_all.deb
-  - sudo dpkg -i mysql-apt-config_0.8.15-1_all.deb
-  - sudo apt-get update -q
-  - sudo apt-get install -q -y --allow-unauthenticated -o Dpkg::Options::=--force-confnew mysql-server
-  - sudo systemctl restart mysql
-  - sudo mysql_upgrade
-  - mysql --version
-  - mysql -u root eco_renter < src/main/resources/schema-mysql.sql
-  - mysql -u root eco_renter < src/main/resources/data-mysql.sql
+  - cd src/main/resources/
+  - psql -c 'create database eco_renter;' -U postgres
+  - psql -c 'create user spring_dev with password '5ecurePa55w0rd*';' -U postgres
+  - psql -c 'grant all privileges on database "eco_renter" to spring_dev;' -U postgres
+  - psql -U postgres eco_renter < sql/schema.sql
+  - psql -U postgres eco_renter < sql/data.sql
+  - rm application.properties
+  - mv application.properties_heroku application.properties
+  - cd -
 script:
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=antnolang_EcoRenter
 before_deploy:
