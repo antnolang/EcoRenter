@@ -11,6 +11,8 @@ import org.springframework.util.Assert;
 
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.repository.RenterRepository;
+import com.ispp.EcoRenter.security.Authority;
+import com.ispp.EcoRenter.security.UserAccount;
 
 @Service
 public class RenterService {
@@ -19,6 +21,9 @@ public class RenterService {
 
     @Autowired
     private RenterRepository renterRepository;
+    
+    @Autowired
+    private UserAccountService userAccountService;
 
     // Constructor
 
@@ -27,6 +32,22 @@ public class RenterService {
     }
 
     // CRUD methods
+    
+    public Renter create() {
+    	final Renter result = new Renter();
+    	final UserAccount userAccount = this.userAccountService.create();
+    	
+    	final Authority auth = new Authority();
+    	auth.setAuthority(Authority.RENTER);
+    	userAccount.addAuthority(auth);
+    	
+    	result.setUserAccount(userAccount);
+    	
+    	return result;
+    	
+    }
+    
+    
     public Renter findOne(int renterId) {
     	Assert.isTrue(renterId > 0, "Invalid renterId");
     	
