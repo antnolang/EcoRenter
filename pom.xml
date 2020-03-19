@@ -9,10 +9,10 @@
 		<version>2.2.5.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.dp2</groupId>
-	<artifactId>Spring</artifactId>
+	<groupId>com.ispp</groupId>
+	<artifactId>EcoRenter</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>dp2Spring</name>
+	<name>Project which allows to rent plots for ecological cultivation</name>
 	<description>Project for DP2</description>
 
 	<properties>
