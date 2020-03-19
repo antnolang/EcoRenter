@@ -13,7 +13,9 @@ addons:
       secure: "Q6Spfxy0d3Zvf8il0y2Brzhzvsvt6pez5F3a8nDCiT7ABSfLtNMv0csfq73JWx0LtZ2v7gaHCJ2PifCHODEaHXWtyQpZhnKZ9BwRytN0n47UazpphfDTqipz/q9Xbl0CcDzsspje+P2I5Z5KAfcoCCE1aVP+9MpDJZS+JoGLcJHTpr6gGNvzxMJD47LmtDMhWjAHjovBjXEiCKdQg8hilRmw/h1vqGWZpbR8QtxDP2eAH8ZQKkwIKdBd6jcO4tSw2Op2Hm+Ke/ObQHhxqkbdp+QoBUInsQci0jUun/pZ9/BGgBjU/hO5BIYUYHHPhFMPDsyilDMJAbJ5sEcJ7KZJgk/Sv5Q3HUw8aiHNqDfcirXBoIWR69rn0/CQfxRzHqVlAe/GFw1CMytdoWy7E70Wc+qp2qU3tRHU87yA5GW5DGmBbzldq0TNFH7i4Y2pQoKzsuHhgMy1xKysAGrHrvo8E3KWX+seYEi0gG1krD7ofK/43TSZLDn3nwjUEkaz/T/SOuAXIWGbCZfNdU8ful+DtpNbTEvwY8iMRlYECkj+QATrSuu9fgakC1pI4NLaKXemnHsGRMPxJ9y4gOe7bA+MiiTHwHv3xQoLzMnfeMV18Ptugm7YQNsCzA0lWwmLcR49f0111P0tJJprioXAQPeKik/+96Jwvdy8ugSwTyq6x4c="
 before_script:
   - cd src/main/resources/
-  - psql -U postgres -f sql/reset_db.sql
+  - psql -c "create database eco_renter;" -U postgres
+  - psql -c "create user spring_dev with password '5ecurePa55w0rd*';" -U postgres
+  - psql -c "grant all privileges on database 'eco_renter' to spring_dev;" -U postgres
   - psql -U postgres eco_renter < sql/schema.sql
   - psql -U postgres eco_renter < sql/data.sql
   - rm application.properties
