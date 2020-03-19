@@ -15,7 +15,7 @@ before_script:
   - cd src/main/resources/
   - psql -c "create database eco_renter;" -U postgres
   - psql -c "create user spring_dev with password '5ecurePa55w0rd*';" -U postgres
-  - psql -c "grant all privileges on database 'eco_renter' to spring_dev;" -U postgres
+  - psql -c "grant all privileges on database eco_renter to spring_dev;" -U postgres
   - psql -U postgres eco_renter < sql/schema.sql
   - psql -U postgres eco_renter < sql/data.sql
   - rm application.properties
