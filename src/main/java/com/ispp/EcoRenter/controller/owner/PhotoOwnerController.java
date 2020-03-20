@@ -27,12 +27,14 @@ public class PhotoOwnerController {
 	public ModelAndView findOne(@RequestParam int photoId) {
 		ModelAndView result;
 		Photo photo;
+		String imageData;
 		
 		photo = this.photoService.findOne(photoId);
+		imageData = this.photoService.getImageBase64(photo);
 		
 		result = new ModelAndView("photo/display");
 		result.addObject("photo", photo);
-		result.addObject("imageData", this.photoService.getImageBase64(photo));
+		result.addObject("imageData", imageData);
 		
 		return result;
 	}
