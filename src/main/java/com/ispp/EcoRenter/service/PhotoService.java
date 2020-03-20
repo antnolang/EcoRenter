@@ -47,14 +47,6 @@ public class PhotoService {
 		return result;
 	}
 
-	public Photo create() {
-		Photo result;
-
-		result = new Photo();
-
-		return result;
-	}
-
 	public String getImageBase64(Photo photo) {
 		String result;
 		byte[] data;
@@ -110,19 +102,6 @@ public class PhotoService {
 		}
 
 		return results;
-	}
-
-	public Photo save(Photo photo) {
-		Assert.notNull(photo, "Foto desconocida");
-		Assert.isTrue(photo.getId() >= 0, "Id no valido");
-
-		Photo result;
-
-		result = this.photoRepository.saveAndFlush(photo);
-
-		log.info("Foto persistida en la BD correctamente.");
-
-		return result;
 	}
 
 	public void delete(Photo photo) {
