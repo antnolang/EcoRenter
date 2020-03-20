@@ -82,9 +82,10 @@ public class ActorRegister extends DomainEntity{
 
 
 	public String getFullname() {
-		return fullname;
+		this.fullname = this.name + " " + this.surname;
+		
+		return this.fullname;
 	}
-
 
 	public void setFullname(String fullname) {
 		this.fullname = fullname;

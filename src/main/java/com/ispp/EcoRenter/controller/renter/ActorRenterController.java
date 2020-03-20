@@ -1,14 +1,17 @@
 package com.ispp.EcoRenter.controller.renter;
 
+import javax.validation.Valid;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ispp.EcoRenter.model.Actor;
@@ -22,14 +25,14 @@ import com.ispp.EcoRenter.service.RenterService;
 public class ActorRenterController {
 
 	private static final Log log = LogFactory.getLog(ActorRenterController.class);
-	
+
 	@Autowired
 	private ActorService actorService;
-	
+
 	@Autowired
 	private RenterService renterService;
-	
-	
+
+
 	public ActorRenterController() {
 		super();
 	}
@@ -41,38 +44,61 @@ public class ActorRenterController {
 		Renter principal;
 		boolean isMyProfile;
 		String iban;
-		
+
 		principal = this.renterService.findByPrincipal();
-		
+
 		isMyProfile = actorId == principal.getId();
-		
+
 		actor = this.actorService.findOne(principal.getId());
-		
+
 		result = new ModelAndView("actor/display");
-		
+
 		if (isMyProfile) {
 			iban = this.actorService.getEncodedIban(principal.getIban());
-		
+
 			result.addObject("iban", iban);
-			
+
 			log.info("Es un arrendatario.");
 		}
-		
+
 		result.addObject("actor", actor);
-		
+
 		return result;
 	}
-	
+
+
 	@GetMapping("/register")
 	public ModelAndView register() {
 		ModelAndView result = new ModelAndView("actor/renterRegister");
 		RenterRegister renter = new RenterRegister();
-		
+
 		result.addObject("renter", renter);
-		
-		
+
+
 		return result;
 	}
+
 	
-	
+
+	@PostMapping(value = "/register", params = "save")
+	public ModelAndView registerRenter(@ModelAttribute("renter") @Valid RenterRegister renterRegister, final BindingResult binding) {
+		ModelAndView result;
+
+		try {
+
+			this.renterService.register(renterRegister, binding);
+
+			result = new ModelAndView("/login");
+
+		}catch(Throwable oops) {
+			result = new ModelAndView("/actor/renterRegister");
+			result.addObject("error", oops.getMessage());
+		}
+
+
+		return result;
+
+	}
+
+
 }
