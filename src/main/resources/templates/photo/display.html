@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{master-page/layout :: layout(~{::title}, ~{::div.content})}">
+
+<head>
+<title>Mostrando foto</title>
+</head>
+
+<body>
+	<div class="content">
+		<section class="services2 cid-rRNDCjx6s4" id="services2-q">
+
+			<div class="container">
+				<div class="col-md-12">
+					<div class="media-container-row">
+						<img th:src="@{'data:' + ${photo.suffix} + ';base64, ' + ${imageData}}" th:alt="${photo.name}" />
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+</body>
+</html>
