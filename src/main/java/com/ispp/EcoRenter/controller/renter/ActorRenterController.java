@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ispp.EcoRenter.model.Actor;
@@ -62,13 +63,13 @@ public class ActorRenterController {
 		return result;
 	}
 	
-	@GetMapping(value = "/register")
-	public String register(Model model) {
-		String result = "actor/renterRegister";
-		
+	@GetMapping("/register")
+	public ModelAndView register() {
+		ModelAndView result = new ModelAndView("actor/renterRegister");
 		RenterRegister renter = new RenterRegister();
 		
-		model.addAttribute("user",renter);
+		result.addObject("renter", renter);
+		
 		
 		return result;
 	}

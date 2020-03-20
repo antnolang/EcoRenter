@@ -15,6 +15,12 @@ public class ActorRegister extends DomainEntity{
 
 	//Attributes
 
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@NotBlank
 	@Pattern(regexp = "^[^0-9]+$")
 	private String name;
