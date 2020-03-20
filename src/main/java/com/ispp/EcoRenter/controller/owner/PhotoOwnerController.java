@@ -27,12 +27,13 @@ public class PhotoOwnerController {
 	public ModelAndView findOne(@RequestParam int photoId) {
 		ModelAndView result;
 		Photo photo;
-
+		
 		photo = this.photoService.findOne(photoId);
-
+		
 		result = new ModelAndView("photo/display");
 		result.addObject("photo", photo);
-
+		result.addObject("imageData", this.photoService.getImageBase64(photo));
+		
 		return result;
 	}
 
@@ -40,7 +41,7 @@ public class PhotoOwnerController {
 	public ModelAndView create() {
 		ModelAndView result;
 
-		result = this.createEditModelAndView();
+		result = new ModelAndView("photo/edit");
 
 		return result;
 	}
@@ -51,21 +52,13 @@ public class PhotoOwnerController {
 		Photo saved;
 
 		try {
-			saved = this.photoService.storeFile(file);
+			saved = this.photoService.storeImage(file);
 
 			result = new ModelAndView("redirect:/photo/owner/display?photoId=" + saved.getId());
 		} catch (Throwable oops) {
 			result = this.create();
 		}
 
-		return result;
-	}
-
-	protected ModelAndView createEditModelAndView() {
-		ModelAndView result;
-
-		result = new ModelAndView("photo/edit");
-		
 		return result;
 	}
 
