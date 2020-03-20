@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ContractController {
 	
 	
-	@RequestMapping("/contrato")
+	@RequestMapping("/condiciones-arrendamiento")
 	public String contract() {
 
-		return "miscellaneous/contrato";
+		return "miscellaneous/condiciones-arrendamiento";
 	}
 	
 	
