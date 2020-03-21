@@ -76,7 +76,7 @@ CREATE TABLE public.customization (
     gold_level integer NOT NULL,
     silver_level integer NOT NULL,
     CONSTRAINT customization_gold_level_check CHECK ((gold_level >= 9)),
-    CONSTRAINT customization_silver_level_check CHECK (((silver_level >= 3) AND (silver_level <= 8)))
+    CONSTRAINT customization_silver_level_check CHECK (((silver_level <= 8) AND (silver_level >= 3)))
 );
 
 
@@ -125,9 +125,8 @@ ALTER TABLE public.owner OWNER TO spring_dev;
 CREATE TABLE public.photo (
     id integer NOT NULL,
     version integer NOT NULL,
-    content character varying(255),
+    data oid NOT NULL,
     name character varying(255),
-    structure oid,
     suffix character varying(255)
 );
 
@@ -251,7 +250,7 @@ CREATE TABLE public.valuation (
     version integer NOT NULL,
     mark integer NOT NULL,
     valuation_moment timestamp without time zone NOT NULL,
-    CONSTRAINT valuation_mark_check CHECK (((mark <= 5) AND (mark >= 0)))
+    CONSTRAINT valuation_mark_check CHECK (((mark >= 0) AND (mark <= 5)))
 );
 
 

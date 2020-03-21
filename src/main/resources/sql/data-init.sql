@@ -15,7 +15,7 @@ SET client_min_messages = warning;
 -- Data for Name: photo; Type: TABLE DATA; Schema: public; Owner: spring_dev
 --
 
-COPY public.photo (id, version, content, name, structure, suffix) FROM stdin;
+COPY public.photo (id, version, data, name, suffix) FROM stdin;
 \.
 
 
@@ -25,6 +25,8 @@ COPY public.photo (id, version, content, name, structure, suffix) FROM stdin;
 
 COPY public.user_account (id, version, is_banned, password, username) FROM stdin;
 32	0	f	$2a$05$liN1q4inTShcELQ373gIeOyeVDl1mWqAMUEEDmC.jnMw1il7TWp0S	admin1
+33	0	f	$2a$05$6w7s9gZZvfqw9ISAYMerM.I6zuZ55xWdKFv.ImSf7pbxs9PWUDt2q	admin2
+34	0	f	$2a$05$TXrmZFnAZ2l68enU7HfNM.aaPC4lZ8zHqwkvht5bwaqeGxloJFoo2	admin3
 \.
 
 
@@ -33,7 +35,9 @@ COPY public.user_account (id, version, is_banned, password, username) FROM stdin
 --
 
 COPY public.administrator (id, version, email, image, name, surname, telephone_number, photo_id, user_account_id) FROM stdin;
-100	0	admin1@gmail.com		Name cero	Surname cero	+34 694567234	\N	32
+100	0	admin1@gmail.com	https://estaticos.muyinteresante.es/media/cache/400x300_thumb/uploads/images/dossier/5e6b9e535cafe8decee46032/fe-lix-rodri-guez-de-la-fuente.jpg	Name cero	Surname cero	+34 694567234	\N	32
+101	0	admin2@gmail.com		Name uno	Surname uno	+34 694567235	\N	33
+102	0	admin3@gmail.com		Name dos	Surname dos	+34 694567236	\N	34
 \.
 
 
@@ -115,6 +119,8 @@ COPY public.smallholding_photos (smallholding_id, photos_id) FROM stdin;
 
 COPY public.user_account_authorities (user_account_id, authority) FROM stdin;
 32	ADMIN
+33	ADMIN
+34	ADMIN
 \.
 
 

@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "photo")
@@ -18,6 +19,7 @@ public class Photo extends DomainEntity {
 	private String suffix;
 	
 	@Lob
+	@NotNull
 	private byte[] data;
 	
 	public Photo() {
