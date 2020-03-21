@@ -1,15 +1,67 @@
-<html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{master-page/layout :: layout(~{::title}, ~{::div.content})}">
 
-<p>-Realizar formulario a la direccion url /actor/renter/register </p>
+<head>
+    <title>Registrar propietario</title>
 
-<p>-El boton tenga nombre save</p>
+</head>
 
-<p>-El objeto pasado es renter</p>
+<body>
 
-<p>-Los campos a rellenar son los de la clase ActorRegister</p>
+    
+ <div class="content">
+        <br>
+        <br>
+        <br>
+        <br>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="title col-12 col-lg-8">
+                <h2 class="mbr-section-title align-center pb-3 mbr-fonts-style display-2" style="color: #2a3d2e !important;">
+                    Registrar propietario
+                 </h2>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="media-container-column col-lg-8" data-form-type="formoid">
+               
+               <form th:action="@{/actor/renter/register}" id="myForm" th:object="${renter}" method="post" class="mbr-form form-with-styler" data-form-title=" Form">
+                    <div class="dragArea row">
+                    
+                         <div class="col-md-12  form-group" data-for="name">
+                            <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Nombre</label>
+                            <textarea type="text" th:field="*{name}"  th:errorclass="fieldError"  data-form-field="Name" required="required" class="form-control display-7"  ></textarea>
+                        	<p th:if="${#fields.hasErrors('name')}" style="color: red !important;">
+			                 	<span th:errors="*{name}"></span>
+			                </p>
+                        </div>
 
-<p>-La clase RenterRegister extiende de ActorRegister (teniendo renterRegister un campo iban adicional)</p>
- 
+				    <div class="col-md-12 form-group" data-for="name" th:if="${messageCode != ''}">
+		                <p th:text="${messageCode}"></p>
+		            </div>
+		            <div data-for="message" class="col-md-12 form-group">
+                        <div class="col-md-12 input-group-btn align-center">
+                        <button name="save" type="submit" class="btn btn-form btn-secondary display-4">
+        				Guardar
+                        </button>
+                        <a href=""
+                        class="btn btn-warning-outline display-4">
+                        Volver
+                        </a>
+                     </div>
+    
+                        
+                        
+                        </div>
+                    </div>
+			</form>
+         
+            </div>
+        </div>
+    </div>
 
-
+</div>
+</body>
 </html>
