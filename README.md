@@ -12,7 +12,7 @@ Cada mes publicaremos EcoTrukis !! No te lo pierdas!!!
 * Disfruta de nuestros niveles para aparecer en los primeros puestos de búsquedas.
 * Disfruta de nuestras ofertas y cupones descuentos exclusivos en tiendas agrícolas.
 
-## ¿Qué ventajas tienes como arrendador?
+## ¿Qué ventajas tienes como arrendatario?
 
 * Localiza tu huerto más cercano.
 * Pago seguro y automático.
