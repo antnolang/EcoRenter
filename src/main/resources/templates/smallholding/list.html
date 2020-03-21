@@ -66,6 +66,56 @@
 			</div>
 			</div>
 			
+			<div th:if="${smallholdingPage.getTotalElements() > 0 && requestURI == 'smallholding/list'}" id="map"></div>	
+								
+			<script>
+				var lats = [];
+				var lngs = [];
+				var str_latitudes;
+				var str_longitudes;
+				
+				str_latitudes = "[[${latitudes}]]";
+				str_longitudes = "[[${longitudes}]]";
+				
+				lats = str_latitudes.split(";");
+				lngs = str_longitudes.split(";");	
+				
+				function initMap() {
+					var infoWindows;
+					var map;
+					var marker;
+					var latLng;
+					
+					latLng = {lat: 40.4167047, lng: -3.7035825};
+					
+					map = new google.maps.Map(document.getElementById('map'), {
+						center: latLng,
+						zoom: 7
+					});
+					
+					var i = 0;
+					var n = lats.length;
+					while (i < n) {
+						var geo = {lat: parseFloat(lats[i]), lng: parseFloat(lngs[i])};
+					
+						marker = new google.maps.Marker({
+							position: geo,
+							map: map
+						});
+						
+						marker.setMap(map);
+						
+						i = i+1;
+					}
+								
+					infoWindows = new google.maps.InfoWindow({
+						maxWidth: 400
+					});
+					
+				}
+			</script>
+			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAB58EHyhLWDPcDS56wNgCig1GK_cDp7xs&callback=initMap"
+			        async defer></script>
 			
 			<div th:if="${smallholdingPage.getTotalElements() == 0}">
 				<span>No existen resultados</span>

@@ -289,4 +289,31 @@ public class SmallholdingService {
     	return results;
     }
     
+    public List<String> getGeoData(Collection<Smallholding> smallholdings) {
+    	String latitudes, longitudes, lats, lngs;
+    	List<String> results;
+    	int n;
+    	
+    	results = new ArrayList<String>();
+    	
+    	if (smallholdings.size() > 0) {
+    		latitudes = "";
+        	longitudes = "";
+        	for (Smallholding sh: smallholdings) {
+        		latitudes = latitudes + sh.getLatitude() + ";";
+        		longitudes = longitudes +  sh.getLongitude() + ";";
+        	}
+        	
+        	n = latitudes.length();
+        	
+        	lats = latitudes.substring(0, n-1);
+        	lngs = longitudes.substring(0, n-1);
+        	
+        	results.add(lats);
+        	results.add(lngs);
+    	}
+    	
+    	return results;
+    }
+    
 }

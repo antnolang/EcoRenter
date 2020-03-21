@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{master-page/layout :: layout(~{::title}, ~{::div.content})}">
+
+<head>
+    <title>Editar parcela</title>
+
+</head>
+
+<body>
+
+    
+ <div class="content">
+        <br>
+        <br>
+        <br>
+        <br>
+    <div>
+        <div>
+            <div>
+                <h2>
+                    Publicar foto
+                 </h2>
+           
+
+            </div>
+        </div>
+    </div>
+    <div>
+        <div>
+            <div>
+               
+               <form enctype="multipart/form-data" th:action="@{/photo/owner/edit}" id="myForm" method="post">                   
+                    <div>
+                    
+                        
+                       <div>
+                         <label for="fichero">Seleccionar fichero</label>
+                            <input type="file" id="file" name="file" accept="image/*" />
+                        </div>
+     			
+                    
+				    
+		            <div>
+                        <div>
+                        <button name="save" type="submit">
+        				Guardar
+                        </button>
+                        
+                     </div>
+    
+                        </div>
+                 </div>
+			</form>
+         
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

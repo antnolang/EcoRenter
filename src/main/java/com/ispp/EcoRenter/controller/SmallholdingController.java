@@ -54,7 +54,9 @@ public class SmallholdingController {
 		Collection<Smallholding> smallholdings;
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(4);
-
+		List<Smallholding> ls_smallholdings;
+		List<String> geoData;
+		
 		try {
 			result = new ModelAndView("smallholding/list");
 
@@ -68,6 +70,16 @@ public class SmallholdingController {
 				result.addObject("pageNumbers", pageNumbers);
 			}
 
+			// Para crear los marcadores en el mapa necesito las coordenadas
+			ls_smallholdings = shPage.getContent();
+	
+			geoData = this.smallholdingService.getGeoData(ls_smallholdings);
+			
+			if (!geoData.isEmpty()) {
+				result.addObject("latitudes", geoData.get(0));
+				result.addObject("longitudes", geoData.get(1));
+			}
+			
 			result.addObject("smallholdingPage", shPage);
 			result.addObject("requestURI", "smallholding/list");
 		} catch (Exception e) {
