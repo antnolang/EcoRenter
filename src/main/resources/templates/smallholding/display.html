@@ -12,6 +12,11 @@
 
 			<div class="container">
 				<div class="col-md-12">
+					
+					<div th:each="ph_im : ${photo_imageData}">
+						<img th:src="@{'data:' + ${ph_im.key.suffix} + ';base64, ' + ${ph_im.value}}" th:alt="${ph_im.key.name}" />
+					</div>
+					
 					<div class="media-container-row">
 
 						<div class="mbr-figure" style="width: 50%;">

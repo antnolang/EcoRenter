@@ -119,4 +119,12 @@ public class PhotoService {
 		this.photoRepository.deleteById(photoId);
 	}
 
+	public Collection<Photo> findPhotosBySmallholdingId(int smallholdingId){
+		Collection<Photo> result;
+
+		result = this.photoRepository.findPhotosBySmallholdingId(smallholdingId);
+
+		return result;
+	}
+
 }

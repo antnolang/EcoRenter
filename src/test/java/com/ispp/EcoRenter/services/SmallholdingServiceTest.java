@@ -1,6 +1,8 @@
 package com.ispp.EcoRenter.services;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +12,10 @@ import org.springframework.transaction.TransactionSystemException;
 import org.springframework.util.Assert;
 
 import com.ispp.EcoRenter.model.Owner;
+import com.ispp.EcoRenter.model.Photo;
 import com.ispp.EcoRenter.model.Smallholding;
 import com.ispp.EcoRenter.service.OwnerService;
+import com.ispp.EcoRenter.service.PhotoService;
 import com.ispp.EcoRenter.service.SmallholdingService;
 
 @SpringBootTest
@@ -22,6 +26,9 @@ public class SmallholdingServiceTest {
 
     @Autowired
     private OwnerService ownerService;
+
+    @Autowired
+    private PhotoService photoService;
 
     /*
         El owner1 realiza un listado de sus parcelas
@@ -46,8 +53,11 @@ public class SmallholdingServiceTest {
     @Test
     public void create_positive_test(){
         Smallholding smallholding, saved;
+        List<Photo> photos;
 
         smallholding = this.smallholdingService.create();
+        photos = new ArrayList<Photo>();
+
         smallholding.setTitle("Huerto 1");
         smallholding.setDescription("Huerto grande y cultivable");
         smallholding.setSize(40);
@@ -61,6 +71,8 @@ public class SmallholdingServiceTest {
         smallholding.setLongitude("100");
         smallholding.setMaxDuration(3);
         smallholding.setImages("https://media.game.es/COVERV2/3D_L/147/147191.png");
+        photos.add(this.photoService.findOne(1));
+        smallholding.setPhotos(photos);
 
         saved = this.smallholdingService.save(smallholding);
 
@@ -77,8 +89,11 @@ public class SmallholdingServiceTest {
     public void create_negative_test() {
         Smallholding smallholding;
         Boolean catched;
+        List<Photo> photos;
 
         smallholding = this.smallholdingService.create();
+        photos = new ArrayList<Photo>();
+
         smallholding.setTitle("");
         smallholding.setDescription("Huerto grande y cultivable");
         smallholding.setSize(40);
@@ -92,6 +107,8 @@ public class SmallholdingServiceTest {
         smallholding.setLongitude("100");
         smallholding.setMaxDuration(3);
         smallholding.setImages("https://media.game.es/COVERV2/3D_L/147/147191.png");
+        photos.add(this.photoService.findOne(1));
+        smallholding.setPhotos(photos);
 
         catched = false;
         try {
