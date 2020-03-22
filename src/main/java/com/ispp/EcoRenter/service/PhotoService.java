@@ -58,47 +58,38 @@ public class PhotoService {
 	}
 		
 	public Photo storeImage(MultipartFile file) {
-		Assert.notNull(file, "Fichero no nulo");
-
-		String fileName, contentType;
-		byte[] bytes;
 		Photo result, photo;
-
-		fileName = StringUtils.cleanPath(file.getOriginalFilename());
-		contentType = file.getContentType();
 		
-		Assert.isTrue(contentType.startsWith("image/"), "No es una imagen");
+		photo = this.getPhotoByFile(file);
 		
-		try {
-			bytes = file.getBytes();
-
-			photo = new Photo(fileName, contentType, bytes);
-
-			result = this.photoRepository.saveAndFlush(photo);
-		} catch (Throwable oops) {
-			result = null;
-
-			log.info("PhotoService::storeFile -> error al insertar la imagen");
-		}
-
+		result = (photo != null)
+					? this.photoRepository.saveAndFlush(photo)
+					: null;
+		
 		return result;
 	}
 
 	public Collection<Photo> storeImages(Collection<MultipartFile> files) {
 		Assert.notNull(files, "Coleccion no nula");
 		Assert.notEmpty(files, "La coleccion no debe estar vacia");
-
-		List<Photo> results;
+		 
+		List<Photo> photos, results;
 		Photo photo;
 
 		results = new ArrayList<Photo>();
+		photos = new ArrayList<Photo>();
+		
 		for (MultipartFile file : files) {
-			photo = this.storeImage(file);
-
-			if (photo != null) {
-				results.add(photo);
-			}
+			photo = this.getPhotoByFile(file);
 			
+			if (photo != null) {
+				photos.add(photo);
+			}
+		}
+		
+		if (!photos.isEmpty()) {
+			results = this.photoRepository.saveAll(photos);
+			this.photoRepository.flush();
 		}
 
 		return results;
@@ -127,4 +118,30 @@ public class PhotoService {
 		return result;
 	}
 
+	private Photo getPhotoByFile(MultipartFile file) {
+		Assert.notNull(file, "Fichero no nulo");
+		
+		Photo result;
+		
+		String fileName, contentType;
+		byte[] bytes;
+		
+		fileName = StringUtils.cleanPath(file.getOriginalFilename());
+		contentType = file.getContentType();
+		
+		Assert.isTrue(contentType.startsWith("image/"), "No es una imagen");
+		
+		try {
+			bytes = file.getBytes();
+
+			result = new Photo(fileName, contentType, bytes);
+		} catch (Throwable oops) {
+			result = null;
+			
+			log.info("PhotoService::getPhotoByFile -> No se pudo recuperar la foto");
+		}
+		
+		return result;
+	}
+	
 }
