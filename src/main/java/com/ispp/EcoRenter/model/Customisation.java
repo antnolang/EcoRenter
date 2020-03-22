@@ -30,8 +30,6 @@ public class Customisation extends DomainEntity {
 	@Min(9)
 	private int goldLevel;
 	
-	private String ecoTruki;
-	
 	// Constructors -----------------------------
 	
 	public Customisation() {
@@ -77,14 +75,6 @@ public class Customisation extends DomainEntity {
 
 	public void setGoldLevel(int goldLevel) {
 		this.goldLevel = goldLevel;
-	}
-
-	public String getEcoTruki() {
-		return ecoTruki;
-	}
-
-	public void setEcoTruki(String ecoTruki) {
-		this.ecoTruki = ecoTruki;
 	}
 	
 }

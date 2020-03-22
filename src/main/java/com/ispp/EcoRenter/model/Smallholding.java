@@ -57,7 +57,7 @@ public class Smallholding extends DomainEntity {
 	private String postalCode;
 	
 	@NotBlank
-	@Pattern(regexp = "^ALQUILADA|NO ALQUILADA|DISPUTA$")
+	@Pattern(regexp = "^ALQUILADA|NO ALQUILADA$")
 	private String status;
 	
 	private String latitude;
@@ -68,6 +68,8 @@ public class Smallholding extends DomainEntity {
 	private Integer maxDuration;
 	
 	private boolean isAvailable;
+	
+	private boolean isArgumented;
 	
 	@NotBlank
 	private String images;
@@ -199,6 +201,15 @@ public class Smallholding extends DomainEntity {
 
 	public void setImages(String images) {
 		this.images = images;
+	}
+	
+	public boolean isArgumented() {
+		return isArgumented;
+	}
+
+
+	public void setArgumented(boolean isArgumented) {
+		this.isArgumented = isArgumented;
 	}
 
 

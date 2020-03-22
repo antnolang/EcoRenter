@@ -57,7 +57,7 @@
 										</div>
 									</div>
 								
-									
+									<!--
 									<div class="align-left aside-content" sec:authorize="hasAuthority('RENTER')" th:if="${isMyProfile && smallholdings.size() > 0}">
 										<h3 class="mbr-title pt-2 mbr-fonts-style display-2">
 										<span> Parcelas asociadas a mis alquileres activos </span></h3>
@@ -84,25 +84,22 @@
 											</tbody>
 										</table>
 									</div>	
-	                           
+	                           		-->
 	                           		<div class="align-left aside-content" sec:authorize="hasAuthority('RENTER')" th:if="${isMyProfile && smallholdings.size() > 0}">
 										<h3 class="mbr-title pt-2 mbr-fonts-style display-2">
-										<span> Consejos y Códigos de descuentos </span></h3>										
-	                           			<p th:if="${isMyProfile && ecoTruki != null && ecoTruki != ''}">
-	                           				<strong> Eco Truki: </strong>
-	                           				<span th:text="${ecoTruki}"></span>
-	                           			</p>
-	                           			
+										
+										<span> Códigos de descuentos </span></h3>
+	                          
 	                           			<p th:if="${isMyProfile && discountCodes != null && discountCodes != ''}">
 	                           				<strong> Código de descuento: </strong>
 	                           				<span th:text="${discountCodes}"></span>
 	                           			</p>
 	                           		</div>
 	                           	
-	                           		
-	                           	
 									<!--Btn-->
-									<!-- <div th:if="${isMyProfile}" class="mbr-section-btn pt-3 align-left"><a href="" class="btn btn-secondary-outline display-4">Editar perfil</a></div> -->
+									<div th:if="${isMyProfile}" class="mbr-section-btn pt-3 align-left">
+										<a href="" class="btn btn-secondary-outline display-4">Editar perfil</a>
+									</div>
 									
 									<div sec:authorize="hasAuthority('ADMIN')" th:if="${!isMyProfile && !actor.userAccount.isBanned}" class="mbr-section-btn pt-3 align-left">
 										<a th:href="@{/actor/administrator/ban(actorId=${actor.id})}" class="btn btn-secondary-outline display-4">

@@ -71,16 +71,42 @@ CREATE TABLE public.customization (
     id integer NOT NULL,
     version integer NOT NULL,
     discount_codes character varying(255),
-    eco_truki character varying(255),
     email character varying(255),
     gold_level integer NOT NULL,
     silver_level integer NOT NULL,
     CONSTRAINT customization_gold_level_check CHECK ((gold_level >= 9)),
-    CONSTRAINT customization_silver_level_check CHECK (((silver_level <= 8) AND (silver_level >= 3)))
+    CONSTRAINT customization_silver_level_check CHECK (((silver_level >= 3) AND (silver_level <= 8)))
 );
 
 
 ALTER TABLE public.customization OWNER TO spring_dev;
+
+--
+-- Name: eco_truki; Type: TABLE; Schema: public; Owner: spring_dev; Tablespace: 
+--
+
+CREATE TABLE public.eco_truki (
+    id integer NOT NULL,
+    version integer NOT NULL,
+    description character varying(255),
+    moment timestamp without time zone NOT NULL,
+    title character varying(255)
+);
+
+
+ALTER TABLE public.eco_truki OWNER TO spring_dev;
+
+--
+-- Name: eco_truki_photos; Type: TABLE; Schema: public; Owner: spring_dev; Tablespace: 
+--
+
+CREATE TABLE public.eco_truki_photos (
+    eco_truki_id integer NOT NULL,
+    photos_id integer NOT NULL
+);
+
+
+ALTER TABLE public.eco_truki_photos OWNER TO spring_dev;
 
 --
 -- Name: hibernate_sequence; Type: SEQUENCE; Schema: public; Owner: spring_dev
@@ -183,6 +209,7 @@ CREATE TABLE public.smallholding (
     description character varying(255),
     farming_type character varying(255),
     images character varying(255),
+    is_argumented boolean NOT NULL,
     is_available boolean NOT NULL,
     latitude character varying(255),
     locality character varying(255),
@@ -250,7 +277,7 @@ CREATE TABLE public.valuation (
     version integer NOT NULL,
     mark integer NOT NULL,
     valuation_moment timestamp without time zone NOT NULL,
-    CONSTRAINT valuation_mark_check CHECK (((mark >= 0) AND (mark <= 5)))
+    CONSTRAINT valuation_mark_check CHECK (((mark <= 5) AND (mark >= 0)))
 );
 
 
@@ -278,6 +305,14 @@ ALTER TABLE ONLY public.comment
 
 ALTER TABLE ONLY public.customization
     ADD CONSTRAINT customization_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: eco_truki_pkey; Type: CONSTRAINT; Schema: public; Owner: spring_dev; Tablespace: 
+--
+
+ALTER TABLE ONLY public.eco_truki
+    ADD CONSTRAINT eco_truki_pkey PRIMARY KEY (id);
 
 
 --
@@ -393,6 +428,14 @@ ALTER TABLE ONLY public.customization
 
 
 --
+-- Name: uk_l9xnrhekwkskovh4ytlgvpeo9; Type: CONSTRAINT; Schema: public; Owner: spring_dev; Tablespace: 
+--
+
+ALTER TABLE ONLY public.eco_truki_photos
+    ADD CONSTRAINT uk_l9xnrhekwkskovh4ytlgvpeo9 UNIQUE (photos_id);
+
+
+--
 -- Name: user_account_pkey; Type: CONSTRAINT; Schema: public; Owner: spring_dev; Tablespace: 
 --
 
@@ -422,6 +465,14 @@ ALTER TABLE ONLY public.smallholding_photos
 
 ALTER TABLE ONLY public.rent_out
     ADD CONSTRAINT fk2w4idcn2jnkaxbh3r2pebf5ie FOREIGN KEY (renter_id) REFERENCES public.renter(id);
+
+
+--
+-- Name: fk3ej8yskij2u8bi60xbupb37at; Type: FK CONSTRAINT; Schema: public; Owner: spring_dev
+--
+
+ALTER TABLE ONLY public.eco_truki_photos
+    ADD CONSTRAINT fk3ej8yskij2u8bi60xbupb37at FOREIGN KEY (photos_id) REFERENCES public.photo(id);
 
 
 --
@@ -518,6 +569,14 @@ ALTER TABLE ONLY public.user_account_authorities
 
 ALTER TABLE ONLY public.smallholding
     ADD CONSTRAINT fkt41w5r3e6kec8wt0oq2r20cs1 FOREIGN KEY (owner_id) REFERENCES public.owner(id);
+
+
+--
+-- Name: fktii04f1l18by9qy2gdkkol4lb; Type: FK CONSTRAINT; Schema: public; Owner: spring_dev
+--
+
+ALTER TABLE ONLY public.eco_truki_photos
+    ADD CONSTRAINT fktii04f1l18by9qy2gdkkol4lb FOREIGN KEY (eco_truki_id) REFERENCES public.eco_truki(id);
 
 
 --

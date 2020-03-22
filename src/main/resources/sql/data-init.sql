@@ -61,7 +61,7 @@ COPY public.renter (id, version, email, image, name, surname, telephone_number, 
 -- Data for Name: smallholding; Type: TABLE DATA; Schema: public; Owner: spring_dev
 --
 
-COPY public.smallholding (id, version, address, description, farming_type, images, is_available, latitude, locality, longitude, max_duration, postal_code, price, province, size, status, title, owner_id) FROM stdin;
+COPY public.smallholding (id, version, address, description, farming_type, images, is_argumented, is_available, latitude, locality, longitude, max_duration, postal_code, price, province, size, status, title, owner_id) FROM stdin;
 \.
 
 
@@ -93,8 +93,24 @@ COPY public.comment (id, version, text, written_moment, rent_out_id) FROM stdin;
 -- Data for Name: customization; Type: TABLE DATA; Schema: public; Owner: spring_dev
 --
 
-COPY public.customization (id, version, discount_codes, eco_truki, email, gold_level, silver_level) FROM stdin;
-1	0			ecoRenter@gmail.com	12	3
+COPY public.customization (id, version, discount_codes, email, gold_level, silver_level) FROM stdin;
+1	0		ecoRenter@gmail.com	12	3
+\.
+
+
+--
+-- Data for Name: eco_truki; Type: TABLE DATA; Schema: public; Owner: spring_dev
+--
+
+COPY public.eco_truki (id, version, description, moment, title) FROM stdin;
+\.
+
+
+--
+-- Data for Name: eco_truki_photos; Type: TABLE DATA; Schema: public; Owner: spring_dev
+--
+
+COPY public.eco_truki_photos (eco_truki_id, photos_id) FROM stdin;
 \.
 
 
