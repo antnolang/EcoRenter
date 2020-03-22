@@ -19,4 +19,7 @@ public interface SmallholdingRepository extends JpaRepository<Smallholding,Integ
     
     @Query("select distinct ro.smallholding from RentOut ro where ro.renter.id = ?1 and ro.isActive = true")
     Collection<Smallholding> findSmallholdingsByActiveRentOut(int renterId);
+
+    @Query("select distinct ro.smallholding from RentOut ro where ro.renter.id = ?1 and ro.isActive = false")
+    Collection<Smallholding> findOldSmallholdingsRentedByRenterId(int renterId);
 }

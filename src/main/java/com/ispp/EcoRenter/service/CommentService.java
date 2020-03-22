@@ -2,6 +2,8 @@ package com.ispp.EcoRenter.service;
 
 import java.util.Collection;
 
+import javax.transaction.Transactional;
+
 import com.ispp.EcoRenter.model.Comment;
 import com.ispp.EcoRenter.repository.CommentRepository;
 
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 public class CommentService {
 
     // Repository

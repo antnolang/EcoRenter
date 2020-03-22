@@ -11,10 +11,10 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.Range;
 
 @Entity
 @Table(name = "smallholding")
@@ -53,23 +53,23 @@ public class Smallholding extends DomainEntity {
 	private String address;
 	
 	@NotBlank
-	@Pattern(regexp = "\\d{5}$")
+	@Pattern(regexp = "^\\d{5}$")
 	private String postalCode;
 	
 	@NotBlank
-	@Pattern(regexp = "^ALQUILADA|NO ALQUILADA|DISPUTA$")
+	@Pattern(regexp = "^ALQUILADA|NO ALQUILADA$")
 	private String status;
 	
-	@Range(min = 0, max = 90)
 	private String latitude;
 	
-	@Range(min = -180, max = 180)
 	private String longitude;
 	
 	@Min(1)
 	private Integer maxDuration;
 	
 	private boolean isAvailable;
+	
+	private boolean isArgumented;
 	
 	@NotBlank
 	private String images;
@@ -202,6 +202,15 @@ public class Smallholding extends DomainEntity {
 	public void setImages(String images) {
 		this.images = images;
 	}
+	
+	public boolean isArgumented() {
+		return isArgumented;
+	}
+
+
+	public void setArgumented(boolean isArgumented) {
+		this.isArgumented = isArgumented;
+	}
 
 
 	// Associations -------------------------------------
@@ -210,7 +219,7 @@ public class Smallholding extends DomainEntity {
 	@ManyToOne(optional = false)
 	private Owner owner;
 	
-	// @NotEmpty
+	@NotEmpty
 	@OneToMany
 	private Collection<Photo> photos;
 

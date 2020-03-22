@@ -12,8 +12,8 @@
 	<groupId>com.ispp</groupId>
 	<artifactId>EcoRenter</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>EcoRenter</name>
-	<description>Project which allows to rent plots for ecological cultivation</description>
+	<name>Project which allows to rent plots for ecological cultivation</name>
+	<description>Project for DP2</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -48,8 +48,8 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>

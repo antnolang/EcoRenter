@@ -13,7 +13,8 @@ public interface UserAccountRepository extends JpaRepository<UserAccount, Intege
 	
 	Optional<UserAccount> findByUsername(String username);
 	
-	@Query(value = "select authority a from eco_renter.user_account_authorities where user_account_id = ?1", nativeQuery = true)
+	@Query(value = "select authority a from user_account_authorities where user_account_id = ?1", nativeQuery = true)
 	String findByUserId(int id);
+	
 
 }
