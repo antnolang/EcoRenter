@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,11 +18,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ispp.EcoRenter.model.Owner;
+import com.ispp.EcoRenter.model.Photo;
 import com.ispp.EcoRenter.model.Smallholding;
 import com.ispp.EcoRenter.service.OwnerService;
+import com.ispp.EcoRenter.service.PhotoService;
 import com.ispp.EcoRenter.service.SmallholdingService;
 
 @Controller
@@ -34,6 +39,9 @@ public class SmallholdingOwnerController {
 
 	@Autowired
 	private OwnerService		ownerService;
+
+	@Autowired
+	private PhotoService photoService;
 
 
 	// Constructor
@@ -109,9 +117,13 @@ public class SmallholdingOwnerController {
 	// Save
 
 	@PostMapping(value = "/edit", params = "save")
-	public ModelAndView save(final Smallholding smallholding, final BindingResult binding) {
+	public ModelAndView save(List<MultipartFile> file,Smallholding smallholding, final BindingResult binding) {
 		ModelAndView result;
 		Smallholding smallholdingRec;
+		Collection<Photo> photos;
+
+		photos = (file.size() != 0 && !file.get(0).getOriginalFilename().equals("")) ? this.photoService.storeImages(file) : smallholding.getPhotos();
+		smallholding.setPhotos(photos);
 
 		smallholdingRec = this.smallholdingService.reconstruct(smallholding, binding);
 

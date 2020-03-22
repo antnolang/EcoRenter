@@ -1,7 +1,9 @@
 package com.ispp.EcoRenter.controller;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -18,10 +20,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ispp.EcoRenter.model.Actor;
 import com.ispp.EcoRenter.model.Comment;
 import com.ispp.EcoRenter.model.Owner;
+import com.ispp.EcoRenter.model.Photo;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.model.Smallholding;
 import com.ispp.EcoRenter.service.ActorService;
 import com.ispp.EcoRenter.service.CommentService;
+import com.ispp.EcoRenter.service.PhotoService;
 import com.ispp.EcoRenter.service.SmallholdingService;
 
 @Controller
@@ -38,6 +42,9 @@ public class SmallholdingController {
 
 	@Autowired
 	private ActorService actorService;
+
+	@Autowired
+	private PhotoService photoService;
 
 	// Constructor
 
@@ -96,14 +103,15 @@ public class SmallholdingController {
 		Collection<Comment> comments;
 		Actor principal;
 		Boolean isRentedByRenter;
+		Map<Photo,String> photo_imageData;
+		Collection<Photo> photos;
 
+		photo_imageData = new HashMap<Photo,String>();
 		principal = null;
 		isRentedByRenter = null;
 		result = new ModelAndView("smallholding/display");
 		try {
 			principal = this.actorService.findByPrincipal();
-			
-		
 			
 			if (principal instanceof Renter) {
 				isRentedByRenter = this.smallholdingService.isSmallholdingRentedByRenter(principal.getId(),
@@ -118,11 +126,16 @@ public class SmallholdingController {
 		try {
 			smallholding = this.smallholdingService.findOneToDisplay(smallholdingId);
 			comments = this.commentService.findCommentsBySmallholdingId(smallholdingId);
+			//photos = smallholding.getPhotos(); No devuelve las fotos de la smallholding bien
+			photos = this.photoService.findPhotosBySmallholdingId(smallholding.getId());
 
+			for(Photo p: photos)
+				photo_imageData.put(p, this.photoService.getImageBase64(p));
 
 			result.addObject("smallholding", smallholding);
 			result.addObject("comments", comments);
 			result.addObject("isRentedByRenter", isRentedByRenter);
+			result.addObject("photo_imageData", photo_imageData);
 			
 			
 			if(principal != null && principal instanceof Owner && smallholding.getOwner().equals(principal)){

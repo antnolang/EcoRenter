@@ -5,6 +5,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -22,6 +25,7 @@ import com.ispp.EcoRenter.model.Smallholding;
 import com.ispp.EcoRenter.repository.SmallholdingRepository;
 
 @Service
+@Transactional
 public class SmallholdingService {
 
     // Repository
@@ -58,6 +62,7 @@ public class SmallholdingService {
         result = new Smallholding();
         result.setStatus("NO ALQUILADA");
         result.setAvailable(true);
+        result.setArgumented(false);
         result.setOwner(principal);
         result.setPhotos(Collections.emptySet());
 
@@ -141,6 +146,7 @@ public class SmallholdingService {
         return result;
     }
 
+    @Transactional(value = TxType.NEVER) // Si se quita, al hacer display de parcela peta una clase interna de spring debido a un bug.
     public Smallholding findOneToDisplay(int smallholdingId){
         Smallholding result;
         Actor principal;
@@ -160,7 +166,7 @@ public class SmallholdingService {
             For the other side, if principal is an owner, he/she displays availables smallholdings unless it's his/her own so
             displays unavailables too.
         */
-        if(principal == null) // Un usuario no autenticado solo puede ver las parcelas disponibles y con estado no alquilada
+        if(principal == null)  // Un usuario no autenticado solo puede ver las parcelas disponibles y con estado no alquilada
             Assert.isTrue(result.isAvailable() && result.getStatus().equals("NO ALQUILADA"),"La parcela no se puede mostrar");
         else if((principal != null && principal instanceof Renter)){
             /* 
@@ -179,7 +185,7 @@ public class SmallholdingService {
         }
 
         return result;
-        
+          
         
     }
 
@@ -210,6 +216,7 @@ public class SmallholdingService {
             result.setOwner(stored.getOwner());
             result.setStatus(stored.getStatus().trim());
             result.setAvailable(stored.isAvailable());
+            result.setArgumented(stored.isArgumented());
         }
        
         result.setTitle(smallholding.getTitle().trim());
@@ -287,6 +294,14 @@ public class SmallholdingService {
     	results = this.smallholdingRepository.findSmallholdingsByActiveRentOut(renterId);
     	
     	return results;
+    }
+
+    public Collection<Smallholding> findOldSmallholdingsRentedByRenterId(int renterId) {
+        Collection<Smallholding> result;
+
+        result = this.smallholdingRepository.findOldSmallholdingsRentedByRenterId(renterId);
+
+        return result;
     }
     
     public List<String> getGeoData(Collection<Smallholding> smallholdings) {

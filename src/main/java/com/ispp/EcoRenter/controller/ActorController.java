@@ -56,7 +56,7 @@ public class ActorController {
 		Renter renter;
 		Owner owner;
 		int principalId;
-		String iban, role, level, discountCodes, ecoTruki;
+		String iban, role, level, discountCodes;
 		Collection<Smallholding> smallholdings;
 		
 		iban = "";
@@ -107,10 +107,8 @@ public class ActorController {
 				if (!smallholdings.isEmpty()) {
 					customisation = this.customisationService.find();
 					
-					ecoTruki = customisation.getEcoTruki();
 					discountCodes = customisation.getDiscountCodes();
 					
-					result.addObject("ecoTruki", ecoTruki);
 					result.addObject("discountCodes", discountCodes);
 				}
 				

@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import java.util.Date;
 
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.repository.RentOutRepository;
 
 @Service
+@Transactional
 public class RentOutService {
 
     // Repository

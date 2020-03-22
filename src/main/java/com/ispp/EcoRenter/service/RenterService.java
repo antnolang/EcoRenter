@@ -2,6 +2,8 @@ package com.ispp.EcoRenter.service;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +15,7 @@ import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.repository.RenterRepository;
 
 @Service
+@Transactional
 public class RenterService {
 
     // Repository
