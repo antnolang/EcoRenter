@@ -170,9 +170,11 @@ public class ActorService {
     public boolean checkNoRepeatedUsername(String username) {
     	boolean result = false;
     	
-    	if(this.findByUsername(username) == null) {
+    	
+    	if(this.actorRepository.findByUsername(username) == null) {
     		result = true;
     	}
+    	
     	
     	return result;
     }

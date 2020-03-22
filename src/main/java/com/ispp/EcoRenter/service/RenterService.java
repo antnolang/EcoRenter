@@ -2,6 +2,8 @@ package com.ispp.EcoRenter.service;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +21,7 @@ import com.ispp.EcoRenter.security.Authority;
 import com.ispp.EcoRenter.security.UserAccount;
 
 @Service
+@Transactional
 public class RenterService {
 
     // Repository
@@ -55,7 +58,6 @@ public class RenterService {
     	userAccount.addAuthority(auth);
     	userAccount.setIsBanned(false);
     	
-    	this.userAccountService.save(userAccount);
     	
     	result.setUserAccount(userAccount);
     	
@@ -80,7 +82,7 @@ public class RenterService {
     public Renter save(Renter renter) {
     	
     	
-    	return this.renterRepository.save(renter);
+    	return this.renterRepository.saveAndFlush(renter);
     
     	
     }
@@ -105,11 +107,11 @@ public class RenterService {
     	Renter result = this.create();
     	UserAccount renterUserAccount = result.getUserAccount();
     	
-    	//Comprobamos que las contraseñas coinicidad y el username es unico
+    	//Comprobamos que las contraseñas coincidan, el usuario no exista y el iban sea correcto.
     	
-    	Assert.isTrue(this.actorService.checkPassword(renterRegister.getPassword(), renterRegister.getPassword()), "Las contraseñas no son iguales.");
-    	Assert.isTrue(this.actorService.checkNoRepeatedUsername(renterRegister.getUsername()),"El username elegido ya existe.");
-    	
+    	Assert.isTrue(this.actorService.checkPassword(renterRegister.getPassword(), renterRegister.getPasswordMatch()), "Las contraseñas no coinciden.");
+    	Assert.isTrue(this.actorService.checkNoRepeatedUsername(renterRegister.getUsername()),"El usuario elegido ya existe.");
+    	Assert.isTrue(renterRegister.getIban().matches("[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}"),"Iban incorrecto.");
     	
     	//Obtenemos valores del parametro renterRegister obtenido del formulario
     	
@@ -120,6 +122,7 @@ public class RenterService {
     	String image = renterRegister.getImage();
     	String username = renterRegister.getUsername();
     	String password = renterRegister.getPassword();
+    	String iban = renterRegister.getIban();
     	
     	//Codificamos la password para persistirla asi en bd
     	String encodedPass = this.bCryptPasswordEncoder.encode(password);
@@ -131,13 +134,10 @@ public class RenterService {
     	result.setEmail(email);
     	result.setTelephoneNumber(telephone);
     	result.setImage(image);
-    	
+    	result.setIban(iban);
     	
     	renterUserAccount.setUsername(username);
     	renterUserAccount.setPassword(encodedPass);
-    	
-    	//Validamos con el binding, esto en el controlador deberia controlarse con el @Valid. Cuando este la vista se comprobará.
-    	this.validator.validate(result,binding);
     	
     	
     	//Persistimos el resultado

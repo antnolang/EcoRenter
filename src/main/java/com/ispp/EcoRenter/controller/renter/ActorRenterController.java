@@ -78,23 +78,37 @@ public class ActorRenterController {
 		return result;
 	}
 
-	
+
 
 	@PostMapping(value = "/register", params = "save")
 	public ModelAndView registerRenter(@ModelAttribute("renter") @Valid RenterRegister renterRegister, final BindingResult binding) {
 		ModelAndView result;
 
-		try {
 
-			this.renterService.register(renterRegister, binding);
-
-			result = new ModelAndView("/login");
-
-		}catch(Throwable oops) {
+		if (binding.hasErrors()) {
 			result = new ModelAndView("/actor/renterRegister");
-			result.addObject("error", oops.getMessage());
-		}
+		}else {
+			try {
 
+				this.renterService.register(renterRegister, binding);
+
+				result = new ModelAndView("/login");
+
+			}catch(Throwable oops) {
+				result = new ModelAndView("/actor/renterRegister");
+				String message = oops.getMessage();
+
+				if(message.equals("Las contraseñas no coinciden.")) {
+					result.addObject("noMatchPass", message);
+				}else if(message.equals("El usuario elegido ya existe.")) {
+					result.addObject("noValidUser", message);
+
+				}else if(message.equals("Iban incorrecto.")) {
+					result.addObject("noValidIban", message);
+				}
+
+			}
+		}
 
 		return result;
 
