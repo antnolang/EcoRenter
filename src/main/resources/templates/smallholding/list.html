@@ -76,7 +76,9 @@
 				</div>
 			</div>
 			
-			<div th:if="${smallholdingPage.getTotalElements() > 0 && requestURI == 'smallholding/list'}" id="map"></div>	
+			<div sec:authorize="isAuthenticated()"
+			     th:if="${smallholdingPage.getTotalElements() > 0 && requestURI == 'smallholding/list'}"
+			     id="map"></div>	
 								
 			<script>
 				var lats = [];
