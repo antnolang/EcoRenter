@@ -19,13 +19,7 @@ public class ActorServiceTest {
 	@Autowired
 	private ActorService actorService;
 	
-	@Test
-	public void sumaTest(){
-	a =1;
-	b =1;
-	Integer res = actorService.suma(a,b);
-	assertTrue(res.equal(2);		
-	}
+
 	/*
 	 * Un administrador puede visitar cualquier perfil
 	 */
