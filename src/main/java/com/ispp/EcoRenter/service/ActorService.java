@@ -40,13 +40,7 @@ public class ActorService {
         super();
     }
 	
-public Integer suma(int a, int b){
-	Integer res;
-	
-	res = a+ b;
-	
-	return res;
-}
+
 
     // CRUD Methods ------------------------------------
     public Actor findOne(int actorId) {
