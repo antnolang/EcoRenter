@@ -85,14 +85,16 @@
 										</table>
 									</div>	
 	                           		-->
-	                           		<div class="align-left aside-content" sec:authorize="hasAuthority('RENTER')" th:if="${isMyProfile && smallholdings.size() > 0}">
+	                           		<div class="align-left aside-content" sec:authorize="hasAnyAuthority('RENTER','OWNER')" th:if="${isMyProfile && smallholdings.size() > 0}">
 										<h3 class="mbr-title pt-2 mbr-fonts-style display-2">
 										
 										<span> Códigos de descuentos </span></h3>
 	                          
 	                           			<p th:if="${isMyProfile && discountCodes != null && discountCodes != ''}">
-	                           				<strong> Código de descuento: </strong>
-	                           				<span th:text="${discountCodes}"></span>
+	                           				<strong> Códigos de descuento: </strong>
+	                           				<div th:each="desc : ${#strings.arraySplit(discountCodes, ',')}">
+												<li th:text="${desc}"></li>
+											</div>
 	                           			</p>
 	                           		</div>
 	                           	

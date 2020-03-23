@@ -57,7 +57,7 @@ public class ActorController {
 		Owner owner;
 		int principalId;
 		String iban, role, level, discountCodes;
-		Collection<Smallholding> smallholdings;
+		Collection<Smallholding> smallholdings, smallholdingsRentedByOwnerPrincipal;
 		
 		iban = "";
 		
@@ -99,17 +99,28 @@ public class ActorController {
 			role = this.actorService.getRole(actor);
 			
 			// Req 9.6, Req 9.10, Req 9.11 ------------------------------
-			if (isMyProfile && this.actorService.isASpecificRole(actor, "RENTER")) {
-				smallholdings = this.smallholdingService.findSmallholdingsByActiveRentOut(actor.getId());
-				
-				result.addObject("smallholdings", smallholdings);
-				
-				if (!smallholdings.isEmpty()) {
-					customisation = this.customisationService.find();
-					
-					discountCodes = customisation.getDiscountCodes();
-					
-					result.addObject("discountCodes", discountCodes);
+			if (isMyProfile) {
+				if(this.actorService.isASpecificRole(actor, "RENTER")){
+					smallholdings = this.smallholdingService.findSmallholdingsByActiveRentOut(actor.getId());
+					result.addObject("smallholdings", smallholdings);
+					if (!smallholdings.isEmpty()) {
+						customisation = this.customisationService.find();
+						
+						discountCodes = customisation.getDiscountCodes();
+						
+						result.addObject("discountCodes", discountCodes);
+					}
+				} 
+				else if(this.actorService.isASpecificRole(actor, "OWNER")) {
+					smallholdingsRentedByOwnerPrincipal = this.smallholdingService.findSmallholdingsByOwnerId(actor.getId());
+					result.addObject("smallholdings", smallholdingsRentedByOwnerPrincipal);
+					if (!smallholdingsRentedByOwnerPrincipal.isEmpty()) {
+						customisation = this.customisationService.find();
+						
+						discountCodes = customisation.getDiscountCodes();
+						
+						result.addObject("discountCodes", discountCodes);
+					}
 				}
 				
 			}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{master-page/layout :: layout(~{::title}, ~{::div.content})}">
+
+<head>
+<title>Mostrando configuración del sistema</title>
+</head>
+
+<body>
+	<div class="content">
+		<section class="services2 cid-rRNDCjx6s4" id="services2-q">
+
+			<div class="container">
+				<div class="col-md-12">
+					<strong>Configuración del sistema</strong>
+					<div>
+						<p>
+							<strong>Correo electrónico:</strong>
+							<span th:text="${customisation.email}"></span>
+						</p>
+						<br>
+						<p>
+							<strong>Nivel Oro:</strong>
+							<span th:text="${customisation.goldLevel}"></span>
+						</p>
+						<br>
+						<p>
+							<strong>Nivel Plata:</strong>
+							<span th:text="${customisation.silverLevel}"></span>
+						</p>
+						<br>
+						<p th:unless="${customisation.discountCodes == ''}">
+							<strong>Códigos de descuento:</strong>
+							<div th:each="desc : ${#strings.arraySplit(customisation.discountCodes, ',')}">
+								<li th:text="${desc}"></li>
+							</div>
+						</p>
+
+					</div>
+
+					<a th:href="@{'/administrator/customisation/edit'}" class="btn btn-secondary-outline display-4">Editar configuración</a>
+
+				</div>
+			</div>
+		</section>
+	</div>
+</body>
+</html>

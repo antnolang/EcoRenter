@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{master-page/layout :: layout(~{::title}, ~{::div.content})}">
+
+<head>
+    <title>Editar configuración del sistema</title>
+
+</head>
+
+<body>
+
+    
+ <div class="content">
+        <br>
+        <br>
+        <br>
+        <br>
+    <div>
+        <div>
+            <div>
+                <h2>
+                    Editar configuración del sistema
+                 </h2>
+           
+
+            </div>
+        </div>
+    </div>
+    <div>
+        <div>
+            <div>
+               
+                <form th:action="@{/administrator/customisation/edit}" id="myForm" th:object="${customisation}" method="post" class="mbr-form form-with-styler" data-form-title=" Form">          
+                    
+                        
+                    <div>
+                        <label>Correo electrónico:</label>
+                        <input type="text" th:field="*{email}"  th:errorclass="fieldError"></input>
+                        <p th:if="${#fields.hasErrors('email')}" style="color: red !important;">
+                            <span th:errors="*{email}"></span>
+                        </p>
+                    </div>
+
+                    <div>
+                        <label>Nivel Oro:</label>
+                        <input type="text" th:field="*{goldLevel}"  th:errorclass="fieldError"></input>
+                        <p th:if="${#fields.hasErrors('goldLevel')}" style="color: red !important;">
+                            <span th:errors="*{goldLevel}"></span>
+                        </p>
+                    </div>
+
+                    <div>
+                        <label>Nivel Plata:</label>
+                        <input type="text" th:field="*{silverLevel}"  th:errorclass="fieldError"></input>
+                        <p th:if="${#fields.hasErrors('silverLevel')}" style="color: red !important;">
+                            <span th:errors="*{silverLevel}"></span>
+                        </p>
+                    </div>
+
+                    <div>
+                        <label>Códigos Descuentos:</label>
+                        <input type="text" th:field="*{discountCodes}"  th:errorclass="fieldError" placeholder="Separe los códigos de descuentos por coma (,)"></input>
+                        <p th:if="${#fields.hasErrors('discountCodes')}" style="color: red !important;">
+                            <span th:errors="*{discountCodes}"></span>
+                        </p>
+                    </div>
+                    
+                    <div class="col-md-12 form-group" data-for="name" th:if="${messageCode != ''}">
+		                <p th:text="${messageCode}"></p>
+		            </div>
+                        
+                    <div>
+                        <button name="save" type="submit">Guardar</button>   
+                    </div>
+
+                    <div>
+                        <a th:href="@{'/administrator/customisation/display'}" class="btn btn-secondary-outline display-4">Volver</a>
+                    </div>
+    
+			    </form>
+         
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

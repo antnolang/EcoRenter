@@ -288,6 +288,14 @@ public class SmallholdingService {
         return result;
     }
 
+    public Collection<Smallholding> findSmallholdingsRentedByOwnerId(int ownerId) {
+        Collection<Smallholding> result;
+
+        result = this.smallholdingRepository.findSmallholdingsRentedByOwnerId(ownerId);
+
+        return result;
+    }
+
     public Collection<Smallholding> findSmallholdingsByActiveRentOut(int renterId) {
     	Collection<Smallholding> results;
     	 	
@@ -296,14 +304,6 @@ public class SmallholdingService {
     	return results;
     }
 
-    public Collection<Smallholding> findOldSmallholdingsRentedByRenterId(int renterId) {
-        Collection<Smallholding> result;
-
-        result = this.smallholdingRepository.findOldSmallholdingsRentedByRenterId(renterId);
-
-        return result;
-    }
-    
     public List<String> getGeoData(Collection<Smallholding> smallholdings) {
     	String latitudes, longitudes, lats, lngs;
     	List<String> results;
