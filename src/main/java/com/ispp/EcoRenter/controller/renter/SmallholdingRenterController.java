@@ -45,7 +45,7 @@ public class SmallholdingRenterController {
 
 		ModelAndView result;
 
-		result = new ModelAndView("redirect:/smallholding/list");
+		result = new ModelAndView("redirect:/renter/smallholding/list");
 
 		// Logic
 
@@ -62,6 +62,8 @@ public class SmallholdingRenterController {
 			RentOut rent = this.rentoutService.create();
 
 			rent.setSmallholding(sh);
+			
+			rent.setIsActive(true);
 
 			rent.getRenter().setIban(iban);
 

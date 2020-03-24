@@ -128,7 +128,7 @@
 								<!-- Pago -->
 
 
-								<form id="payment-form" style="display: none;"
+								<form sec:authorize="hasAuthority('RENTER')" id="payment-form" style="display: none;"
 									th:action="@{'/renter/smallholding/rent?smallholdingId=' + ${smallholding.id}}"
 									method="post" class="sr-payment-form">
 									<div class="sr-combo-inputs-row">
@@ -190,9 +190,8 @@
                         	<p  id="pepito" th:text="${messagePay}"></p>
                         	</div>
                         -->
-                        
-                        	
-								<div th:if="${isRented}">
+                        <!--                         	
+								<div th:if="${isRented}" sec:authorize="hasAuthority('RENTER')">
 									<div class="alert"
 										style="padding: 20px; background-color: #54775E; color: white;">
 										<span class="closebtn"
