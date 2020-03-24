@@ -1,4 +1,4 @@
-package com.ispp.EcoRenter.controller;
+package com.ispp.EcoRenter.controller.authenticated;
 
 import java.util.Collection;
 
@@ -23,10 +23,10 @@ import com.ispp.EcoRenter.service.RenterService;
 import com.ispp.EcoRenter.service.SmallholdingService;
 
 @Controller
-@RequestMapping("/actor")
-public class ActorController {
+@RequestMapping("/actor/authenticated")
+public class ActorAuthenticatedController {
 
-	private static final Log log = LogFactory.getLog(ActorController.class);
+	private static final Log log = LogFactory.getLog(ActorAuthenticatedController.class);
 	
 	@Autowired
 	private ActorService actorService;
@@ -43,7 +43,7 @@ public class ActorController {
 	@Autowired
 	private SmallholdingService smallholdingService;
 	
-	public ActorController() {
+	public ActorAuthenticatedController() {
 		super();
 	}
 	

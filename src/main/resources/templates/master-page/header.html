@@ -53,10 +53,9 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 				
 				<li sec:authorize="isAnonymous()"class="nav-item" ><a
 					class="nav-link link text-secondary display-4" href="/login"><span
-						
-						th:if="${principal != null}"></span>Inicio sesión</a></li>
+					th:if="${principal != null}"></span>Inicio sesión</a></li>
 				<li sec:authorize="isAuthenticated()" class="nav-item">
-					<a class="nav-link link text-secondary display-4" href="/actor/display">
+					<a class="nav-link link text-secondary display-4" href="/actor/authenticated/display">
 						Perfil
 					</a>
 				</li>		

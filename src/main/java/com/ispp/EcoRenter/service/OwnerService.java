@@ -11,12 +11,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 
+import com.ispp.EcoRenter.form.OwnerForm;
 import com.ispp.EcoRenter.model.Owner;
-import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.register.OwnerRegister;
-import com.ispp.EcoRenter.register.RenterRegister;
 import com.ispp.EcoRenter.repository.OwnerRepository;
 import com.ispp.EcoRenter.security.Authority;
 import com.ispp.EcoRenter.security.UserAccount;
@@ -67,7 +67,7 @@ public class OwnerService {
 
 	}
 
-
+	
 	public Owner save(Owner owner) {
 
 
@@ -107,6 +107,57 @@ public class OwnerService {
 	}
 
 
+	public Owner edit(OwnerForm ownerForm) {
+		String name, surname, email, telephoneNumber, username, password, passwordMatch, iban, encodedPassword, usernameDB;
+		Owner result;
+		UserAccount userAccount;
+		
+		result = this.findByPrincipal();
+		
+		name = ownerForm.getName();
+		surname = ownerForm.getSurname();
+		email = ownerForm.getEmail();
+		telephoneNumber = ownerForm.getTelephoneNumber();
+		username = ownerForm.getUsername();
+		password = ownerForm.getPassword();
+		passwordMatch = ownerForm.getPasswordMatch();
+		iban = ownerForm.getIban();
+		
+		userAccount = result.getUserAccount();
+		// Las contraseñas deben coincidir.
+		Assert.isTrue(this.actorService.checkPassword(password, passwordMatch), "Las contraseñas no coinciden.");
+				
+		usernameDB = result.getUserAccount().getUsername();
+		// Si el usuario ha decidido cambiar de username, comprobar que no existe
+		if (!usernameDB.equals(username)) {
+			Assert.isTrue(this.actorService.checkNoRepeatedUsername(username), "El usuario elegido ya existe.");
+		}
+		
+		// Si el usuario ha introducido un nuevo iban, comprobamos que sea válido
+		// Si no ha introducido ningun valor, para el iban se mantiene el que tenía anteriormente
+		if (StringUtils.hasText(iban)) {
+			Assert.isTrue(iban.matches("[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}"), "Iban incorrecto.");
+		
+			result.setIban(iban.trim());
+		}
+	
+		encodedPassword = this.bCryptPasswordEncoder.encode(password);
+		
+		// Seteamos valores --------------------------
+		userAccount.setUsername(username.trim());
+		userAccount.setPassword(encodedPassword.trim());
+		
+		result.setName(name.trim());
+		result.setSurname(surname.trim());
+		result.setEmail(email.trim());
+		result.setTelephoneNumber(telephoneNumber.trim());
+		
+		this.save(result);
+		
+		
+		return result;
+	}
+	
 	public Owner register(OwnerRegister ownerRegister, BindingResult binding) {
 		Owner result = this.create();
 		UserAccount renterUserAccount = result.getUserAccount();

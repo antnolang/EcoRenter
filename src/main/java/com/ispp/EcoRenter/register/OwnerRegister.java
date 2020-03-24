@@ -4,13 +4,30 @@ import javax.validation.constraints.Min;
 
 public class OwnerRegister extends ActorRegister{
 
-	//Attributes
-
+	// Attributes ----------------------------------
 	private String iban;
 	
 	@Min(0)
 	private int accumulatedMonths;
 
+	
+	// Constructors --------------------------------
+	public OwnerRegister() {
+		super();
+	}
+	
+	public OwnerRegister(String name, String surname, String email, 
+			             String telephoneNumber, String username,
+			             int accumulatedMonths) {
+		
+		super(name, surname, email, telephoneNumber, username);
+	
+		this.iban = "";
+		this.accumulatedMonths = accumulatedMonths;
+	}
+	
+
+	// Getter and setters ------------------------------
 	public String getIban() {
 		return iban;
 	}
@@ -26,10 +43,5 @@ public class OwnerRegister extends ActorRegister{
 	public void setAccumulatedMonths(int accumulatedMonths) {
 		this.accumulatedMonths = accumulatedMonths;
 	}
-	
-	
-
-
-
 
 }

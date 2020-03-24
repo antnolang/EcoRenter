@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ispp.EcoRenter.controller.ActorController;
+import com.ispp.EcoRenter.controller.authenticated.ActorAuthenticatedController;
+import com.ispp.EcoRenter.form.OwnerForm;
 import com.ispp.EcoRenter.model.Actor;
 import com.ispp.EcoRenter.model.Owner;
 import com.ispp.EcoRenter.register.OwnerRegister;
-import com.ispp.EcoRenter.register.RenterRegister;
 import com.ispp.EcoRenter.service.ActorService;
 import com.ispp.EcoRenter.service.OwnerService;
 
@@ -26,7 +26,7 @@ import com.ispp.EcoRenter.service.OwnerService;
 @RequestMapping("/actor/owner")
 public class ActorOwnerController {
 
-private static final Log log = LogFactory.getLog(ActorController.class);
+private static final Log log = LogFactory.getLog(ActorAuthenticatedController.class);
 	
 	@Autowired
 	private ActorService actorService;
@@ -80,7 +80,52 @@ private static final Log log = LogFactory.getLog(ActorController.class);
 		return result;
 	}
 	
+	@GetMapping("/edit")
+	public ModelAndView edit() {
+		ModelAndView result;
+		Owner principal;
+		OwnerForm ownerForm;
+		
+		principal = this.ownerService.findByPrincipal();
+		ownerForm = new OwnerForm(principal.getName(), principal.getSurname(), principal.getEmail(),
+				                  principal.getTelephoneNumber(), principal.getUserAccount().getUsername());
+		
+		ownerForm.setId(principal.getId());
+		
+		result = this.createEditModelAndView(ownerForm);
+		
+		return result;
+	}
+
 	
+	@PostMapping(value = "/edit", params = "save")
+	public ModelAndView editOwner(@ModelAttribute("ownerForm") @Valid OwnerForm ownerForm, BindingResult binding) {
+		ModelAndView result;
+		
+		if (binding.hasErrors()) {
+			result = this.createEditModelAndView(ownerForm);
+		} else {
+			try {
+				this.ownerService.edit(ownerForm);
+				
+				result = new ModelAndView("redirect:/actor/authenticated/display");
+			} catch (Throwable oops) {
+				String message = oops.getMessage();
+	
+				if(message.equals("Las contraseñas no coinciden.")) {
+					result = this.createEditModelAndView(ownerForm, "noMatchPass", message);
+				}else if(message.equals("El usuario elegido ya existe.")) {
+					result = this.createEditModelAndView(ownerForm, "noValidUser", message);
+				}else if(message.equals("Iban incorrecto.")) {
+					result = this.createEditModelAndView(ownerForm, "noValidIban", message);
+				} else {
+					result = this.createEditModelAndView(ownerForm, "invalidOperation", "No se pudo completar la operación");
+				}
+			}
+		}
+		
+		return result;
+	}
 
 	@PostMapping(value = "/register", params = "save")
 	public ModelAndView registerOwner(@ModelAttribute("owner") @Valid OwnerRegister ownerRegister, final BindingResult binding) {
@@ -93,7 +138,7 @@ private static final Log log = LogFactory.getLog(ActorController.class);
 			try {
 
 				this.ownerService.register(ownerRegister, binding);
-
+				
 				result = new ModelAndView("/login");
 
 			}catch(Throwable oops) {
@@ -116,5 +161,23 @@ private static final Log log = LogFactory.getLog(ActorController.class);
 
 	}
 
+	protected ModelAndView createEditModelAndView(OwnerForm ownerForm) {
+		ModelAndView result;
+		
+		result = new ModelAndView("/actor/ownerEdit");
+		result.addObject("ownerForm", ownerForm);
+	
+		return result;
+	}
+	
+	protected ModelAndView createEditModelAndView(OwnerForm ownerForm, String messageName, String messageValue) {
+		ModelAndView result;
+		
+		result = new ModelAndView("actor/ownerEdit");
+		result.addObject("ownerForm", ownerForm);
+		result.addObject(messageName, messageValue);
+	
+		return result;
+	}
 	
 }

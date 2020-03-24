@@ -26,11 +26,11 @@
         <div class="row justify-content-center">
             <div class="media-container-column col-lg-8" data-form-type="formoid">
                
-               <form th:action="@{/actor/owner/register}" id="myForm" th:object="${owner}" method="post" class="mbr-form form-with-styler" data-form-title=" Form">
+               <form th:action="@{/actor/owner/register}" novalidate="novalidate" id="myForm" th:object="${owner}" method="post" class="mbr-form form-with-styler" data-form-title=" Form">
+                    <input type=hidden th:field="*{accumulatedMonths}" />
+                    <input type="hidden" th:field="*{image}" />
+                    
                     <div class="dragArea row">
-                    
-                    
-                    
                     
                          <div class="col-md-12  form-group" data-for="name">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Nombre</label>
@@ -39,12 +39,6 @@
 			                 	<span th:errors="*{name}"></span>
 			                </p>
                         </div>
-
-		            
-		            
-		            
-		            
-		            
 		            
 		              <div class="col-md-12  form-group" data-for="surname">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Apellidos</label>
@@ -54,13 +48,6 @@
 			                </p>
                         </div>
 
-				   
-		            
-		            
-		            
-		            
-		            
-		            
 		             <div class="col-md-12  form-group" data-for="email">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Correo electrónico</label>
                             <textarea type="text" th:field="*{email}"  th:errorclass="fieldError"  data-form-field="Email" required="required" class="form-control display-7"  ></textarea>
@@ -68,12 +55,6 @@
 			                 	<span th:errors="*{email}"></span>
 			                </p>
                         </div>
-
-				  
-		            
-		            
-		            
-		            
 		            
 		             <div class="col-md-12  form-group" data-for="telephoneNumber">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Número de teléfono</label>
@@ -83,20 +64,8 @@
 			                </p>
                         </div>
 
-				  
-		            
-		            
-		            
-		            
-		                <div class="col-md-12  form-group" data-for="image">
-                            <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Foto de perfil</label>
-                            <textarea type="text" th:field="*{image}"  th:errorclass="fieldError"  data-form-field="image"  class="form-control display-7"  ></textarea>
-                        	<p th:if="${#fields.hasErrors('image')}" style="color: red !important;">
-			                 	<span th:errors="*{image}"></span>
-			                </p>
-                        </div>
+		               
 
-		            
 		             <div class="col-md-12  form-group" data-for="username">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Nombre de usuario</label>
                             <textarea type="text" th:field="*{username}"  th:errorclass="fieldError"  data-form-field="username" required="required" class="form-control display-7"  ></textarea>
@@ -104,9 +73,7 @@
 			                 	<span th:errors="*{username}"></span>
 			                </p>
                         </div>
-
-
-
+                        
 				    <div class="col-md-12 form-group" data-for="username" th:if="${noValidUser != ''}">
 		                <p th:text="${noValidUser}" style="color: red !important;"></p>
 		            </div>
@@ -114,7 +81,7 @@
 		            
 		                       <div class="col-md-12  form-group" data-for="password">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Contraseña</label>
-                            <textarea type="text" th:field="*{password}"  th:errorclass="fieldError"  data-form-field="password" required="required" class="form-control display-7"  ></textarea>
+                            <input type="password" th:field="*{password}"  th:errorclass="fieldError"  data-form-field="password" required="required" class="form-control display-7"  ></textarea>
                         	<p th:if="${#fields.hasErrors('password')}" style="color: red !important;">
 			                 	<span th:errors="*{password}"></span>
 			                </p>
@@ -127,14 +94,11 @@
 		            
 		               <div class="col-md-12  form-group" data-for="passwordMatch">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Confirmar contraseña</label>
-                            <textarea type="text" th:field="*{passwordMatch}"  th:errorclass="fieldError"  data-form-field="passwordMatch" required="required" class="form-control display-7"  ></textarea>
+                            <input type="password" th:field="*{passwordMatch}"  th:errorclass="fieldError"  data-form-field="passwordMatch" required="required" class="form-control display-7"  ></textarea>
                         	<p th:if="${#fields.hasErrors('passwordMatch')}" style="color: red !important;">
 			                 	<span th:errors="*{passwordMatch}"></span>
 			                </p>
                         </div>
-
-					
-					
 					
 					 <div class="col-md-12  form-group" data-for="iban">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Iban</label>
@@ -148,20 +112,13 @@
 		                <p th:text="${noValidIban}" style="color: red !important;"></p>
 		            </div>
 		            
-		            <div class="col-md-12  form-group" data-for="accumulatedMonths">
-                            <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Meses acumulados</label>
-                            <input type="number"  min="0"	th:field="*{accumulatedMonths}"  th:errorclass="fieldError"  data-form-field="accumulatedMonths" required="required" class="form-control display-7"  ></textarea>
-                        	<p th:if="${#fields.hasErrors('accumulatedMonths')}" style="color: red !important;">
-			                 	<span th:errors="*{accumulatedMonths}"></span>
-			                </p>
-                        </div>
-
 
 							<div data-for="message" class="col-md-12 form-group">
                         <div class="col-md-12 input-group-btn align-center">
-                        <button name="save" type="submit" class="btn btn-form btn-secondary display-4">
+                        <button th:if="${owner.id <= 0}" name="save" type="submit" class="btn btn-form btn-secondary display-4">
         				Guardar
                         </button>
+                                        
                         <a href="/"
                         class="btn btn-warning-outline display-4">
                         Volver

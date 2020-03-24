@@ -11,9 +11,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import com.ispp.EcoRenter.form.RenterForm;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.register.RenterRegister;
 import com.ispp.EcoRenter.repository.RenterRepository;
@@ -80,11 +82,9 @@ public class RenterService {
     }
     
     public Renter save(Renter renter) {
-    	
-    	
+   
     	return this.renterRepository.saveAndFlush(renter);
     
-    	
     }
     
     // Other business methods
@@ -101,6 +101,57 @@ public class RenterService {
         Assert.notNull(result,"El arrendatario no existe");
 
         return result;
+    }
+    
+    public Renter edit(RenterForm renterForm) {
+    	String name, surname, email, telephoneNumber, username;
+    	String password, passwordMatch, iban, encodedPassword, usernameDB;
+    	Renter result;
+    	UserAccount userAccount;
+    	
+    	result = this.findByPrincipal();
+    	
+    	name = renterForm.getName();
+		surname = renterForm.getSurname();
+		email = renterForm.getEmail();
+		telephoneNumber = renterForm.getTelephoneNumber();
+		username = renterForm.getUsername();
+		password = renterForm.getPassword();
+		passwordMatch = renterForm.getPasswordMatch();
+		iban = renterForm.getIban();
+		
+		userAccount = result.getUserAccount();
+		// Las contraseñas deben coincidir.
+		Assert.isTrue(this.actorService.checkPassword(password, passwordMatch), "Las contraseñas no coinciden.");
+    	
+		usernameDB = result.getUserAccount().getUsername();
+		// Si el usuario ha decidido cambiar de username, comprobar que no existe
+		if (!usernameDB.equals(username)) {
+			Assert.isTrue(this.actorService.checkNoRepeatedUsername(username), "El usuario elegido ya existe.");
+		}
+		
+		// Si el usuario ha introducido un nuevo iban, comprobamos que sea válido
+		// Si no ha introducido ningun valor, para el iban se mantiene el que tenía anteriormente
+		if (StringUtils.hasText(iban)) {
+			Assert.isTrue(iban.matches("[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}"), "Iban incorrecto.");
+		
+			result.setIban(iban.trim());
+		}
+	
+		encodedPassword = this.bCryptPasswordEncoder.encode(password);
+		
+		// Seteamos valores --------------------------
+		userAccount.setUsername(username.trim());
+		userAccount.setPassword(encodedPassword.trim());
+		
+		result.setName(name.trim());
+		result.setSurname(surname.trim());
+		result.setEmail(email.trim());
+		result.setTelephoneNumber(telephoneNumber.trim());
+		
+		this.save(result);
+		
+		return result;
     }
     
     public Renter register(RenterRegister renterRegister, BindingResult binding) {
@@ -144,36 +195,7 @@ public class RenterService {
     	
     	this.save(result);
     	
-    	
-    	return result;
-    	
-    	
+    	return result;	
     }
-
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
 }
