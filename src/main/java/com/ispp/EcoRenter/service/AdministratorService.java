@@ -6,11 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ispp.EcoRenter.configuration.MyUserDetailsService;
 import com.ispp.EcoRenter.form.AdminForm;
 import com.ispp.EcoRenter.model.Administrator;
 import com.ispp.EcoRenter.model.Photo;
@@ -26,13 +27,16 @@ public class AdministratorService {
 	private AdministratorRepository administratorRepository;
 	
 	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
-
+	private PasswordEncoder passwordEncoder;
+	
 	@Autowired
 	private PhotoService photoService;
 	
 	@Autowired
 	private ActorService actorService;
+	
+	@Autowired
+	private MyUserDetailsService myUserDetailsService;
 	
 	public AdministratorService() {
 		super();
@@ -79,7 +83,7 @@ public class AdministratorService {
 			
 		}
 		
-		encodedPassword = this.bCryptPasswordEncoder.encode(password);
+		encodedPassword = this.passwordEncoder.encode(password);
 		
 		// Seteamos valores --------------------------
 		userAccount.setUsername(username.trim());
@@ -91,6 +95,8 @@ public class AdministratorService {
 		result.setTelephoneNumber(telephoneNumber.trim());
 		
 		this.save(result);
+		
+		//this.myUserDetailsService.loadUserByUsername(username.trim());
 		
 		return result;
 	}

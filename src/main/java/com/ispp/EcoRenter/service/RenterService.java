@@ -8,12 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ispp.EcoRenter.form.RenterForm;
@@ -36,8 +35,8 @@ public class RenterService {
     @Autowired
     private UserAccountService userAccountService;
     
-    @Autowired
-    private Validator validator;
+//    @Autowired
+//    private Validator validator;
     
     @Autowired
     private PhotoService photoService;
@@ -46,7 +45,7 @@ public class RenterService {
     private ActorService actorService;
     
     @Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	private PasswordEncoder passwordEncoder;
 
     // Constructor
 
@@ -157,7 +156,7 @@ public class RenterService {
 			
 		}
 		
-		encodedPassword = this.bCryptPasswordEncoder.encode(password);
+		encodedPassword = this.passwordEncoder.encode(password);
 		
 		// Seteamos valores --------------------------
 		userAccount.setUsername(username.trim());
@@ -195,7 +194,7 @@ public class RenterService {
     	String iban = renterRegister.getIban();
     	
     	//Codificamos la password para persistirla asi en bd
-    	String encodedPass = this.bCryptPasswordEncoder.encode(password);
+    	String encodedPass = this.passwordEncoder.encode(password);
     			
     	//Setteamos valores
     	

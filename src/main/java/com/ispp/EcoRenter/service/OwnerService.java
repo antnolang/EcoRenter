@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -33,7 +33,7 @@ public class OwnerService {
 	private OwnerRepository ownerRepository;
 
 	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	private UserAccountService userAccountService;
@@ -158,7 +158,7 @@ public class OwnerService {
 			
 		}
 		
-		encodedPassword = this.bCryptPasswordEncoder.encode(password);
+		encodedPassword = this.passwordEncoder.encode(password);
 		
 		// Seteamos valores --------------------------
 		userAccount.setUsername(username.trim());
@@ -198,7 +198,7 @@ public class OwnerService {
 		int months = ownerRegister.getAccumulatedMonths();
 
 		//Codificamos la password para persistirla asi en bd
-		String encodedPass = this.bCryptPasswordEncoder.encode(password);
+		String encodedPass = this.passwordEncoder.encode(password);
 
 		//Setteamos valores
 
