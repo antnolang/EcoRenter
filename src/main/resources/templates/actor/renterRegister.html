@@ -24,88 +24,61 @@
     </div>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="media-container-column col-lg-8" data-form-type="formoid">
+            <div class="media-container-column col-lg-6" data-form-type="formoid">
                
                <form th:action="@{/actor/renter/register}" id="myForm" th:object="${renter}" method="post" class="mbr-form form-with-styler" data-form-title=" Form">
                     <div class="dragArea row">
                     
-                    
-                    
-                    
-                         <div class="col-md-12  form-group" data-for="name">
+                    <div class="col-md-5  form-group" data-for="name">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Nombre</label>
-                            <textarea type="text" th:field="*{name}"  th:errorclass="fieldError"  data-form-field="Name" required="required" class="form-control display-7"  ></textarea>
+                            <input type="text" th:field="*{name}"  th:errorclass="fieldError"  data-form-field="Name" required="required" class="form-control display-7"  ></textarea>
                         	<p th:if="${#fields.hasErrors('name')}" style="color: red !important;">
 			                 	<span th:errors="*{name}"></span>
 			                </p>
+							
                         </div>
 
-		            
-		            
-		            
-		            
-		            
-		            
-		              <div class="col-md-12  form-group" data-for="surname">
+		              <div class="col-md-7 form-group" data-for="surname">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Apellidos</label>
-                            <textarea type="text" th:field="*{surname}"  th:errorclass="fieldError"  data-form-field="Surname" required="required" class="form-control display-7"  ></textarea>
+                            <input type="text" th:field="*{surname}"  th:errorclass="fieldError"  data-form-field="Surname" required="required" class="form-control display-7"  ></textarea>
                         	<p th:if="${#fields.hasErrors('surname')}" style="color: red !important;">
 			                 	<span th:errors="*{surname}"></span>
 			                </p>
                         </div>
 
-				   
-		            
-		            
-		            
-		            
-		            
-		            
+ 						<div class="col-md-12  form-group" data-for="telephoneNumber">
+                            <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Número de teléfono</label>
+                            <input type="text" th:field="*{telephoneNumber}"  th:errorclass="fieldError"  data-form-field="telephoneNumber" required="required" class="form-control display-7"  ></textarea>
+                        	<p th:if="${#fields.hasErrors('telephoneNumber')}" style="color: red !important;">
+			                 	<span th:errors="*{telephoneNumber}"></span>
+			                </p>
+                        </div>
+
 		             <div class="col-md-12  form-group" data-for="email">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Correo electrónico</label>
-                            <textarea type="text" th:field="*{email}"  th:errorclass="fieldError"  data-form-field="Email" required="required" class="form-control display-7"  ></textarea>
+                            <input type="text" th:field="*{email}"  th:errorclass="fieldError"  data-form-field="Email" required="required" class="form-control display-7"  ></textarea>
                         	<p th:if="${#fields.hasErrors('email')}" style="color: red !important;">
 			                 	<span th:errors="*{email}"></span>
 			                </p>
                         </div>
 
 				  
-		            
-		            
-		            
-		            
-		            
-		             <div class="col-md-12  form-group" data-for="telephoneNumber">
-                            <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Número de teléfono</label>
-                            <textarea type="text" th:field="*{telephoneNumber}"  th:errorclass="fieldError"  data-form-field="telephoneNumber" required="required" class="form-control display-7"  ></textarea>
-                        	<p th:if="${#fields.hasErrors('telephoneNumber')}" style="color: red !important;">
-			                 	<span th:errors="*{telephoneNumber}"></span>
-			                </p>
-                        </div>
-
-				  
-		            
-		            
-		            
-		            
 		                <div class="col-md-12  form-group" data-for="image">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Foto de perfil</label>
-                            <textarea type="text" th:field="*{image}"  th:errorclass="fieldError"  data-form-field="image"  class="form-control display-7"  ></textarea>
+                            <input type="text" th:field="*{image}"  th:errorclass="fieldError"  data-form-field="image"  class="form-control display-7"  ></textarea>
                         	<p th:if="${#fields.hasErrors('image')}" style="color: red !important;">
 			                 	<span th:errors="*{image}"></span>
 			                </p>
                         </div>
 
-		            
+			
 		             <div class="col-md-12  form-group" data-for="username">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Nombre de usuario</label>
-                            <textarea type="text" th:field="*{username}"  th:errorclass="fieldError"  data-form-field="username" required="required" class="form-control display-7"  ></textarea>
+                            <input type="text" th:field="*{username}"  th:errorclass="fieldError"  data-form-field="username" required="required" class="form-control display-7"  ></textarea>
                         	<p th:if="${#fields.hasErrors('username')}" style="color: red !important;">
 			                 	<span th:errors="*{username}"></span>
 			                </p>
                         </div>
-
-
 
 				    <div class="col-md-12 form-group" data-for="username" th:if="${noValidUser != ''}">
 		                <p th:text="${noValidUser}" style="color: red !important;"></p>
@@ -114,7 +87,7 @@
 		            
 		                       <div class="col-md-12  form-group" data-for="password">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Contraseña</label>
-                            <textarea type="text" th:field="*{password}"  th:errorclass="fieldError"  data-form-field="password" required="required" class="form-control display-7"  ></textarea>
+                            <input type="password" th:field="*{password}"  th:errorclass="fieldError"  data-form-field="password" required="required" class="form-control display-7"  ></textarea>
                         	<p th:if="${#fields.hasErrors('password')}" style="color: red !important;">
 			                 	<span th:errors="*{password}"></span>
 			                </p>
@@ -127,7 +100,7 @@
 		            
 		               <div class="col-md-12  form-group" data-for="passwordMatch">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Confirmar contraseña</label>
-                            <textarea type="text" th:field="*{passwordMatch}"  th:errorclass="fieldError"  data-form-field="passwordMatch" required="required" class="form-control display-7"  ></textarea>
+                            <input type="password" th:field="*{passwordMatch}"  th:errorclass="fieldError"  data-form-field="passwordMatch" required="required" class="form-control display-7"  ></textarea>
                         	<p th:if="${#fields.hasErrors('passwordMatch')}" style="color: red !important;">
 			                 	<span th:errors="*{passwordMatch}"></span>
 			                </p>
@@ -138,7 +111,7 @@
 					
 					 <div class="col-md-12  form-group" data-for="iban">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Iban</label>
-                            <textarea type="text" placeholder="ES1234554678901234567890" pattern="[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}" th:field="*{iban}"  th:errorclass="fieldError"  data-form-field="iban" required="required" class="form-control display-7"  ></textarea>
+                            <input type="text" placeholder="ES1234554678901234567890" pattern="[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}" th:field="*{iban}"  th:errorclass="fieldError"  data-form-field="iban" required="required" class="form-control display-7"  ></textarea>
                         	<p th:if="${#fields.hasErrors('iban')}" style="color: red !important;">
 			                 	<span th:errors="*{iban}"></span>
 			                </p>
@@ -149,15 +122,16 @@
 		            </div>
 
 
-							<div data-for="message" class="col-md-12 form-group">
-                        <div class="col-md-12 input-group-btn align-center">
-                        <button name="save" type="submit" class="btn btn-form btn-secondary display-4">
-        				Guardar
-                        </button>
-                        <a href="/"
-                        class="btn btn-warning-outline display-4">
-                        Volver
-                        </a>
+					<div class="col-md-6 input-group-btn align-center">
+					<button name="save" type="submit" class="btn btn-form btn-secondary display-4">
+        						Guardar
+                       		</button>
+					</div>
+					<div class="col-md-6 input-group-btn align-center">
+
+                        	<a href="/" class="col-md-12 btn btn-warning-outline display-4">
+                        		Volver
+                        	</a>
                      </div>
     
                         
