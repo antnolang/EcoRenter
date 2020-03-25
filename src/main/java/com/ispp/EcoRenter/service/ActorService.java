@@ -39,6 +39,8 @@ public class ActorService {
     public ActorService(){
         super();
     }
+	
+
 
     // CRUD Methods ------------------------------------
     public Actor findOne(int actorId) {
@@ -156,6 +158,28 @@ public class ActorService {
     	Actor result;
     	
     	result = this.actorRepository.findByUsername(username);
+    	
+    	return result;
+    }
+
+    public boolean checkPassword(String password, String passwordMatch) {
+    	boolean result = false;
+    	
+    	if(password.equals(passwordMatch)) {
+    		result = true;
+    	}
+    	
+    	return result;
+    }
+    
+    public boolean checkNoRepeatedUsername(String username) {
+    	boolean result = false;
+    	
+    	
+    	if(this.actorRepository.findByUsername(username) == null) {
+    		result = true;
+    	}
+    	
     	
     	return result;
     }

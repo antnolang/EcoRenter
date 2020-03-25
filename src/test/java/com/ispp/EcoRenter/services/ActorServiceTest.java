@@ -19,7 +19,7 @@ public class ActorServiceTest {
 	@Autowired
 	private ActorService actorService;
 	
-	
+
 	/*
 	 * Un administrador puede visitar cualquier perfil
 	 */
