@@ -39,6 +39,8 @@ public class ActorService {
     public ActorService(){
         super();
     }
+	
+
 
     // CRUD Methods ------------------------------------
     public Actor findOne(int actorId) {
@@ -159,7 +161,7 @@ public class ActorService {
     	
     	return result;
     }
-    
+
     public boolean checkPassword(String password, String passwordMatch) {
     	boolean result = false;
     	
