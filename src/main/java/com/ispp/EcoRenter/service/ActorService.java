@@ -106,15 +106,23 @@ public class ActorService {
     public Actor findByPrincipal(){
 		Actor result;
     	UserDetails userAccount;
-        Authentication authentication;
 
-        authentication = SecurityContextHolder.getContext().getAuthentication();
-        userAccount = (UserDetails) authentication.getPrincipal();
+        userAccount = this.findUserDetailsByPrincipal();
         
         result = this.findByUsername(userAccount.getUsername());
 		Assert.notNull(result,"El actor no existe");
 		
 		return result;
+    }
+    
+    public UserDetails findUserDetailsByPrincipal() {
+    	UserDetails userAccount;
+        Authentication authentication;
+
+        authentication = SecurityContextHolder.getContext().getAuthentication();
+        userAccount = (UserDetails) authentication.getPrincipal();
+        
+        return userAccount;
     }
     
     public boolean isASpecificRole(Actor actor, String role) {

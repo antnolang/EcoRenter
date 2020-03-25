@@ -13,9 +13,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ispp.EcoRenter.form.OwnerForm;
 import com.ispp.EcoRenter.model.Owner;
+import com.ispp.EcoRenter.model.Photo;
 import com.ispp.EcoRenter.register.OwnerRegister;
 import com.ispp.EcoRenter.repository.OwnerRepository;
 import com.ispp.EcoRenter.security.Authority;
@@ -39,6 +41,8 @@ public class OwnerService {
 	@Autowired
 	private ActorService actorService;
 
+	@Autowired
+	private PhotoService photoService;
 
 	// Supporting services
 
@@ -109,6 +113,8 @@ public class OwnerService {
 
 	public Owner edit(OwnerForm ownerForm) {
 		String name, surname, email, telephoneNumber, username, password, passwordMatch, iban, encodedPassword, usernameDB;
+		MultipartFile file;
+		Photo photo;
 		Owner result;
 		UserAccount userAccount;
 		
@@ -122,6 +128,7 @@ public class OwnerService {
 		password = ownerForm.getPassword();
 		passwordMatch = ownerForm.getPasswordMatch();
 		iban = ownerForm.getIban();
+		file = ownerForm.getFile();
 		
 		userAccount = result.getUserAccount();
 		// Las contraseñas deben coincidir.
@@ -141,6 +148,16 @@ public class OwnerService {
 			result.setIban(iban.trim());
 		}
 	
+		// Insertar foto y setear Actor::photo.
+		if (file != null) {
+			photo = this.photoService.storeImage(file);
+			
+			if (photo != null) {
+				result.setPhoto(photo);
+			}
+			
+		}
+		
 		encodedPassword = this.bCryptPasswordEncoder.encode(password);
 		
 		// Seteamos valores --------------------------

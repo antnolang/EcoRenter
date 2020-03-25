@@ -6,6 +6,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.ispp.EcoRenter.model.DomainEntity;
 
 public abstract class ActorForm extends DomainEntity {
@@ -46,6 +48,9 @@ public abstract class ActorForm extends DomainEntity {
 	@Size(min = 5, max = 35)
 	private String passwordMatch;
 
+	
+	private MultipartFile file;
+	
 
 	// Constructores --------------------------
 	public ActorForm() {
@@ -64,6 +69,7 @@ public abstract class ActorForm extends DomainEntity {
 		this.username = username;
 		this.password = "";
 		this.passwordMatch = "";
+		this.file = null;
 	}
 
 	// Getters and setters ----------------------
@@ -134,6 +140,16 @@ public abstract class ActorForm extends DomainEntity {
 
 	public void setPasswordMatch(String passwordMatch) {
 		this.passwordMatch = passwordMatch;
+	}
+	
+	
+	public MultipartFile getFile() {
+		return file;
+	}
+
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
 	}
 
 

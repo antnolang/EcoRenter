@@ -164,7 +164,7 @@ private static final Log log = LogFactory.getLog(ActorAuthenticatedController.cl
 	public ModelAndView createEditModelAndView(OwnerForm ownerForm) {
 		ModelAndView result;
 		
-		result = new ModelAndView("/actor/ownerEdit");
+		result = new ModelAndView("/actor/edit");
 		result.addObject("objectForm", ownerForm);
 		result.addObject("buttonName", "saveOwner");
 	
@@ -174,7 +174,7 @@ private static final Log log = LogFactory.getLog(ActorAuthenticatedController.cl
 	public ModelAndView createEditModelAndView(OwnerForm ownerForm, String messageName, String messageValue) {
 		ModelAndView result;
 		
-		result = new ModelAndView("actor/ownerEdit");
+		result = new ModelAndView("actor/edit");
 		result.addObject("objectForm", ownerForm);
 		result.addObject(messageName, messageValue);
 		result.addObject("buttonName", "saveOwner");

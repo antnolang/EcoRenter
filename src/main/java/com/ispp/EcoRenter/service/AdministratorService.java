@@ -9,9 +9,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ispp.EcoRenter.form.AdminForm;
 import com.ispp.EcoRenter.model.Administrator;
+import com.ispp.EcoRenter.model.Photo;
 import com.ispp.EcoRenter.repository.AdministratorRepository;
 import com.ispp.EcoRenter.security.UserAccount;
 
@@ -27,6 +29,9 @@ public class AdministratorService {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Autowired
+	private PhotoService photoService;
+	
+	@Autowired
 	private ActorService actorService;
 	
 	public AdministratorService() {
@@ -40,6 +45,8 @@ public class AdministratorService {
 		String passwordMatch, encodedPassword, usernameDB;
 		Administrator result;
 		UserAccount userAccount;
+		Photo photo;
+		MultipartFile file;
 		
 		result = this.findByPrincipal();
 		
@@ -50,6 +57,7 @@ public class AdministratorService {
 		username = adminForm.getUsername();
 		password = adminForm.getPassword();
 		passwordMatch = adminForm.getPasswordMatch();
+		file = adminForm.getFile();
 		
 		userAccount = result.getUserAccount();
 		// Las contraseñas deben coincidir.
@@ -59,6 +67,16 @@ public class AdministratorService {
 		// Si el usuario ha decidido cambiar de username, comprobar que no existe
 		if (!usernameDB.equals(username)) {
 			Assert.isTrue(this.actorService.checkNoRepeatedUsername(username), "El usuario elegido ya existe.");
+		}
+		
+		// Insertar foto y setear Actor::photo.
+		if (file != null) {
+			photo = this.photoService.storeImage(file);
+			
+			if (photo != null) {
+				result.setPhoto(photo);
+			}
+			
 		}
 		
 		encodedPassword = this.bCryptPasswordEncoder.encode(password);

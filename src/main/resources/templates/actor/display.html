@@ -13,8 +13,8 @@
 							<div class="media-container-row">
 	
 								<div class="mbr-figure" style="width: 25%;">
-									<div th:if="${actor.image != null && actor.image != ''}" class="image profile">
-										<img  th:src="${actor.image}" alt="Imagen de perfil" />
+									<div th:if="${photo != null}" class="image profile">
+										<img th:src="@{'data:' + ${photo.suffix} + ';base64, ' + ${imageData}}" th:alt="${photo.name}" />
 									</div>
 								</div>
 	

@@ -14,8 +14,10 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ispp.EcoRenter.form.RenterForm;
+import com.ispp.EcoRenter.model.Photo;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.register.RenterRegister;
 import com.ispp.EcoRenter.repository.RenterRepository;
@@ -36,6 +38,9 @@ public class RenterService {
     
     @Autowired
     private Validator validator;
+    
+    @Autowired
+    private PhotoService photoService;
     
     @Autowired
     private ActorService actorService;
@@ -108,6 +113,8 @@ public class RenterService {
     	String password, passwordMatch, iban, encodedPassword, usernameDB;
     	Renter result;
     	UserAccount userAccount;
+    	MultipartFile file;
+    	Photo photo;
     	
     	result = this.findByPrincipal();
     	
@@ -119,6 +126,7 @@ public class RenterService {
 		password = renterForm.getPassword();
 		passwordMatch = renterForm.getPasswordMatch();
 		iban = renterForm.getIban();
+		file = renterForm.getFile();
 		
 		userAccount = result.getUserAccount();
 		// Las contraseñas deben coincidir.
@@ -138,6 +146,17 @@ public class RenterService {
 			result.setIban(iban.trim());
 		}
 	
+		
+		// Insertar foto y setear Actor::photo.
+		if (file != null) {
+			photo = this.photoService.storeImage(file);
+			
+			if (photo != null) {
+				result.setPhoto(photo);
+			}
+			
+		}
+		
 		encodedPassword = this.bCryptPasswordEncoder.encode(password);
 		
 		// Seteamos valores --------------------------

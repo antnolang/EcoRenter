@@ -27,7 +27,7 @@
 					data-form-type="formoid">
 
 					<form th:action="@{/actor/authenticated/edit}" id="myForm"
-						th:object="${objectForm}" method="post"
+						th:object="${objectForm}" method="post" enctype="multipart/form-data"
 						class="mbr-form form-with-styler" data-form-title=" Form" novalidate="novalidate">
 						
 						<input type="hidden" th:field="*{id}" />
@@ -116,6 +116,7 @@
 								<input type="password" th:field="*{password}"
 									   th:errorclass="fieldError" data-form-field="password"
 									   required="required" class="form-control display-7" />
+								<p>Tanto si piensa cambiar la contraseña como si no, debe de introducir la contraseña</p>
 								<p th:if="${#fields.hasErrors('password')}"
 									style="color: red !important;">
 									<span th:errors="*{password}"></span>
@@ -139,6 +140,25 @@
 									style="color: red !important;">
 									<span th:errors="*{passwordMatch}"></span>
 								</p>
+							</div>
+
+							<div class="col-md-12  form-group" data-for="file">
+								<label for="name-form1-17"
+									class="form-control-label mbr-fonts-style display-7"
+									style="color: #2a3d2e !important;">Seleccionar foto de perfil</label>
+								<input type="file" th:field="*{file}"
+									th:errorclass="fieldError" data-form-field="file"
+									accept="image/*" class="form-control display-7" />
+								<p>El tamaño máximo debe ser 5MB</p>
+								<p th:if="${#fields.hasErrors('file')}"
+									style="color: red !important;">
+									<span th:errors="*{file}"></span>
+								</p>
+							</div>
+
+							<div class="col-md-12 form-group" data-for="file"
+								th:if="${selImage != ''}">
+								<p th:text="${selImage}" style="color: red !important;"></p>
 							</div>
 
 							<div sec:authorize="hasAnyAuthority('OWNER','RENTER')" class="col-md-12  form-group" data-for="iban">

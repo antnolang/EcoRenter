@@ -25,12 +25,14 @@ import com.ispp.EcoRenter.form.RenterForm;
 import com.ispp.EcoRenter.model.Actor;
 import com.ispp.EcoRenter.model.Customisation;
 import com.ispp.EcoRenter.model.Owner;
+import com.ispp.EcoRenter.model.Photo;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.model.Smallholding;
 import com.ispp.EcoRenter.service.ActorService;
 import com.ispp.EcoRenter.service.AdministratorService;
 import com.ispp.EcoRenter.service.CustomisationService;
 import com.ispp.EcoRenter.service.OwnerService;
+import com.ispp.EcoRenter.service.PhotoService;
 import com.ispp.EcoRenter.service.RenterService;
 import com.ispp.EcoRenter.service.SmallholdingService;
 
@@ -67,6 +69,8 @@ public class ActorAuthenticatedController {
 	@Autowired
 	private ActorRenterController actorRenterController;
 	
+	@Autowired
+	private PhotoService photoService;
 	
 	public ActorAuthenticatedController() {
 		super();
@@ -133,6 +137,10 @@ public class ActorAuthenticatedController {
 					result = this.actorOwnerController.createEditModelAndView(ownerForm,
 							 												  "noValidIban",
 							 												  message);
+				} else if (message.equals("No es una imagen")) {
+					result = this.actorOwnerController.createEditModelAndView(ownerForm,
+							  												  "selImage",
+							  												  message);
 				} else {
 					result = this.actorOwnerController.createEditModelAndView(ownerForm,
 																			  "invalidOperation",
@@ -170,6 +178,10 @@ public class ActorAuthenticatedController {
 					result = this.actorRenterController.createEditModelAndView(renterForm,
 							                               					   "noValidIban",
 							                               					    message);
+				} else if (message.equals("No es una imagen")) {
+						result = this.actorRenterController.createEditModelAndView(renterForm,
+								  												  "selImage",
+								  												  message);
 				} else {
 					result = this.actorRenterController.createEditModelAndView(renterForm,
 																			   "invalidOperation",
@@ -207,6 +219,10 @@ public class ActorAuthenticatedController {
 					result = this.actorAdministratorController.createEditModelAndView(adminForm,
 																					  "noValidIban",
 																					  message);
+				} else if (message.equals("No es una imagen")) {
+					result = this.actorAdministratorController.createEditModelAndView(adminForm,
+							  														  "selImage",
+							  														  message);	
 				} else {
 					result = this.actorAdministratorController.createEditModelAndView(adminForm,
 																					  "invalidOperation",
@@ -229,6 +245,8 @@ public class ActorAuthenticatedController {
 		int principalId;
 		String iban, role, level, discountCodes;
 		Collection<Smallholding> smallholdings;
+		Photo photo;
+		String imageData;
 		
 		iban = "";
 		
@@ -269,6 +287,16 @@ public class ActorAuthenticatedController {
 			actor = (actorId == 0) ? principal : this.actorService.findOne(actorId);
 			role = this.actorService.getRole(actor);
 			
+			photo = actor.getPhoto();
+			
+			// Mostrar la foto si el actor tiene
+			if (photo != null) {
+				imageData = this.photoService.getImageBase64(photo);
+				
+				result.addObject("photo", photo);
+				result.addObject("imageData", imageData);
+			}
+			
 			// Req 9.6, Req 9.10, Req 9.11 ------------------------------
 			if (isMyProfile && this.actorService.isASpecificRole(actor, "RENTER")) {
 				smallholdings = this.smallholdingService.findSmallholdingsByActiveRentOut(actor.getId());
@@ -296,29 +324,6 @@ public class ActorAuthenticatedController {
 		
 		log.info("Actor enviado desde el controlador a la vista.");
 		
-		return result;
-	}
-	
-	
-	// Metodos auxiliares ---------------------------------------------------
-	protected ModelAndView createEditModelAndView(Object objectForm) {
-		ModelAndView result;
-		
-		result = new ModelAndView("/actor/ownerEdit");
-		result.addObject("objectForm", objectForm);
-		result.addObject("actionURL", "edit-owner");
-		
-		return result;
-	}
-	
-	protected ModelAndView createEditModelAndView(Object objectForm, String messageName, String messageValue) {
-		ModelAndView result;
-		
-		result = new ModelAndView("actor/ownerEdit");
-		result.addObject("objectForm", objectForm);
-		result.addObject(messageName, messageValue);
-		result.addObject("actionURL", "edit-owner");
-	
 		return result;
 	}
 	

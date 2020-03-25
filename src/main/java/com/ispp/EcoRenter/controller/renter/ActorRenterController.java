@@ -119,7 +119,7 @@ public class ActorRenterController {
 	public ModelAndView createEditModelAndView(RenterForm renterForm) {
 		ModelAndView result;
 		
-		result = new ModelAndView("/actor/ownerEdit");
+		result = new ModelAndView("/actor/edit");
 		result.addObject("objectForm", renterForm);
 		result.addObject("buttonName", "saveRenter");
 		
@@ -129,7 +129,7 @@ public class ActorRenterController {
 	public ModelAndView createEditModelAndView(Object objectForm, String messageName, String messageValue) {
 		ModelAndView result;
 		
-		result = new ModelAndView("actor/ownerEdit");
+		result = new ModelAndView("actor/edit");
 		result.addObject("objectForm", objectForm);
 		result.addObject(messageName, messageValue);
 		result.addObject("buttonName", "saveRenter");

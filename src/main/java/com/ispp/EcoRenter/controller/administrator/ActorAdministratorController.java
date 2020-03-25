@@ -71,7 +71,7 @@ public class ActorAdministratorController {
 	public ModelAndView createEditModelAndView(AdminForm adminForm) {
 		ModelAndView result;
 		
-		result = new ModelAndView("/actor/ownerEdit");
+		result = new ModelAndView("/actor/edit");
 		result.addObject("objectForm", adminForm);
 		result.addObject("buttonName", "saveAdmin");
 		
@@ -81,7 +81,7 @@ public class ActorAdministratorController {
 	public ModelAndView createEditModelAndView(AdminForm adminForm, String messageName, String messageValue) {
 		ModelAndView result;
 		
-		result = new ModelAndView("actor/ownerEdit");
+		result = new ModelAndView("actor/edit");
 		result.addObject("objectForm", adminForm);
 		result.addObject(messageName, messageValue);
 		result.addObject("buttonName", "saveAdmin");
