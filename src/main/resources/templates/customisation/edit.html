@@ -1,87 +1,104 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{master-page/layout :: layout(~{::title}, ~{::div.content})}">
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{master-page/layout :: layout(~{::title}, ~{::div.content})}">
 
 <head>
-    <title>Editar configuración del sistema</title>
+<title>Editar configuración del sistema</title>
 
 </head>
 
 <body>
 
-    
- <div class="content">
-        <br>
-        <br>
-        <br>
-        <br>
-    <div>
-        <div>
-            <div>
-                <h2>
-                    Editar configuración del sistema
-                 </h2>
-           
 
-            </div>
-        </div>
-    </div>
-    <div>
-        <div>
-            <div>
-               
-                <form th:action="@{/administrator/customisation/edit}" id="myForm" th:object="${customisation}" method="post" class="mbr-form form-with-styler" data-form-title=" Form">          
-                    
-                        
-                    <div>
-                        <label>Correo electrónico:</label>
-                        <input type="text" th:field="*{email}"  th:errorclass="fieldError"></input>
-                        <p th:if="${#fields.hasErrors('email')}" style="color: red !important;">
-                            <span th:errors="*{email}"></span>
-                        </p>
-                    </div>
+	<div class="content">
+		<br> <br> <br> <br>
+		<div>
+			<div>
+				<div>
+					<h2
+						class="mbr-section-title align-center pb-3 mbr-fonts-style display-2"
+						style="color: #2a3d2e !important;">Editar configuración del
+						sistema</h2>
 
-                    <div>
-                        <label>Nivel Oro:</label>
-                        <input type="text" th:field="*{goldLevel}"  th:errorclass="fieldError"></input>
-                        <p th:if="${#fields.hasErrors('goldLevel')}" style="color: red !important;">
-                            <span th:errors="*{goldLevel}"></span>
-                        </p>
-                    </div>
 
-                    <div>
-                        <label>Nivel Plata:</label>
-                        <input type="text" th:field="*{silverLevel}"  th:errorclass="fieldError"></input>
-                        <p th:if="${#fields.hasErrors('silverLevel')}" style="color: red !important;">
-                            <span th:errors="*{silverLevel}"></span>
-                        </p>
-                    </div>
+				</div>
+			</div>
+		</div>
 
-                    <div>
-                        <label>Códigos Descuentos:</label>
-                        <input type="text" th:field="*{discountCodes}"  th:errorclass="fieldError" placeholder="Separe los códigos de descuentos por coma (,)"></input>
-                        <p th:if="${#fields.hasErrors('discountCodes')}" style="color: red !important;">
-                            <span th:errors="*{discountCodes}"></span>
-                        </p>
-                    </div>
-                    
-                    <div class="col-md-12 form-group" data-for="name" th:if="${messageCode != ''}">
-		                <p th:text="${messageCode}"></p>
-		            </div>
-                        
-                    <div>
-                        <button name="save" type="submit">Guardar</button>   
-                    </div>
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="media-container-column col-lg-8"
+					data-form-type="formoid">
 
-                    <div>
-                        <a th:href="@{'/administrator/customisation/display'}" class="btn btn-secondary-outline display-4">Volver</a>
-                    </div>
-    
-			    </form>
-         
-            </div>
-        </div>
-    </div>
+					<form th:action="@{/administrator/customisation/edit}" id="myForm"
+						th:object="${customisation}" method="post"
+						class="mbr-form form-with-styler" data-form-title=" Form">
 
-</div>
+						<div class="dragArea row">
+
+							<div class="col-md-4  form-group" data-for="name">
+								<label>Correo electrónico:</label> <input type="text"
+									th:field="*{email}" th:errorclass="fieldError"></input>
+								<p th:if="${#fields.hasErrors('email')}"
+									style="color: red !important;">
+									<span th:errors="*{email}"></span>
+								</p>
+							</div>
+
+							<div class="col-md-4  form-group" data-for="name">
+								<label>Nivel Oro:</label> <input type="text"
+									th:field="*{goldLevel}" th:errorclass="fieldError"></input>
+								<p th:if="${#fields.hasErrors('goldLevel')}"
+									style="color: red !important;">
+									<span th:errors="*{goldLevel}"></span>
+								</p>
+							</div>
+
+							<div class="col-md-4  form-group" data-for="name">
+								<label>Nivel Plata:</label> <input type="text"
+									th:field="*{silverLevel}" th:errorclass="fieldError"></input>
+								<p th:if="${#fields.hasErrors('silverLevel')}"
+									style="color: red !important;">
+									<span th:errors="*{silverLevel}"></span>
+								</p>
+							</div>
+
+							<div data-for="message" class="col-md-12 form-group">
+								<label>Códigos Descuentos:</label> <input type="text"
+									th:field="*{discountCodes}" th:errorclass="fieldError"
+									placeholder="Separe los códigos de descuentos por coma (,)"></input>
+								<p th:if="${#fields.hasErrors('discountCodes')}"
+									style="color: red !important;">
+									<span th:errors="*{discountCodes}"></span>
+								</p>
+							</div>
+
+							<div class="col-md-12 form-group" data-for="name"
+								th:if="${messageCode != ''}">
+								<p th:text="${messageCode}"></p>
+							</div>
+
+							<div data-for="message" class="col-md-12 form-group">
+								<div class="col-md-12 input-group-btn align-center">
+									<button name="save" type="submit"
+										class="btn btn-form btn-secondary display-4">Guardar
+									</button>
+
+
+									<a th:href="@{'/administrator/customisation/display'}"
+										class="btn btn-warning-outline display-4"> Volver </a>
+								</div>
+							</div>
+						</div>
+
+					</form>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	</div>
 </body>
 </html>
