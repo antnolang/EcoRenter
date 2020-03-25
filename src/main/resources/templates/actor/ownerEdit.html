@@ -26,8 +26,8 @@
 				<div class="media-container-column col-lg-8"
 					data-form-type="formoid">
 
-					<form th:action="@{/actor/owner/edit}" id="myForm"
-						th:object="${ownerForm}" method="post"
+					<form th:action="@{/actor/authenticated/edit}" id="myForm"
+						th:object="${objectForm}" method="post"
 						class="mbr-form form-with-styler" data-form-title=" Form" novalidate="novalidate">
 						
 						<input type="hidden" th:field="*{id}" />
@@ -141,7 +141,7 @@
 								</p>
 							</div>
 
-							<div class="col-md-12  form-group" data-for="iban">
+							<div sec:authorize="hasAnyAuthority('OWNER','RENTER')" class="col-md-12  form-group" data-for="iban">
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
 									style="color: #2a3d2e !important;">Iban</label>
@@ -157,14 +157,14 @@
 							</div>
 
 							
-							<div class="col-md-12 form-group" data-for="iban"
+							<div sec:authorize="hasAnyAuthority('OWNER','RENTER')" class="col-md-12 form-group" data-for="iban"
 								th:if="${noValidIban != ''}">
 								<p th:text="${noValidIban}" style="color: red !important;"></p>
 							</div>
 							
 							<div data-for="message" class="col-md-12 form-group">
 								<div class="col-md-12 input-group-btn align-center">
-									<input name="save" value="Edit"
+									<input th:name="${buttonName}" value="Edit"
 										type="submit" class="btn btn-form btn-secondary display-4" />
 
 									<a th:href="@{/actor/authenticated/display}" class="btn btn-warning-outline display-4">

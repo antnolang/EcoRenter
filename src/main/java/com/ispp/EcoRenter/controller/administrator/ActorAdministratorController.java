@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ispp.EcoRenter.form.AdminForm;
 import com.ispp.EcoRenter.model.Actor;
 import com.ispp.EcoRenter.service.ActorService;
 
@@ -63,6 +64,28 @@ public class ActorAdministratorController {
 			log.info("Algo salio mal al banear un actor.");
 		}
 
+		return result;
+	}
+	
+	// Metodos auxiliares ---------------------------------------------------
+	public ModelAndView createEditModelAndView(AdminForm adminForm) {
+		ModelAndView result;
+		
+		result = new ModelAndView("/actor/ownerEdit");
+		result.addObject("objectForm", adminForm);
+		result.addObject("buttonName", "saveAdmin");
+		
+		return result;
+	}
+	
+	public ModelAndView createEditModelAndView(AdminForm adminForm, String messageName, String messageValue) {
+		ModelAndView result;
+		
+		result = new ModelAndView("actor/ownerEdit");
+		result.addObject("objectForm", adminForm);
+		result.addObject(messageName, messageValue);
+		result.addObject("buttonName", "saveAdmin");
+	
 		return result;
 	}
 	

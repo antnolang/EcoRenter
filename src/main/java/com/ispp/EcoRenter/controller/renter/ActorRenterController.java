@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ispp.EcoRenter.form.RenterForm;
 import com.ispp.EcoRenter.model.Actor;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.register.RenterRegister;
@@ -114,5 +115,27 @@ public class ActorRenterController {
 
 	}
 
+	// Metodos auxiliares ---------------------------------------------------
+	public ModelAndView createEditModelAndView(RenterForm renterForm) {
+		ModelAndView result;
+		
+		result = new ModelAndView("/actor/ownerEdit");
+		result.addObject("objectForm", renterForm);
+		result.addObject("buttonName", "saveRenter");
+		
+		return result;
+	}
+	
+	public ModelAndView createEditModelAndView(Object objectForm, String messageName, String messageValue) {
+		ModelAndView result;
+		
+		result = new ModelAndView("actor/ownerEdit");
+		result.addObject("objectForm", objectForm);
+		result.addObject(messageName, messageValue);
+		result.addObject("buttonName", "saveRenter");
+		
+		return result;
+	}
+	
 
 }

@@ -152,7 +152,7 @@ public class ActorService {
     		result += authority  + " ";
     	}
     	 	
-    	return result;
+    	return result.trim();
     }
     
     private Actor findByUsername(String username) {
