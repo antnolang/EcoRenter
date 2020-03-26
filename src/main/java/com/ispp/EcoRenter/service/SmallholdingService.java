@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
@@ -17,9 +18,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ispp.EcoRenter.model.Actor;
 import com.ispp.EcoRenter.model.Owner;
+import com.ispp.EcoRenter.model.Photo;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.model.Smallholding;
 import com.ispp.EcoRenter.repository.SmallholdingRepository;
@@ -43,6 +46,9 @@ public class SmallholdingService {
 
     @Autowired
     private Validator validator;
+
+    @Autowired
+    private PhotoService photoService;
     
     // Constructor
 
@@ -67,6 +73,25 @@ public class SmallholdingService {
         result.setPhotos(Collections.emptySet());
 
         return result;
+    }
+
+    public Smallholding save(Smallholding smallholding, List<MultipartFile> file){
+        Assert.notNull(smallholding, "La parcela debe existir");
+        Assert.isTrue(smallholding.getOwner().equals(
+            this.ownerService.findByPrincipal()), "El propietario de la parcela no corresponde con el usuario autenticado");
+        Assert.isTrue(!smallholding.getOwner().getIban().isEmpty(), "El propietario debe tener un IBAN asociado");
+        Assert.isTrue(smallholding.getStatus().equals("NO ALQUILADA"), "No se puede editar una parcela ya alquilada");
+
+        Smallholding result;
+        Collection<Photo> photos;
+
+        photos = (file.size() != 0 && !file.get(0).getOriginalFilename().equals("")) ? this.photoService.storeImages(file) : smallholding.getPhotos();
+        smallholding.setPhotos(photos);
+
+        result = this.smallholdingRepository.save(smallholding);
+
+        return result;
+
     }
 
     public Smallholding save(Smallholding smallholding){
@@ -234,7 +259,7 @@ public class SmallholdingService {
         result.setImages(smallholding.getImages().trim());
         result.setPhotos(smallholding.getPhotos());
 
-		this.validator.validate(result, binding);
+        this.validator.validate(result, binding);
 
 		return result;
 	}

@@ -52,6 +52,10 @@
 							type="hidden" th:field="*{id}" th:value="${smallholding.id}" /> <input
 							type="hidden" th:field="*{version}"
 							th:value="${smallholding.version}" />
+						<input
+						type="hidden" th:field="*{status}" th:value="${smallholding.status}" />
+						<input
+						type="hidden" th:field="*{owner}" th:value="${smallholding.owner}" />
 
 						<div class="dragArea row">
 
@@ -216,6 +220,10 @@
 							<div class="col-md-12  form-group" data-for="name">
 								<input type="file" id="file" name="file" accept="image/*"
 									multiple="multiple" required />
+								<p th:if="${#fields.hasErrors('photos')}"
+								style="color: red !important;">
+								<span th:errors="*{photos}"></span>
+								</p>
 
 							</div>
 
