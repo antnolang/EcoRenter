@@ -1,26 +1,23 @@
-package com.ispp.EcoRenter.register;
+package com.ispp.EcoRenter.form;
 
 import javax.persistence.Column;
-import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.URL;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ispp.EcoRenter.model.DomainEntity;
 
-public class ActorRegister extends DomainEntity{
-
-	//Attributes
-
+public abstract class ActorForm extends DomainEntity {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
+	// Atributos -----------------------------------
 	@NotBlank
 	@Pattern(regexp = "^[^0-9]+$")
 	private String name;
@@ -29,8 +26,6 @@ public class ActorRegister extends DomainEntity{
 	@Pattern(regexp = "^[^0-9]+$")
 	private String surname;
 
-	@Transient
-	private String fullname;
 
 	@NotBlank
 	@Column(unique = true)
@@ -40,46 +35,44 @@ public class ActorRegister extends DomainEntity{
 	@NotBlank
 	private String telephoneNumber;
 
-	@URL
-	private String image;
-
 	@NotBlank
 	@Size(min = 5, max = 35)
 	@Column(unique = true)
 	private String username;
 
-
 	@NotBlank
 	@Size(min = 5, max = 35)
 	private String password;
-
 
 	@NotBlank
 	@Size(min = 5, max = 35)
 	private String passwordMatch;
 
 	
-	public ActorRegister() {
+	private MultipartFile file;
+	
+
+	// Constructores --------------------------
+	public ActorForm() {
 		super();
 	}
-	
-	public ActorRegister(String name, String surname, String email,
-			             String telephoneNumber, String username) {
+
+
+	public ActorForm(String name, String surname, String email,
+					 String telephoneNumber, String username) {
 		super();
 		
 		this.name = name;
 		this.surname = surname;
 		this.email = email;
 		this.telephoneNumber = telephoneNumber;
-		this.image = "";
 		this.username = username;
 		this.password = "";
 		this.passwordMatch = "";
+		this.file = null;
 	}
 
-
-	//Getters and setters
-
+	// Getters and setters ----------------------
 	public String getName() {
 		return name;
 	}
@@ -100,17 +93,6 @@ public class ActorRegister extends DomainEntity{
 	}
 
 
-	public String getFullname() {
-		this.fullname = this.name + " " + this.surname;
-		
-		return this.fullname;
-	}
-
-	public void setFullname(String fullname) {
-		this.fullname = fullname;
-	}
-
-
 	public String getEmail() {
 		return email;
 	}
@@ -128,16 +110,6 @@ public class ActorRegister extends DomainEntity{
 
 	public void setTelephoneNumber(String telephoneNumber) {
 		this.telephoneNumber = telephoneNumber;
-	}
-
-
-	public String getImage() {
-		return image;
-	}
-
-
-	public void setImage(String image) {
-		this.image = image;
 	}
 
 
@@ -169,8 +141,22 @@ public class ActorRegister extends DomainEntity{
 	public void setPasswordMatch(String passwordMatch) {
 		this.passwordMatch = passwordMatch;
 	}
+	
+	
+	public MultipartFile getFile() {
+		return file;
+	}
 
 
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
 
 
+	@Override
+	public String toString() {
+		return "ActorForm [email=" + email + ", username=" + username + "]";
+	}
+	
+	
 }

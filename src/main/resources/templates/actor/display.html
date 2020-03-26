@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html
 	th:replace="~{master-page/layout :: layout(~{::title}, ~{::div.content})}">
 <head>
@@ -45,8 +46,8 @@ body {
 </style>
 		<div class="row">
 			<div class="col-md-12">
-				<div th:if="${actor.image != null && actor.image != ''}">
-					<img th:src="${actor.image}" alt="Imagen de perfil"
+				<div th:if="${photo != null}">
+					<img th:src="@{'data:' + ${photo.suffix} + ';base64, ' + ${imageData}}" th:alt="${photo.name}"
 						class="center avatar" />
 				</div>
 			</div>
@@ -91,7 +92,6 @@ body {
 								th:text="${actor.userAccount.username}"></span>
 						</p>
 
-
 					</div>
 				</div>
 
@@ -99,8 +99,7 @@ body {
 			</div>
 			<div class="col-md-6 text-center">
 				<div class=" aside-content"
-					sec:authorize="hasAnyAuthority('RENTER','OWNER')"
-					th:if="${isMyProfile && smallholdings.size() > 0}">
+					sec:authorize="hasAuthority('RENTER')" th:if="${isMyProfile && smallholdings.size() > 0}">
 					<h1>Códigos de descuentos</h1>
 
 					<p
@@ -136,7 +135,7 @@ body {
 			<div class="col-md-6 text-center">
 				<!--Btn-->
 				<div th:if="${isMyProfile}" class="text-center mbr-section-btn pt-3">
-					<a href="" class="btn btn-secondary-outline display-4">Editar
+					<a th:href="@{/actor/authenticated/edit}"class="btn btn-secondary-outline display-4">Editar
 						perfil</a>
 				</div>
 
@@ -161,6 +160,7 @@ body {
 				</div>
 
 			</div>
+			
 
 		</div>
 

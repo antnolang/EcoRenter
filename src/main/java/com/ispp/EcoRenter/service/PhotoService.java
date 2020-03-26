@@ -126,19 +126,23 @@ public class PhotoService {
 		String fileName, contentType;
 		byte[] bytes;
 		
+		result = null;
+		
 		fileName = StringUtils.cleanPath(file.getOriginalFilename());
 		contentType = file.getContentType();
 		
-		Assert.isTrue(contentType.startsWith("image/"), "No es una imagen");
-		
-		try {
-			bytes = file.getBytes();
-
-			result = new Photo(fileName, contentType, bytes);
-		} catch (Throwable oops) {
-			result = null;
+		if (StringUtils.hasText(fileName) && !contentType.equals("application/octet-stream")) {
+			Assert.isTrue(contentType.startsWith("image/"), "No es una imagen");
 			
-			log.info("PhotoService::getPhotoByFile -> No se pudo recuperar la foto");
+			try {
+				bytes = file.getBytes();
+
+				result = new Photo(fileName, contentType, bytes);
+			} catch (Throwable oops) {
+				result = null;
+				
+				log.info("PhotoService::getPhotoByFile -> No se pudo recuperar la foto");
+			}
 		}
 		
 		return result;

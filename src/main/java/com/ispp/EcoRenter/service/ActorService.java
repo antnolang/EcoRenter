@@ -108,15 +108,23 @@ public class ActorService {
     public Actor findByPrincipal(){
 		Actor result;
     	UserDetails userAccount;
-        Authentication authentication;
 
-        authentication = SecurityContextHolder.getContext().getAuthentication();
-        userAccount = (UserDetails) authentication.getPrincipal();
+        userAccount = this.findUserDetailsByPrincipal();
         
         result = this.findByUsername(userAccount.getUsername());
 		Assert.notNull(result,"El actor no existe");
 		
 		return result;
+    }
+    
+    public UserDetails findUserDetailsByPrincipal() {
+    	UserDetails userAccount;
+        Authentication authentication;
+
+        authentication = SecurityContextHolder.getContext().getAuthentication();
+        userAccount = (UserDetails) authentication.getPrincipal();
+        
+        return userAccount;
     }
     
     public boolean isASpecificRole(Actor actor, String role) {
@@ -135,7 +143,7 @@ public class ActorService {
     	String result;
     	
     	result = (iban != null && iban != "" && !iban.isEmpty())
-    			? iban.substring(0, 4) + " **** **** **** **** " + iban.subSequence(19, 23)
+    			? iban.substring(0, 4) + " **** **** **** **** " + iban.subSequence(20, 24)
     			: "";
     	
     	return result;
@@ -144,14 +152,17 @@ public class ActorService {
     public String getRole(Actor actor) {
     	String result;
     	List<Authority> authorities;
+    	String authority;
     	
     	authorities = new ArrayList<Authority>(actor.getUserAccount().getAuthorities());
     	result = "";
     	for (Authority a: authorities) {
-    		result += a.getAuthority() + " ";
+    		authority = a.getAuthority();
+    		
+    		result += authority  + " ";
     	}
     	 	
-    	return result;
+    	return result.trim();
     }
     
     private Actor findByUsername(String username) {
