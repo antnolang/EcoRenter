@@ -192,18 +192,7 @@
 									<span th:errors="*{maxDuration}"></span>
 								</p>
 							</div>
-							<div class="col-md-4  form-group" data-for="name">
-								 <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Imágenes</label>
-								<input type="text" th:field="*{images}"
-									placeholder="urls separadas por comas"
-									value="BORRAELDIVESTEALVARO" th:errorclass="fieldError"
-									data-form-field="Name" required="required"
-									class="form-control display-7">
-								<p th:if="${#fields.hasErrors('images')}"
-									style="color: red !important;">
-									<span th:errors="*{images}"></span>
-								</p>
-							</div>
+						
 							<!--  <div class="col-md-4  form-group" data-for="name">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Seleccionar imágenes</label>
                             <input type="file" id="file" name="file" accept="image/*" multiple="multiple" />

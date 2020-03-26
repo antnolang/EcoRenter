@@ -12,8 +12,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.URL;
-
 import com.ispp.EcoRenter.security.UserAccount;
  
 @Entity
@@ -42,9 +40,6 @@ public abstract class Actor extends DomainEntity {
 	
 	@NotBlank
 	private String telephoneNumber;
-
-	@URL
-	private String image;
 	
 	// Constructors ------------------------------------
 	
@@ -94,14 +89,6 @@ public abstract class Actor extends DomainEntity {
 
 	public void setTelephoneNumber(String telephoneNumber) {
 		this.telephoneNumber = telephoneNumber;
-	}
-	
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
 	}
 	
 	

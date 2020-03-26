@@ -34,10 +34,10 @@ COPY public.user_account (id, version, is_banned, password, username) FROM stdin
 -- Data for Name: administrator; Type: TABLE DATA; Schema: public; Owner: spring_dev
 --
 
-COPY public.administrator (id, version, email, image, name, surname, telephone_number, photo_id, user_account_id) FROM stdin;
-100	0	admin1@gmail.com	https://estaticos.muyinteresante.es/media/cache/400x300_thumb/uploads/images/dossier/5e6b9e535cafe8decee46032/fe-lix-rodri-guez-de-la-fuente.jpg	Name cero	Surname cero	+34 694567234	\N	32
-101	0	admin2@gmail.com		Name uno	Surname uno	+34 694567235	\N	33
-102	0	admin3@gmail.com		Name dos	Surname dos	+34 694567236	\N	34
+COPY public.administrator (id, version, email, name, surname, telephone_number, photo_id, user_account_id) FROM stdin;
+100	0	admin1@gmail.com	Miguel	Hurtado Gómez	+34 694567234	\N	32
+101	0	admin2@gmail.com	Sofía	Rodríguez Matos	+34 694567235	\N	33
+102	0	admin3@gmail.com	Soraya	Corona Perez	+34 694567236	\N	34
 \.
 
 
@@ -45,7 +45,7 @@ COPY public.administrator (id, version, email, image, name, surname, telephone_n
 -- Data for Name: owner; Type: TABLE DATA; Schema: public; Owner: spring_dev
 --
 
-COPY public.owner (id, version, email, image, name, surname, telephone_number, photo_id, user_account_id, accumulated_months, iban) FROM stdin;
+COPY public.owner (id, version, email, name, surname, telephone_number, photo_id, user_account_id, accumulated_months, iban) FROM stdin;
 \.
 
 
@@ -53,7 +53,7 @@ COPY public.owner (id, version, email, image, name, surname, telephone_number, p
 -- Data for Name: renter; Type: TABLE DATA; Schema: public; Owner: spring_dev
 --
 
-COPY public.renter (id, version, email, image, name, surname, telephone_number, photo_id, user_account_id, iban) FROM stdin;
+COPY public.renter (id, version, email, name, surname, telephone_number, photo_id, user_account_id, iban) FROM stdin;
 \.
 
 
@@ -61,7 +61,7 @@ COPY public.renter (id, version, email, image, name, surname, telephone_number, 
 -- Data for Name: smallholding; Type: TABLE DATA; Schema: public; Owner: spring_dev
 --
 
-COPY public.smallholding (id, version, address, description, farming_type, images, is_argumented, is_available, latitude, locality, longitude, max_duration, postal_code, price, province, size, status, title, owner_id) FROM stdin;
+COPY public.smallholding (id, version, address, description, farming_type, is_argumented, is_available, latitude, locality, longitude, max_duration, postal_code, price, province, size, status, title, owner_id) FROM stdin;
 \.
 
 

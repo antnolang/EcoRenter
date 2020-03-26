@@ -70,7 +70,6 @@ public class SmallholdingServiceTest {
         smallholding.setLatitude("80");
         smallholding.setLongitude("100");
         smallholding.setMaxDuration(3);
-        smallholding.setImages("https://media.game.es/COVERV2/3D_L/147/147191.png");
         photos.add(this.photoService.findOne(1));
         smallholding.setPhotos(photos);
 
@@ -106,7 +105,6 @@ public class SmallholdingServiceTest {
         smallholding.setLatitude("80");
         smallholding.setLongitude("100");
         smallholding.setMaxDuration(3);
-        smallholding.setImages("https://media.game.es/COVERV2/3D_L/147/147191.png");
         photos.add(this.photoService.findOne(1));
         smallholding.setPhotos(photos);
 
