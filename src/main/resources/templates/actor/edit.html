@@ -23,7 +23,7 @@
 		</div>
 		<div class="container">
 			<div class="row justify-content-center">
-				<div class="media-container-column col-lg-8"
+				<div class="media-container-column col-lg-6"
 					data-form-type="formoid">
 
 					<form th:action="@{/actor/authenticated/edit}" id="myForm"
@@ -34,7 +34,7 @@
 
 						<div class="dragArea row">
 
-							<div class="col-md-12  form-group" data-for="name">
+							<div class="col-md-5  form-group" data-for="name">
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
 									style="color: #2a3d2e !important;">Nombre</label>
@@ -47,7 +47,7 @@
 								</p>
 							</div>
 
-							<div class="col-md-12  form-group" data-for="surname">
+							<div class="col-md-7  form-group" data-for="surname">
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
 									style="color: #2a3d2e !important;">Apellidos</label>
@@ -57,6 +57,20 @@
 								<p th:if="${#fields.hasErrors('surname')}"
 									style="color: red !important;">
 									<span th:errors="*{surname}"></span>
+								</p>
+							</div>
+							
+							<div class="col-md-12  form-group" data-for="telephoneNumber">
+								<label for="name-form1-17"
+									class="form-control-label mbr-fonts-style display-7"
+									style="color: #2a3d2e !important;">Número de teléfono</label>
+								<input type="text" th:field="*{telephoneNumber}"
+									th:errorclass="fieldError" data-form-field="telephoneNumber"
+									placeholder="+34 690752345"
+									required="required" class="form-control display-7" />
+								<p th:if="${#fields.hasErrors('telephoneNumber')}"
+									style="color: red !important;">
+									<span th:errors="*{telephoneNumber}"></span>
 								</p>
 							</div>
 
@@ -73,22 +87,6 @@
 									<span th:errors="*{email}"></span>
 								</p>
 							</div>
-
-							<div class="col-md-12  form-group" data-for="telephoneNumber">
-								<label for="name-form1-17"
-									class="form-control-label mbr-fonts-style display-7"
-									style="color: #2a3d2e !important;">Número de teléfono</label>
-								<input type="text" th:field="*{telephoneNumber}"
-									th:errorclass="fieldError" data-form-field="telephoneNumber"
-									placeholder="+34 690752345"
-									required="required" class="form-control display-7" />
-								<p th:if="${#fields.hasErrors('telephoneNumber')}"
-									style="color: red !important;">
-									<span th:errors="*{telephoneNumber}"></span>
-								</p>
-							</div>
-
-
 
 							<div class="col-md-12  form-group" data-for="username">
 								<label for="name-form1-17"
@@ -182,14 +180,18 @@
 								<p th:text="${noValidIban}" style="color: red !important;"></p>
 							</div>
 							
-							<div data-for="message" class="col-md-12 form-group">
-								<div class="col-md-12 input-group-btn align-center">
-									<input th:name="${buttonName}" value="Edit"
-										type="submit" class="btn btn-form btn-secondary display-4" />
-
-									<a th:href="@{/actor/authenticated/display}" class="btn btn-warning-outline display-4">
+															
+								<div class="col-md-6 input-group-btn align-center">
+					<button name="save" type="submit" class="btn btn-form btn-secondary display-4">
+        						Guardar
+                       		</button>
+					</div>
+					
+								<div class="col-md-6 pb-5 input-group-btn align-center">
+									<a th:href="@{/actor/authenticated/display}" class="col-md-12 btn btn-warning-outline display-4">
 										Volver </a>
 								</div>
+								
 
 
 							</div>
