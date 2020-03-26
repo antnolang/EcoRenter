@@ -231,7 +231,6 @@ public class SmallholdingService {
         result.setLatitude(smallholding.getLatitude().trim());
         result.setLongitude(smallholding.getLongitude().trim());
         result.setMaxDuration(smallholding.getMaxDuration());
-        result.setImages(smallholding.getImages().trim());
         result.setPhotos(smallholding.getPhotos());
 
 		this.validator.validate(result, binding);

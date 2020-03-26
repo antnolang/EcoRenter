@@ -203,7 +203,7 @@ public class ActorAuthenticatedController {
 			try {
 				this.administratorService.edit(adminForm);
 				
-				result = new ModelAndView("redirect:/actor/authenticated/display");
+				result = new ModelAndView("redirect:/logout");
 			} catch (Throwable oops) {
 				String message = oops.getMessage();
 	

@@ -3,6 +3,7 @@ package com.ispp.EcoRenter.service;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -47,10 +48,12 @@ public class AdministratorService {
 	public Administrator edit(AdminForm adminForm) {
 		String name, surname, email, telephoneNumber, username, password;
 		String passwordMatch, encodedPassword, usernameDB;
+		UsernamePasswordAuthenticationToken usernameToken;
 		Administrator result;
 		UserAccount userAccount;
 		Photo photo;
 		MultipartFile file;
+		UserDetails userDetails;
 		
 		result = this.findByPrincipal();
 		
@@ -95,8 +98,12 @@ public class AdministratorService {
 		result.setTelephoneNumber(telephoneNumber.trim());
 		
 		this.save(result);
+				
+		userDetails = this.myUserDetailsService.loadUserByUsername(username.trim());
 		
-		//this.myUserDetailsService.loadUserByUsername(username.trim());
+		usernameToken = new UsernamePasswordAuthenticationToken(userDetails, null, userAccount.getAuthorities());
+		
+		SecurityContextHolder.getContext().setAuthentication(usernameToken);
 		
 		return result;
 	}

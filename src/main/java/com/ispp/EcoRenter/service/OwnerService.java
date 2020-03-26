@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +16,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ispp.EcoRenter.configuration.MyUserDetailsService;
 import com.ispp.EcoRenter.form.OwnerForm;
 import com.ispp.EcoRenter.model.Owner;
 import com.ispp.EcoRenter.model.Photo;
@@ -44,6 +46,9 @@ public class OwnerService {
 	@Autowired
 	private PhotoService photoService;
 
+	@Autowired
+	private MyUserDetailsService myUserDetailsService;
+	
 	// Supporting services
 
 	// Constructor
@@ -113,10 +118,12 @@ public class OwnerService {
 
 	public Owner edit(OwnerForm ownerForm) {
 		String name, surname, email, telephoneNumber, username, password, passwordMatch, iban, encodedPassword, usernameDB;
+		UsernamePasswordAuthenticationToken usernameToken;
 		MultipartFile file;
 		Photo photo;
 		Owner result;
 		UserAccount userAccount;
+		UserDetails userDetails;
 		
 		result = this.findByPrincipal();
 		
@@ -171,6 +178,11 @@ public class OwnerService {
 		
 		this.save(result);
 		
+		userDetails = this.myUserDetailsService.loadUserByUsername(username.trim());
+		
+		usernameToken = new UsernamePasswordAuthenticationToken(userDetails, null, userAccount.getAuthorities());
+		
+		SecurityContextHolder.getContext().setAuthentication(usernameToken);
 		
 		return result;
 	}
@@ -191,7 +203,6 @@ public class OwnerService {
 		String surname = ownerRegister.getSurname();
 		String email = ownerRegister.getEmail();
 		String telephone = ownerRegister.getTelephoneNumber();
-		String image = ownerRegister.getImage();
 		String username = ownerRegister.getUsername();
 		String password = ownerRegister.getPassword();
 		String iban = ownerRegister.getIban();
@@ -206,7 +217,6 @@ public class OwnerService {
 		result.setSurname(surname);
 		result.setEmail(email);
 		result.setTelephoneNumber(telephone);
-		result.setImage(image);
 		result.setIban(iban);
 		result.setAccumulatedMonths(months);
 
@@ -217,7 +227,6 @@ public class OwnerService {
 		//Persistimos el resultado
 
 		this.save(result);
-
 
 		return result;
 
