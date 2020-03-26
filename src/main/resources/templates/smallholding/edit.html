@@ -17,7 +17,38 @@
 			th:href="@{/resources/upload-image/css/imageuploadify.min.css}">
 
 
+					<script type="text/javascript">
+            $(document).ready(function() {
+                
+              
+                $(".btn btn-danger").click(function() {
+                	var existeFoto =$(".imageuploadify-details").first();
+                    if(!existeFoto || existeFoto == null ){
+                    	
+                    }else{
+                    	
+                    	$("#fileid").prop('required',true);
+                    	
+                    }	
+                	
+                });
+                
+                function envioForm(){
+                	
+                    var existeFoto =$(".imageuploadify-details").first();
+                    if(!existeFoto || existeFoto == null ){
+                    	
+                    }else{
+                    	
+                    	$("#myForm").submit();
+                    	
+                    }	
+                	
+                }
 
+                
+            });
+        </script>
 
 		<br> <br> <br> <br>
 		<div class="container">
@@ -63,9 +94,9 @@
 								<label for="email-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
 									style="color: #2a3d2e !important;">Dirección</label> <input
-									type="text" id="txtAddress1" data-geocomplete="street address"
+									type="text" id="txtAddress1" data-geocomplete="street address" 
 									placeholder="Escribe una dirección" th:field="*{address}"
-									th:errorclass="fieldError" data-form-field="Message"
+									th:errorclass="fieldError" data-form-field="Message" required="required"
 									class="form-control display-7"></input>
 								<p th:if="${#fields.hasErrors('address')}"
 									style="color: red !important;">
@@ -76,7 +107,7 @@
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
 									style="color: #2a3d2e !important;">Título</label> <input
-									type="text" th:field="*{title}" th:errorclass="fieldError"
+									type="text" th:field="*{title}" th:errorclass="fieldError" 
 									data-form-field="Name" required="required"
 									class="form-control display-7">
 								<p th:if="${#fields.hasErrors('title')}"
@@ -89,7 +120,7 @@
 									class="form-control-label mbr-fonts-style display-7"
 									style="color: #2a3d2e !important;">m²</label> <input
 									type="number" th:field="*{size}" th:errorclass="fieldError"
-									data-form-field="Name" required="required"
+									data-form-field="Name" required="required"  min="1"
 									class="form-control display-7">
 								<p th:if="${#fields.hasErrors('size')}"
 									style="color: red !important;">
@@ -100,7 +131,7 @@
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
 									style="color: #2a3d2e !important;">Precio (al mes)</label> <input
-									type="number" th:field="*{price}" step="1"
+									type="number" th:field="*{price}"  min="1" step="1"
 									th:errorclass="fieldError" data-form-field="Name"
 									required="required" class="form-control display-7">
 								<p th:if="${#fields.hasErrors('price')}"
@@ -147,10 +178,10 @@
 							<div class="col-md-4  form-group" data-for="name">
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
-									style="color: #2a3d2e !important;">Código postal</label> <input
-									type="number" data-geocomplete="zip code"
+									style="color: #2a3d2e !important;">Código postal</label> <input 
+									type="number" data-geocomplete="zip code" required="required"  min="10000" max="60000"
 									th:field="*{postalCode}" th:errorclass="fieldError"
-									data-form-field="Name" required="required"
+									data-form-field="Name"  
 									class="form-control display-7">
 								<p th:if="${#fields.hasErrors('postalCode')}"
 									style="color: red !important;">
@@ -188,7 +219,7 @@
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
 									style="color: #2a3d2e !important;">Meses máximos en
-									alquiler</label> <input type="number" th:field="*{maxDuration}"
+									alquiler</label> <input type="number" th:field="*{maxDuration}"  min="1"
 									th:errorclass="fieldError" data-form-field="Name"
 									required="required" class="form-control display-7">
 								<p th:if="${#fields.hasErrors('maxDuration')}"
@@ -208,18 +239,10 @@
 									<span th:errors="*{images}"></span>
 								</p>
 							</div>
-							<!--  <div class="col-md-4  form-group" data-for="name">
-                            <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Seleccionar imágenes</label>
-                            <input type="file" id="file" name="file" accept="image/*" multiple="multiple" />
-                            <p>El tamaño máximo debe ser 5MB</p>
-                            <p th:if="${#fields.hasErrors('photos')}" style="color: red !important;">
-                                <span th:errors="*{photos}"></span>
-                            </p>
-                        </div>
-                        -->
+
 							<div class="col-md-12  form-group" data-for="name">
-								<input type="file" id="file" name="file" accept="image/*"
-									multiple="multiple" required />
+								<input type="file" id="fileid" name="file" accept="image/*"
+									multiple="multiple" required="required" />
 								<p th:if="${#fields.hasErrors('photos')}"
 								style="color: red !important;">
 								<span th:errors="*{photos}"></span>
@@ -245,13 +268,13 @@
 							</div>
 							<div data-for="message" class="col-md-12 form-group">
 								<div class="col-md-12 input-group-btn align-center">
-									<button name="save" type="submit"
+									<button name="save" id="Guarda" type="submit" 
 										class="btn btn-form btn-secondary display-4">Guardar
 									</button>
 
 
 									<a href="/owner/smallholding/listOwnSmallholdings"
-										class="btn btn-warning-outline display-4"> Volver </a>
+										class="btn btn-warning-outline display-4" onclick="envioForm()"> Volver </a>
 								</div>
 
 
@@ -268,8 +291,36 @@
                 $('input[type="file"]').imageuploadify();
                 
                 $("button.btn-default").text("Arrastra las fotos o súbelas clickando aquí");
-                $("span.imageuploadify-message").text("Debes añadir al menos una foto. El tamaño máximo debe ser de 5MB.");
-            })
+                $("span.imageuploadify-message").text("Debes añadir al menos una foto.");
+                
+              
+                $(".btn btn-danger").click(function() {
+                	var existeFoto =$(".imageuploadify-details").first();
+                    if(!existeFoto || existeFoto == null ){
+                    	
+                    }else{
+                    	
+                    	$("#fileid").prop('required',true);
+                    	
+                    }	
+                	
+                });
+                
+              /*  function envioForm(){
+                	
+                    var existeFoto =$(".imageuploadify-details").first();
+                    if(!existeFoto || existeFoto == null ){
+                    	
+                    }else{
+                    	
+                    	$("#myForm").submit();
+                    	
+                    }	
+                	
+                }*/
+
+                
+            });
         </script>
 
 					<style>
