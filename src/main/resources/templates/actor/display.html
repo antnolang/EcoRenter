@@ -1,130 +1,169 @@
 <!DOCTYPE html>
-	<html th:replace="~{master-page/layout :: layout(~{::title}, ~{::div.content})}">
-		<head>
-			<title>Mostrar actor</title>
-		</head>
-		<body>
-		
-			<div class="content">
-				<section class="services2 cid-rRNDCjx6s4" id="services2-q">
+<html
+	th:replace="~{master-page/layout :: layout(~{::title}, ~{::div.content})}">
+<head>
+<title>Mi perfil</title>
+</head>
+<body>
 
-					<div class="container">
-						<div class="col-md-12">
-							<div class="media-container-row">
-	
-								<div class="mbr-figure" style="width: 25%;">
-									<div th:if="${actor.image != null && actor.image != ''}" class="image profile">
-										<img  th:src="${actor.image}" alt="Imagen de perfil" />
-									</div>
-								</div>
-	
-								<div class="align-left aside-content">
-									<h3 class="mbr-title pt-2 mbr-fonts-style display-2">
-									<span> Datos personales</span></h3>
-	                            
-									<div class="mbr-section-text">
-										<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7"><strong>Nombre completo:</strong>
-											<span th:text="${actor.fullname}"></span></p>
-										<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7"><strong>Correo electrónico:</strong>
-											<span th:text="${actor.email}"></span></p>
-										<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7"><strong>Número de teléfono:</strong>
-											<span th:text="${actor.telephoneNumber}"></span></p>
-									
-										<p sec:authorize="hasAuthority('OWNER')">
-											<strong>Nivel:</strong>
-											<span th:text="${level}"> </span>
-										</p>
-									
-										<div th:if="${isMyProfile && iban != null && iban != ''}" class="info iban">
-											<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
-												<strong>IBAN:</strong>
-												<span th:text="${iban}"></span>
-											</p>
-										</div>
-									</div>
-							
-									<div th:if="${isMyProfile}"  class="align-left aside-content">
-										<h2 class="mbr-title pt-2 mbr-fonts-style display-2">
-											<span>Cuenta de usuario</span>
-										</h2>
-									
-										<div class="mbr-section-text">
-											<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7"><strong>Nombre de usuario:</strong>
-												<span th:text="${actor.userAccount.username}"></span></p>
-										
-											<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7"><strong>Rol del usuario:</strong>
-												<span th:text="${role}"></span></p>
-										</div>
-									</div>
-								
-									<!--
-									<div class="align-left aside-content" sec:authorize="hasAuthority('RENTER')" th:if="${isMyProfile && smallholdings.size() > 0}">
-										<h3 class="mbr-title pt-2 mbr-fonts-style display-2">
-										<span> Parcelas asociadas a mis alquileres activos </span></h3>
-										<table class="table table-striped">
-											<thead class="thead-dark">
-												<tr>
-													<th></th>
-													<th>Titulo</th>
-													<th>Descripción</th>
-													<th>Localidad</th>
-													<th>Provincia</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr th:each="sh : ${smallholdings}">
-													<td>
-														<a th:href="@{/smallholding/display(smallholdingId=${sh.id})}">Mostrar</a>
-													</td>
-													<td th:text="${sh.title}"></td>
-													<td th:text="${sh.description}"></td>
-													<td th:text="${sh.locality}"></td>
-													<td th:text="${sh.province}"></td>
-												</tr>
-											</tbody>
-										</table>
-									</div>	
-	                           		-->
-	                           		<div class="align-left aside-content" sec:authorize="hasAnyAuthority('RENTER','OWNER')" th:if="${isMyProfile && smallholdings.size() > 0}">
-										<h3 class="mbr-title pt-2 mbr-fonts-style display-2">
-										
-										<span> Códigos de descuentos </span></h3>
-	                          
-	                           			<p th:if="${isMyProfile && discountCodes != null && discountCodes != ''}">
-	                           				<strong> Códigos de descuento: </strong>
-	                           				<div th:each="desc : ${#strings.arraySplit(discountCodes, ',')}">
-												<li th:text="${desc}"></li>
-											</div>
-	                           			</p>
-	                           		</div>
-	                           	
-									<!--Btn-->
-									<div th:if="${isMyProfile}" class="mbr-section-btn pt-3 align-left">
-										<a href="" class="btn btn-secondary-outline display-4">Editar perfil</a>
-									</div>
-									
-									<div sec:authorize="hasAuthority('ADMIN')" th:if="${!isMyProfile && !actor.userAccount.isBanned}" class="mbr-section-btn pt-3 align-left">
-										<a th:href="@{/actor/administrator/ban(actorId=${actor.id})}" class="btn btn-secondary-outline display-4">
-											Banear actor
-										</a>
-									</div>
-									
-									<div sec:authorize="hasAuthority('ADMIN')" th:if="${!isMyProfile && actor.userAccount.isBanned}" class="mbr-section-btn pt-3 align-left">
-										<a th:href="@{/actor/administrator/unban(actorId=${actor.id})}" class="btn btn-secondary-outline display-4">
-											Desbanear actor
-										</a>
-									</div>
-									
-									<div class="mbr-section-btn pt-3 align-left">
-										<a class="btn btn-secondary-outline display-4" th:href="@{/}">
-										 	Volver atrás
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</section>
+	<div class="container content">
+		<br> <br> <br> <br>
+		<style>
+.center {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+}
+
+.avatar {
+	vertical-align: middle;
+	width: 200px;
+	height: 200px;
+	border-radius: 50%;
+	border-style: solid;
+	border-color: #54775E !important;
+}
+
+i {
+	color: #54775E;
+}
+
+h1 {
+	font-weight: bold;
+	text-align: center;
+	color: #54775E;
+}
+
+body {
+	color: #54775E;
+}
+
+.img-fluid {
+	height: 100px !important;
+}
+</style>
+		<div class="row">
+			<div class="col-md-12">
+				<div th:if="${actor.image != null && actor.image != ''}">
+					<img th:src="${actor.image}" alt="Imagen de perfil"
+						class="center avatar" />
+				</div>
 			</div>
-		</body>
+		</div>
+		<div class="row ">
+			<div class="col-md-6 text-center">
+
+				<h1>
+					Datos personales (<span th:text="${role}"></span>)
+				</h1>
+
+				<div class="mbr-section-text">
+					<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
+						<i class="fa fa-user-circle" aria-hidden="true"></i> <span
+							th:text="${actor.fullname}"></span>
+					</p>
+					<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
+						<i class="fa fa-envelope" aria-hidden="true"></i> <span
+							th:text="${actor.email}"></span>
+					</p>
+					<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
+
+						<i class="fa fa-mobile" aria-hidden="true"></i> <span
+							th:text="${actor.telephoneNumber}"></span>
+					</p>
+
+
+					<div th:if="${isMyProfile && iban != null && iban != ''}"
+						class="info iban">
+						<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
+							<i class="fa fa-university" aria-hidden="true"></i> <span
+								th:text="${iban}"></span>
+						</p>
+					</div>
+				</div>
+
+				<div th:if="${isMyProfile}" class="aside-content">
+
+					<div class="mbr-section-text">
+						<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
+							<i class="fa fa-user-secret" aria-hidden="true"></i> <span
+								th:text="${actor.userAccount.username}"></span>
+						</p>
+
+
+					</div>
+				</div>
+
+
+			</div>
+			<div class="col-md-6 text-center">
+				<div class=" aside-content"
+					sec:authorize="hasAnyAuthority('RENTER','OWNER')"
+					th:if="${isMyProfile && smallholdings.size() > 0}">
+					<h1>Códigos de descuentos</h1>
+
+					<p
+						th:if="${isMyProfile && discountCodes != null && discountCodes != ''}">
+					<div th:each="desc : ${#strings.arraySplit(discountCodes, ',')}">
+
+						<i class="fa fa-money-bill" aria-hidden="true"> </i> <span
+							th:text="${desc}"></span>
+
+					</div>
+					</p>
+				</div>
+				<div class=" aside-content" sec:authorize="hasAuthority('OWNER')">
+					<p><strong>Nivel alcanzado:</strong></p>
+					<p th:if="${level == 'Plata'}">
+						<img th:src="@{/resources/images-levels/plata.jpg}"
+							class="img-fluid" alt="Nivel plata" title="Nivel plata">
+					</p>
+					<p th:if="${level == 'Oro'}">
+						<img th:src="@{/resources/images-levels/oro.jpg}"
+							class="img-fluid" alt="Nivel Oro" title="Nivel Oro">
+					</p>
+					<p th:if="${level == 'Bronce'}">
+						<img th:src="@{/resources/images-levels/bronce.jpg}"
+							class="img-fluid" alt="Nivel Bronce" title="Nivel Bronce">
+					</p>
+
+				</div>
+			</div>
+
+		</div>
+		<div class="row">
+			<div class="col-md-6 text-center">
+				<!--Btn-->
+				<div th:if="${isMyProfile}" class="text-center mbr-section-btn pt-3">
+					<a href="" class="btn btn-secondary-outline display-4">Editar
+						perfil</a>
+				</div>
+
+				<div sec:authorize="hasAuthority('ADMIN')"
+					th:if="${!isMyProfile && !actor.userAccount.isBanned}"
+					class="text-center mbr-section-btn pt-3 ">
+					<a th:href="@{/actor/administrator/ban(actorId=${actor.id})}"
+						class=" btn btn-secondary-outline display-4"> Banear actor </a>
+				</div>
+			</div>
+			<div class="col-md-6 text-center">
+				<div sec:authorize="hasAuthority('ADMIN')"
+					th:if="${!isMyProfile && actor.userAccount.isBanned}"
+					class="text-center mbr-section-btn pt-3 ">
+					<a th:href="@{/actor/administrator/unban(actorId=${actor.id})}"
+						class="btn btn-secondary-outline display-4"> Desbanear actor </a>
+				</div>
+
+				<div class="mbr-section-btn pt-3 ">
+					<a class="btn btn-secondary-outline display-4" th:href="@{/}">
+						Volver atrás </a>
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+</body>
 </html>
