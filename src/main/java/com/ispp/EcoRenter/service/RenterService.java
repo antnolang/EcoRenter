@@ -133,18 +133,21 @@ public class RenterService {
 		
 		userAccount = result.getUserAccount();
 		// Las contraseñas deben coincidir.
-		Assert.isTrue(this.actorService.checkPassword(password, passwordMatch), "Las contraseñas no coinciden.");
+		Assert.isTrue(this.actorService.checkPassword(password, passwordMatch),
+				      "Las contraseñas no coinciden.");
     	
 		usernameDB = result.getUserAccount().getUsername();
 		// Si el usuario ha decidido cambiar de username, comprobar que no existe
 		if (!usernameDB.equals(username)) {
-			Assert.isTrue(this.actorService.checkNoRepeatedUsername(username), "El usuario elegido ya existe.");
+			Assert.isTrue(this.actorService.checkNoRepeatedUsername(username),
+					      "El usuario elegido ya existe.");
 		}
 		
 		// Si el usuario ha introducido un nuevo iban, comprobamos que sea válido
 		// Si no ha introducido ningun valor, para el iban se mantiene el que tenía anteriormente
 		if (StringUtils.hasText(iban)) {
-			Assert.isTrue(iban.matches("[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}"), "Iban incorrecto.");
+			Assert.isTrue(iban.matches("[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}"),
+					      "Iban incorrecto.");
 		
 			result.setIban(iban.trim());
 		}
@@ -175,7 +178,9 @@ public class RenterService {
 		
 		userDetails = this.myUserDetailsService.loadUserByUsername(username.trim());
 		
-		usernameToken = new UsernamePasswordAuthenticationToken(userDetails, null, userAccount.getAuthorities());
+		usernameToken = new UsernamePasswordAuthenticationToken(userDetails,
+																null,
+																userAccount.getAuthorities());
 		
 		SecurityContextHolder.getContext().setAuthentication(usernameToken);
 		
@@ -188,9 +193,12 @@ public class RenterService {
     	
     	//Comprobamos que las contraseñas coincidan, el usuario no exista y el iban sea correcto.
     	
-    	Assert.isTrue(this.actorService.checkPassword(renterRegister.getPassword(), renterRegister.getPasswordMatch()), "Las contraseñas no coinciden.");
-    	Assert.isTrue(this.actorService.checkNoRepeatedUsername(renterRegister.getUsername()),"El usuario elegido ya existe.");
-    	Assert.isTrue(renterRegister.getIban().matches("[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}"),"Iban incorrecto.");
+    	Assert.isTrue(this.actorService.checkPassword(renterRegister.getPassword(), renterRegister.getPasswordMatch()),
+    				  "Las contraseñas no coinciden.");
+    	Assert.isTrue(this.actorService.checkNoRepeatedUsername(renterRegister.getUsername()),
+    			      "El usuario elegido ya existe.");
+    	Assert.isTrue(renterRegister.getIban().matches("[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}"),
+    			      "Iban incorrecto.");
     	
     	//Obtenemos valores del parametro renterRegister obtenido del formulario
     	

@@ -50,7 +50,8 @@ public class ActorService {
     	
     	principal = this.findByPrincipal();
     	
-    	Assert.isTrue(!principal.getUserAccount().getIsBanned(), "Usuario baneado");
+    	Assert.isTrue(!principal.getUserAccount().getIsBanned(),
+    				  "Usuario baneado");
     	
     	optionalActor = this.actorRepository.findById(actorId);
     	
@@ -64,11 +65,13 @@ public class ActorService {
     	if (isAOwner && !isMyProfile) {
     		isRoleActor = this.isASpecificRole(result, Authority.RENTER);
     		
-    		Assert.isTrue(isRoleActor, "Un arrendatario no puede acceder a info de otro arrendatario");
+    		Assert.isTrue(isRoleActor,
+    				      "Un arrendatario no puede acceder a info de otro arrendatario");
     	} else if (isARenter && !isMyProfile) {
     		isRoleActor = this.isASpecificRole(result, Authority.OWNER);
   
-    		Assert.isTrue(isRoleActor, "Un propietario no puede acceder a info de otro propietario");
+    		Assert.isTrue(isRoleActor,
+    				      "Un propietario no puede acceder a info de otro propietario");
     	}
     	
     	return result;
@@ -77,8 +80,10 @@ public class ActorService {
     // Other business methods
     public void ban(Actor actor) {
     	Assert.notNull(actor, "Actor desconocido");
-    	Assert.isTrue(!actor.getUserAccount().getIsBanned(), "El actor ya esta baneado");
-    	Assert.isTrue(this.findByPrincipal() instanceof Administrator, "Accion realizable por un admin");
+    	Assert.isTrue(!actor.getUserAccount().getIsBanned(),
+    				  "El actor ya esta baneado");
+    	Assert.isTrue(this.findByPrincipal() instanceof Administrator,
+    			      "Accion realizable por un admin");
     	
     	UserAccount userAccount;
     	
@@ -93,7 +98,8 @@ public class ActorService {
     public void unBan(Actor actor) {
     	Assert.notNull(actor, "Actor desconocido");
     	Assert.isTrue(actor.getUserAccount().getIsBanned(), "El actor ya esta baneado");
-    	Assert.isTrue(this.findByPrincipal() instanceof Administrator, "Accion realizable por un admin");
+    	Assert.isTrue(this.findByPrincipal() instanceof Administrator,
+    				  "Accion realizable por un admin");
     	
     	UserAccount userAccount;
     	
