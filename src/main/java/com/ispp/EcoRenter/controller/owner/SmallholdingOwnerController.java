@@ -1,8 +1,11 @@
 
 package com.ispp.EcoRenter.controller.owner;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -59,6 +62,9 @@ public class SmallholdingOwnerController {
 		Owner principal;
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(4);
+		Map<Integer,List<String>> sh_photo;
+
+		sh_photo = new HashMap<Integer,List<String>>();
 
 		try {
 			result = new ModelAndView("smallholding/list");
@@ -73,7 +79,18 @@ public class SmallholdingOwnerController {
 				result.addObject("pageNumbers", pageNumbers);
 			}
 
+			for(Smallholding sh: smallholdings){
+				List<Photo> photos = new ArrayList<Photo>(this.photoService.findPhotosBySmallholdingId(sh.getId()));
+				Photo photo = photos.get(0);
+				List<String> photoAttr = new ArrayList<String>();
+				photoAttr.add(photo.getName());
+				photoAttr.add(photo.getSuffix());
+				photoAttr.add(this.photoService.getImageBase64(photo));
+				sh_photo.put(sh.getId(), photoAttr);
+			}
+
 			result.addObject("smallholdingPage", shPage);
+			result.addObject("sh_photo", sh_photo);
 			result.addObject("requestURI", "owner/smallholding/listOwnSmallholdings");
 		} catch (Exception e) {
 			result = new ModelAndView("redirect:/miscellaneous/error");
