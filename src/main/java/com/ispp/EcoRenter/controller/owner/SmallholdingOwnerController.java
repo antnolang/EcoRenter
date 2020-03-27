@@ -117,7 +117,7 @@ public class SmallholdingOwnerController {
 	// Save
 
 	@PostMapping(value = "/edit", params = "save")
-	public ModelAndView save(List<MultipartFile> file,Smallholding smallholding, final BindingResult binding) {
+	public ModelAndView save(List<MultipartFile> file, Smallholding smallholding, final BindingResult binding) {
 		ModelAndView result;
 		Smallholding smallholdingRec;
 

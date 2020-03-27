@@ -13,7 +13,43 @@
 
 	<div class="content">
 
-		
+		<link rel="stylesheet"
+			th:href="@{/resources/upload-image/css/imageuploadify.min.css}">
+
+
+					<script type="text/javascript">
+            $(document).ready(function() {
+                
+              
+                $(".btn btn-danger").click(function() {
+                	var existeFoto =$(".imageuploadify-details").first();
+                    if(!existeFoto || existeFoto == null ){
+                    	
+                    }else{
+                    	
+                    	$("#fileid").prop('required',true);
+                    	
+                    }	
+                	
+                });
+                
+                function envioForm(){
+                	
+                    var existeFoto =$(".imageuploadify-details").first();
+                    if(!existeFoto || existeFoto == null ){
+                    	
+                    }else{
+                    	
+                    	$("#myForm").submit();
+                    	
+                    }	
+                	
+                }
+
+                
+            });
+        </script>
+
 		<br> <br> <br> <br>
 		<div class="container">
 			<div class="row justify-content-center">
@@ -207,8 +243,9 @@
 								style="color: red !important;">
 								<span th:errors="*{photos}"></span>
 								</p>
+
 							</div>
-							
+
 							<div data-for="message" class="col-md-12 form-group">
 								<span class="gdpr-block"> <label> <span
 										class="textGDPR" style="color: #a7a7a7"><input
@@ -243,9 +280,84 @@
 					</form>
 
 
-					
+					<script
+						th:src="@{/resources/upload-image/js/imageuploadify.min.js}"></script>
+					<script type="text/javascript">
+            $(document).ready(function() {
+                $('input[type="file"]').imageuploadify();
+                
+                $("button.btn-default").text("Arrastra las fotos o súbelas clickando aquí");
+                $("span.imageuploadify-message").text("Debes añadir al menos una foto.");
+                
+              
+                $(".btn btn-danger").click(function() {
+                	var existeFoto =$(".imageuploadify-details").first();
+                    if(!existeFoto || existeFoto == null ){
+                    	
+                    }else{
+                    	
+                    	$("#fileid").prop('required',true);
+                    	
+                    }	
+                	
+                });
+                
+              /*  function envioForm(){
+                	
+                    var existeFoto =$(".imageuploadify-details").first();
+                    if(!existeFoto || existeFoto == null ){
+                    	
+                    }else{
+                    	
+                    	$("#myForm").submit();
+                    	
+                    }	
+                	
+                }*/
 
-					</div>
+                
+            });
+        </script>
+
+					<style>
+button.btn-danger {
+	background-color: red !important;
+	border: red !important;
+}
+button.btn-danger:hover {
+	background-color:  #54775E !important;
+	border: red !important;
+}
+.imageuploadify {
+	min-height: 250px !important;
+}
+
+span.imageuploadify-message {
+	color: red !important;
+	font-size: 15px !important;
+	border-top: white !important;
+	border-bottom: white !important;
+}
+
+button.btn-default {
+	color: #54775E !important;
+	border-color: #54775E !important;
+}
+
+button.btn-default:hover {
+	background: rgba(0, 0, 0, 0.2) !important;
+}
+
+.imageuploadify .imageuploadify-images-list i {
+	display: none !important;
+}
+
+span {
+	color: #54775E !important;
+}
+</style>
+
+				</div>
 			</div>
 		</div>
 
