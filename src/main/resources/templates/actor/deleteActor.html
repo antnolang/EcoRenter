@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{master-page/layout :: layout(~{::title}, ~{::div.content})}">
+	<head>
+		<title>Eliminar un usuario</title>
+	</head>
+	
+	<body>
+		<div class="content">
+			
+		<section class="services1 cid-rRNjW9YKmG" id="services1-6">
+		<div class="container">
+        <div class="row justify-content-center">
+            <!--Titles-->
+            
+            <!--Card-1-->
+            <div class="card col-12 col-md-6 p-3 col-lg-3" th:each="a: ${actors}">
+                <div class="card-wrapper">
+					
+                    <div class="card-box">
+                        <h4 class="card-title mbr-fonts-style display-5" th:text="${a.userAccount.username}"></h4>
+
+						
+                    </div>
+                </div>
+				<div class="mbr-section-btn align-center"><a th:href="@{~/actor/administrator/delete?actorId=} + ${a.id}" class="btn btn-warning-outline display-4">Eliminar este usuario</a></div>
+			</div>
+			 
+			
+			</div>
+			
+			<div sec:authorize="isAuthenticated()"
+			     th:if="${smallholdingPage.getTotalElements() > 0 && requestURI == 'smallholding/list'}"
+			     id="map"></div>	
+								
+			   
+			
+			
+    </div>
+</section>
+
+		</div>
+	</body>
+</html>
+	

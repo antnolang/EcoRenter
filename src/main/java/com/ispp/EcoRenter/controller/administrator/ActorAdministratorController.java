@@ -1,5 +1,7 @@
 package com.ispp.EcoRenter.controller.administrator;
 
+import java.util.Collection;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ispp.EcoRenter.form.AdminForm;
 import com.ispp.EcoRenter.model.Actor;
+import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.service.ActorService;
+import com.ispp.EcoRenter.service.AdministratorService;
 
 @Controller
 @RequestMapping("/actor/administrator")
@@ -21,6 +25,9 @@ public class ActorAdministratorController {
 	
 	@Autowired
 	private ActorService actorService;
+	
+	@Autowired
+	private AdministratorService administratorService;
 	
 	
 	public ActorAdministratorController() {
@@ -63,6 +70,54 @@ public class ActorAdministratorController {
 			
 			log.info("Algo salio mal al banear un actor.");
 		}
+
+		return result;
+	}
+	
+	@GetMapping(value = "/deleteActor")
+	public ModelAndView deleteActor() {
+		ModelAndView result;
+		Collection<Actor> actors = this.actorService.findAll();
+		
+		result = new ModelAndView("actor/deleteActor");
+		
+		result.addObject("actors", actors);
+		
+
+		return result;
+	}
+	
+	@GetMapping(value = "/delete")
+	public ModelAndView delete(@RequestParam final int actorId) {
+		ModelAndView result = null;
+		
+		Actor beDeleted = this.actorService.findOne(actorId);
+		
+		if(beDeleted instanceof Renter) {
+			
+			try {
+				
+				this.administratorService.deleteRenter((Renter)beDeleted);
+				
+				result = new ModelAndView("redirect:/");
+				
+			}catch(Throwable oops) {
+				result = new ModelAndView("actor/administrator/deleteActor");
+				
+				result.addObject("error", oops.getMessage());
+			}
+			
+		}else {
+			try {
+				
+				
+			}catch(Throwable oops) {
+				
+				
+			}
+			
+		}
+		
 
 		return result;
 	}

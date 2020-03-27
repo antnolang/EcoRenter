@@ -93,6 +93,10 @@ public class RenterService {
     
     }
     
+    
+    public void delete(Renter renter) {
+    	this.renterRepository.delete(renter);
+    }
     // Other business methods
 
     public Renter findByPrincipal(){

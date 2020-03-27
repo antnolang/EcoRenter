@@ -1,6 +1,7 @@
 package com.ispp.EcoRenter.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -193,6 +194,11 @@ public class ActorService {
     	
     	
     	return result;
+    }
+    
+    public Collection<Actor> findAll(){
+    	
+    	return this.actorRepository.findAll();
     }
     
 }
