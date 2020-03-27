@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ispp.EcoRenter.form.AdminForm;
 import com.ispp.EcoRenter.model.Actor;
+import com.ispp.EcoRenter.model.Owner;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.service.ActorService;
 import com.ispp.EcoRenter.service.AdministratorService;
@@ -77,7 +78,7 @@ public class ActorAdministratorController {
 	@GetMapping(value = "/deleteActor")
 	public ModelAndView deleteActor() {
 		ModelAndView result;
-		Collection<Actor> actors = this.actorService.findAll();
+		Collection<Actor> actors = this.actorService.findAllExceptAdmin();
 		
 		result = new ModelAndView("actor/deleteActor");
 		
@@ -109,11 +110,13 @@ public class ActorAdministratorController {
 			
 		}else {
 			try {
+				this.administratorService.deleteOwner((Owner)beDeleted);
 				
-				
+				result = new ModelAndView("redirect:/");
 			}catch(Throwable oops) {
+				result = new ModelAndView("actor/administrator/deleteActor");
 				
-				
+				result.addObject("error", oops.getMessage());
 			}
 			
 		}

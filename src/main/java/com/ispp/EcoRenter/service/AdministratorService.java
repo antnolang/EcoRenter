@@ -18,9 +18,11 @@ import com.ispp.EcoRenter.configuration.MyUserDetailsService;
 import com.ispp.EcoRenter.form.AdminForm;
 import com.ispp.EcoRenter.model.Administrator;
 import com.ispp.EcoRenter.model.Comment;
+import com.ispp.EcoRenter.model.Owner;
 import com.ispp.EcoRenter.model.Photo;
 import com.ispp.EcoRenter.model.RentOut;
 import com.ispp.EcoRenter.model.Renter;
+import com.ispp.EcoRenter.model.Smallholding;
 import com.ispp.EcoRenter.repository.AdministratorRepository;
 import com.ispp.EcoRenter.security.UserAccount;
 
@@ -52,6 +54,12 @@ public class AdministratorService {
 
 	@Autowired
 	private CommentService commentService;
+	
+	@Autowired
+	private SmallholdingService smallholdingService;
+	
+	@Autowired
+	private OwnerService ownerService;
 
 	public AdministratorService() {
 		super();
@@ -151,7 +159,24 @@ public class AdministratorService {
 
 
 
-	}	
+	}
+	
+	public void deleteOwner(Owner owner) {
+		Collection<Smallholding> smallByThisOwner = this.smallholdingService.findSmallholdingsByOwnerId(owner.getId());
+		
+		if(!smallByThisOwner.isEmpty()) {
+			for(Smallholding s : smallByThisOwner) {
+				this.smallholdingService.delete(s);
+			}
+			this.ownerService.delete(owner);
+		}else {
+			this.ownerService.delete(owner);
+		}
+		
+	}
+	
+	
+	
 	// Other business methods ------------------
 	public Administrator findByPrincipal() {
 		Administrator result;

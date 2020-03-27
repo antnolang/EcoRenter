@@ -196,9 +196,17 @@ public class ActorService {
     	return result;
     }
     
-    public Collection<Actor> findAll(){
+    public Collection<Actor> findAllExceptAdmin(){
+    	Collection<Actor> actors = this.actorRepository.findAll();
+    	Collection<Actor> result = new ArrayList<Actor>();
+    	for(Actor a : actors) {
+    		if(!(a instanceof Administrator)) {
+    			result.add(a);
+    		}
+    	}
     	
-    	return this.actorRepository.findAll();
+    	
+    	return result;
     }
     
 }
