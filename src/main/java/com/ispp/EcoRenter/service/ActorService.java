@@ -165,6 +165,22 @@ public class ActorService {
     	return result.trim();
     }
     
+    public String getDisplayRole(Actor actor) {
+    	String result;
+    	
+    	result = this.getRole(actor);
+    	
+    	if (result.equals("RENTER")) {
+    		result = "ARRENDATARIO";
+    	} else if (result.equals("OWNER")) {
+    		result = "PROPIETARIO";
+    	} else {
+    		result = "ADMINISTRADOR";
+    	}
+    	
+    	return result.trim();
+    }
+    
     private Actor findByUsername(String username) {
     	Actor result;
     	

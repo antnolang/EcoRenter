@@ -285,7 +285,7 @@ public class ActorAuthenticatedController {
 			}
 			
 			actor = (actorId == 0) ? principal : this.actorService.findOne(actorId);
-			role = this.actorService.getRole(actor);
+			role = this.actorService.getDisplayRole(actor);
 			
 			photo = actor.getPhoto();
 			
