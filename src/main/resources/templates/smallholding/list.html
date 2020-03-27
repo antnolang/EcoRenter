@@ -21,10 +21,9 @@
                 
             </div>
             <!--Card-1-->
-			<!--
             <div class="card col-12 col-md-6 p-3 col-lg-3" th:each="sh : ${smallholdingPage}">
                 <div class="card-wrapper">
-				<img th:src="${sh.images.split(',')[0]}" th:if="${not sh.images.isEmpty()}"alt="" title="" style="height: 9rem;">
+					<img th:src="@{'data:' + ${sh_photo.get(sh.id)[1]} + ';base64, ' + ${sh_photo.get(sh.id)[2]}}" th:alt="${sh_photo.get(sh.id)[0]}" style="height: 9rem;">
                     <div class="card-box">
                         <h4 class="card-title mbr-fonts-style display-5" th:text="${sh.title}"></h4>
                         <p class="mbr-text mbr-fonts-style display-7"> <span th:text="${sh.description}"></span></p>
@@ -34,7 +33,7 @@
                 </div>
 				<div class="mbr-section-btn align-center"><a th:href="@{~/smallholding/display?smallholdingId=} + ${sh.id}" class="btn btn-warning-outline display-4">Ver parcela</a></div>
 			</div>
-			 -->
+			 
 			<div class="container">
 				<div class="row justify-content-center">
 					<div  th:if="${smallholdingPage.totalPages > 0 && requestURI == 'smallholding/list'}" 
@@ -137,4 +136,3 @@
 		</div>
 	</body>
 </html>
-	
