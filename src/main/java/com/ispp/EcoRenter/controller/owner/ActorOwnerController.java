@@ -97,6 +97,8 @@ private static final Log log = LogFactory.getLog(ActorAuthenticatedController.cl
 			}catch(Throwable oops) {
 				result = new ModelAndView("/actor/ownerRegister");
 				String message = oops.getMessage();
+				
+				
 
 				if(message.equals("Las contraseñas no coinciden.")) {
 					result.addObject("noMatchPass", message);
@@ -105,6 +107,8 @@ private static final Log log = LogFactory.getLog(ActorAuthenticatedController.cl
 
 				}else if(message.equals("Iban incorrecto.")) {
 					result.addObject("noValidIban", message);
+				}else {
+					result.addObject("errorMessage", message);
 				}
 
 			}

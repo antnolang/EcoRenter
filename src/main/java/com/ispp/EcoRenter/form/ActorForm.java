@@ -151,6 +151,8 @@ public abstract class ActorForm extends DomainEntity {
 	public void setFile(MultipartFile file) {
 		this.file = file;
 	}
+	
+	
 
 
 	@Override
