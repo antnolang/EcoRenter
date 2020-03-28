@@ -102,9 +102,12 @@ public class SmallholdingOwnerController {
 	public ModelAndView edit(@RequestParam final int smallholdingId) {
 		ModelAndView result;
 		Smallholding smallholding;
+		Collection<Photo> photos;
 
 		try {
 			smallholding = this.smallholdingService.findOneToEdit(smallholdingId);
+			photos = this.photoService.findPhotosBySmallholdingId(smallholdingId);
+			smallholding.setPhotos(photos);
 
 			result = this.createEditModelAndView(smallholding);
 		} catch (final Throwable oops) {
