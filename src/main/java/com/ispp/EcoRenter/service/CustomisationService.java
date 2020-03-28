@@ -76,7 +76,8 @@ public class CustomisationService {
 	}
 
 	public Customisation reconstruct(Customisation customisation, BindingResult binding) {
-		Customisation custo, result;
+		Customisation custo;
+		Customisation result;
 
 		custo = this.find();
 
