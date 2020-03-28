@@ -296,7 +296,6 @@ COPY public.photo (id, version, data, name, suffix) FROM stdin;
 COPY public.user_account (id, version, is_banned, password, username) FROM stdin;
 32	0	f	$2a$05$liN1q4inTShcELQ373gIeOyeVDl1mWqAMUEEDmC.jnMw1il7TWp0S	admin1
 33	0	f	$2a$05$6w7s9gZZvfqw9ISAYMerM.I6zuZ55xWdKFv.ImSf7pbxs9PWUDt2q	admin2
-34	0	f	$2a$05$TXrmZFnAZ2l68enU7HfNM.aaPC4lZ8zHqwkvht5bwaqeGxloJFoo2	admin3
 35	0	f	$2a$05$oXJJJqeGSlc3GiFN2ONWR.RbOTIcnLJDtTIN2Bjt3zT/ZpYzTtGZq	renter1
 36	0	f	$2a$05$VUSDb8CtGycEFeUraQXDju9wvaZV.7hx0N4WOztxdOWhguEyqHHD.	renter2
 37	0	f	$2a$05$Cs1X5xHsGL0WRsKrIPH9fun87WTwmOzq3wsNZxbt28oMqt1Mg7fT2	renter3
@@ -310,6 +309,7 @@ COPY public.user_account (id, version, is_banned, password, username) FROM stdin
 45	0	f	$2a$05$4DfmD4m/F1PXV9NUg/dgCOe1vQyVeP2P9WNEq/.r5q/xsBIDA1vpK	owner5
 46	0	t	$2a$05$wNvvKVjAf4/uou6YdVsb8./RpRUt7VMayezVk/pxGzd/J/dQtB3TK	owner6
 28	2	f	$2a$05$vOuk7.tW/7gTZhMnMqlMpecQuH/Lve318HYcFLgbiwZFxDgHa9WbS	luis07
+34	4	f	$2a$05$iPV6ldRhGc5jE50Iawxa1us8SOB3AI3B7jLcCNsxn0dEZ/Q1b8qri	admin3
 \.
 
 
@@ -319,8 +319,8 @@ COPY public.user_account (id, version, is_banned, password, username) FROM stdin
 
 COPY public.administrator (id, version, email, name, surname, telephone_number, photo_id, user_account_id) FROM stdin;
 101	0	admin2@gmail.com	Sofía	Corona Vil	+34 694567235	\N	33
-102	0	admin3@gmail.com	Ramón	Gómez de la Serna	+34 694567236	\N	34
 100	0	admin1@gmail.com	María José	Martinez de Irujo	+34 694567234	1	32
+102	2	admin3@gmail.com	Ramón	Gómez de la Serna	+34 678453456	\N	34
 \.
 
 
@@ -358,16 +358,16 @@ COPY public.renter (id, version, email, name, surname, telephone_number, photo_i
 --
 
 COPY public.smallholding (id, version, address, description, farming_type, is_argumented, is_available, latitude, locality, longitude, max_duration, postal_code, price, province, size, status, title, owner_id) FROM stdin;
-400	0	C/ Bienaventurados los infiles	Se trata de una parcela unas dimensiones considerables y que se encuentra en buen estado	frutales	f	f	42.6075172	Pontevedra	-8.4714942	10	41710	99.989999999999995	Galicia	100	ALQUILADA	Parcela 100% gallega	200
-401	0	C/ Cibeles	La parcela está en buena estado y lista para usar	olivar	f	t	37.1824646	Utrera	-5.7817506	3	41710	199.99000000000001	Sevilla	200	NO ALQUILADA	Parcela ecológica	200
-402	0	C/ Bermejales	Posee certificación ecológica	Frutos secos	f	f	36.2757882	Conil	-6.0889112	1	42000	199.99000000000001	Malaga	200	ALQUILADA	Parcela de Málaga	200
-403	0	C/ Virgen de Fátima	Necesita unos arreglitos pero es acogedora	olivar	f	t	37.1824646	Getafe	-3.7302679	2	45678	499.99000000000001	Madrid	250	NO ALQUILADA	Parcela para el cultivo de olivos	200
-407	0	C/ Virgen de los Dolores	Parcela acogedora	cultivos industriales	f	f	36.8414197	Almería	-2.4628135	1	11710	199.99000000000001	Malaga	139	ALQUILADA	Parcela en buen estado	202
-406	0	Avenida Cibeles	Parcela lista para usar	olivar	f	f	39.4699014	Villarejo	-0.3759513	2	54666	199.99000000000001	Valencia	200	ALQUILADA	Parcela en perfecto estado	202
-408	0	Avenida de la Palmera	Está lista para usar	olivar	f	t	37.1830237	Punta umbría	-6.9662203	9	36730	499.99000000000001	Madrid	240	NO ALQUILADA	Tierra localizada en Madrid	204
-404	0	C/ Alfonso XII	Parcela grande y en buen estado	hortalizas	f	f	43.4620412	Santander	-3.8099719	10	21344	100	Santander	50	ALQUILADA	Parcela en perfecto estado	200
-405	0	C/ Torcuato de Tena	Parcela en buen estado	viñedos	f	t	38.8780585	Badajoz	-6.9702048	3	41710	1000	Extremadura	75	NO ALQUILADA	Parcela ecológica	200
-409	0	C/ España	Parcela de grandes dimensiones preparada para el cultivo de hortalizas	hortalizas	t	f	41.1172364	Tarragona	1.2546057	5	44330	100	Cataluña	150	ALQUILADA	Parcela para el cultivo de hortalizas	204
+405	0	C/ Torcuato de Tena	Parcela en buen estado	viñedos	f	t	38.8780585	Badajoz	-6.9702048	3	06001	49.990000000000002	Extremadura	75	NO ALQUILADA	Parcela ecológica	200
+406	0	Avenida Cibeles	Parcela lista para usar	olivar	f	f	39.9860347	Castellón de la Plana	-0.0377354	2	12002	369.99000000000001	Castellón	200	ALQUILADA	Parcela en perfecto estado	202
+407	0	C/ Virgen de los Dolores	Parcela acogedora	cultivos industriales	f	f	36.7630203	Roquetas de mar	-2.6115886	1	04740	289.99000000000001	Almería	139	ALQUILADA	Parcela en buen estado	202
+409	0	C/ España	Parcela de grandes dimensiones preparada para el cultivo de hortalizas	hortalizas	t	f	41.1172364	Tarragona	1.2546057	5	43001	175	Cataluña	150	ALQUILADA	Parcela para el cultivo de hortalizas	204
+408	0	Avenida de la Palmera	Está lista para usar	olivar	f	t	41.6521342	Zaragoza	-0.8809428	9	50001	129.99000000000001	Zaragoza	240	NO ALQUILADA	Tierra madrileña	204
+400	0	C/ Bienaventurados los infiles	Se trata de una parcela unas dimensiones considerables y que se encuentra en buen estado	frutales	f	f	42.6075172	Pontevedra	-8.4714942	10	36001	149.25	Galicia	100	ALQUILADA	Parcela 100% gallega	200
+401	0	C/ Cibeles	La parcela está en buena estado y lista para usar	olivar	f	t	37.1824646	Utrera	-5.7817506	3	41710	409.12	Sevilla	200	NO ALQUILADA	Parcela ecológica	200
+403	0	C/ Virgen de Fátima	Necesita unos arreglitos pero es acogedora	olivar	f	t	37.1824646	Getafe	-3.7302679	2	28900	175.99000000000001	Madrid	250	NO ALQUILADA	Parcela para el cultivo de olivos	200
+404	0	C/ Alfonso XII	Parcela grande y en buen estado	hortalizas	f	f	43.4620412	Santander	-3.8099719	10	39001	69.989999999999995	Santander	50	ALQUILADA	Parcela en perfecto estado	200
+402	0	C/ Bermejales	Posee certificación ecológica	Frutos secos	f	f	36.2757882	Conil de la Frontera	-6.0889112	1	11140	399.99000000000001	Cádiz	200	ALQUILADA	Parcela de Málaga	200
 \.
 
 
@@ -404,16 +404,16 @@ COPY public.rent_out (id, version, is_active, month, start_date, renter_id, smal
 --
 
 COPY public.comment (id, version, text, written_moment, rent_out_id) FROM stdin;
-600	0	Me costó un poco dar con la parcela. Por lo demás, todo bien	2020-03-05 13:00:00	500
 601	0	Hay insectos y pájaros muy molestos	2020-03-05 14:00:00	500
 602	0	Estoy muy contento con la parcela	2020-03-05 15:00:00	500
 603	0	Perfecto trato con el propietario	2020-03-05 15:01:00	500
-604	0	Está un poco inaccesible	2020-03-05 16:30:00	500
-605	0	No se corresponde con las fotos. Será que son muy antiguas	2020-03-05 17:07:00	500
 606	0	Muy contento con la parcela	2020-02-20 18:08:00	501
-607	0	Está poco cuidada la parcela	2020-02-20 19:09:00	501
 608	0	Necesita unos arreglitos pero son detallitos sin importancia	2020-01-21 10:00:00	504
 609	0	Todo perfecto!!	2020-01-21 10:05:00	504
+607	0	La carretera que da acceso a la parcela está poco cuidada	2020-02-20 19:09:00	501
+605	0	Le recomiendo actualizar las fotos que hay publicadas en la aplicación	2020-03-05 17:07:00	500
+600	0	Está un poco innacesible: me costó un poco dar con la parcela.	2020-03-05 13:00:00	500
+604	0	¿La parcela dispone del certificado ecológico?	2020-03-05 16:30:00	500
 \.
 
 
@@ -488,7 +488,6 @@ COPY public.smallholding_photos (smallholding_id, photos_id) FROM stdin;
 COPY public.user_account_authorities (user_account_id, authority) FROM stdin;
 32	ADMIN
 33	ADMIN
-34	ADMIN
 35	RENTER
 36	RENTER
 37	RENTER
@@ -502,6 +501,7 @@ COPY public.user_account_authorities (user_account_id, authority) FROM stdin;
 45	OWNER
 46	OWNER
 28	RENTER
+34	ADMIN
 \.
 
 
