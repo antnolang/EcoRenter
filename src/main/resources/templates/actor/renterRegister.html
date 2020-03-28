@@ -61,17 +61,8 @@
 			                 	<span th:errors="*{email}"></span>
 			                </p>
                         </div>
-
-				  
-		                <div class="col-md-12  form-group" data-for="image">
-                            <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Foto de perfil</label>
-                            <input type="text" th:field="*{image}"  th:errorclass="fieldError"  data-form-field="image"  class="form-control display-7"  ></textarea>
-                        	<p th:if="${#fields.hasErrors('image')}" style="color: red !important;">
-			                 	<span th:errors="*{image}"></span>
-			                </p>
-                        </div>
-
-			
+                        
+                        
 		             <div class="col-md-12  form-group" data-for="username">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Nombre de usuario</label>
                             <input type="text" th:field="*{username}"  th:errorclass="fieldError"  data-form-field="username" required="required" class="form-control display-7"  ></textarea>
@@ -105,9 +96,6 @@
 			                 	<span th:errors="*{passwordMatch}"></span>
 			                </p>
                         </div>
-
-					
-					
 					
 					 <div class="col-md-12  form-group" data-for="iban">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Iban</label>

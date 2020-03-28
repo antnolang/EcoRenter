@@ -7,8 +7,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.URL;
-
 import com.ispp.EcoRenter.model.DomainEntity;
 
 public class ActorRegister extends DomainEntity{
@@ -40,9 +38,6 @@ public class ActorRegister extends DomainEntity{
 	@NotBlank
 	private String telephoneNumber;
 
-	@URL
-	private String image;
-
 	@NotBlank
 	@Size(min = 5, max = 35)
 	@Column(unique = true)
@@ -71,7 +66,6 @@ public class ActorRegister extends DomainEntity{
 		this.surname = surname;
 		this.email = email;
 		this.telephoneNumber = telephoneNumber;
-		this.image = "";
 		this.username = username;
 		this.password = "";
 		this.passwordMatch = "";
@@ -130,17 +124,7 @@ public class ActorRegister extends DomainEntity{
 		this.telephoneNumber = telephoneNumber;
 	}
 
-
-	public String getImage() {
-		return image;
-	}
-
-
-	public void setImage(String image) {
-		this.image = image;
-	}
-
-
+	
 	public String getUsername() {
 		return username;
 	}

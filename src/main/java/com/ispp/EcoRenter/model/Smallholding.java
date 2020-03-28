@@ -71,8 +71,6 @@ public class Smallholding extends DomainEntity {
 	
 	private boolean isArgumented;
 	
-	@NotBlank
-	private String images;
 	
 	// Constructors ------------------------------------
 	
@@ -194,15 +192,7 @@ public class Smallholding extends DomainEntity {
 	public void setAvailable(boolean isAvailable) {
 		this.isAvailable = isAvailable;
 	}
-		
-	public String getImages() {
-		return images;
-	}
-
-	public void setImages(String images) {
-		this.images = images;
-	}
-	
+			
 	public boolean isArgumented() {
 		return isArgumented;
 	}

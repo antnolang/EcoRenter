@@ -203,7 +203,7 @@ public class ActorAuthenticatedController {
 			try {
 				this.administratorService.edit(adminForm);
 				
-				result = new ModelAndView("redirect:/actor/authenticated/display");
+				result = new ModelAndView("redirect:/logout");
 			} catch (Throwable oops) {
 				String message = oops.getMessage();
 	
@@ -285,7 +285,7 @@ public class ActorAuthenticatedController {
 			}
 			
 			actor = (actorId == 0) ? principal : this.actorService.findOne(actorId);
-			role = this.actorService.getRole(actor);
+			role = this.actorService.getDisplayRole(actor);
 			
 			photo = actor.getPhoto();
 			
