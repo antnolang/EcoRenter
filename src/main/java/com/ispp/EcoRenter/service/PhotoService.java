@@ -25,6 +25,9 @@ public class PhotoService {
 
 	private static final Log log = LogFactory.getLog(PhotoService.class);
 
+	// Tamaño máximo
+	private static final long MAX_SIZE = 5242880l;
+	
 	@Autowired
 	private PhotoRepository photoRepository;
 
@@ -131,7 +134,8 @@ public class PhotoService {
 		fileName = StringUtils.cleanPath(file.getOriginalFilename());
 		contentType = file.getContentType();
 		
-		if (StringUtils.hasText(fileName) && !contentType.equals("application/octet-stream")) {
+		if (StringUtils.hasText(fileName) && !contentType.equals("application/octet-stream")) {		
+			Assert.isTrue(file.getSize() < MAX_SIZE, "La imagen supera los 5MB");
 			Assert.isTrue(contentType.startsWith("image/"), "No es una imagen");
 			
 			try {
