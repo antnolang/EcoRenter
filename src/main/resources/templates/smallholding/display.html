@@ -1,189 +1,168 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	th:replace="~{master-page/layout :: layout(~{::title}, ~{::div.content})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{master-page/layout :: layout(~{::title}, ~{::div.content})}">
 
 <head>
-<title>Mostrando parcela</title>
+    <title>Mostrando parcela</title>
 </head>
 
 <body>
-	<div class="content">
-		<section class="services2 cid-rRNDCjx6s4" id="services2-q">
+    <div class="content">
+        <section class="services2 cid-rRNDCjx6s4" id="services2-q">
 
-			<div class="container">
-				<div class="col-md-12">
-					
-					<div th:each="ph_im : ${photo_imageData}">
-						<img th:src="@{'data:' + ${ph_im.key.suffix} + ';base64, ' + ${ph_im.value}}" th:alt="${ph_im.key.name}" />
-					</div>
-					
-					<div class="media-container-row">
-						<div class="align-left aside-content">
-							<h2 class="mbr-title pt-2 mbr-fonts-style display-2">
+            <div class="container">
+                <div class="col-md-12">
+                    <div class="media-container-row">
+
+                        <div class="mbr-figure" style="width: 50%;">
+                            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                                <ol class="carousel-indicators">
+                                    <div th:each="ph_im,iterador : ${photo_imageData}">
+                                        <div th:if="${iterador.index == 0}">
+                                            <li data-target="#carouselExampleIndicators" data-slide-to="${iterador.index}" class="active"></li>
+                                        </div>
+                                        <div th:if="${iterador.index != 0}">
+                                            <li data-target="#carouselExampleIndicators" data-slide-to="${iterador.index}"></li>
+                                        </div>
+                                    </div>
+                                </ol>
+                                <div class="carousel-inner" role="listbox">
+                                    <div th:each="ph_im,iterador : ${photo_imageData}">
+                                        <div th:if="${iterador.index == 0}">
+                                            <div class="carousel-item active">
+                                                <div class="img"><img class="d-block img-fluid" th:src="@{'data:' + ${ph_im.key.suffix} + ';base64, ' + ${ph_im.value}}" th:alt="${ph_im.key.name}"></div>
+                                            </div>
+                                        </div>
+                                        <div th:if="${iterador.index != 0}">
+                                            <div class="carousel-item">
+                                                <div class="img"><img class="d-block img-fluid" th:src="@{'data:' + ${ph_im.key.suffix} + ';base64, ' + ${ph_im.value}}" th:alt="${ph_im.key.name}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="align-left aside-content">
+                            <h2 class="mbr-title pt-2 mbr-fonts-style display-2">
 								<span th:text="${smallholding.title}"></span>
 							</h2>
-							<div class="mbr-section-text">
-								<p
-									class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
-									<strong>Tamaño:</strong> <span th:text="${smallholding.size}"></span>
-								</p>
-								<p
-									class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
-									<strong>Descripción:</strong> <span
-										th:text="${smallholding.description}"></span>
-								</p>
-								<p
-									class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
-									<strong>Tipo de cultivo:</strong> <span
-										th:text="${smallholding.farmingType}"></span>
-								</p>
-								<p
-									class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
-									<strong>Provincia:</strong> <span
-										th:text="${smallholding.province}"></span>
-								</p>
-								<p
-									class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
-									<strong>Localidad:</strong> <span
-										th:text="${smallholding.locality}"></span>
-								</p>
-								<!--<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7"><strong>Dirección:</strong>
+                            <div class="mbr-section-text">
+                                <p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
+                                    <strong>Tamaño:</strong> <span th:text="${smallholding.size}"></span>
+                                </p>
+                                <p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
+                                    <strong>Descripción:</strong> <span th:text="${smallholding.description}"></span>
+                                </p>
+                                <p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
+                                    <strong>Tipo de cultivo:</strong> <span th:text="${smallholding.farmingType}"></span>
+                                </p>
+                                <p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
+                                    <strong>Provincia:</strong> <span th:text="${smallholding.province}"></span>
+                                </p>
+                                <p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
+                                    <strong>Localidad:</strong> <span th:text="${smallholding.locality}"></span>
+                                </p>
+                                <!--<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7"><strong>Dirección:</strong>
                                     <span th:text="${smallholding.address}"></span></p>
 								<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7"><strong>Código postal:</strong>
                                     <span th:text="${smallholding.postalCode}"></span></p>-->
-								<p
-									class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
-									<strong>Estado:</strong> <span th:text="${smallholding.status}"></span>
-								</p>
-								<!--<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7"><strong>Latitud:</strong>
+                                <p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
+                                    <strong>Estado:</strong> <span th:text="${smallholding.status}"></span>
+                                </p>
+                                <!--<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7"><strong>Latitud:</strong>
                                     <span th:text="${smallholding.latitude}"></span></p>
 								<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7"><strong>Longitud:</strong>
                                     <span th:text="${smallholding.longitude}"></span></p>-->
-								<p
-									class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
-									<strong>Duración máxima:</strong> <span
-										th:text="${smallholding.maxDuration}"></span>
-								</p>
-								<p sec:authorize="hasAuthority('OWNER')"
-									th:if="${ownerPrincipal}"
-									class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
-									<strong>Activada:</strong> <span
-										th:text="${smallholding.available}"></span>
-								</p>
-								<!--<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7"><strong>Nombre del propietario:</strong>
+                                <p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
+                                    <strong>Duración máxima:</strong> <span th:text="${smallholding.maxDuration}"></span>
+                                </p>
+                                <p sec:authorize="hasAuthority('OWNER')" th:if="${ownerPrincipal}" class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
+                                    <strong>Activada:</strong> <span th:text="${smallholding.available}"></span>
+                                </p>
+                                <!--<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7"><strong>Nombre del propietario:</strong>
                                     <span th:text="${smallholding.owner.fullname}"></span></p>-->
 
+                                <p class="mbr-text text2 pt-4 mbr-light mbr-fonts-style display-2">
+                                    <span th:text="${smallholding.price}"></span> €/mes
+                                </p>
 
-								<p
-									class="mbr-text text2 pt-4 mbr-light mbr-fonts-style display-2">
-									<span th:text="${smallholding.price}"></span> €/mes
-								</p>
+                                <!--Btn-->
 
-								<!--Btn-->
-
-								<div sec:authorize="hasAuthority('RENTER')"
-									onclick="desapareceAlquilar()" th:if="${!isRentedByRenter}"
-									id="btn-alquilar" class="mbr-section-btn pt-3 align-left">
-									<a class="btn btn-secondary-outline display-4">Alquilar
+                                <div sec:authorize="hasAuthority('RENTER')" onclick="desapareceAlquilar()" th:if="${!isRentedByRenter}" id="btn-alquilar" class="mbr-section-btn pt-3 align-left">
+                                    <a class="btn btn-secondary-outline display-4">Alquilar
 										parcela</a>
-								</div>
-								<div sec:authorize="hasAuthority('RENTER')"
-									th:if="${isRentedByRenter}"
-									class="mbr-section-btn pt-3 align-left">
-									<a href=""
-										class="btn btn-secondary-outline display-4">Contactar con
+                                </div>
+                                <div sec:authorize="hasAuthority('RENTER')" th:if="${isRentedByRenter}" class="mbr-section-btn pt-3 align-left">
+                                    <a href="" class="btn btn-secondary-outline display-4">Contactar con
 										el propietario</a>
-								</div>
-								<div sec:authorize="hasAuthority('OWNER')"
-									th:if="${smallholding.status == 'NO ALQUILADA' && ownerPrincipal}"
-									class="mbr-section-btn pt-3 align-left">
-									<a
-										th:href="@{'/owner/smallholding/edit?smallholdingId=' + ${smallholding.id}}"
-										class="btn btn-secondary-outline display-4">Editar parcela</a>
-								</div>
-								<div sec:authorize="hasAuthority('OWNER')"
-									th:if="${smallholding.status == 'NO ALQUILADA' && ownerPrincipal && smallholding.available}"
-									class="mbr-section-btn pt-3 align-left">
-									<a
-										th:href="@{'/owner/smallholding/deactivate?smallholdingId=' + ${smallholding.id}}"
-										class="btn btn-secondary-outline display-4">Desactivar
+                                </div>
+                                <div sec:authorize="hasAuthority('OWNER')" th:if="${smallholding.status == 'NO ALQUILADA' && ownerPrincipal}" class="mbr-section-btn pt-3 align-left">
+                                    <a th:href="@{'/owner/smallholding/edit?smallholdingId=' + ${smallholding.id}}" class="btn btn-secondary-outline display-4">Editar parcela</a>
+                                </div>
+                                <div sec:authorize="hasAuthority('OWNER')" th:if="${smallholding.status == 'NO ALQUILADA' && ownerPrincipal && smallholding.available}" class="mbr-section-btn pt-3 align-left">
+                                    <a th:href="@{'/owner/smallholding/deactivate?smallholdingId=' + ${smallholding.id}}" class="btn btn-secondary-outline display-4">Desactivar
 										parcela</a>
-								</div>
-								<div sec:authorize="hasAuthority('OWNER')"
-									th:if="${smallholding.status == 'NO ALQUILADA' && ownerPrincipal && !smallholding.available}"
-									class="mbr-section-btn pt-3 align-left">
-									<a
-										th:href="@{'/owner/smallholding/activate?smallholdingId=' + ${smallholding.id}}"
-										class="btn btn-secondary-outline display-4">Activar
+                                </div>
+                                <div sec:authorize="hasAuthority('OWNER')" th:if="${smallholding.status == 'NO ALQUILADA' && ownerPrincipal && !smallholding.available}" class="mbr-section-btn pt-3 align-left">
+                                    <a th:href="@{'/owner/smallholding/activate?smallholdingId=' + ${smallholding.id}}" class="btn btn-secondary-outline display-4">Activar
 										parcela</a>
-								</div>
+                                </div>
 
-								<!-- Pago -->
+                                <!-- Pago -->
 
+                                <form sec:authorize="hasAuthority('RENTER')" id="payment-form" style="display: none;" th:action="@{'/renter/smallholding/rent?smallholdingId=' + ${smallholding.id}}" method="post" class="sr-payment-form">
+                                    <div class="sr-combo-inputs-row">
+                                        <div class="col">
+                                            <label for="name"> Nombre </label>
+                                            <input id="name" name="name" th:value="${nombreCompleto}" required />
+                                        </div>
+                                        <div class="col">
+                                            <label for="email"> Email </label>
+                                            <input id="email" name="email" type="email" th:value="${correoRenter}" required />
+                                        </div>
+                                    </div>
 
-								<form sec:authorize="hasAuthority('RENTER')" id="payment-form" style="display: none;"
-									th:action="@{'/renter/smallholding/rent?smallholdingId=' + ${smallholding.id}}"
-									method="post" class="sr-payment-form">
-									<div class="sr-combo-inputs-row">
-										<div class="col">
-											<label for="name"> Nombre </label> <input id="name"
-												name="name" th:value="${nombreCompleto}" required />
-										</div>
-										<div class="col">
-											<label for="email"> Email </label> <input id="email"
-												name="email" type="email" th:value="${correoRenter}"
-												required />
-										</div>
-									</div>
-
-									<div class="sr-combo-inputs-row">
-										<div class="col">
-											<label for="iban-element"> IBAN </label>
-											<!-- <div id="iban-element" class="StripeElement StripeElement--empty">
+                                    <div class="sr-combo-inputs-row">
+                                        <div class="col">
+                                            <label for="iban-element"> IBAN </label>
+                                            <!-- <div id="iban-element" class="StripeElement StripeElement--empty">
 								              <div class="__PrivateStripeElement" style="margin: 0px !important; padding: 0px !important; border: none !important; display: block !important; background: transparent !important; position: relative !important; opacity: 1 !important;">
 								              <iframe frameborder="0" allowtransparency="true" scrolling="no" name="__privateStripeFrame5" allowpaymentrequest="true" src="https://js.stripe.com/v3/elements-inner-iban-0f1451356469d2542e6c035c839c5250.html#style[base][color]=%2332325d&amp;style[base][fontFamily]=-apple-system%2C+BlinkMacSystemFont%2C+%22Segoe+UI%22%2C+Roboto%2C+Helvetica%2C+Arial%2C+sans-serif&amp;style[base][fontSmoothing]=antialiased&amp;style[base][fontSize]=16px&amp;style[base][::placeholder][color]=%23aab7c4&amp;style[base][:-webkit-autofill][color]=%2332325d&amp;style[invalid][color]=%23fa755a&amp;style[invalid][iconColor]=%23fa755a&amp;style[invalid][:-webkit-autofill][color]=%23fa755a&amp;placeholderCountry=ES&amp;supportedCountries[0]=SEPA&amp;componentName=iban&amp;wait=false&amp;rtl=false&amp;keyMode=test&amp;apiKey=pk_test_PInFiPUnGR6pzLYZ2IE6oyPf&amp;origin=https%3A%2F%2Fqry5s.sse.codesandbox.io&amp;referrer=https%3A%2F%2Fqry5s.sse.codesandbox.io%2F&amp;controllerId=__privateStripeController1" title="Secure payment input frame" style="border: none !important; margin: 0px !important; padding: 0px !important; width: 1px !important; min-width: 100% !important; overflow: hidden !important; display: block !important; user-select: none !important; height: 19.2px;">
 								              </iframe>
 								                <input class="__PrivateStripeElement-input" aria-hidden="true" aria-label=" " autocomplete="false" maxlength="1" style="border: none !important; display: block !important; position: absolute !important; height: 1px !important; top: 0px !important; left: 0px !important; padding: 0px !important; margin: 0px !important; width: 100% !important; opacity: 0 !important; background: transparent !important; pointer-events: none !important; font-size: 16px !important;">
 								              </div>
 								              </div> -->
-											<input type="text" name="iban"  placeholder="ES1234554678901234567890" pattern="[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}" title="IBAN" required="true">
-											
-										</div>
-									</div>
+                                            <input type="text" name="iban" placeholder="ES1234554678901234567890" pattern="[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}" title="IBAN" required="true">
 
-									<!-- Used to display form errors. -->
-									<div id="error-message" class="sr-field-error" role="alert"></div>
+                                        </div>
+                                    </div>
 
-									<!-- Display mandate acceptance text. -->
-									<div class="col" id="mandate-acceptance">Al proporcionar
-										su IBAN y confirmar este pago, usted está autorizando a
-										Rocketship Inc. y a Stripe, nuestro proveedor de servicios de
-										pago, a enviar instrucciones a su banco para que debite su
-										cuenta y a su banco para que debite su cuenta de acuerdo con
-										esas instrucciones. Usted tiene derecho a un reembolso de su
-										banco bajo los términos y condiciones de su acuerdo con su
-										banco. La devolución debe reclamarse en un plazo de 8 semanas
-										a partir de la fecha en que se efectuó el cargo en su cuenta.
+                                    <!-- Used to display form errors. -->
+                                    <div id="error-message" class="sr-field-error" role="alert"></div>
 
+                                    <!-- Display mandate acceptance text. -->
+                                    <div class="col" id="mandate-acceptance">Al proporcionar su IBAN y confirmar este pago, usted está autorizando a Rocketship Inc. y a Stripe, nuestro proveedor de servicios de pago, a enviar instrucciones a su banco para que debite su cuenta y a su banco para que debite su cuenta de acuerdo con esas instrucciones. Usted tiene derecho a un reembolso de su banco bajo los términos y condiciones de su acuerdo con su banco. La devolución debe reclamarse en un plazo de 8 semanas a partir de la fecha en que se efectuó el cargo en su cuenta.
 
-									</div>
+                                    </div>
 
-									<button id="confirm-mandate" name="saveRent" type="submit"
-										class="btn btn-form btn-secondary display-4">Pagar</button>
-								</form>
+                                    <button id="confirm-mandate" name="saveRent" type="submit" class="btn btn-form btn-secondary display-4">Pagar</button>
+                                </form>
 
+                                <!-- Fin pago -->
 
-
-
-								<!-- Fin pago -->
-
-
-								<!-- Mensaje pago -->
-								<!-- 	<div th:if="${messagePay != null}">
+                                <!-- Mensaje pago -->
+                                <!-- 	<div th:if="${messagePay != null}">
                         	<p  id="pepito" th:text="${messagePay}"></p>
                         	</div>
                         -->
-                        <!--                         	
+                                <!--                         	
 								<div th:if="${isRented}" sec:authorize="hasAuthority('RENTER')">
 									<div class="alert"
 										style="padding: 20px; background-color: #54775E; color: white;">
@@ -196,44 +175,38 @@
 								</div>
 
 								<!-- Fin mensaje pago -->
-							</div>
+                            </div>
 
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-						</div>
-					</div>
-				</div>
-			</div>
+            <div class="content">
 
-			<div class="content">
-
-
-				<div class="container">
-					<div class="row justify-content-center">
-						<!--Titles-->
-						<div class="col-12">
-							<h1 class="align-left pb-3 mbr-fonts-style display-2">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <!--Titles-->
+                        <div class="col-12">
+                            <h1 class="align-left pb-3 mbr-fonts-style display-2">
 								Comentarios:</h1>
 
-						</div>
+                        </div>
 
+                        <div class="container" th:each="co : ${comments}">
+                            <p class="mbr-title mbr-fonts-style display-5" th:text="${co.writtenMoment}"></p>
+                            <p class="mbr-text mbr-fonts-style display-7" th:text="${co.text}"></p>
+                            <br>
 
-						<div class="container" th:each="co : ${comments}">
-							<p class="mbr-title mbr-fonts-style display-5"
-								th:text="${co.writtenMoment}"></p>
-							<p class="mbr-text mbr-fonts-style display-7"
-								th:text="${co.text}"></p>
-							<br>
+                        </div>
 
+                        <div th:if="${comments.size() == 0}">
+                            <span>No hay comentarios disponibles</span>
+                        </div>
 
-						</div>
-
-
-						<div th:if="${comments.size() == 0}">
-							<span>No hay comentarios disponibles</span>
-						</div>
-
-					</div>
-		</section>
-	</div>
+                    </div>
+        </section>
+        </div>
 </body>
+
 </html>
