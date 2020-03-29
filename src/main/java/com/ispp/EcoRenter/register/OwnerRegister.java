@@ -6,9 +6,7 @@ public class OwnerRegister extends ActorRegister{
 
 	// Attributes ----------------------------------
 	private String iban;
-	
-	@Min(0)
-	private int accumulatedMonths;
+
 
 	
 	// Constructors --------------------------------
@@ -23,7 +21,7 @@ public class OwnerRegister extends ActorRegister{
 		super(name, surname, email, telephoneNumber, username);
 	
 		this.iban = "";
-		this.accumulatedMonths = accumulatedMonths;
+		
 	}
 	
 
@@ -36,12 +34,6 @@ public class OwnerRegister extends ActorRegister{
 		this.iban = iban;
 	}
 
-	public int getAccumulatedMonths() {
-		return accumulatedMonths;
-	}
-
-	public void setAccumulatedMonths(int accumulatedMonths) {
-		this.accumulatedMonths = accumulatedMonths;
-	}
+	
 
 }

@@ -194,6 +194,7 @@ public class RenterService {
     public Renter register(RenterRegister renterRegister, BindingResult binding) {
     	Renter result = this.create();
     	UserAccount renterUserAccount = result.getUserAccount();
+    	Photo photo;
     	
     	//Comprobamos que las contraseñas coincidan, el usuario no exista y el iban sea correcto.
     	
@@ -201,9 +202,9 @@ public class RenterService {
     				  "Las contraseñas no coinciden.");
     	Assert.isTrue(this.actorService.checkNoRepeatedUsername(renterRegister.getUsername()),
     			      "El usuario elegido ya existe.");
-    	Assert.isTrue(renterRegister.getIban().matches("[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}"),
-    			      "Iban incorrecto.");
     	
+    	
+    
     	//Obtenemos valores del parametro renterRegister obtenido del formulario
     	
     	String name = renterRegister.getName();
@@ -212,7 +213,7 @@ public class RenterService {
     	String telephone = renterRegister.getTelephoneNumber();
     	String username = renterRegister.getUsername();
     	String password = renterRegister.getPassword();
-    	String iban = renterRegister.getIban();
+    	MultipartFile file = renterRegister.getFile();
     	
     	//Codificamos la password para persistirla asi en bd
     	String encodedPass = this.passwordEncoder.encode(password);
@@ -223,7 +224,16 @@ public class RenterService {
     	result.setSurname(surname);
     	result.setEmail(email);
     	result.setTelephoneNumber(telephone);
-    	result.setIban(iban);
+    	
+    	if (file != null) {
+			photo = this.photoService.storeImage(file);
+			
+			if (photo != null) {
+				result.setPhoto(photo);
+			}
+			
+		}
+    	
     	
     	renterUserAccount.setUsername(username);
     	renterUserAccount.setPassword(encodedPass);

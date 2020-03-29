@@ -26,7 +26,7 @@
         <div class="row justify-content-center">
             <div class="media-container-column col-lg-6" data-form-type="formoid">
                
-               <form th:action="@{/actor/renter/register}" id="myForm" th:object="${renter}" method="post" class="mbr-form form-with-styler" data-form-title=" Form">
+               <form th:action="@{/actor/renter/register}" id="myForm" th:object="${renter}" method="post" enctype="multipart/form-data" class="mbr-form form-with-styler" data-form-title=" Form">
                     <div class="dragArea row">
                     
                     <div class="col-md-5  form-group" data-for="name">
@@ -53,6 +53,11 @@
 			                 	<span th:errors="*{telephoneNumber}"></span>
 			                </p>
                         </div>
+                        
+                         <div class="col-md-12 form-group" data-for="telephoneNumber" th:if="${noValidTelephone != ''}">
+		                <p th:text="${noValidTelephone}" style="color: red !important;"></p>
+		            </div>
+		            
 
 		             <div class="col-md-12  form-group" data-for="email">
                             <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Correo electrónico</label>
@@ -96,18 +101,27 @@
 			                 	<span th:errors="*{passwordMatch}"></span>
 			                </p>
                         </div>
-					
-					 <div class="col-md-12  form-group" data-for="iban">
-                            <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Iban</label>
-                            <input type="text" placeholder="ES1234554678901234567890" pattern="[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}" th:field="*{iban}"  th:errorclass="fieldError"  data-form-field="iban" required="required" class="form-control display-7"  ></textarea>
-                        	<p th:if="${#fields.hasErrors('iban')}" style="color: red !important;">
-			                 	<span th:errors="*{iban}"></span>
-			                </p>
-                        </div>
                         
-                         <div class="col-md-12 form-group" data-for="iban" th:if="${noValidIban != ''}">
-		                <p th:text="${noValidIban}" style="color: red !important;"></p>
-		            </div>
+                        	<div class="col-md-12  form-group" data-for="file">
+								<label for="name-form1-17"
+									class="form-control-label mbr-fonts-style display-7"
+									style="color: #2a3d2e !important;">Seleccionar foto de
+									perfil</label> <input type="file" th:field="*{file}"
+									th:errorclass="fieldError" data-form-field="file"
+									accept="image/*" class="form-control display-7" />
+								<p>El tamaño máximo debe ser 5MB</p>
+								<p th:if="${#fields.hasErrors('file')}"
+									style="color: red !important;">
+									<span th:errors="*{file}"></span>
+								</p>
+							</div>
+
+							<div class="col-md-12 form-group" data-for="file"
+								th:if="${selImage != ''}">
+								<p th:text="${selImage}" style="color: red !important;"></p>
+							</div>
+					
+					 
 
 
 					<div class="col-md-6 input-group-btn align-center">

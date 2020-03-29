@@ -106,6 +106,8 @@ public class ActorRenterController {
 
 				}else if(message.equals("Iban incorrecto.")) {
 					result.addObject("noValidIban", message);
+				}else {
+					result.addObject("errorMessage", message);
 				}
 
 			}
