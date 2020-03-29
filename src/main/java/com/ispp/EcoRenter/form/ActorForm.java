@@ -18,7 +18,7 @@ public abstract class ActorForm extends DomainEntity {
 	private static final long serialVersionUID = 1L;
 
 	// Atributos -----------------------------------
-	@NotBlank
+  @NotBlank
 	@Pattern(
 		regexp = "^[^0-9]+$",
 	    message = "Nombre no válido"
@@ -30,6 +30,7 @@ public abstract class ActorForm extends DomainEntity {
 		regexp = "^[^0-9]+$",
 		message = "Apellidos no válidos"
 	)
+
 	private String surname;
 
 
@@ -161,6 +162,8 @@ public abstract class ActorForm extends DomainEntity {
 	public void setFile(MultipartFile file) {
 		this.file = file;
 	}
+	
+	
 
 
 	@Override
