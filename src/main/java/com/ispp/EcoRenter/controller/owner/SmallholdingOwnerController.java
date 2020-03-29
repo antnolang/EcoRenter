@@ -10,8 +10,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -119,9 +117,12 @@ public class SmallholdingOwnerController {
 	public ModelAndView edit(@RequestParam final int smallholdingId) {
 		ModelAndView result;
 		Smallholding smallholding;
+		Collection<Photo> photos;
 
 		try {
 			smallholding = this.smallholdingService.findOneToEdit(smallholdingId);
+			photos = this.photoService.findPhotosBySmallholdingId(smallholdingId);
+			smallholding.setPhotos(photos);
 
 			result = this.createEditModelAndView(smallholding);
 		} catch (final Throwable oops) {
@@ -134,22 +135,23 @@ public class SmallholdingOwnerController {
 	// Save
 
 	@PostMapping(value = "/edit", params = "save")
-	public ModelAndView save(List<MultipartFile> file,Smallholding smallholding, final BindingResult binding) {
+	public ModelAndView save(List<MultipartFile> file, Smallholding smallholding, final BindingResult binding) {
 		ModelAndView result;
 		Smallholding smallholdingRec;
-		Collection<Photo> photos;
-
-		photos = (file.size() != 0 && !file.get(0).getOriginalFilename().equals("")) ? this.photoService.storeImages(file) : smallholding.getPhotos();
-		smallholding.setPhotos(photos);
 
 		smallholdingRec = this.smallholdingService.reconstruct(smallholding, binding);
 
-		if (binding.hasErrors()) {
+		if (binding.hasErrors() && binding.getErrorCount() != 1) {
 			result = this.createEditModelAndView(smallholding);
 		} else {
 			try {
-				this.smallholdingService.save(smallholdingRec);
-				result = new ModelAndView("redirect:/owner/smallholding/listOwnSmallholdings");
+				if(binding.hasErrors() && binding.getFieldErrorCount("photos") == 1){
+					this.smallholdingService.save(smallholdingRec,file);
+					result = new ModelAndView("redirect:/owner/smallholding/listOwnSmallholdings");
+				} 
+				else 
+					throw new IllegalArgumentException();
+				
 			} catch (final Throwable oops) {
 				if (oops.getMessage().equals("El propietario debe tener un IBAN asociado")) {
 					result = this.createEditModelAndView(smallholdingRec, "Debes tener un IBAN asociado a tu perfil");
@@ -221,5 +223,6 @@ public class SmallholdingOwnerController {
 
 		return result;
 	}
+
 
 }
