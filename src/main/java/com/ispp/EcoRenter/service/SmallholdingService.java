@@ -19,6 +19,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.multipart.MultipartFile;
 
+import ch.qos.logback.core.joran.conditional.ElseAction;
+
 import com.ispp.EcoRenter.model.Actor;
 import com.ispp.EcoRenter.model.Owner;
 import com.ispp.EcoRenter.model.Photo;
@@ -82,9 +84,13 @@ public class SmallholdingService {
         Assert.isTrue(smallholding.getStatus().equals("NO ALQUILADA"), "No se puede editar una parcela ya alquilada");
 
         Smallholding result;
-        Collection<Photo> photos;
+        Collection<Photo> photos = null;
 
-        photos = (file.size() != 0 && !file.get(0).getOriginalFilename().equals("")) ? this.photoService.storeImages(file) : smallholding.getPhotos();
+        if(smallholding.getId() != 0 && file.get(0).getOriginalFilename().equals("")) // Si no ha añadido fotos, se le asigna las que tenía
+            photos = this.photoService.findPhotosBySmallholdingId(smallholding.getId());
+        else 
+            photos = this.photoService.storeImages(file);
+        
         smallholding.setPhotos(photos);
 
         result = this.smallholdingRepository.save(smallholding);

@@ -138,9 +138,9 @@ public class SmallholdingOwnerController {
 	public ModelAndView save(List<MultipartFile> file, Smallholding smallholding, final BindingResult binding) {
 		ModelAndView result;
 		Smallholding smallholdingRec;
-
+		
 		smallholdingRec = this.smallholdingService.reconstruct(smallholding, binding);
-
+		
 		if (binding.hasErrors() && binding.getErrorCount() != 1) {
 			result = this.createEditModelAndView(smallholding);
 		} else {

@@ -188,8 +188,10 @@
 								</p>
 							</div>
 							<div class="col-md-12  form-group" data-for="name">
-								<input type="file" id="fileid" name="file" accept="image/*"
-									multiple="multiple" required="required" />
+								<input th:if="${smallholding.id == 0}" type="file" id="fileid" name="file" accept="image/*"
+									multiple="multiple" required="required"/>
+								<input th:if="${smallholding.id != 0}" type="file" id="fileid" name="file" accept="image/*"
+									multiple="multiple"/>
 								<p th:if="${#fields.hasErrors('photos')}"
 								style="color: red !important;">
 								<span th:errors="*{photos}"></span>
@@ -210,7 +212,7 @@
 							</div>
 							<div class="col-md-12 form-group" data-for="name"
 								th:if="${messageCode != ''}">
-								<p th:text="${messageCode}"></p>
+								<p th:text="${messageCode}" style="color: red !important;"></p>
 							</div>
 							<div data-for="message" class="col-md-12 form-group">
 								<div class="col-md-12 input-group-btn align-center">
