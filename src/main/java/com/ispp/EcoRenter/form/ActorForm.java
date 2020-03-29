@@ -33,6 +33,10 @@ public abstract class ActorForm extends DomainEntity {
 	private String email;
 
 	@NotBlank
+	@Pattern(
+		regexp = "^((\\+[0-9]{1,3}\\ )?([0-9]{1,3}\\ )?([0-9]{4,})?)$",
+	    message = "Número de teléfono inválido"
+	)
 	private String telephoneNumber;
 
 	@NotBlank

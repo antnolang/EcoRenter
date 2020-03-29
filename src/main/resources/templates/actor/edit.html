@@ -29,7 +29,8 @@
 					<form th:action="@{/actor/authenticated/edit}" id="myForm"
 						th:object="${objectForm}" method="post"
 						enctype="multipart/form-data" class="mbr-form form-with-styler"
-						data-form-title=" Form">
+						data-form-title=" Form"
+						onsubmit="return checkTelephoneNumber()">
 
 						<input type="hidden" th:field="*{id}" />
 
@@ -60,19 +61,22 @@
 									<span th:errors="*{surname}"></span>
 								</p>
 							</div>
-
+														
 							<div class="col-md-12  form-group" data-for="telephoneNumber">
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
-									style="color: #2a3d2e !important;">Número de teléfono</label> <input
-									type="text" th:field="*{telephoneNumber}"
+									style="color: #2a3d2e !important;">Número de teléfono</label>
+								<input
+									type="text" th:field="*{telephoneNumber}" id="telephoneNumber"
 									th:errorclass="fieldError" data-form-field="telephoneNumber"
 									placeholder="+34 690752345" required="required"
-									class="form-control display-7" />
+									class="form-control display-7"
+									onchange="checkTelephoneNumber()" />
 								<p th:if="${#fields.hasErrors('telephoneNumber')}"
 									style="color: red !important;">
 									<span th:errors="*{telephoneNumber}"></span>
 								</p>
+								<p style="color: red !important;"> <span id="telephoneNumberError"></span> </p>
 							</div>
 
 							<div class="col-md-12  form-group" data-for="email">
