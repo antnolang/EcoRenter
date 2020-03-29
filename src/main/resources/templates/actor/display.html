@@ -161,6 +161,12 @@ body {
 						Volver atrás </a>
 				</div>
 
+				<div sec:authorize="hasAuthority('ADMIN')" class="mbr-section-btn pt-3">
+					<a class="btn btn-secondary-outline display-4" th:href="@{/actor/administrator/deleteActor}">
+						Eliminar un usuario
+					</a>
+				</div>
+
 			</div>
 
 

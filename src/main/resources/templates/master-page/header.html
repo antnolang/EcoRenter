@@ -54,7 +54,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 					class="nav-link link text-secondary display-4" th:href="@{/administrator/customisation/display}"
 					aria-expanded="false">Configuración del sistema</a></li>
 
-				<li sec:authorize="isAnonymous()" class="nav-item dropdown open"><a class="nav-link link text-secondary dropdown-toggle display-4" href="" data-toggle="dropdown-submenu" aria-expanded="true">Registro</a><div class="dropdown-menu"><a class="text-secondary dropdown-item display-4" th:href="@{/actor/owner/register}">Registro como propietario<br></a><a class="text-secondary dropdown-item display-4" th:href="@{/actor/renter/register}" aria-expanded="true">Registro como arrendatario</a></div></li>
+				<li sec:authorize="isAnonymous()" class="nav-item dropdown"><a class="nav-link link text-secondary dropdown-toggle display-4" href="" data-toggle="dropdown-submenu" aria-expanded="false">Registro</a><div class="dropdown-menu"><a class="text-secondary dropdown-item display-4" th:href="@{/actor/owner/register}">Registro como propietario<br></a><a class="text-secondary dropdown-item display-4" th:href="@{/actor/renter/register}" aria-expanded="false">Registro como arrendatario</a></div></li>
 				
 
 				<li sec:authorize="isAnonymous()"class="nav-item" ><a

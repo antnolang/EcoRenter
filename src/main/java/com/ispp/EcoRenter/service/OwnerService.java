@@ -84,6 +84,11 @@ public class OwnerService {
 
 
 	}
+	
+	public void delete(Owner owner) {
+		
+		this.ownerRepository.delete(owner);
+	}
 
 
 	public Owner findOne(int ownerId) {
@@ -197,6 +202,7 @@ public class OwnerService {
 	public Owner register(OwnerRegister ownerRegister, BindingResult binding) {
 		Owner result = this.create();
 		UserAccount renterUserAccount = result.getUserAccount();
+		Photo photo;
 
 		//Comprobamos que las contraseñas coincidan, el usuario no exista y el iban sea correcto.
 
@@ -206,6 +212,7 @@ public class OwnerService {
 				                                                "El usuario elegido ya existe.");
 		Assert.isTrue(ownerRegister.getIban().matches("[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}"),
 				      "Iban incorrecto.");
+		
 
 		//Obtenemos valores del parametro renterRegister obtenido del formulario
 
@@ -216,7 +223,8 @@ public class OwnerService {
 		String username = ownerRegister.getUsername();
 		String password = ownerRegister.getPassword();
 		String iban = ownerRegister.getIban();
-		int months = ownerRegister.getAccumulatedMonths();
+		int months = 0;
+		MultipartFile file = ownerRegister.getFile();
 
 		//Codificamos la password para persistirla asi en bd
 		String encodedPass = this.passwordEncoder.encode(password);
@@ -229,6 +237,15 @@ public class OwnerService {
 		result.setTelephoneNumber(telephone);
 		result.setIban(iban);
 		result.setAccumulatedMonths(months);
+		
+		if (file != null) {
+			photo = this.photoService.storeImage(file);
+			
+			if (photo != null) {
+				result.setPhoto(photo);
+			}
+			
+		}
 
 		renterUserAccount.setUsername(username);
 		renterUserAccount.setPassword(encodedPass);

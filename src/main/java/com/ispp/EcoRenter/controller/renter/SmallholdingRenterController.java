@@ -72,7 +72,7 @@ public class SmallholdingRenterController {
 			rent.setSmallholding(sh);
 			
 			rent.setIsActive(true);
-
+			
 			rent.getRenter().setIban(iban);
 
 			this.rentoutService.save(rent);
@@ -82,7 +82,7 @@ public class SmallholdingRenterController {
 			result.addObject(ex.getMessage(), "error");
 		}
 
-		result.addObject("isRented", true);
+		
 
 		return result;
 	}
