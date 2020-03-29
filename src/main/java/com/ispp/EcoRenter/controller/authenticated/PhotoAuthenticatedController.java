@@ -57,7 +57,7 @@ public class PhotoAuthenticatedController {
 		try {
 			saved = this.photoService.storeImage(file);
 
-			result = new ModelAndView("redirect:/photo/authenticated/display?photoId=" + saved.getId());
+			result = new ModelAndView("redirect:/photo/authenticated/create");
 		} catch (Throwable oops) {
 			result = this.create();
 		}
