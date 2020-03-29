@@ -25,16 +25,16 @@
                                         </div>
                                     </div>
                                 </ol>
-                                <div class="carousel-inner" role="listbox">
+                                <div class="carousel-inner">
                                     <div th:each="ph_im,iterador : ${photo_imageData}">
                                         <div th:if="${iterador.index == 0}">
                                             <div class="carousel-item active">
-                                                <div class="img"><img class="d-block img-fluid" th:src="@{'data:' + ${ph_im.key.suffix} + ';base64, ' + ${ph_im.value}}" th:alt="${ph_im.key.name}"></div>
+                                                <img class="d-block w-100" th:src="@{'data:' + ${ph_im.key.suffix} + ';base64, ' + ${ph_im.value}}" th:alt="${ph_im.key.name}">
                                             </div>
                                         </div>
                                         <div th:if="${iterador.index != 0}">
                                             <div class="carousel-item">
-                                                <div class="img"><img class="d-block img-fluid" th:src="@{'data:' + ${ph_im.key.suffix} + ';base64, ' + ${ph_im.value}}" th:alt="${ph_im.key.name}"></div>
+                                                <img class="d-block w-100" th:src="@{'data:' + ${ph_im.key.suffix} + ';base64, ' + ${ph_im.value}}" th:alt="${ph_im.key.name}">
                                             </div>
                                         </div>
                                     </div>
