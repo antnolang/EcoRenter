@@ -198,8 +198,9 @@ public class RenterService {
     				  "Las contraseñas no coinciden.");
     	Assert.isTrue(this.actorService.checkNoRepeatedUsername(renterRegister.getUsername()),
     			      "El usuario elegido ya existe.");
-    	Assert.isTrue(renterRegister.getTelephoneNumber().matches("[0-9]+") && (renterRegister.getTelephoneNumber().length() == 9), "El número de teléfono deben ser 9 dígitos");
     	
+    	
+    
     	//Obtenemos valores del parametro renterRegister obtenido del formulario
     	
     	String name = renterRegister.getName();

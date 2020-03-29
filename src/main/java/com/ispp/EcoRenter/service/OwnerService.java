@@ -207,7 +207,7 @@ public class OwnerService {
 				                                                "El usuario elegido ya existe.");
 		Assert.isTrue(ownerRegister.getIban().matches("[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}"),
 				      "Iban incorrecto.");
-		Assert.isTrue(ownerRegister.getTelephoneNumber().matches("[0-9]+") && (ownerRegister.getTelephoneNumber().length() == 9), "El número de teléfono deben ser 9 dígitos");
+		
 
 		//Obtenemos valores del parametro renterRegister obtenido del formulario
 

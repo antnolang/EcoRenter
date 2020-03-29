@@ -108,7 +108,7 @@ private static final Log log = LogFactory.getLog(ActorAuthenticatedController.cl
 				}else if(message.equals("Iban incorrecto.")) {
 					result.addObject("noValidIban", message);
 				}else {
-					result.addObject("errorMessage", message);
+					result.addObject("errorMessage", "No se pudo realizar el registro. Intentelo de nuevo por favor.");
 				}
 
 			}

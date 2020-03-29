@@ -106,8 +106,8 @@ public class ActorRenterController {
 
 				}else if(message.equals("Iban incorrecto.")) {
 					result.addObject("noValidIban", message);
-				}else if(message.equals("El número de teléfono deben ser 9 dígitos")){
-					result.addObject("noValidTelephone", message);
+				}else {
+					result.addObject("errorMessage", message);
 				}
 
 			}

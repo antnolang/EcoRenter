@@ -22,11 +22,11 @@ public class ActorRegister extends DomainEntity{
 	private static final long serialVersionUID = 1L;
 
 	@NotBlank
-	@Pattern(regexp = "^[^0-9]+$")
+	@Pattern(regexp = "^[^0-9]+$", message = "Nombre no válido")
 	private String name;
 
 	@NotBlank
-	@Pattern(regexp = "^[^0-9]+$")
+	@Pattern(regexp = "^[^0-9]+$", message = "Apellidos no válidos")
 	private String surname;
 
 	@Transient
@@ -38,6 +38,10 @@ public class ActorRegister extends DomainEntity{
 	private String email;
 
 	@NotBlank
+	@Pattern(
+		    regexp = "^((\\+[0-9]{1,3}\\ )?([0-9]{1,3}\\ )?([0-9]{4,})?)$",
+		      message = "Número de teléfono inválido"
+		  )
 	private String telephoneNumber;
 
 	@NotBlank

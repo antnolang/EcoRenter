@@ -19,11 +19,11 @@ public abstract class ActorForm extends DomainEntity {
 
 	// Atributos -----------------------------------
 	@NotBlank
-	@Pattern(regexp = "^[^0-9]+$")
+	@Pattern(regexp = "^[^0-9]+$" , message = "El nombre no puede contener números.")
 	private String name;
 
 	@NotBlank
-	@Pattern(regexp = "^[^0-9]+$")
+	@Pattern(regexp = "^[^0-9]+$", message = "El apellido no puede contener números.")
 	private String surname;
 
 
