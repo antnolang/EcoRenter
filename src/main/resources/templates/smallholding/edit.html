@@ -13,12 +13,7 @@
 
 	<div class="content">
 
-		<link rel="stylesheet"
-			th:href="@{/resources/upload-image/css/imageuploadify.min.css}">
-
-
-
-
+		
 		<br> <br> <br> <br>
 		<div class="container">
 			<div class="row justify-content-center">
@@ -59,9 +54,9 @@
 								<label for="email-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
 									style="color: #2a3d2e !important;">Dirección</label> <input
-									type="text" id="txtAddress1" data-geocomplete="street address"
+									type="text" id="txtAddress1" data-geocomplete="street address" 
 									placeholder="Escribe una dirección" th:field="*{address}"
-									th:errorclass="fieldError" data-form-field="Message"
+									th:errorclass="fieldError" data-form-field="Message" required="required"
 									class="form-control display-7"></input>
 								<p th:if="${#fields.hasErrors('address')}"
 									style="color: red !important;">
@@ -72,7 +67,7 @@
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
 									style="color: #2a3d2e !important;">Título</label> <input
-									type="text" th:field="*{title}" th:errorclass="fieldError"
+									type="text" th:field="*{title}" th:errorclass="fieldError" 
 									data-form-field="Name" required="required"
 									class="form-control display-7">
 								<p th:if="${#fields.hasErrors('title')}"
@@ -85,7 +80,7 @@
 									class="form-control-label mbr-fonts-style display-7"
 									style="color: #2a3d2e !important;">m²</label> <input
 									type="number" th:field="*{size}" th:errorclass="fieldError"
-									data-form-field="Name" required="required"
+									data-form-field="Name" required="required"  min="1"
 									class="form-control display-7">
 								<p th:if="${#fields.hasErrors('size')}"
 									style="color: red !important;">
@@ -96,7 +91,7 @@
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
 									style="color: #2a3d2e !important;">Precio (al mes)</label> <input
-									type="number" th:field="*{price}" step="1"
+									type="number" th:field="*{price}"  min="1" step="0.01"
 									th:errorclass="fieldError" data-form-field="Name"
 									required="required" class="form-control display-7">
 								<p th:if="${#fields.hasErrors('price')}"
@@ -143,10 +138,10 @@
 							<div class="col-md-4  form-group" data-for="name">
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
-									style="color: #2a3d2e !important;">Código postal</label> <input
-									type="number" data-geocomplete="zip code"
+									style="color: #2a3d2e !important;">Código postal</label> <input 
+									type="number" data-geocomplete="zip code" required="required"  min="10000" max="60000"
 									th:field="*{postalCode}" th:errorclass="fieldError"
-									data-form-field="Name" required="required"
+									data-form-field="Name"  
 									class="form-control display-7">
 								<p th:if="${#fields.hasErrors('postalCode')}"
 									style="color: red !important;">
@@ -184,7 +179,7 @@
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
 									style="color: #2a3d2e !important;">Meses máximos en
-									alquiler</label> <input type="number" th:field="*{maxDuration}"
+									alquiler</label> <input type="number" th:field="*{maxDuration}"  min="1"
 									th:errorclass="fieldError" data-form-field="Name"
 									required="required" class="form-control display-7">
 								<p th:if="${#fields.hasErrors('maxDuration')}"
@@ -192,22 +187,17 @@
 									<span th:errors="*{maxDuration}"></span>
 								</p>
 							</div>
-						
-							<!--  <div class="col-md-4  form-group" data-for="name">
-                            <label for="name-form1-17" class="form-control-label mbr-fonts-style display-7" style="color: #2a3d2e !important;">Seleccionar imágenes</label>
-                            <input type="file" id="file" name="file" accept="image/*" multiple="multiple" />
-                            <p>El tamaño máximo debe ser 5MB</p>
-                            <p th:if="${#fields.hasErrors('photos')}" style="color: red !important;">
-                                <span th:errors="*{photos}"></span>
-                            </p>
-                        </div>
-                        -->
 							<div class="col-md-12  form-group" data-for="name">
-								<input type="file" id="file" name="file" accept="image/*"
-									multiple="multiple" required />
-
+								<input th:if="${smallholding.id == 0}" type="file" id="fileid" name="file" accept="image/*"
+									multiple="multiple" required="required"/>
+								<input th:if="${smallholding.id != 0}" type="file" id="fileid" name="file" accept="image/*"
+									multiple="multiple"/>
+								<p th:if="${#fields.hasErrors('photos')}"
+								style="color: red !important;">
+								<span th:errors="*{photos}"></span>
+								</p>
 							</div>
-
+							
 							<div data-for="message" class="col-md-12 form-group">
 								<span class="gdpr-block"> <label> <span
 										class="textGDPR" style="color: #a7a7a7"><input
@@ -222,17 +212,17 @@
 							</div>
 							<div class="col-md-12 form-group" data-for="name"
 								th:if="${messageCode != ''}">
-								<p th:text="${messageCode}"></p>
+								<p th:text="${messageCode}" style="color: red !important;"></p>
 							</div>
 							<div data-for="message" class="col-md-12 form-group">
 								<div class="col-md-12 input-group-btn align-center">
-									<button name="save" type="submit"
+									<button name="save" id="Guarda" type="submit" 
 										class="btn btn-form btn-secondary display-4">Guardar
 									</button>
 
 
 									<a href="/owner/smallholding/listOwnSmallholdings"
-										class="btn btn-warning-outline display-4"> Volver </a>
+										class="btn btn-warning-outline display-4" onclick="envioForm()"> Volver </a>
 								</div>
 
 
@@ -242,56 +232,9 @@
 					</form>
 
 
-					<script
-						th:src="@{/resources/upload-image/js/imageuploadify.min.js}"></script>
-					<script type="text/javascript">
-            $(document).ready(function() {
-                $('input[type="file"]').imageuploadify();
-                
-                $("button.btn-default").text("Arrastra las fotos o súbelas clickando aquí");
-                $("span.imageuploadify-message").text("Debes añadir al menos una foto. El tamaño máximo debe ser de 5MB.");
-            })
-        </script>
+					
 
-					<style>
-button.btn-danger {
-	background-color: red !important;
-	border: red !important;
-}
-button.btn-danger:hover {
-	background-color:  #54775E !important;
-	border: red !important;
-}
-.imageuploadify {
-	min-height: 250px !important;
-}
-
-span.imageuploadify-message {
-	color: red !important;
-	font-size: 15px !important;
-	border-top: white !important;
-	border-bottom: white !important;
-}
-
-button.btn-default {
-	color: #54775E !important;
-	border-color: #54775E !important;
-}
-
-button.btn-default:hover {
-	background: rgba(0, 0, 0, 0.2) !important;
-}
-
-.imageuploadify .imageuploadify-images-list i {
-	display: none !important;
-}
-
-span {
-	color: #54775E !important;
-}
-</style>
-
-				</div>
+					</div>
 			</div>
 		</div>
 

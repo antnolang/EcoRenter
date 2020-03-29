@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{master-page/layout :: layout(~{::title}, ~{::div.content})}">
+
+<head>
+<title>Configuración del sistema</title>
+</head>
+
+<body>
+	<div class="content ">
+
+
+
+		<br> <br> <br> <br>
+
+		<style>
+img {
+	height: 50px !important;
+}
+
+th, tr {
+	text-align: center !important;
+	color: #2a3d2e !important;
+}
+</style>
+
+		<section class="services2 cid-rRNDCjx6s4" id="services2-q">
+
+			<div class="container">
+				<h2
+					class="mbr-section-title align-center pb-3 mbr-fonts-style display-2"
+					style="color: #2a3d2e !important;">Configuración del sistema
+				</h2>
+				<div class="row">
+					<div class="col-md-6">
+
+
+						<table class="table table-striped table-hover">
+
+
+
+							<thead>
+								<tr>
+									<th>Contacto</th>
+									<th>Cupones descuentos</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td th:text="${customisation.email}"></td>
+
+									<td style="text-align: initial !important; ">
+										<p th:unless="${customisation.discountCodes == ''}">
+										<div
+											th:each="desc : ${#strings.arraySplit(customisation.discountCodes, ',')}">
+											<li th:text="${desc}"></li>
+										</div>
+										</p>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+
+
+
+
+					</div>
+					<div class="col-md-6">
+						<table class="table table-striped table-hover">
+
+
+
+							<thead>
+								<tr>
+
+									<th><img th:src="@{/resources/images-levels/oro.jpg}"
+										class="img-fluid" alt="Nivel oro" title="Nivel oro"></th>
+									<th><img th:src="@{/resources/images-levels/plata.jpg}"
+										class="img-fluid" alt="Nivel plata" title="Nivel plata"></th>
+
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+
+									<td>A partir del mes <span
+										th:text="${customisation.goldLevel}"></span></td>
+									<td>A partir del mes <span
+										th:text="${customisation.silverLevel}"></span></td>
+
+								</tr>
+							</tbody>
+						</table>
+
+					</div>
+				</div>
+
+				<div class="col-md-12 input-group-btn align-center">
+					<a th:href="@{'/administrator/customisation/edit'}"
+						class="btn btn-secondary-outline display-4">Editar
+						configuración</a>
+				</div>
+
+
+
+
+
+
+			</div>
+		</section>
+	</div>
+</body>
+</html>

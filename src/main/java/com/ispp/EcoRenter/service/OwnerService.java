@@ -84,6 +84,11 @@ public class OwnerService {
 
 
 	}
+	
+	public void delete(Owner owner) {
+		
+		this.ownerRepository.delete(owner);
+	}
 
 
 	public Owner findOne(int ownerId) {

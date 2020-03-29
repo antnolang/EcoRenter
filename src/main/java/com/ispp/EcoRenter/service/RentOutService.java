@@ -66,6 +66,10 @@ public class RentOutService {
     	return result;
     }
     
+    public void delete(RentOut rentout){
+    	this.rentOutRepository.delete(rentout);
+    }
+    
     // Other business method
 
 
@@ -73,6 +77,15 @@ public class RentOutService {
         Collection<RentOut> result;
 
         result = this.rentOutRepository.findRentOutBySmallholdingAndRenter(smallholdingId, renterId);
+        Assert.notNull(result,"No instancia la colección vacía de alquileres");
+
+        return result;
+    }
+    
+    public Collection<RentOut> findRentOutsByRenter(int renterId){
+        Collection<RentOut> result;
+
+        result = this.rentOutRepository.findRentOutByRenter(renterId);
         Assert.notNull(result,"No instancia la colección vacía de alquileres");
 
         return result;

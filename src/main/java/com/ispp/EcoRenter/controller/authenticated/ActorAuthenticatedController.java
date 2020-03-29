@@ -114,7 +114,7 @@ public class ActorAuthenticatedController {
 	@PostMapping(value = "/edit", params = "saveOwner")
 	public ModelAndView editOwner(@ModelAttribute("objectForm") @Valid OwnerForm ownerForm, BindingResult binding) {
 		ModelAndView result;
-		
+			
 		if (binding.hasErrors()) {
 			result = this.actorOwnerController.createEditModelAndView(ownerForm);
 		} else {
@@ -141,6 +141,10 @@ public class ActorAuthenticatedController {
 					result = this.actorOwnerController.createEditModelAndView(ownerForm,
 							  												  "selImage",
 							  												  message);
+				} else if (message.equals("La imagen supera los 5MB")) {
+					result = this.actorOwnerController.createEditModelAndView(ownerForm,
+							  												  "selImage",
+							  												  message);	
 				} else {
 					result = this.actorOwnerController.createEditModelAndView(ownerForm,
 																			  "invalidOperation",
@@ -148,7 +152,7 @@ public class ActorAuthenticatedController {
 				}
 			}
 		}
-			
+		
 		return result;
 	}
 	
@@ -182,6 +186,10 @@ public class ActorAuthenticatedController {
 						result = this.actorRenterController.createEditModelAndView(renterForm,
 								  												  "selImage",
 								  												  message);
+				} else if (message.equals("La imagen supera los 5MB")) {
+					result = this.actorRenterController.createEditModelAndView(renterForm,
+							  												   "selImage",
+							  												   message);
 				} else {
 					result = this.actorRenterController.createEditModelAndView(renterForm,
 																			   "invalidOperation",
@@ -222,7 +230,11 @@ public class ActorAuthenticatedController {
 				} else if (message.equals("No es una imagen")) {
 					result = this.actorAdministratorController.createEditModelAndView(adminForm,
 							  														  "selImage",
-							  														  message);	
+							  														  message);
+				} else if (message.equals("La imagen supera los 5MB")) {
+					result = this.actorAdministratorController.createEditModelAndView(adminForm,
+						  												  			  "selImage",
+						  												  			  message);
 				} else {
 					result = this.actorAdministratorController.createEditModelAndView(adminForm,
 																					  "invalidOperation",
@@ -326,5 +338,7 @@ public class ActorAuthenticatedController {
 		
 		return result;
 	}
+	
+	
 	
 }

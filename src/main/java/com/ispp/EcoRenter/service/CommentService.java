@@ -26,6 +26,11 @@ public class CommentService {
     }
 
     // CRUD methods
+    
+    
+    public void delete(Comment comment) {
+    	this.commentRepository.delete(comment);
+    }
 
     // Other business methods
 
@@ -35,5 +40,10 @@ public class CommentService {
         result = this.commentRepository.findCommentsBySmallholdingId(smallholdingId);
 
         return result;
+    }
+    
+    public Collection<Comment> findCommentsByRentOut(int rentOutId){
+       
+        return this.commentRepository.findCommentsByRentOut(rentOutId);
     }
 }

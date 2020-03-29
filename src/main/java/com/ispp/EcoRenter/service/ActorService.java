@@ -1,6 +1,7 @@
 package com.ispp.EcoRenter.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -211,6 +212,19 @@ public class ActorService {
     	
     	if(this.actorRepository.findByUsername(username) == null) {
     		result = true;
+    	}
+    	
+    	
+    	return result;
+    }
+    
+    public Collection<Actor> findAllExceptAdmin(){
+    	Collection<Actor> actors = this.actorRepository.findAll();
+    	Collection<Actor> result = new ArrayList<Actor>();
+    	for(Actor a : actors) {
+    		if(!(a instanceof Administrator)) {
+    			result.add(a);
+    		}
     	}
     	
     	
