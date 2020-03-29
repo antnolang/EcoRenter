@@ -7,35 +7,76 @@
 	<body>
 		<div class="content">
 			
-		<section class="services1 cid-rRNjW9YKmG" id="services1-6">
+		<section class="testimonials1 cid-rUE2rYTRTZ" id="testimonials1-1e">
+		
 		<div class="container">
-        <div class="row justify-content-center">
-            <!--Titles-->
-            
-            <!--Card-1-->
-            <div class="card col-12 col-md-6 p-3 col-lg-3" th:each="a: ${actors}">
-                <div class="card-wrapper">
-					
-                    <div class="card-box">
-                        <h4 class="card-title mbr-fonts-style display-5" th:text="${a.userAccount.username}"></h4>
-
-						
-                    </div>
-                </div>
-				<div class="mbr-section-btn align-center"><a th:href="@{~/actor/administrator/delete?actorId=} + ${a.id}" class="btn btn-warning-outline display-4">Eliminar este usuario</a></div>
-			</div>
-			 
-			
-			</div>
-			
-			<div sec:authorize="isAuthenticated()"
-			     th:if="${smallholdingPage.getTotalElements() > 0 && requestURI == 'smallholding/list'}"
-			     id="map"></div>	
-								
-			   
-			
-			
+        <div class="media-container-row">
+            <div class="title col-12 align-center">
+                <h2 class="pb-3 mbr-fonts-style display-2">
+                    Eliminar usuarios</h2>
+                
+            </div>
+        </div>
     </div>
+<div class="container pt-3 mt-2">
+        <div class="media-container-row">
+
+            <div class="mbr-testimonial p-3 align-center col-12 col-md-6 col-lg-4" th:each="a: ${actors}">
+                <div class="panel-item p-3">
+                    <div class="card-block">
+                        <div class="testimonial-photo">
+                            <img src="/resources/images/faltafoto.png">
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="mbr-author-name mbr-bold mbr-fonts-style display-7" th:text="${a.userAccount.username}">
+                        </div>
+                    </div>
+<div class="mbr-section-btn align-center"><a th:href="@{~/actor/administrator/delete?actorId=} + ${a.id}" class="btn btn-warning-outline display-4">Eliminar este usuario</a></div>
+                </div>
+            </div>
+
+        </div>
+
+			<div class="container">
+				<div class="row justify-content-center">
+					<div  th:if="${smallholdingPage.totalPages > 0 && requestURI == 'smallholding/list'}" 
+						th:each="pageNumber : ${pageNumbers}">
+						<nav aria-label="Page navigation example">
+							<ul class="pagination">
+								<li class="page-item">
+									<a th:href="@{/smallholding/list(size=${smallholdingPage.size}, page=${pageNumber})}" th:text=${pageNumber}	class="page-link"></a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+
+					<div  th:if="${smallholdingPage.totalPages > 0 && requestURI == 'owner/smallholding/listOwnSmallholdings'}" 
+						th:each="pageNumber : ${pageNumbers}">
+						<nav aria-label="Page navigation example">
+							 <ul class="pagination">
+					 			<li class="page-item">
+									<a th:href="@{/owner/smallholding/listOwnSmallholdings(size=${smallholdingPage.size}, page=${pageNumber})}"	th:text=${pageNumber} class="page-link"></a>
+								 </li>
+				 			</ul>
+						</nav>
+					</div>
+
+					<div  th:if="${smallholdingPage.totalPages > 0 && requestURI == 'renter/smallholding/list'}" 
+						th:each="pageNumber : ${pageNumbers}">
+						<nav aria-label="Page navigation example">
+							 <ul class="pagination">
+					 			<li class="page-item">
+									<a th:href="@{/renter/smallholding/list(size=${smallholdingPage.size}, page=${pageNumber})}"	th:text=${pageNumber} class="page-link"></a>
+								 </li>
+				 			</ul>
+						</nav>
+					</div>
+
+				</div>
+			</div>
+
+    </div>   
 </section>
 
 		</div>
