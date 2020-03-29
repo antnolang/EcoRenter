@@ -91,7 +91,7 @@
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
 									style="color: #2a3d2e !important;">Precio (al mes)</label> <input
-									type="number" th:field="*{price}"  min="1" step="1"
+									type="number" th:field="*{price}"  min="1" step="0.01"
 									th:errorclass="fieldError" data-form-field="Name"
 									required="required" class="form-control display-7">
 								<p th:if="${#fields.hasErrors('price')}"
