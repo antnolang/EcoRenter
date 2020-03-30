@@ -40,38 +40,17 @@
 
 			<div class="container">
 				<div class="row justify-content-center">
-					<div  th:if="${smallholdingPage.totalPages > 0 && requestURI == 'smallholding/list'}" 
+					<div  th:if="${actorPage.totalPages > 0 && requestURI == 'actor/administrator/deleteActor'}" 
 						th:each="pageNumber : ${pageNumbers}">
 						<nav aria-label="Page navigation example">
 							<ul class="pagination">
 								<li class="page-item">
-									<a th:href="@{/smallholding/list(size=${smallholdingPage.size}, page=${pageNumber})}" th:text=${pageNumber}	class="page-link"></a>
+									<a th:href="@{/actor/administrator/deleteActor(size=${actorPage.size}, page=${pageNumber})}" th:text=${pageNumber}	class="page-link"></a>
 								</li>
 							</ul>
 						</nav>
 					</div>
 
-					<div  th:if="${smallholdingPage.totalPages > 0 && requestURI == 'owner/smallholding/listOwnSmallholdings'}" 
-						th:each="pageNumber : ${pageNumbers}">
-						<nav aria-label="Page navigation example">
-							 <ul class="pagination">
-					 			<li class="page-item">
-									<a th:href="@{/owner/smallholding/listOwnSmallholdings(size=${smallholdingPage.size}, page=${pageNumber})}"	th:text=${pageNumber} class="page-link"></a>
-								 </li>
-				 			</ul>
-						</nav>
-					</div>
-
-					<div  th:if="${smallholdingPage.totalPages > 0 && requestURI == 'renter/smallholding/list'}" 
-						th:each="pageNumber : ${pageNumbers}">
-						<nav aria-label="Page navigation example">
-							 <ul class="pagination">
-					 			<li class="page-item">
-									<a th:href="@{/renter/smallholding/list(size=${smallholdingPage.size}, page=${pageNumber})}"	th:text=${pageNumber} class="page-link"></a>
-								 </li>
-				 			</ul>
-						</nav>
-					</div>
 
 				</div>
 			</div>

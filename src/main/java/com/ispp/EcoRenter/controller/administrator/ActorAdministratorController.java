@@ -118,13 +118,16 @@ public class ActorAdministratorController {
 			}
 			
 			for(Actor a: actors){
-				Photo photo = this.photoService.getPhotoById(a.getPhoto().getId());
+				if(a.getPhoto()!=null) {
+					Photo photo = this.photoService.getPhotoById(a.getPhoto().getId());
+					List<String> photoAttr = new ArrayList<String>();
+					photoAttr.add(photo.getName());
+					photoAttr.add(photo.getSuffix());
+					photoAttr.add(this.photoService.getImageBase64(photo));
+					actor_photo.put(a.getId(), photoAttr);
+				}
 				
-				List<String> photoAttr = new ArrayList<String>();
-				photoAttr.add(photo.getName());
-				photoAttr.add(photo.getSuffix());
-				photoAttr.add(this.photoService.getImageBase64(photo));
-				actor_photo.put(a.getId(), photoAttr);
+				
 			}
 			
 			result.addObject("actors", actors);
@@ -143,8 +146,7 @@ public class ActorAdministratorController {
 	}
 	
 	@GetMapping(value = "/delete")
-	public ModelAndView delete(@RequestParam final int actorId,@RequestParam("page") final Optional<Integer> page,
-			@RequestParam("size") final Optional<Integer> size) {
+	public ModelAndView delete(@RequestParam final int actorId) {
 		ModelAndView result = null;
 		
 		Actor beDeleted = this.actorService.findOne(actorId);
