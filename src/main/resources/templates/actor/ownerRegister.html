@@ -28,17 +28,18 @@
 
 					<form th:action="@{/actor/owner/register}" id="myForm"
 						th:object="${owner}" method="post" enctype="multipart/form-data"
-						class="mbr-form form-with-styler" data-form-title=" Form">
+						class="mbr-form form-with-styler" data-form-title=" Form"
+						onsubmit="return validateActor()">
 						<div class="dragArea row">
 
 							<div class="col-md-5  form-group" data-for="name">
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
-									style="color: #2a3d2e !important;">Nombre</label> <input
+									style="color: #2a3d2e !important;">Nombre</label>
+								<input
 									type="text" th:field="*{name}" th:errorclass="fieldError"
 									data-form-field="Name" required="required"
-									class="form-control display-7">
-								</textarea>
+									class="form-control display-7" />
 								<p th:if="${#fields.hasErrors('name')}"
 									style="color: red !important;">
 									<span th:errors="*{name}"></span>
@@ -49,11 +50,11 @@
 							<div class="col-md-7 form-group" data-for="surname">
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
-									style="color: #2a3d2e !important;">Apellidos</label> <input
+									style="color: #2a3d2e !important;">Apellidos</label>
+								<input
 									type="text" th:field="*{surname}" th:errorclass="fieldError"
 									data-form-field="Surname" required="required"
-									class="form-control display-7">
-								</textarea>
+									class="form-control display-7" />
 								<p th:if="${#fields.hasErrors('surname')}"
 									style="color: red !important;">
 									<span th:errors="*{surname}"></span>
@@ -66,11 +67,15 @@
 									style="color: #2a3d2e !important;">Número de teléfono</label> <input
 									type="text" th:field="*{telephoneNumber}"
 									th:errorclass="fieldError" data-form-field="telephoneNumber"
-									required="required" class="form-control display-7">
-								</textarea>
+									required="required" class="form-control display-7"
+									onchange="checkTelephoneNumber()" />
 								<p th:if="${#fields.hasErrors('telephoneNumber')}"
 									style="color: red !important;">
 									<span th:errors="*{telephoneNumber}"></span>
+								</p>
+								
+								<p style="color: red !important;">
+									<span id="telephoneNumberError"></span>
 								</p>
 							</div>
 
@@ -78,10 +83,9 @@
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
 									style="color: #2a3d2e !important;">Correo electrónico</label> <input
-									type="text" th:field="*{email}" th:errorclass="fieldError"
+									type="email" th:field="*{email}" th:errorclass="fieldError"
 									data-form-field="Email" required="required"
-									class="form-control display-7">
-								</textarea>
+									class="form-control display-7" />
 								<p th:if="${#fields.hasErrors('email')}"
 									style="color: red !important;">
 									<span th:errors="*{email}"></span>
@@ -94,8 +98,7 @@
 									style="color: #2a3d2e !important;">Nombre de usuario</label> <input
 									type="text" th:field="*{username}" th:errorclass="fieldError"
 									data-form-field="username" required="required"
-									class="form-control display-7">
-								</textarea>
+									class="form-control display-7" />	
 								<p th:if="${#fields.hasErrors('username')}"
 									style="color: red !important;">
 									<span th:errors="*{username}"></span>
@@ -114,8 +117,7 @@
 									style="color: #2a3d2e !important;">Contraseña</label> <input
 									type="password" th:field="*{password}"
 									th:errorclass="fieldError" data-form-field="password"
-									required="required" class="form-control display-7">
-								</textarea>
+									required="required" class="form-control display-7" />
 								<p th:if="${#fields.hasErrors('password')}"
 									style="color: red !important;">
 									<span th:errors="*{password}"></span>
@@ -134,8 +136,7 @@
 									style="color: #2a3d2e !important;">Confirmar contraseña</label>
 								<input type="password" th:field="*{passwordMatch}"
 									th:errorclass="fieldError" data-form-field="passwordMatch"
-									required="required" class="form-control display-7">
-								</textarea>
+									required="required" class="form-control display-7" />
 								<p th:if="${#fields.hasErrors('passwordMatch')}"
 									style="color: red !important;">
 									<span th:errors="*{passwordMatch}"></span>
@@ -153,8 +154,7 @@
 									pattern="[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}"
 									th:field="*{iban}" th:errorclass="fieldError"
 									data-form-field="iban" required="required"
-									class="form-control display-7">
-								</textarea>
+									class="form-control display-7" />
 								<p th:if="${#fields.hasErrors('iban')}"
 									style="color: red !important;">
 									<span th:errors="*{iban}"></span>
@@ -170,13 +170,18 @@
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
 									style="color: #2a3d2e !important;">Seleccionar foto de
-									perfil</label> <input type="file" th:field="*{file}"
+									perfil (El tamaño máximo debe ser 5MB)</label>
+								<input type="file" th:field="*{file}"
 									th:errorclass="fieldError" data-form-field="file"
-									accept="image/*" class="form-control display-7" />
-								<p>El tamaño máximo debe ser 5MB</p>
+									accept="image/*" class="form-control display-7"
+									onchange="checkSizeFile()" />
 								<p th:if="${#fields.hasErrors('file')}"
 									style="color: red !important;">
 									<span th:errors="*{file}"></span>
+								</p>
+								
+								<p style="color: red !important;"> 
+									<span id="fileError"></span>
 								</p>
 							</div>
 
