@@ -74,7 +74,7 @@ CREATE TABLE public.customization (
     gold_level integer NOT NULL,
     silver_level integer NOT NULL,
     CONSTRAINT customization_gold_level_check CHECK ((gold_level >= 9)),
-    CONSTRAINT customization_silver_level_check CHECK (((silver_level >= 3) AND (silver_level <= 8)))
+    CONSTRAINT customization_silver_level_check CHECK (((silver_level <= 8) AND (silver_level >= 3)))
 );
 
 
