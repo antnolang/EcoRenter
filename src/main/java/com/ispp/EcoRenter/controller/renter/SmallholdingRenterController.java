@@ -30,6 +30,16 @@ import com.ispp.EcoRenter.service.PhotoService;
 import com.ispp.EcoRenter.service.RentOutService;
 import com.ispp.EcoRenter.service.RenterService;
 import com.ispp.EcoRenter.service.SmallholdingService;
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
+import com.stripe.model.Card;
+import com.stripe.model.Charge;
+import com.stripe.model.Customer;
+import com.stripe.model.PaymentIntent;
+import com.stripe.model.checkout.Session;
+import com.stripe.param.CustomerCreateParams;
+import com.stripe.param.PaymentIntentCreateParams;
+import com.stripe.param.checkout.SessionCreateParams;
 
 @Controller
 @RequestMapping("/renter/smallholding")
@@ -48,22 +58,80 @@ public class SmallholdingRenterController {
 	private PhotoService photoService;
 
 	@PostMapping(value = "/rent", params = "saveRent")
-	public ModelAndView checkout(@RequestParam final int smallholdingId, @PathParam("email") String email,
-			@PathParam("name") String name, @PathParam("iban") String iban) {
+	public ModelAndView checkout(@RequestParam final int smallholdingId) throws StripeException {
 
 		ModelAndView result;
 
 		result = new ModelAndView("redirect:/renter/smallholding/list");
 
+		Smallholding sh = this.smallholdingService.findOne(smallholdingId);
+
+		Stripe.apiKey = "sk_test_DxeIjPSmKslD2tFg1b1CG2TU00Q4RigZkT";
+
+		CustomerCreateParams customerParams = CustomerCreateParams.builder().build();
+
+		Customer customer = Customer.create(customerParams);
+
+		Long amount = (new Double(sh.getPrice())).longValue();
+		SessionCreateParams params = SessionCreateParams.builder()
+			.setCustomer(customer.getId())
+			.addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
+			.addLineItem(
+			SessionCreateParams.LineItem.builder()
+				.setName(sh.getTitle())
+				.setDescription(sh.getDescription())
+				.setAmount(amount*1000)
+				.setCurrency("eur")
+				.setQuantity(1L)
+				.build())
+			.setSuccessUrl("https://example.com/success")
+			.setCancelUrl("https://example.com/cancel")
+			.build();
+
+		Session session = Session.create(params);
+
+		PaymentIntentCreateParams paymentParams =
+			PaymentIntentCreateParams.builder()
+				.setCurrency("eur")
+				.setAmount(amount*100)
+				.build();
+
+		PaymentIntent intent = PaymentIntent.create(paymentParams);
+		/*
+		CustomerCreateParams customerParams = CustomerCreateParams.builder().build();
+
+		Customer customer = Customer.create(customerParams);
+
+		Map<String, Object> params = new HashMap<>();
+		params.put("source", "tok_visa");
+
+		Card card = (Card) customer.getSources().create(params);
+		
+		Map<String, Object> chargeParams = new HashMap<String, Object>();
+		chargeParams.put("amount", "199");
+		chargeParams.put("currency", "EUR");
+		chargeParams.put("source", "tok_1GHrpWA0a0Djixrr5Z0DCObT");
+		Charge charge = Charge.create(chargeParams);
+		*/
+		/*
+		Long amount = (new Double(sh.getPrice())).longValue();
+		PaymentIntentCreateParams params =
+			PaymentIntentCreateParams.builder()
+				.setCurrency("eur")
+				.setAmount(amount)
+				.build();
+
+		PaymentIntent intent = PaymentIntent.create(params);
+		*/
 		// Logic
 
-		Smallholding sh = this.smallholdingService.findOne(smallholdingId);
+		
 
 		try {
 
-			Assert.notNull(iban, "No puede ser nulo el iban");
+			//Assert.notNull(iban, "No puede ser nulo el iban");
 
-			Assert.isTrue(iban.matches("[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}"),"Ponga bien el iban por favor.");
+			//Assert.isTrue(iban.matches("[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}"),"Ponga bien el iban por favor.");
 
 			this.smallholdingService.rent(sh);
 
@@ -73,7 +141,7 @@ public class SmallholdingRenterController {
 			
 			rent.setIsActive(true);
 			
-			rent.getRenter().setIban(iban);
+			//rent.getRenter().setIban(iban);
 
 			this.rentoutService.save(rent);
 
