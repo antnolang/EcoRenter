@@ -13,6 +13,10 @@ public interface PhotoRepository extends JpaRepository<Photo, Integer> {
 
     @Query("select s.photos from Smallholding s where s.id = ?1")
     Collection<Photo> findPhotosBySmallholdingId(int smallholdingId);
+    
+    
+    @Query("select p from Photo p where p.id = ?1")
+    Photo findPhotoById(int photoId);
 
 	
 	

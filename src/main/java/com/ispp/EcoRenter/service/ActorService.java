@@ -2,6 +2,7 @@ package com.ispp.EcoRenter.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,10 @@ import javax.transaction.Transactional;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +23,7 @@ import org.springframework.util.Assert;
 
 import com.ispp.EcoRenter.model.Actor;
 import com.ispp.EcoRenter.model.Administrator;
+import com.ispp.EcoRenter.model.Smallholding;
 import com.ispp.EcoRenter.repository.ActorRepository;
 import com.ispp.EcoRenter.security.Authority;
 import com.ispp.EcoRenter.security.UserAccount;
@@ -230,5 +236,26 @@ public class ActorService {
     	
     	return result;
     }
+    
+    public Page<Actor> findPaginated(Pageable pageable, Collection<Actor> actors) {
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<Actor> list;
+        ArrayList<Actor> smaList= new ArrayList<>(actors);
+ 
+        if (smaList.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, smaList.size());
+            list = smaList.subList(startItem, toIndex);
+        }
+ 
+        Page<Actor> smPage
+          = new PageImpl<Actor>(list, PageRequest.of(currentPage, pageSize), smaList.size());
+ 
+        return smPage;
+    }
+    
     
 }

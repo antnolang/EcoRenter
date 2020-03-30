@@ -152,4 +152,8 @@ public class PhotoService {
 		return result;
 	}
 	
+	public Photo getPhotoById(int id) {
+		return this.photoRepository.findPhotoById(id);
+	}
+	
 }

@@ -1,10 +1,19 @@
 package com.ispp.EcoRenter.controller.administrator;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,9 +23,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ispp.EcoRenter.form.AdminForm;
 import com.ispp.EcoRenter.model.Actor;
 import com.ispp.EcoRenter.model.Owner;
+import com.ispp.EcoRenter.model.Photo;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.service.ActorService;
 import com.ispp.EcoRenter.service.AdministratorService;
+import com.ispp.EcoRenter.service.PhotoService;
 
 @Controller
 @RequestMapping("/actor/administrator")
@@ -29,6 +40,9 @@ public class ActorAdministratorController {
 	
 	@Autowired
 	private AdministratorService administratorService;
+	
+	@Autowired
+	private PhotoService photoService;
 	
 	
 	public ActorAdministratorController() {
@@ -76,20 +90,61 @@ public class ActorAdministratorController {
 	}
 	
 	@GetMapping(value = "/deleteActor")
-	public ModelAndView deleteActor() {
+	public ModelAndView deleteActor(@RequestParam("page") final Optional<Integer> page,
+			@RequestParam("size") final Optional<Integer> size) {
 		ModelAndView result;
-		Collection<Actor> actors = this.actorService.findAllExceptAdmin();
+		Collection<Actor> actors;
 		
-		result = new ModelAndView("actor/deleteActor");
+		int currentPage = page.orElse(1);
+		int pageSize = size.orElse(4);
+		Map<Integer,List<String>> actor_photo;
 		
-		result.addObject("actors", actors);
+		actor_photo = new HashMap<Integer,List<String>>();
 		
-
+		try {
+			result = new ModelAndView("actor/deleteActor");
+			actors = this.actorService.findAllExceptAdmin();
+			
+			Page<Actor> shPage = this.actorService
+					.findPaginated(PageRequest.of(currentPage - 1, pageSize), actors);
+			
+			
+			int totalPages = shPage.getTotalPages();
+			
+			
+			if (totalPages > 0) {
+				List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+				result.addObject("pageNumbers", pageNumbers);
+			}
+			
+			for(Actor a: actors){
+				Photo photo = this.photoService.getPhotoById(a.getPhoto().getId());
+				
+				List<String> photoAttr = new ArrayList<String>();
+				photoAttr.add(photo.getName());
+				photoAttr.add(photo.getSuffix());
+				photoAttr.add(this.photoService.getImageBase64(photo));
+				actor_photo.put(a.getId(), photoAttr);
+			}
+			
+			result.addObject("actors", actors);
+			
+			result.addObject("actorPage", shPage);
+			result.addObject("actor_photo", actor_photo);
+			
+		}catch(Throwable oops) {
+			
+			result = new ModelAndView("actor/deleteActor");
+		}
+		
+		
+		
 		return result;
 	}
 	
 	@GetMapping(value = "/delete")
-	public ModelAndView delete(@RequestParam final int actorId) {
+	public ModelAndView delete(@RequestParam final int actorId,@RequestParam("page") final Optional<Integer> page,
+			@RequestParam("size") final Optional<Integer> size) {
 		ModelAndView result = null;
 		
 		Actor beDeleted = this.actorService.findOne(actorId);
