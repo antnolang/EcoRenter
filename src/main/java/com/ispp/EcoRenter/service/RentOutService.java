@@ -72,6 +72,15 @@ public class RentOutService {
     
     // Other business method
 
+    public void checkChard(String card, String fecha, String cvv){
+        Assert.notNull(card, "La tarjeta no puede ser nula");
+        Assert.notNull(fecha, "La fecha no puede ser nula");
+        Assert.notNull(cvv, "El cvv no puede ser nula");
+        Assert.isTrue(card.length() >= 12 && card.length() <= 19, "El número de tarjeta debe contener entre 12 y 19 dígitos");
+        Assert.isTrue(cvv.length() == 3, "El CVV debe contener 3 dígitos");
+        Assert.isTrue(fecha.matches("(?:0[1-9]|1[0-2])/[0-9]{2}"), "La fecha es inválida");
+
+    }
 
     public Collection<RentOut> findRentOutsBySmallholdingAndRenter(int smallholdingId, int renterId){
         Collection<RentOut> result;

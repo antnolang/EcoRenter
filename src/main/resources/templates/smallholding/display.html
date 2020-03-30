@@ -93,6 +93,7 @@
                                 <p class="mbr-text text2 pt-4 mbr-light mbr-fonts-style display-2">
                                     <span th:text="${smallholding.price}"></span> €/mes
                                 </p>
+                                
 
                                 <!--Btn-->
 
@@ -116,37 +117,43 @@
 										parcela</a>
                                 </div>
 
+                                <div class="col-md-12 form-group" 
+                                    th:if="${errorMessage != ''}">
+                                    <p th:text="${errorMessage}" style="color: red !important;"></p>
+                                </div>
+
+                                
+
                                 <!-- Pago -->
 
                                 <form sec:authorize="hasAuthority('RENTER')" id="payment-form" style="display: none;" th:action="@{'/renter/smallholding/rent?smallholdingId=' + ${smallholding.id}}" method="post" class="sr-payment-form">
                                     <div class="sr-combo-inputs-row">
                                         <div class="col">
                                             <label for="card"> Tarjeta de crédito </label>
-                                            <input id="card" name="card" required />
+                                            <input id="card" name="card" required="required" />
                                         </div>
                                     </div>
 
                                     <div class="sr-combo-inputs-row">
                                         <div class="col">
                                             <label for="fecha"> Fecha de caducidad </label>
-                                            <input id="fecha" name="fecha" placeholder="XX/XX" />
+                                            <input id="fecha" name="fecha" required = "required" placeholder="XX/XX" />
                                         </div>
                                     </div>
 
                                     <div class="sr-combo-inputs-row">
                                         <div class="col">
                                             <label for="cvv"> CVV </label>
-                                            <input id="cvv" name="cvv" placeholder="XXX" required />
+                                            <input id="cvv" name="cvv" placeholder="XXX" required = "required" />
                                         </div>
                                     </div>
-
-                                    <!-- Used to display form errors. -->
-                                    <div id="error-message" class="sr-field-error" role="alert"></div>
 
                                     <!-- Display mandate acceptance text. -->
 
                                     <button id="confirm-mandate" name="saveRent" type="submit" class="btn btn-form btn-secondary display-4">Pagar</button>
                                 </form>
+
+                                
 
                                 <!-- Fin pago -->
 
@@ -174,6 +181,8 @@
                     </div>
                 </div>
             </div>
+
+            
 
             <div class="content">
 

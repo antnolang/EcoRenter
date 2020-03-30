@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,14 +31,8 @@ import com.ispp.EcoRenter.service.RenterService;
 import com.ispp.EcoRenter.service.SmallholdingService;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
-import com.stripe.model.Card;
-import com.stripe.model.Charge;
-import com.stripe.model.Customer;
 import com.stripe.model.PaymentIntent;
-import com.stripe.model.checkout.Session;
-import com.stripe.param.CustomerCreateParams;
 import com.stripe.param.PaymentIntentCreateParams;
-import com.stripe.param.checkout.SessionCreateParams;
 
 @Controller
 @RequestMapping("/renter/smallholding")
@@ -58,7 +51,8 @@ public class SmallholdingRenterController {
 	private PhotoService photoService;
 
 	@PostMapping(value = "/rent", params = "saveRent")
-	public ModelAndView checkout(@RequestParam final int smallholdingId) throws StripeException {
+	public ModelAndView checkout(@RequestParam final int smallholdingId, @PathParam("card") String card,
+	@PathParam("fecha") String fecha, @PathParam("cvv") String cvv) throws StripeException {
 
 		ModelAndView result;
 
@@ -67,72 +61,30 @@ public class SmallholdingRenterController {
 		Smallholding sh = this.smallholdingService.findOne(smallholdingId);
 
 		Stripe.apiKey = "sk_test_DxeIjPSmKslD2tFg1b1CG2TU00Q4RigZkT";
-
-		CustomerCreateParams customerParams = CustomerCreateParams.builder().build();
-
-		Customer customer = Customer.create(customerParams);
-
-		Long amount = (new Double(sh.getPrice())).longValue();
-		SessionCreateParams params = SessionCreateParams.builder()
-			.setCustomer(customer.getId())
-			.addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
-			.addLineItem(
-			SessionCreateParams.LineItem.builder()
-				.setName(sh.getTitle())
-				.setDescription(sh.getDescription())
-				.setAmount(amount*1000)
-				.setCurrency("eur")
-				.setQuantity(1L)
-				.build())
-			.setSuccessUrl("https://example.com/success")
-			.setCancelUrl("https://example.com/cancel")
-			.build();
-
-		Session session = Session.create(params);
-
-		PaymentIntentCreateParams paymentParams =
-			PaymentIntentCreateParams.builder()
-				.setCurrency("eur")
-				.setAmount(amount*100)
-				.build();
-
-		PaymentIntent intent = PaymentIntent.create(paymentParams);
-		/*
-		CustomerCreateParams customerParams = CustomerCreateParams.builder().build();
-
-		Customer customer = Customer.create(customerParams);
-
-		Map<String, Object> params = new HashMap<>();
-		params.put("source", "tok_visa");
-
-		Card card = (Card) customer.getSources().create(params);
 		
-		Map<String, Object> chargeParams = new HashMap<String, Object>();
-		chargeParams.put("amount", "199");
-		chargeParams.put("currency", "EUR");
-		chargeParams.put("source", "tok_1GHrpWA0a0Djixrr5Z0DCObT");
-		Charge charge = Charge.create(chargeParams);
-		*/
-		/*
-		Long amount = (new Double(sh.getPrice())).longValue();
-		PaymentIntentCreateParams params =
-			PaymentIntentCreateParams.builder()
-				.setCurrency("eur")
-				.setAmount(amount)
-				.build();
-
-		PaymentIntent intent = PaymentIntent.create(params);
-		*/
 		// Logic
 
-		
-
 		try {
+			this.rentoutService.checkChard(card, fecha, cvv);
 
-			//Assert.notNull(iban, "No puede ser nulo el iban");
+			Long amount = (new Double(sh.getPrice())).longValue();
 
-			//Assert.isTrue(iban.matches("[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}"),"Ponga bien el iban por favor.");
+			PaymentIntentCreateParams paymentParams = PaymentIntentCreateParams.builder()
+				.setCurrency("eur")
+				.setAmount(amount*100)
+				.setReceiptEmail(this.renterService.findByPrincipal().getEmail())
+				.putMetadata("integration_check", "accept_a_payment")
+				.build();
 
+			PaymentIntent intent = PaymentIntent.create(paymentParams);
+
+			PaymentIntent paymentIntent = PaymentIntent.retrieve(intent.getId());
+
+			Map<String, Object> params = new HashMap<>();
+			params.put("payment_method", "pm_card_visa");
+
+			paymentIntent.confirm(params);
+			
 			this.smallholdingService.rent(sh);
 
 			RentOut rent = this.rentoutService.create();
@@ -141,17 +93,14 @@ public class SmallholdingRenterController {
 			
 			rent.setIsActive(true);
 			
-			//rent.getRenter().setIban(iban);
-
 			this.rentoutService.save(rent);
 
 		} catch (Exception ex) {
-			System.out.println(ex.getLocalizedMessage());
-			result.addObject(ex.getMessage(), "error");
+			result = new ModelAndView("redirect:/smallholding/display?smallholdingId=" + smallholdingId);
+			result.addObject("errorMessage", "No se ha podido realizar el pago correctamente");
 		}
 
 		
-
 		return result;
 	}
 
