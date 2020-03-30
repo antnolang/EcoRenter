@@ -21,13 +21,8 @@
 <div class="container pt-3 mt-2">
         <div class="media-container-row">
 
-            <div class="mbr-testimonial p-3 align-center col-12 col-md-6 col-lg-4" th:each="a: ${actors}">
+            <div class="mbr-testimonial p-3 align-center col-12 col-md-6 col-lg-4" th:each="a: ${actorPage}">
                 <div class="panel-item p-3">
-                    <div class="card-block">
-                        <div class="testimonial-photo">
-                            <img src="/resources/images/faltafoto.png">
-                        </div>
-                    </div>
                     <div class="card-footer">
                         <div class="mbr-author-name mbr-bold mbr-fonts-style display-7" th:text="${a.userAccount.username}">
                         </div>
@@ -40,7 +35,7 @@
 
 			<div class="container">
 				<div class="row justify-content-center">
-					<div  th:if="${actorPage.totalPages > 0 && requestURI == 'actor/administrator/deleteActor'}" 
+					<div  th:if="${actorPage.totalPages > 0}" 
 						th:each="pageNumber : ${pageNumbers}">
 						<nav aria-label="Page navigation example">
 							<ul class="pagination">
@@ -50,7 +45,6 @@
 							</ul>
 						</nav>
 					</div>
-
 
 				</div>
 			</div>
