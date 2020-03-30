@@ -40,6 +40,11 @@
     <script th:src="@{/resources/stripe/js/pay.js}" ></script>
 	<!-- Fin Stripe -->
 		<title th:replace="${title}">Layout Title</title>
+		<link href="https://www.jqueryscript.net/css/jquerysctipttop.css"
+			rel="stylesheet" type="text/css">
+
+		<link rel="stylesheet"
+			th:href="@{/resources/slider/css/jumboslider.css}">
 		
 	<!-- Google Maps -->	
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
@@ -95,6 +100,14 @@
   <script th:src="@{/resources/touchswipe/jquery.touch-swipe.min.js}"></script>
   <script th:src="@{/resources/smoothscroll/smooth-scroll.js}"></script>
   <script th:src="@{/resources/theme/js/script.js}"></script>
+<script th:src="@{/resources/slider/js/jquery.jumboslider.js}"></script>
+							<script>
+								$.jumboslider({
+									target : $('.mySlider') ,
+									 loop: true ,
+									 autoplay: 3000
+								});
+							</script>
 
 	</body>
 </html>
