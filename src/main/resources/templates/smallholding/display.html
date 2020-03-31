@@ -54,15 +54,13 @@
                                     <span th:text="${smallholding.address}"></span></p>
 								<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7"><strong>Código postal:</strong>
                                     <span th:text="${smallholding.postalCode}"></span></p>-->
-                                <p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
-                                    <strong>Estado:</strong> <span th:text="${smallholding.status}"></span>
-                                </p>
+
                                 <!--<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7"><strong>Latitud:</strong>
                                     <span th:text="${smallholding.latitude}"></span></p>
 								<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7"><strong>Longitud:</strong>
                                     <span th:text="${smallholding.longitude}"></span></p>-->
                                 <p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
-                                    <strong>Duración máxima:</strong> <span th:text="${smallholding.maxDuration}"></span>
+                                    <strong>Máxima duracion alquiler: </strong> <span th:text="${smallholding.maxDuration}"></span> <span> meses</span>
                                 </p>
                                 <p sec:authorize="hasAuthority('OWNER')" th:if="${ownerPrincipal}" class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
                                     <strong>Activada:</strong> <span th:text="${smallholding.available}"></span>
@@ -81,10 +79,7 @@
                                     <a class="btn btn-secondary-outline display-4">Alquilar
 										parcela</a>
                                 </div>
-                                <div sec:authorize="hasAuthority('RENTER')" th:if="${isRentedByRenter}" class="mbr-section-btn pt-3 align-left">
-                                    <a href="" class="btn btn-secondary-outline display-4">Contactar con
-										el propietario</a>
-                                </div>
+
                                 <div sec:authorize="hasAuthority('OWNER')" th:if="${smallholding.status == 'NO ALQUILADA' && ownerPrincipal}" class="mbr-section-btn pt-3 align-left">
                                     <a th:href="@{'/owner/smallholding/edit?smallholdingId=' + ${smallholding.id}}" class="btn btn-secondary-outline display-4">Editar parcela</a>
                                 </div>
