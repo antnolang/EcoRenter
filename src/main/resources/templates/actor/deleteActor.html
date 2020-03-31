@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{master-page/layout :: layout(~{::title}, ~{::div.content})}">
+	<head>
+		<title>Eliminar un usuario</title>
+	</head>
+	
+	<body>
+		<div class="content">
+			
+		<section class="testimonials1 cid-rUE2rYTRTZ" id="testimonials1-1e">
+		
+		<div class="container">
+        <div class="media-container-row">
+            <div class="title col-12 align-center">
+                <h2 class="pb-3 mbr-fonts-style display-2">
+                    Eliminar usuarios</h2>
+                
+            </div>
+        </div>
+    </div>
+<div class="container pt-3 mt-2">
+        <div class="media-container-row">
+
+            <div class="mbr-testimonial p-3 align-center col-12 col-md-6 col-lg-4" th:each="a: ${actorPage}">
+                <div class="panel-item p-3">
+                    <div class="card-footer">
+                        <div class="mbr-author-name mbr-bold mbr-fonts-style display-7" th:text="${a.userAccount.username}">
+                        </div>
+                    </div>
+<div class="mbr-section-btn align-center"><a th:href="@{~/actor/administrator/delete?actorId=} + ${a.id}" class="btn btn-warning-outline display-4">Eliminar este usuario</a></div>
+                </div>
+            </div>
+
+        </div>
+
+			<div class="container">
+				<div class="row justify-content-center">
+					<div  th:if="${actorPage.totalPages > 0}" 
+						th:each="pageNumber : ${pageNumbers}">
+						<nav aria-label="Page navigation example">
+							<ul class="pagination">
+								<li class="page-item">
+									<a th:href="@{/actor/administrator/deleteActor(size=${actorPage.size}, page=${pageNumber})}" th:text=${pageNumber}	class="page-link"></a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+
+				</div>
+			</div>
+
+    </div>   
+</section>
+
+		</div>
+	</body>
+</html>
+	

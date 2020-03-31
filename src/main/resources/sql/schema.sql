@@ -37,7 +37,6 @@ CREATE TABLE public.administrator (
     id integer NOT NULL,
     version integer NOT NULL,
     email character varying(255),
-    image character varying(255),
     name character varying(255),
     surname character varying(255),
     telephone_number character varying(255),
@@ -75,7 +74,7 @@ CREATE TABLE public.customization (
     gold_level integer NOT NULL,
     silver_level integer NOT NULL,
     CONSTRAINT customization_gold_level_check CHECK ((gold_level >= 9)),
-    CONSTRAINT customization_silver_level_check CHECK (((silver_level >= 3) AND (silver_level <= 8)))
+    CONSTRAINT customization_silver_level_check CHECK (((silver_level <= 8) AND (silver_level >= 3)))
 );
 
 
@@ -130,7 +129,6 @@ CREATE TABLE public.owner (
     id integer NOT NULL,
     version integer NOT NULL,
     email character varying(255),
-    image character varying(255),
     name character varying(255),
     surname character varying(255),
     telephone_number character varying(255),
@@ -186,7 +184,6 @@ CREATE TABLE public.renter (
     id integer NOT NULL,
     version integer NOT NULL,
     email character varying(255),
-    image character varying(255),
     name character varying(255),
     surname character varying(255),
     telephone_number character varying(255),
@@ -208,7 +205,6 @@ CREATE TABLE public.smallholding (
     address character varying(255),
     description character varying(255),
     farming_type character varying(255),
-    images character varying(255),
     is_argumented boolean NOT NULL,
     is_available boolean NOT NULL,
     latitude character varying(255),
@@ -277,7 +273,7 @@ CREATE TABLE public.valuation (
     version integer NOT NULL,
     mark integer NOT NULL,
     valuation_moment timestamp without time zone NOT NULL,
-    CONSTRAINT valuation_mark_check CHECK (((mark <= 5) AND (mark >= 0)))
+    CONSTRAINT valuation_mark_check CHECK (((mark >= 0) AND (mark <= 5)))
 );
 
 

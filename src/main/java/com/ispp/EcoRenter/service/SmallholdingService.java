@@ -17,9 +17,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ispp.EcoRenter.model.Actor;
 import com.ispp.EcoRenter.model.Owner;
+import com.ispp.EcoRenter.model.Photo;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.model.Smallholding;
 import com.ispp.EcoRenter.repository.SmallholdingRepository;
@@ -43,6 +45,9 @@ public class SmallholdingService {
 
     @Autowired
     private Validator validator;
+
+    @Autowired
+    private PhotoService photoService;
     
     // Constructor
 
@@ -69,6 +74,29 @@ public class SmallholdingService {
         return result;
     }
 
+    public Smallholding save(Smallholding smallholding, List<MultipartFile> file){
+        Assert.notNull(smallholding, "La parcela debe existir");
+        Assert.isTrue(smallholding.getOwner().equals(
+            this.ownerService.findByPrincipal()), "El propietario de la parcela no corresponde con el usuario autenticado");
+        Assert.isTrue(!smallholding.getOwner().getIban().isEmpty(), "El propietario debe tener un IBAN asociado");
+        Assert.isTrue(smallholding.getStatus().equals("NO ALQUILADA"), "No se puede editar una parcela ya alquilada");
+
+        Smallholding result;
+        Collection<Photo> photos = null;
+
+        if(smallholding.getId() != 0 && file.get(0).getOriginalFilename().equals("")) // Si no ha añadido fotos, se le asigna las que tenía
+            photos = this.photoService.findPhotosBySmallholdingId(smallholding.getId());
+        else 
+            photos = this.photoService.storeImages(file);
+        
+        smallholding.setPhotos(photos);
+
+        result = this.smallholdingRepository.save(smallholding);
+
+        return result;
+
+    }
+
     public Smallholding save(Smallholding smallholding){
         Assert.notNull(smallholding, "La parcela debe existir");
         Assert.isTrue(smallholding.getOwner().equals(
@@ -82,6 +110,11 @@ public class SmallholdingService {
 
         return result;
 
+    }
+    
+    public void delete(Smallholding smallholding) {
+    	
+    	this.smallholdingRepository.delete(smallholding);
     }
     
     public Smallholding rent(Smallholding smallholding){
@@ -231,10 +264,9 @@ public class SmallholdingService {
         result.setLatitude(smallholding.getLatitude().trim());
         result.setLongitude(smallholding.getLongitude().trim());
         result.setMaxDuration(smallholding.getMaxDuration());
-        result.setImages(smallholding.getImages().trim());
         result.setPhotos(smallholding.getPhotos());
 
-		this.validator.validate(result, binding);
+        this.validator.validate(result, binding);
 
 		return result;
 	}
@@ -288,6 +320,14 @@ public class SmallholdingService {
         return result;
     }
 
+    public Collection<Smallholding> findSmallholdingsRentedByOwnerId(int ownerId) {
+        Collection<Smallholding> result;
+
+        result = this.smallholdingRepository.findSmallholdingsRentedByOwnerId(ownerId);
+
+        return result;
+    }
+
     public Collection<Smallholding> findSmallholdingsByActiveRentOut(int renterId) {
     	Collection<Smallholding> results;
     	 	
@@ -296,14 +336,6 @@ public class SmallholdingService {
     	return results;
     }
 
-    public Collection<Smallholding> findOldSmallholdingsRentedByRenterId(int renterId) {
-        Collection<Smallholding> result;
-
-        result = this.smallholdingRepository.findOldSmallholdingsRentedByRenterId(renterId);
-
-        return result;
-    }
-    
     public List<String> getGeoData(Collection<Smallholding> smallholdings) {
     	String latitudes, longitudes, lats, lngs;
     	List<String> results;
@@ -329,6 +361,10 @@ public class SmallholdingService {
     	}
     	
     	return results;
+    }
+
+    public void flush() {
+        this.smallholdingRepository.flush();
     }
     
 }

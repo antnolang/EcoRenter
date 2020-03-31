@@ -18,17 +18,43 @@
 					Mis parcelas</h2>
 				<h2 th:if="${requestURI == 'renter/smallholding/list'}"class="align-left pb-3 mbr-fonts-style display-2">
 					Parcelas alquiladas</h2>
-                
+
             </div>
+
+
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-link" data-toggle="modal" data-target="#exampleModalCenter"><span class="mobi-mbri mobi-mbri-map-pin mbr-iconfont mbr-iconfont-btn"></span>
+  Ver en mapa
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Ver en mapa</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
             <!--Card-1-->
-
-
-
-
             <div class="card col-12 col-md-6 p-3 col-lg-3" th:each="sh : ${smallholdingPage}">
                 <div class="card-wrapper">
-				<img th:src="${sh.images.split(',')[0]}" th:if="${not sh.images.isEmpty()}"alt="" title="" style="height: 9rem;">
-                    <div class="card-box">
+					<div class="card-img">
+						<img th:src="@{'data:' + ${sh_photo.get(sh.id)[1]} + ';base64, ' + ${sh_photo.get(sh.id)[2]}}" th:alt="${sh_photo.get(sh.id)[0]}" style="height: 9rem;">
+                    </div>
+					<div class="card-box">
                         <h4 class="card-title mbr-fonts-style display-5" th:text="${sh.title}"></h4>
                         <p class="mbr-text mbr-fonts-style display-7"> <span th:text="${sh.description}"></span></p>
 						<span class="mbr-text mbr-fonts-style display-7" th:text="${sh.locality}">
@@ -37,7 +63,7 @@
                 </div>
 				<div class="mbr-section-btn align-center"><a th:href="@{~/smallholding/display?smallholdingId=} + ${sh.id}" class="btn btn-warning-outline display-4">Ver parcela</a></div>
 			</div>
-			
+			 
 			<div class="container">
 				<div class="row justify-content-center">
 					<div  th:if="${smallholdingPage.totalPages > 0 && requestURI == 'smallholding/list'}" 
@@ -77,7 +103,7 @@
 			</div>
 			
 			<div sec:authorize="isAuthenticated()"
-			     th:if="${smallholdingPage.getTotalElements() > 0 && requestURI == 'smallholding/list'}"
+			     th:if="${smallholdingPage.getTotalElements() > 0 && requestURI == 'smallholding/list'}" 
 			     id="map"></div>	
 								
 			<script>
@@ -140,4 +166,3 @@
 		</div>
 	</body>
 </html>
-	

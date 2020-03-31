@@ -18,12 +18,19 @@ public abstract class ActorForm extends DomainEntity {
 	private static final long serialVersionUID = 1L;
 
 	// Atributos -----------------------------------
-	@NotBlank
-	@Pattern(regexp = "^[^0-9]+$")
+  @NotBlank
+	@Pattern(
+		regexp = "^[^0-9]+$",
+	    message = "Nombre no válido"
+	)
 	private String name;
 
 	@NotBlank
-	@Pattern(regexp = "^[^0-9]+$")
+	@Pattern(
+		regexp = "^[^0-9]+$",
+		message = "Apellidos no válidos"
+	)
+
 	private String surname;
 
 
@@ -33,6 +40,10 @@ public abstract class ActorForm extends DomainEntity {
 	private String email;
 
 	@NotBlank
+	@Pattern(
+		regexp = "^((\\+[0-9]{1,3}\\ )?([0-9]{1,3}\\ )?([0-9]{4,})?)$",
+	    message = "Número de teléfono inválido"
+	)
 	private String telephoneNumber;
 
 	@NotBlank
@@ -151,6 +162,8 @@ public abstract class ActorForm extends DomainEntity {
 	public void setFile(MultipartFile file) {
 		this.file = file;
 	}
+	
+	
 
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +16,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ispp.EcoRenter.configuration.MyUserDetailsService;
 import com.ispp.EcoRenter.form.RenterForm;
 import com.ispp.EcoRenter.model.Photo;
 import com.ispp.EcoRenter.model.Renter;
@@ -35,9 +37,6 @@ public class RenterService {
     @Autowired
     private UserAccountService userAccountService;
     
-//    @Autowired
-//    private Validator validator;
-    
     @Autowired
     private PhotoService photoService;
     
@@ -47,6 +46,9 @@ public class RenterService {
     @Autowired
 	private PasswordEncoder passwordEncoder;
 
+    @Autowired
+	private MyUserDetailsService myUserDetailsService;
+    
     // Constructor
 
     public RenterService(){
@@ -91,6 +93,10 @@ public class RenterService {
     
     }
     
+    
+    public void delete(Renter renter) {
+    	this.renterRepository.delete(renter);
+    }
     // Other business methods
 
     public Renter findByPrincipal(){
@@ -110,10 +116,12 @@ public class RenterService {
     public Renter edit(RenterForm renterForm) {
     	String name, surname, email, telephoneNumber, username;
     	String password, passwordMatch, iban, encodedPassword, usernameDB;
+    	UsernamePasswordAuthenticationToken usernameToken;
     	Renter result;
     	UserAccount userAccount;
     	MultipartFile file;
     	Photo photo;
+    	UserDetails userDetails;
     	
     	result = this.findByPrincipal();
     	
@@ -129,18 +137,21 @@ public class RenterService {
 		
 		userAccount = result.getUserAccount();
 		// Las contraseñas deben coincidir.
-		Assert.isTrue(this.actorService.checkPassword(password, passwordMatch), "Las contraseñas no coinciden.");
+		Assert.isTrue(this.actorService.checkPassword(password, passwordMatch),
+				      "Las contraseñas no coinciden.");
     	
 		usernameDB = result.getUserAccount().getUsername();
 		// Si el usuario ha decidido cambiar de username, comprobar que no existe
 		if (!usernameDB.equals(username)) {
-			Assert.isTrue(this.actorService.checkNoRepeatedUsername(username), "El usuario elegido ya existe.");
+			Assert.isTrue(this.actorService.checkNoRepeatedUsername(username),
+					      "El usuario elegido ya existe.");
 		}
 		
 		// Si el usuario ha introducido un nuevo iban, comprobamos que sea válido
 		// Si no ha introducido ningun valor, para el iban se mantiene el que tenía anteriormente
 		if (StringUtils.hasText(iban)) {
-			Assert.isTrue(iban.matches("[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}"), "Iban incorrecto.");
+			Assert.isTrue(iban.matches("[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}"),
+					      "Iban incorrecto.");
 		
 			result.setIban(iban.trim());
 		}
@@ -169,29 +180,40 @@ public class RenterService {
 		
 		this.save(result);
 		
+		userDetails = this.myUserDetailsService.loadUserByUsername(username.trim());
+		
+		usernameToken = new UsernamePasswordAuthenticationToken(userDetails,
+																null,
+																userAccount.getAuthorities());
+		
+		SecurityContextHolder.getContext().setAuthentication(usernameToken);
+		
 		return result;
     }
     
     public Renter register(RenterRegister renterRegister, BindingResult binding) {
     	Renter result = this.create();
     	UserAccount renterUserAccount = result.getUserAccount();
+    	Photo photo;
     	
     	//Comprobamos que las contraseñas coincidan, el usuario no exista y el iban sea correcto.
     	
-    	Assert.isTrue(this.actorService.checkPassword(renterRegister.getPassword(), renterRegister.getPasswordMatch()), "Las contraseñas no coinciden.");
-    	Assert.isTrue(this.actorService.checkNoRepeatedUsername(renterRegister.getUsername()),"El usuario elegido ya existe.");
-    	Assert.isTrue(renterRegister.getIban().matches("[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}"),"Iban incorrecto.");
+    	Assert.isTrue(this.actorService.checkPassword(renterRegister.getPassword(), renterRegister.getPasswordMatch()),
+    				  "Las contraseñas no coinciden.");
+    	Assert.isTrue(this.actorService.checkNoRepeatedUsername(renterRegister.getUsername()),
+    			      "El usuario elegido ya existe.");
     	
+    	
+    
     	//Obtenemos valores del parametro renterRegister obtenido del formulario
     	
     	String name = renterRegister.getName();
     	String surname = renterRegister.getSurname();
     	String email = renterRegister.getEmail();
     	String telephone = renterRegister.getTelephoneNumber();
-    	String image = renterRegister.getImage();
     	String username = renterRegister.getUsername();
     	String password = renterRegister.getPassword();
-    	String iban = renterRegister.getIban();
+    	MultipartFile file = renterRegister.getFile();
     	
     	//Codificamos la password para persistirla asi en bd
     	String encodedPass = this.passwordEncoder.encode(password);
@@ -202,8 +224,16 @@ public class RenterService {
     	result.setSurname(surname);
     	result.setEmail(email);
     	result.setTelephoneNumber(telephone);
-    	result.setImage(image);
-    	result.setIban(iban);
+    	
+    	if (file != null) {
+			photo = this.photoService.storeImage(file);
+			
+			if (photo != null) {
+				result.setPhoto(photo);
+			}
+			
+		}
+    	
     	
     	renterUserAccount.setUsername(username);
     	renterUserAccount.setPassword(encodedPass);

@@ -5,6 +5,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import com.ispp.EcoRenter.model.Customisation;
 import com.ispp.EcoRenter.model.Owner;
@@ -19,11 +21,24 @@ public class CustomisationService {
 	private CustomisationRepository customisationRepository;
 	
 	// Otros servicios -------------------------------------------
+
+	@Autowired
+    private Validator validator;
 	
 	public CustomisationService() {
 		super();
 	}
 	
+	public Customisation save(Customisation customisation) {
+		Assert.notNull(customisation, "No puede ser nulo");
+		Assert.isTrue(this.customisationRepository.existsById(customisation.getId()) && customisation.equals(this.find()), "No existe la customisación en BD");
+
+		Customisation result;
+
+		result = this.customisationRepository.save(customisation);
+
+		return result;
+	}
 	
 	public Customisation find() {
 		Customisation result;
@@ -57,6 +72,27 @@ public class CustomisationService {
 			result = "Oro";
 		}
 		
+		return result;
+	}
+
+	public Customisation reconstruct(Customisation customisation, BindingResult binding) {
+		Customisation custo;
+		Customisation result;
+
+		custo = this.find();
+
+		result = new Customisation();
+
+		result.setId(custo.getId());
+		result.setVersion(custo.getVersion());
+
+		result.setEmail(customisation.getEmail());
+		result.setDiscountCodes(customisation.getDiscountCodes());
+		result.setGoldLevel(customisation.getGoldLevel());
+		result.setSilverLevel(customisation.getSilverLevel());
+
+		this.validator.validate(result, binding);
+
 		return result;
 	}
 	

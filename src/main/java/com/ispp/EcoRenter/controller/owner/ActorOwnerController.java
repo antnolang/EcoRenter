@@ -80,53 +80,6 @@ private static final Log log = LogFactory.getLog(ActorAuthenticatedController.cl
 		return result;
 	}
 	
-	@GetMapping("/edit")
-	public ModelAndView edit() {
-		ModelAndView result;
-		Owner principal;
-		OwnerForm ownerForm;
-		
-		principal = this.ownerService.findByPrincipal();
-		ownerForm = new OwnerForm(principal.getName(), principal.getSurname(), principal.getEmail(),
-				                  principal.getTelephoneNumber(), principal.getUserAccount().getUsername());
-		
-		ownerForm.setId(principal.getId());
-		
-		result = this.createEditModelAndView(ownerForm);
-		
-		return result;
-	}
-
-	
-	@PostMapping(value = "/edit", params = "save")
-	public ModelAndView editOwner(@ModelAttribute("ownerForm") @Valid OwnerForm ownerForm, BindingResult binding) {
-		ModelAndView result;
-		
-		if (binding.hasErrors()) {
-			result = this.createEditModelAndView(ownerForm);
-		} else {
-			try {
-				this.ownerService.edit(ownerForm);
-				
-				result = new ModelAndView("redirect:/actor/authenticated/display");
-			} catch (Throwable oops) {
-				String message = oops.getMessage();
-	
-				if(message.equals("Las contraseñas no coinciden.")) {
-					result = this.createEditModelAndView(ownerForm, "noMatchPass", message);
-				}else if(message.equals("El usuario elegido ya existe.")) {
-					result = this.createEditModelAndView(ownerForm, "noValidUser", message);
-				}else if(message.equals("Iban incorrecto.")) {
-					result = this.createEditModelAndView(ownerForm, "noValidIban", message);
-				} else {
-					result = this.createEditModelAndView(ownerForm, "invalidOperation", "No se pudo completar la operación");
-				}
-			}
-		}
-		
-		return result;
-	}
-
 	@PostMapping(value = "/register", params = "save")
 	public ModelAndView registerOwner(@ModelAttribute("owner") @Valid OwnerRegister ownerRegister, final BindingResult binding) {
 		ModelAndView result;
@@ -144,6 +97,8 @@ private static final Log log = LogFactory.getLog(ActorAuthenticatedController.cl
 			}catch(Throwable oops) {
 				result = new ModelAndView("/actor/ownerRegister");
 				String message = oops.getMessage();
+				
+				
 
 				if(message.equals("Las contraseñas no coinciden.")) {
 					result.addObject("noMatchPass", message);
@@ -152,6 +107,8 @@ private static final Log log = LogFactory.getLog(ActorAuthenticatedController.cl
 
 				}else if(message.equals("Iban incorrecto.")) {
 					result.addObject("noValidIban", message);
+				}else {
+					result.addObject("errorMessage", "No se pudo realizar el registro. Intentelo de nuevo por favor.");
 				}
 
 			}

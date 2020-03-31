@@ -1,5 +1,6 @@
 package com.ispp.EcoRenter.controller;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -63,7 +64,10 @@ public class SmallholdingController {
 		int pageSize = size.orElse(4);
 		List<Smallholding> ls_smallholdings;
 		List<String> geoData;
-		
+		Map<Integer,List<String>> sh_photo;
+
+		sh_photo = new HashMap<Integer,List<String>>();
+
 		try {
 			result = new ModelAndView("smallholding/list");
 
@@ -86,8 +90,19 @@ public class SmallholdingController {
 				result.addObject("latitudes", geoData.get(0));
 				result.addObject("longitudes", geoData.get(1));
 			}
+
+			for(Smallholding sh: smallholdings){
+				List<Photo> photos = new ArrayList<Photo>(this.photoService.findPhotosBySmallholdingId(sh.getId()));
+				Photo photo = photos.get(0);
+				List<String> photoAttr = new ArrayList<String>();
+				photoAttr.add(photo.getName());
+				photoAttr.add(photo.getSuffix());
+				photoAttr.add(this.photoService.getImageBase64(photo));
+				sh_photo.put(sh.getId(), photoAttr);
+			}
 			
 			result.addObject("smallholdingPage", shPage);
+			result.addObject("sh_photo", sh_photo);
 			result.addObject("requestURI", "smallholding/list");
 		} catch (Exception e) {
 			result = new ModelAndView("redirect:/miscellaneous/error");

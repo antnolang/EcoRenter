@@ -1,15 +1,23 @@
 package com.ispp.EcoRenter.services;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.util.Assert;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ispp.EcoRenter.model.Owner;
 import com.ispp.EcoRenter.model.Photo;
@@ -33,6 +41,7 @@ public class SmallholdingServiceTest {
     /*
         El owner1 realiza un listado de sus parcelas
     */
+    @Transactional
     @WithMockUser("owner1")
     @Test
     public void list_positive_test(){
@@ -49,6 +58,7 @@ public class SmallholdingServiceTest {
     /*
         La parcela se crea correctamente
     */
+    @Transactional
     @WithMockUser("owner1")
     @Test
     public void create_positive_test(){
@@ -57,6 +67,25 @@ public class SmallholdingServiceTest {
 
         smallholding = this.smallholdingService.create();
         photos = new ArrayList<Photo>();
+        Photo photo;
+		MultipartFile file;
+		Path path;
+		String name, originalFilename, contentType;
+		byte[] data;
+		
+		path = Paths.get("C:\\Users\\alvar\\Pictures\\motor.jpg");
+		name = "motor.jpg";
+		originalFilename = "motor.jpg";
+		contentType = "image/jpg";
+		
+		try {
+			data = Files.readAllBytes(path);
+		} catch (IOException e) {
+			data = null;
+		}
+		
+		file = new MockMultipartFile(name, originalFilename, contentType, data);
+		photo = this.photoService.storeImage(file);
 
         smallholding.setTitle("Huerto 1");
         smallholding.setDescription("Huerto grande y cultivable");
@@ -70,8 +99,7 @@ public class SmallholdingServiceTest {
         smallholding.setLatitude("80");
         smallholding.setLongitude("100");
         smallholding.setMaxDuration(3);
-        smallholding.setImages("https://media.game.es/COVERV2/3D_L/147/147191.png");
-        photos.add(this.photoService.findOne(1));
+        photos.add(photo);
         smallholding.setPhotos(photos);
 
         saved = this.smallholdingService.save(smallholding);
@@ -83,7 +111,6 @@ public class SmallholdingServiceTest {
      /*
         La parcela no se crea correctamente. El atributo título está en blanco
     */
-
     @WithMockUser("owner1")
     @Test
     public void create_negative_test() {
@@ -106,7 +133,6 @@ public class SmallholdingServiceTest {
         smallholding.setLatitude("80");
         smallholding.setLongitude("100");
         smallholding.setMaxDuration(3);
-        smallholding.setImages("https://media.game.es/COVERV2/3D_L/147/147191.png");
         photos.add(this.photoService.findOne(1));
         smallholding.setPhotos(photos);
 
@@ -124,7 +150,7 @@ public class SmallholdingServiceTest {
     /*
         El owner1 edita una parcela la cual no está alquilada
     */
-
+    @Transactional
     @WithMockUser("owner1")
     @Test
     public void edit_positive_test(){
@@ -142,7 +168,7 @@ public class SmallholdingServiceTest {
      /*
         El owner2 intenta editar una parcela la cual no es suya
     */
-
+    @Transactional
     @WithMockUser("owner2")
     @Test
     public void edit_negative_test(){
@@ -161,7 +187,7 @@ public class SmallholdingServiceTest {
     /*
         El owner1 intenta editar una parcela alquilada
     */
-
+    @Transactional
     @WithMockUser("owner1")
     @Test
     public void edit_negative_test2(){

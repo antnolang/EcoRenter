@@ -1,13 +1,14 @@
 
 package com.ispp.EcoRenter.controller.owner;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -59,6 +60,9 @@ public class SmallholdingOwnerController {
 		Owner principal;
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(4);
+		Map<Integer,List<String>> sh_photo;
+
+		sh_photo = new HashMap<Integer,List<String>>();
 
 		try {
 			result = new ModelAndView("smallholding/list");
@@ -73,7 +77,18 @@ public class SmallholdingOwnerController {
 				result.addObject("pageNumbers", pageNumbers);
 			}
 
+			for(Smallholding sh: smallholdings){
+				List<Photo> photos = new ArrayList<Photo>(this.photoService.findPhotosBySmallholdingId(sh.getId()));
+				Photo photo = photos.get(0);
+				List<String> photoAttr = new ArrayList<String>();
+				photoAttr.add(photo.getName());
+				photoAttr.add(photo.getSuffix());
+				photoAttr.add(this.photoService.getImageBase64(photo));
+				sh_photo.put(sh.getId(), photoAttr);
+			}
+
 			result.addObject("smallholdingPage", shPage);
+			result.addObject("sh_photo", sh_photo);
 			result.addObject("requestURI", "owner/smallholding/listOwnSmallholdings");
 		} catch (Exception e) {
 			result = new ModelAndView("redirect:/miscellaneous/error");
@@ -102,9 +117,12 @@ public class SmallholdingOwnerController {
 	public ModelAndView edit(@RequestParam final int smallholdingId) {
 		ModelAndView result;
 		Smallholding smallholding;
+		Collection<Photo> photos;
 
 		try {
 			smallholding = this.smallholdingService.findOneToEdit(smallholdingId);
+			photos = this.photoService.findPhotosBySmallholdingId(smallholdingId);
+			smallholding.setPhotos(photos);
 
 			result = this.createEditModelAndView(smallholding);
 		} catch (final Throwable oops) {
@@ -117,22 +135,23 @@ public class SmallholdingOwnerController {
 	// Save
 
 	@PostMapping(value = "/edit", params = "save")
-	public ModelAndView save(List<MultipartFile> file,Smallholding smallholding, final BindingResult binding) {
+	public ModelAndView save(List<MultipartFile> file, Smallholding smallholding, final BindingResult binding) {
 		ModelAndView result;
 		Smallholding smallholdingRec;
-		Collection<Photo> photos;
-
-		photos = (file.size() != 0 && !file.get(0).getOriginalFilename().equals("")) ? this.photoService.storeImages(file) : smallholding.getPhotos();
-		smallholding.setPhotos(photos);
-
+		
 		smallholdingRec = this.smallholdingService.reconstruct(smallholding, binding);
-
-		if (binding.hasErrors()) {
+		
+		if (binding.hasErrors() && binding.getErrorCount() != 1) {
 			result = this.createEditModelAndView(smallholding);
 		} else {
 			try {
-				this.smallholdingService.save(smallholdingRec);
-				result = new ModelAndView("redirect:/owner/smallholding/listOwnSmallholdings");
+				if(binding.hasErrors() && binding.getFieldErrorCount("photos") == 1){
+					this.smallholdingService.save(smallholdingRec,file);
+					result = new ModelAndView("redirect:/owner/smallholding/listOwnSmallholdings");
+				} 
+				else 
+					throw new IllegalArgumentException();
+				
 			} catch (final Throwable oops) {
 				if (oops.getMessage().equals("El propietario debe tener un IBAN asociado")) {
 					result = this.createEditModelAndView(smallholdingRec, "Debes tener un IBAN asociado a tu perfil");
@@ -204,5 +223,6 @@ public class SmallholdingOwnerController {
 
 		return result;
 	}
+
 
 }
