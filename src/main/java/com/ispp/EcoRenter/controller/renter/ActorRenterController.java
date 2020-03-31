@@ -87,16 +87,16 @@ public class ActorRenterController {
 
 
 		if (binding.hasErrors()) {
-			result = new ModelAndView("/actor/renterRegister");
+			result = new ModelAndView("actor/renterRegister");
 		}else {
 			try {
 
 				this.renterService.register(renterRegister, binding);
 
-				result = new ModelAndView("/login");
+				result = new ModelAndView("login");
 
 			}catch(Throwable oops) {
-				result = new ModelAndView("/actor/renterRegister");
+				result = new ModelAndView("actor/renterRegister");
 				String message = oops.getMessage();
 
 				if(message.equals("Las contraseñas no coinciden.")) {
@@ -121,7 +121,7 @@ public class ActorRenterController {
 	public ModelAndView createEditModelAndView(RenterForm renterForm) {
 		ModelAndView result;
 		
-		result = new ModelAndView("/actor/edit");
+		result = new ModelAndView("actor/edit");
 		result.addObject("objectForm", renterForm);
 		result.addObject("buttonName", "saveRenter");
 		
