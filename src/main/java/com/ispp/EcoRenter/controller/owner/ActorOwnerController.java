@@ -86,16 +86,16 @@ private static final Log log = LogFactory.getLog(ActorAuthenticatedController.cl
 
 
 		if (binding.hasErrors()) {
-			result = new ModelAndView("/actor/ownerRegister");
+			result = new ModelAndView("actor/ownerRegister");
 		}else {
 			try {
 
 				this.ownerService.register(ownerRegister, binding);
 				
-				result = new ModelAndView("/login");
+				result = new ModelAndView("login");
 
 			}catch(Throwable oops) {
-				result = new ModelAndView("/actor/ownerRegister");
+				result = new ModelAndView("actor/ownerRegister");
 				String message = oops.getMessage();
 				
 				
@@ -121,7 +121,7 @@ private static final Log log = LogFactory.getLog(ActorAuthenticatedController.cl
 	public ModelAndView createEditModelAndView(OwnerForm ownerForm) {
 		ModelAndView result;
 		
-		result = new ModelAndView("/actor/edit");
+		result = new ModelAndView("actor/edit");
 		result.addObject("objectForm", ownerForm);
 		result.addObject("buttonName", "saveOwner");
 	

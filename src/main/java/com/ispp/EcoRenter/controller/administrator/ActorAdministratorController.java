@@ -178,7 +178,7 @@ public class ActorAdministratorController {
     public ModelAndView createEditModelAndView(final AdminForm adminForm) {
 	ModelAndView result;
 
-	result = new ModelAndView("/actor/edit");
+	result = new ModelAndView("actor/edit");
 	result.addObject("objectForm", adminForm);
 	result.addObject("buttonName", "saveAdmin");
 

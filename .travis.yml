@@ -36,6 +36,7 @@ deploy:
     api_key:
       secure: PUSmHdzJZOiPEEMPzpHCYABD8uSVUMj61jBYJ4+CTTBv+66rH1nJiJuFxkjlxdjO0s8nVf5ehvw8iJ53BogZDi421ZWGF1yuTKnzBAfk4+TchjsTrFNvq+6TcuugWi6mXMRxAkN87bOTHBuYFQsMjRn73GUkHkz17ArRdF3gNsJFsIT4Exxo/lp7uNa0bGuWwqgE0Obmke/AWq4+RuRFIrxXGJz7YlpuUWRNKqQbX2jqqwEiL9vbxMg109WAFwz8aANOOnN17rub1IrVO+vL4fy/lkzEgnBMZ//9CVZBytrPB7bKX5bVot8jtwHwTLnUBci5inLLzOZruXtIla1OWDsLtlc3fpWqcZ9e7PJECnij7BH/G51p4a613s48P0A4nqmRQP2CXfVoSL8jiJwazlr2GlkiSIsihDY6/W7yRf/0UAWVGuQn7gq+pQ9jqYw+zMMiDv/yTDG7WBaXvE1cq+6IHTMvEZASjqaDU14EyjPp1BaYHqNVNc4CZirttbI5pReljiEiDQlr/cM5sEwBLNf9EvBtAX55Eei0vSswLeqP5MvOeeGwmLxPodgHTXkoBDoUZeFWMn55RNhRI6P3/f8BBd1V24rqyq47YwKkWXeWNAQaScsomYVNuCWjb0VkvhyUCuxmR6p7sO6RwAO+e7pJVzBCBCdWZe0zWt4rgH8=
     draft: true
+    prerelease: true
     file: Eco_Renter.zip
     on:
       repo: antnolang/EcoRenter
