@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ispp.EcoRenter.controller.SmallholdingController;
 import com.ispp.EcoRenter.model.Photo;
 import com.ispp.EcoRenter.model.RentOut;
 import com.ispp.EcoRenter.model.Renter;
@@ -49,6 +50,9 @@ public class SmallholdingRenterController {
 
 	@Autowired
 	private PhotoService photoService;
+
+	@Autowired
+	private SmallholdingController smallholdingController;
 
 	@PostMapping(value = "/rent", params = "saveRent")
 	public ModelAndView checkout(@RequestParam final int smallholdingId, @PathParam("card") String card,
@@ -96,7 +100,8 @@ public class SmallholdingRenterController {
 			this.rentoutService.save(rent);
 
 		} catch (Exception ex) {
-			result = new ModelAndView("redirect:/smallholding/display?smallholdingId=" + smallholdingId);
+			//result = new ModelAndView("redirect:/smallholding/display?smallholdingId=" + smallholdingId);
+			result = this.smallholdingController.display(smallholdingId);
 			result.addObject("errorMessage", "No se ha podido realizar el pago correctamente");
 		}
 

@@ -1,5 +1,6 @@
 package com.ispp.EcoRenter.service;
 
+import java.util.Calendar;
 import java.util.Collection;
 
 import java.util.Date;
@@ -79,6 +80,20 @@ public class RentOutService {
         Assert.isTrue(card.length() >= 12 && card.length() <= 19, "El número de tarjeta debe contener entre 12 y 19 dígitos");
         Assert.isTrue(cvv.length() == 3, "El CVV debe contener 3 dígitos");
         Assert.isTrue(fecha.matches("(?:0[1-9]|1[0-2])/[0-9]{2}"), "La fecha es inválida");
+        int actualYear,actualMonth, twoDigitsYear, cardYear, cardMonth;
+        String digitsYear;
+
+        actualYear = Calendar.getInstance().get(Calendar.YEAR);
+        actualMonth = Calendar.getInstance().get(Calendar.MONTH)+1;
+        digitsYear = String.valueOf(actualYear).substring(2);
+        twoDigitsYear = Integer.parseInt(digitsYear);
+        cardYear = Integer.parseInt(fecha.split("/")[1]);
+        cardMonth = Integer.parseInt(fecha.split("/")[0]);
+
+        Assert.isTrue(cardYear >= twoDigitsYear, "La tarjeta de crédito ha expirado");
+        if(twoDigitsYear == cardYear)
+            Assert.isTrue(cardMonth >= actualMonth,"La tarjeta de crédito ha vencido");
+        
 
     }
 

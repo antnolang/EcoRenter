@@ -97,8 +97,9 @@
 										parcela</a>
                                 </div>
 
+                                <br><br>
                                 <div class="col-md-12 form-group" 
-                                    th:if="${errorMessage != ''}">
+                                    th:if="${errorMessage != '' && errorMessage != null}">
                                     <p th:text="${errorMessage}" style="color: red !important;"></p>
                                 </div>
 

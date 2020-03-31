@@ -362,5 +362,9 @@ public class SmallholdingService {
     	
     	return results;
     }
+
+    public void flush() {
+        this.smallholdingRepository.flush();
+    }
     
 }
