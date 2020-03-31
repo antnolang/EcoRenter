@@ -102,7 +102,7 @@ public class SmallholdingRenterController {
 		} catch (Exception ex) {
 			//result = new ModelAndView("redirect:/smallholding/display?smallholdingId=" + smallholdingId);
 			result = this.smallholdingController.display(smallholdingId);
-			result.addObject("errorMessage", "No se ha podido realizar el pago correctamente");
+			result.addObject("errorPay", "No se ha podido realizar el pago correctamente");
 		}
 
 		

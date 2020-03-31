@@ -98,10 +98,18 @@
                                 </div>
 
                                 <br><br>
-                                <div class="col-md-12 form-group" 
-                                    th:if="${errorMessage != '' && errorMessage != null}">
-                                    <p th:text="${errorMessage}" style="color: red !important;"></p>
-                                </div>
+                       
+                                
+                                <div th:if="${errorPay == 'No se ha podido realizar el pago correctamente' }">
+									<div class="alert"
+										style="padding: 20px; background-color: red; color: white;">
+										<span class="closebtn"
+											style="margin-left: 15px; color: white; font-weight: bold; float: right; font-size: 22px; line-height: 20px; cursor: pointer; transition: 0.3s;"
+											onclick="this.parentElement.style.display='none';">&times;</span>
+										<strong th:text="${errorPay}"> </strong>
+									</div>
+
+								</div>
 
                                 
 
@@ -111,51 +119,42 @@
                                     <div class="sr-combo-inputs-row">
                                         <div class="col">
                                             <label for="card"> Tarjeta de crédito </label>
-                                            <input id="card" name="card" required="required" />
+                                            <input id="card" name="card" placeholder="XXXXXXXXXXXXXXXX" pattern="[0-9]{13,16}" />
                                         </div>
                                     </div>
 
                                     <div class="sr-combo-inputs-row">
                                         <div class="col">
-                                            <label for="fecha"> Fecha de caducidad </label>
-                                            <input id="fecha" name="fecha" required = "required" placeholder="XX/XX" />
+                                            <label for="fecha"> Fecha expiración </label>
+                                            <input pattern="(?:0[1-9]|1[0-2])/[0-9]{2}" id="fecha" name="fecha" required = "required" placeholder="XX/XX" />
                                         </div>
                                     </div>
 
                                     <div class="sr-combo-inputs-row">
                                         <div class="col">
                                             <label for="cvv"> CVV </label>
-                                            <input id="cvv" name="cvv" placeholder="XXX" required = "required" />
+                                            <input  pattern="^[0-9]{3,4}$" id="cvv" name="cvv" placeholder="XXX" required = "required" />
                                         </div>
                                     </div>
+                               <div data-for="message" class="col-md-12 form-group">
+								<span class="gdpr-block"> <label> <span
+										class="textGDPR" style="color: #a7a7a7"><input
+											type="checkbox" name="gdpr" id="gdpr-form1-17" required="">
+											Para publicar una parcela debes aceptar nuestras <a
+											target="_blank"
+											style="color: #149dcc; text-decoration: none;"
+											href="/miscellaneous/condiciones-arrendamiento">condiciones
+												de arrendamiento</a>. </span>
+								</label>
+								</span>
+							</div>
 
                                     <!-- Display mandate acceptance text. -->
 
                                     <button id="confirm-mandate" name="saveRent" type="submit" class="btn btn-form btn-secondary display-4">Pagar</button>
                                 </form>
 
-                                
 
-                                <!-- Fin pago -->
-
-                                <!-- Mensaje pago -->
-                                <!-- 	<div th:if="${messagePay != null}">
-                        	<p  id="pepito" th:text="${messagePay}"></p>
-                        	</div>
-                        -->
-                                <!--                         	
-								<div th:if="${isRented}" sec:authorize="hasAuthority('RENTER')">
-									<div class="alert"
-										style="padding: 20px; background-color: #54775E; color: white;">
-										<span class="closebtn"
-											style="margin-left: 15px; color: white; font-weight: bold; float: right; font-size: 22px; line-height: 20px; cursor: pointer; transition: 0.3s;"
-											onclick="this.parentElement.style.display='none';">&times;</span>
-										<strong> pepe</strong>
-									</div>
-
-								</div>
-
-								<!-- Fin mensaje pago -->
                             </div>
 
                         </div>
