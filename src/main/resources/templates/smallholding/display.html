@@ -74,7 +74,17 @@
                                 
 
                                 <!--Btn-->
-
+								<div sec:authorize="hasAuthority('RENTER')" th:if="${isRentedByRenter}" onclick="desapareceContacto()" id="contactBtn"class="mbr-section-btn pt-3 align-left">
+                                    <a  class="btn btn-secondary-outline display-4">Contactar con el propietario</a>
+                                </div>
+                           		<div sec:authorize="hasAuthority('RENTER')" th:if="${isRentedByRenter}" id="contactos"  style="display: none;" >
+                           		<ul style="color: #54775E;">
+                           		<li><a th:href="@{'mailto:' + ${smallholding.owner.email}}" th:text="${smallholding.owner.email}" target="_blank"></a></li>
+                           		<li><a th:href="@{'callto:' + ${smallholding.owner.telephoneNumber}}" th:text="${smallholding.owner.telephoneNumber}" target="_blank"></a></li>
+                           		</ul>
+                           
+                                </div>
+                                
                                 <div sec:authorize="hasAuthority('RENTER')" onclick="desapareceAlquilar()" th:if="${!isRentedByRenter}" id="btn-alquilar" class="mbr-section-btn pt-3 align-left">
                                     <a class="btn btn-secondary-outline display-4">Alquilar
 										parcela</a>
