@@ -104,6 +104,10 @@ public class RentOut extends DomainEntity {
 	@ManyToOne(optional = true)
 	private Valuation valuation;
 
+	@NotNull
+	@Valid
+	@ManyToOne(optional = false)
+	private CreditCard creditCard;
 
 	public Renter getRenter() {
 		return renter;
@@ -128,5 +132,14 @@ public class RentOut extends DomainEntity {
 	public void setValuation(Valuation valuation) {
 		this.valuation = valuation;
 	}
-		
+
+
+	public CreditCard getCreditCard() {
+		return creditCard;
+	}
+
+	public void setCreditCard(CreditCard creditCard) {
+		this.creditCard = creditCard;
+	}
+	
 }

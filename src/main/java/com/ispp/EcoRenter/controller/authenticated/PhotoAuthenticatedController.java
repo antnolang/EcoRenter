@@ -1,5 +1,7 @@
 package com.ispp.EcoRenter.controller.authenticated;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,12 +52,11 @@ public class PhotoAuthenticatedController {
 	}
 	
 	@PostMapping(value = "/edit", params = "save")
-	public ModelAndView edit(MultipartFile file) {
+	public ModelAndView edit(List<MultipartFile> files) {
 		ModelAndView result;
-		Photo saved;
 
 		try {
-			saved = this.photoService.storeImage(file);
+			this.photoService.storeImages(files);
 
 			result = new ModelAndView("redirect:/photo/authenticated/create");
 		} catch (Throwable oops) {

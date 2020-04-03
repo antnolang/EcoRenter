@@ -63,6 +63,25 @@ CREATE TABLE public.comment (
 ALTER TABLE public.comment OWNER TO spring_dev;
 
 --
+-- Name: credit_card; Type: TABLE; Schema: public; Owner: spring_dev; Tablespace: 
+--
+
+CREATE TABLE public.credit_card (
+    id integer NOT NULL,
+    version integer NOT NULL,
+    brand_name character varying(255),
+    cvv_code integer NOT NULL,
+    expiration_month character varying(255),
+    expiration_year character varying(255),
+    holder_name character varying(255),
+    number character varying(255),
+    CONSTRAINT credit_card_cvv_code_check CHECK (((cvv_code >= 100) AND (cvv_code <= 999)))
+);
+
+
+ALTER TABLE public.credit_card OWNER TO spring_dev;
+
+--
 -- Name: customization; Type: TABLE; Schema: public; Owner: spring_dev; Tablespace: 
 --
 
@@ -74,7 +93,7 @@ CREATE TABLE public.customization (
     gold_level integer NOT NULL,
     silver_level integer NOT NULL,
     CONSTRAINT customization_gold_level_check CHECK ((gold_level >= 9)),
-    CONSTRAINT customization_silver_level_check CHECK (((silver_level <= 8) AND (silver_level >= 3)))
+    CONSTRAINT customization_silver_level_check CHECK (((silver_level >= 3) AND (silver_level <= 8)))
 );
 
 
@@ -167,6 +186,7 @@ CREATE TABLE public.rent_out (
     is_active boolean NOT NULL,
     month integer NOT NULL,
     start_date timestamp without time zone NOT NULL,
+    credit_card_id integer NOT NULL,
     renter_id integer NOT NULL,
     smallholding_id integer NOT NULL,
     valuation_id integer,
@@ -194,6 +214,18 @@ CREATE TABLE public.renter (
 
 
 ALTER TABLE public.renter OWNER TO spring_dev;
+
+--
+-- Name: renter_credit_cards; Type: TABLE; Schema: public; Owner: spring_dev; Tablespace: 
+--
+
+CREATE TABLE public.renter_credit_cards (
+    renter_id integer NOT NULL,
+    credit_cards_id integer NOT NULL
+);
+
+
+ALTER TABLE public.renter_credit_cards OWNER TO spring_dev;
 
 --
 -- Name: smallholding; Type: TABLE; Schema: public; Owner: spring_dev; Tablespace: 
@@ -273,7 +305,7 @@ CREATE TABLE public.valuation (
     version integer NOT NULL,
     mark integer NOT NULL,
     valuation_moment timestamp without time zone NOT NULL,
-    CONSTRAINT valuation_mark_check CHECK (((mark >= 0) AND (mark <= 5)))
+    CONSTRAINT valuation_mark_check CHECK (((mark <= 5) AND (mark >= 0)))
 );
 
 
@@ -293,6 +325,14 @@ ALTER TABLE ONLY public.administrator
 
 ALTER TABLE ONLY public.comment
     ADD CONSTRAINT comment_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: credit_card_pkey; Type: CONSTRAINT; Schema: public; Owner: spring_dev; Tablespace: 
+--
+
+ALTER TABLE ONLY public.credit_card
+    ADD CONSTRAINT credit_card_pkey PRIMARY KEY (id);
 
 
 --
@@ -392,6 +432,14 @@ ALTER TABLE ONLY public.user_account
 
 
 --
+-- Name: uk_cyqu4mdolqhpsfryd0j5xu040; Type: CONSTRAINT; Schema: public; Owner: spring_dev; Tablespace: 
+--
+
+ALTER TABLE ONLY public.renter_credit_cards
+    ADD CONSTRAINT uk_cyqu4mdolqhpsfryd0j5xu040 UNIQUE (credit_cards_id);
+
+
+--
 -- Name: uk_hc0nwk401f7t7pohcq2vounjc; Type: CONSTRAINT; Schema: public; Owner: spring_dev; Tablespace: 
 --
 
@@ -453,6 +501,14 @@ ALTER TABLE ONLY public.valuation
 
 ALTER TABLE ONLY public.smallholding_photos
     ADD CONSTRAINT fk19104dxu3xkf40ux1yah94y3x FOREIGN KEY (smallholding_id) REFERENCES public.smallholding(id);
+
+
+--
+-- Name: fk1btni1o13nqy4f1ldv1q84msj; Type: FK CONSTRAINT; Schema: public; Owner: spring_dev
+--
+
+ALTER TABLE ONLY public.rent_out
+    ADD CONSTRAINT fk1btni1o13nqy4f1ldv1q84msj FOREIGN KEY (credit_card_id) REFERENCES public.credit_card(id);
 
 
 --
@@ -549,6 +605,22 @@ ALTER TABLE ONLY public.rent_out
 
 ALTER TABLE ONLY public.comment
     ADD CONSTRAINT fkjei8pnwif8vhbu7n0t1nkf5tf FOREIGN KEY (rent_out_id) REFERENCES public.rent_out(id);
+
+
+--
+-- Name: fkq001mhsioyefk70ito523e2nb; Type: FK CONSTRAINT; Schema: public; Owner: spring_dev
+--
+
+ALTER TABLE ONLY public.renter_credit_cards
+    ADD CONSTRAINT fkq001mhsioyefk70ito523e2nb FOREIGN KEY (renter_id) REFERENCES public.renter(id);
+
+
+--
+-- Name: fkq575h2rke5wc2voq4il33nadc; Type: FK CONSTRAINT; Schema: public; Owner: spring_dev
+--
+
+ALTER TABLE ONLY public.renter_credit_cards
+    ADD CONSTRAINT fkq575h2rke5wc2voq4il33nadc FOREIGN KEY (credit_cards_id) REFERENCES public.credit_card(id);
 
 
 --
