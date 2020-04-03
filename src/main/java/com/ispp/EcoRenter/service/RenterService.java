@@ -246,4 +246,12 @@ public class RenterService {
     	return result;	
     }
     
+    public Renter findRenterByCreditCard(int creditCardId) {
+    	Renter result;
+    	
+    	result = this.renterRepository.findRenterByCreditCard(creditCardId);
+    	
+    	return result;
+    }
+    
 }

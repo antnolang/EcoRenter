@@ -2,7 +2,6 @@ package com.ispp.EcoRenter.service;
 
 import java.util.Calendar;
 import java.util.Collection;
-
 import java.util.Date;
 
 import javax.transaction.Transactional;
@@ -12,9 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.ispp.EcoRenter.model.RentOut;
-
 import com.ispp.EcoRenter.model.Renter;
-
 import com.ispp.EcoRenter.repository.RentOutRepository;
 
 @Service
@@ -114,4 +111,13 @@ public class RentOutService {
 
         return result;
     }
+    
+    public Integer findRentOutByCreditCard(int creditCardId) {
+    	Integer result;
+    	
+    	result = this.rentOutRepository.findRentOutByCreditCard(creditCardId);
+    	
+    	return result;
+    }
+    
 }

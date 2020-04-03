@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{master-page/layout :: layout(~{::title}, ~{::div.content})}">
+
+<head>
+<title th:if="${smallholding.id != 0}">Editar parcela</title>
+<title th:if="${smallholding.id == 0}">Publicar parcela</title>
+
+</head>
+
+<body>
+
+
+	<div class="content">
+
+		
+		<br> <br> <br> <br>
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="title col-12 col-lg-8">
+					<h2
+						class="mbr-section-title align-center pb-3 mbr-fonts-style display-2"
+						style="color: #2a3d2e !important;" th:if="${smallholding.id != 0}">
+						Editar parcela</h2>
+					<h2
+						class="mbr-section-title align-center pb-3 mbr-fonts-style display-2"
+						style="color: #2a3d2e !important;" th:if="${smallholding.id == 0}">
+						Publicar parcela</h2>
+
+
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="media-container-column col-lg-8"
+					data-form-type="formoid">
+
+					<form th:action="@{/owner/smallholding/edit}" id="myForm"
+						th:object="${smallholding}" method="post"
+						enctype="multipart/form-data" class="mbr-form form-with-styler"
+						data-form-title=" Form">
+
+						<input type="hidden" value="0.0" id="latitude" name="latitude"
+							data-geocomplete="lat"> <input type="hidden" value="0.0"
+							id="longitude" name="longitude" data-geocomplete="lng"> <input
+							type="hidden" th:field="*{id}" th:value="${smallholding.id}" /> <input
+							type="hidden" th:field="*{version}"
+							th:value="${smallholding.version}" />
+
+						<div class="dragArea row">
+
+							<div data-for="message" class="col-md-12 form-group">
+								<label for="email-form1-17"
+									class="form-control-label mbr-fonts-style display-7"
+									style="color: #2a3d2e !important;">Dirección</label> <input
+									type="text" id="txtAddress1" data-geocomplete="street address" 
+									placeholder="Escribe una dirección" th:field="*{address}"
+									th:errorclass="fieldError" data-form-field="Message" required="required"
+									class="form-control display-7"></input>
+								<p th:if="${#fields.hasErrors('address')}"
+									style="color: red !important;">
+									<span th:errors="*{address}"></span>
+								</p>
+							</div>
+							<div class="col-md-4  form-group" data-for="name">
+								<label for="name-form1-17"
+									class="form-control-label mbr-fonts-style display-7"
+									style="color: #2a3d2e !important;">Título</label> <input
+									type="text" th:field="*{title}" th:errorclass="fieldError" 
+									data-form-field="Name" required="required"
+									class="form-control display-7">
+								<p th:if="${#fields.hasErrors('title')}"
+									style="color: red !important;">
+									<span th:errors="*{title}"></span>
+								</p>
+							</div>
+							<div class="col-md-4  form-group" data-for="name">
+								<label for="name-form1-17"
+									class="form-control-label mbr-fonts-style display-7"
+									style="color: #2a3d2e !important;">m²</label> <input
+									type="number" th:field="*{size}" th:errorclass="fieldError"
+									data-form-field="Name" required="required"  min="1"
+									class="form-control display-7">
+								<p th:if="${#fields.hasErrors('size')}"
+									style="color: red !important;">
+									<span th:errors="*{size}"></span>
+								</p>
+							</div>
+							<div class="col-md-4  form-group" data-for="name">
+								<label for="name-form1-17"
+									class="form-control-label mbr-fonts-style display-7"
+									style="color: #2a3d2e !important;">Precio (al mes)</label> <input
+									type="number" th:field="*{price}"  min="1" step="0.01"
+									th:errorclass="fieldError" data-form-field="Name"
+									required="required" class="form-control display-7">
+								<p th:if="${#fields.hasErrors('price')}"
+									style="color: red !important;">
+									<span th:errors="*{price}"></span>
+								</p>
+							</div>
+							<div data-for="message" class="col-md-12 form-group">
+								<label for="name-form1-17"
+									class="form-control-label mbr-fonts-style display-7"
+									style="color: #2a3d2e !important;">Descripción</label>
+								<textarea type="text" th:field="*{description}"
+									th:errorclass="fieldError" data-form-field="Name"
+									required="required" class="form-control display-7"></textarea>
+								<p th:if="${#fields.hasErrors('description')}"
+									style="color: red !important;">
+									<span th:errors="*{description}"></span>
+								</p>
+							</div>
+							<div class="col-md-4  form-group" data-for="name">
+								<label for="name-form1-17"
+									class="form-control-label mbr-fonts-style display-7"
+									style="color: #2a3d2e !important;">Provincia</label> <input
+									type="text" data-geocomplete="county" th:field="*{province}"
+									th:errorclass="fieldError" data-form-field="Name"
+									required="required" class="form-control display-7">
+								<p th:if="${#fields.hasErrors('province')}"
+									style="color: red !important;">
+									<span th:errors="*{province}"></span>
+								</p>
+							</div>
+							<div class="col-md-4  form-group" data-for="name">
+								<label for="name-form1-17"
+									class="form-control-label mbr-fonts-style display-7"
+									style="color: #2a3d2e !important;">Localidad</label> <input
+									type="text" data-geocomplete="city" th:field="*{locality}"
+									th:errorclass="fieldError" data-form-field="Name"
+									required="required" class="form-control display-7">
+								<p th:if="${#fields.hasErrors('locality')}"
+									style="color: red !important;">
+									<span th:errors="*{locality}"></span>
+								</p>
+							</div>
+							<div class="col-md-4  form-group" data-for="name">
+								<label for="name-form1-17"
+									class="form-control-label mbr-fonts-style display-7"
+									style="color: #2a3d2e !important;">Código postal</label> <input 
+									type="number" data-geocomplete="zip code" required="required"  min="10000" max="60000"
+									th:field="*{postalCode}" th:errorclass="fieldError"
+									data-form-field="Name"  
+									class="form-control display-7">
+								<p th:if="${#fields.hasErrors('postalCode')}"
+									style="color: red !important;">
+									<span th:errors="*{postalCode}"></span>
+								</p>
+							</div>
+
+							<div class="col-md-4  form-group" data-for="name">
+								<label for="name-form1-17"
+									class="form-control-label mbr-fonts-style display-7"
+									style="color: #2a3d2e !important;">Tipo de cultivo</label> <select
+									th:field="*{farmingType}" th:errorclass="fieldError"
+									data-form-field="Name" required="required"
+									class="form-control display-7">
+									<option th:value="'Perenne'"
+										class="form-control-label  mbr-fonts-style display-7"
+										style="color: #2a3d2e !important;">Perenne</option>
+									<option th:value="'Cíclico'"
+										class="form-control-label  mbr-fonts-style display-7"
+										style="color: #2a3d2e !important;">Cíclico</option>
+									<option th:value="'Bienal'"
+										class="form-control-label mbr-fonts-style display-7"
+										style="color: #2a3d2e !important;">Bienal</option>
+									<option th:value="'Temporal'"
+										class="form-control-label mbr-fonts-style display-7"
+										style="color: #2a3d2e !important;">Temporal</option>
+								</select>
+								<p th:if="${#fields.hasErrors('farmingType')}"
+									style="color: red !important;">
+									<span th:errors="*{farmingType}"></span>
+								</p>
+							</div>
+
+							<div class="col-md-4  form-group" data-for="name">
+								<label for="name-form1-17"
+									class="form-control-label mbr-fonts-style display-7"
+									style="color: #2a3d2e !important;">Meses máximos en
+									alquiler</label> <input type="number" th:field="*{maxDuration}"  min="1"
+									th:errorclass="fieldError" data-form-field="Name"
+									required="required" class="form-control display-7">
+								<p th:if="${#fields.hasErrors('maxDuration')}"
+									style="color: red !important;">
+									<span th:errors="*{maxDuration}"></span>
+								</p>
+							</div>
+							<div class="col-md-12  form-group" data-for="name">
+								<input th:if="${smallholding.id == 0}" type="file" id="fileid" name="file" accept="image/*"
+									multiple="multiple" required="required"/>
+								<input th:if="${smallholding.id != 0}" type="file" id="fileid" name="file" accept="image/*"
+									multiple="multiple"/>
+								<p th:if="${#fields.hasErrors('photos')}"
+								style="color: red !important;">
+								<span th:errors="*{photos}"></span>
+								</p>
+							</div>
+							
+							<div data-for="message" class="col-md-12 form-group">
+								<span class="gdpr-block"> <label> <span
+										class="textGDPR" style="color: #a7a7a7"><input
+											type="checkbox" name="gdpr" id="gdpr-form1-17" required="">
+											Para publicar una parcela debes aceptar nuestras <a
+											target="_blank"
+											style="color: #149dcc; text-decoration: none;"
+											href="/miscellaneous/condiciones-arrendamiento">condiciones
+												de arrendamiento</a>. </span>
+								</label>
+								</span>
+							</div>
+							<div class="col-md-12 form-group" data-for="name"
+								th:if="${messageCode != ''}">
+								<p th:text="${messageCode}" style="color: red !important;"></p>
+							</div>
+							<div data-for="message" class="col-md-12 form-group">
+								<div class="col-md-12 input-group-btn align-center">
+									<button name="save" id="Guarda" type="submit" 
+										class="btn btn-form btn-secondary display-4">Guardar
+									</button>
+
+
+									<a href="/owner/smallholding/listOwnSmallholdings"
+										class="btn btn-warning-outline display-4" onclick="envioForm()"> Volver </a>
+								</div>
+
+
+
+							</div>
+						</div>
+					</form>
+
+
+					
+
+					</div>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>
