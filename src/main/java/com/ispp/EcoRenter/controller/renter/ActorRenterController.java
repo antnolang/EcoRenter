@@ -143,7 +143,6 @@ public class ActorRenterController {
 				.withSeparator(CSVWriter.DEFAULT_SEPARATOR)
 				.withOrderedResults(false)
 				.build();
-		principal.setUserAccount(null);
 		writer.write(principal);
 	}
 
