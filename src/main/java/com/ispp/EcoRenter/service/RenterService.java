@@ -200,7 +200,8 @@ public class RenterService {
     	
     	//Comprobamos que las contraseñas coincidan, el usuario no exista y el iban sea correcto.
     	
-    	Assert.isTrue(this.actorService.checkPassword(renterRegister.getPassword(), renterRegister.getPasswordMatch()),
+    	Assert.isTrue(this.actorService.checkPassword(renterRegister.getPassword(),
+    												  renterRegister.getPasswordMatch()),
     				  "Las contraseñas no coinciden.");
     	Assert.isTrue(this.actorService.checkNoRepeatedUsername(renterRegister.getUsername()),
     			      "El usuario elegido ya existe.");

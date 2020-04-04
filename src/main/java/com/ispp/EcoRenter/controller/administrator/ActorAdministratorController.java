@@ -33,168 +33,173 @@ import com.ispp.EcoRenter.service.PhotoService;
 @RequestMapping("/actor/administrator")
 public class ActorAdministratorController {
 
-    private static final Log log = LogFactory.getLog(ActorAdministratorController.class);
+	private static final Log log = LogFactory.getLog(ActorAdministratorController.class);
 
-    @Autowired
-    private ActorService actorService;
+	@Autowired
+	private ActorService actorService;
 
-    @Autowired
-    private AdministratorService administratorService;
+	@Autowired
+	private AdministratorService administratorService;
 
-    @Autowired
-    private PhotoService photoService;
+	@Autowired
+	private PhotoService photoService;
 
-    public ActorAdministratorController() {
-	super();
-    }
-
-    @GetMapping(value = "/ban")
-    public ModelAndView ban(@RequestParam final int actorId) {
-	ModelAndView result;
-	Actor actor;
-
-	try {
-	    actor = this.actorService.findOne(actorId);
-
-	    this.actorService.ban(actor);
-
-	    result = new ModelAndView("redirect:/actor/display?actorId=" + actorId);
-	} catch (final Throwable oops) {
-	    result = new ModelAndView("redirect:/miscellaneous/error");
-
-	    ActorAdministratorController.log.info("Algo salio mal al banear un actor.");
+	public ActorAdministratorController() {
+		super();
 	}
 
-	return result;
-    }
+	@GetMapping(value = "/ban")
+	public ModelAndView ban(@RequestParam final int actorId) {
+		ModelAndView result;
+		Actor actor;
 
-    @GetMapping(value = "/unban")
-    public ModelAndView unBan(@RequestParam final int actorId) {
-	ModelAndView result;
-	Actor actor;
+		try {
+			actor = this.actorService.findOne(actorId);
 
-	try {
-	    actor = this.actorService.findOne(actorId);
+			this.actorService.ban(actor);
 
-	    this.actorService.unBan(actor);
+			result = new ModelAndView("redirect:/actor/display?actorId=" + actorId);
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:/miscellaneous/error");
 
-	    result = new ModelAndView("redirect:/actor/display?actorId=" + actorId);
-	} catch (final Throwable oops) {
-	    result = new ModelAndView("redirect:/miscellaneous/error");
-
-	    ActorAdministratorController.log.info("Algo salio mal al banear un actor.");
-	}
-
-	return result;
-    }
-
-    @GetMapping(value = "/deleteActor")
-    public ModelAndView deleteActor(@RequestParam("page") final Optional<Integer> page,
-	    @RequestParam("size") final Optional<Integer> size) {
-	ModelAndView result;
-	Collection<Actor> actors;
-
-	int currentPage = page.orElse(1);
-	int pageSize = size.orElse(6);
-	Map<Integer, List<String>> actor_photo;
-
-	actor_photo = new HashMap<Integer, List<String>>();
-
-	try {
-	    result = new ModelAndView("actor/deleteActor");
-	    actors = this.actorService.findAllExceptAdmin();
-
-	    Page<Actor> shPage = this.actorService.findPaginated(PageRequest.of(currentPage - 1, pageSize), actors);
-
-	    int totalPages = shPage.getTotalPages();
-
-	    if (totalPages > 0) {
-		List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
-		result.addObject("pageNumbers", pageNumbers);
-	    }
-
-	    for (Actor a : actors) {
-		if (a.getPhoto() != null) {
-		    Photo photo = this.photoService.getPhotoById(a.getPhoto().getId());
-		    List<String> photoAttr = new ArrayList<String>();
-		    photoAttr.add(photo.getName());
-		    photoAttr.add(photo.getSuffix());
-		    photoAttr.add(this.photoService.getImageBase64(photo));
-		    actor_photo.put(a.getId(), photoAttr);
+			ActorAdministratorController.log.info("Algo salio mal al banear un actor.");
 		}
 
-	    }
-
-	    result.addObject("actors", actors);
-
-	    result.addObject("actorPage", shPage);
-	    result.addObject("actor_photo", actor_photo);
-
-	} catch (Throwable oops) {
-
-	    result = new ModelAndView("actor/deleteActor");
+		return result;
 	}
 
-	return result;
-    }
+	@GetMapping(value = "/unban")
+	public ModelAndView unBan(@RequestParam final int actorId) {
+		ModelAndView result;
+		Actor actor;
 
-    @GetMapping(value = "/delete")
-    public ModelAndView delete(@RequestParam final int actorId) {
-	ModelAndView result = null;
+		try {
+			actor = this.actorService.findOne(actorId);
 
-	Actor beDeleted = this.actorService.findOne(actorId);
+			this.actorService.unBan(actor);
 
-	if (beDeleted instanceof Renter) {
+			result = new ModelAndView("redirect:/actor/display?actorId=" + actorId);
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:/miscellaneous/error");
 
-	    try {
+			ActorAdministratorController.log.info("Algo salio mal al banear un actor.");
+		}
 
-		this.administratorService.deleteRenter((Renter) beDeleted);
-
-		result = new ModelAndView("redirect:/");
-
-	    } catch (Throwable oops) {
-		result = new ModelAndView("actor/administrator/deleteActor");
-
-		result.addObject("error", oops.getMessage());
-	    }
-
-	} else {
-	    try {
-		this.administratorService.deleteOwner((Owner) beDeleted);
-
-		result = new ModelAndView("redirect:/");
-	    } catch (Throwable oops) {
-		result = new ModelAndView("actor/administrator/deleteActor");
-
-		result.addObject("error", oops.getMessage());
-	    }
-
+		return result;
 	}
 
-	return result;
-    }
+	@GetMapping(value = "/deleteActor")
+	public ModelAndView deleteActor(@RequestParam("page") final Optional<Integer> page,
+			@RequestParam("size") final Optional<Integer> size) {
+		ModelAndView result;
+		Collection<Actor> actors;
 
-    // Metodos auxiliares ---------------------------------------------------
-    public ModelAndView createEditModelAndView(final AdminForm adminForm) {
-	ModelAndView result;
+		int currentPage = page.orElse(1);
+		int pageSize = size.orElse(6);
+		Map<Integer, List<String>> actor_photo;
 
-	result = new ModelAndView("actor/edit");
-	result.addObject("objectForm", adminForm);
-	result.addObject("buttonName", "saveAdmin");
+		actor_photo = new HashMap<Integer, List<String>>();
 
-	return result;
-    }
+		try {
+			result = new ModelAndView("actor/deleteActor");
+			actors = this.actorService.findAllExceptAdmin();
 
-    public ModelAndView createEditModelAndView(final AdminForm adminForm, final String messageName,
-	    final String messageValue) {
-	ModelAndView result;
+			Page<Actor> shPage = this.actorService
+					.findPaginated(PageRequest.of(currentPage - 1, pageSize), actors);
 
-	result = new ModelAndView("actor/edit");
-	result.addObject("objectForm", adminForm);
-	result.addObject(messageName, messageValue);
-	result.addObject("buttonName", "saveAdmin");
+			int totalPages = shPage.getTotalPages();
 
-	return result;
-    }
+			if (totalPages > 0) {
+				List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+						.boxed()
+						.collect(Collectors.toList());
+
+				result.addObject("pageNumbers", pageNumbers);
+			}
+
+			for (Actor a : actors) {
+				if (a.getPhoto() != null) {
+					Photo photo = this.photoService.getPhotoById(a.getPhoto().getId());
+					
+					List<String> photoAttr = new ArrayList<String>();
+					photoAttr.add(photo.getName());
+					photoAttr.add(photo.getSuffix());
+					photoAttr.add(this.photoService.getImageBase64(photo));
+					
+					actor_photo.put(a.getId(), photoAttr);
+				}
+
+			}
+
+			result.addObject("actors", actors);
+
+			result.addObject("actorPage", shPage);
+			result.addObject("actor_photo", actor_photo);
+
+		} catch (Throwable oops) {
+
+			result = new ModelAndView("actor/deleteActor");
+		}
+
+		return result;
+	}
+
+	@GetMapping(value = "/delete")
+	public ModelAndView delete(@RequestParam final int actorId) {
+		ModelAndView result = null;
+
+		Actor beDeleted = this.actorService.findOne(actorId);
+
+		if (beDeleted instanceof Renter) {
+
+			try {
+
+				this.administratorService.deleteRenter((Renter) beDeleted);
+
+				result = new ModelAndView("redirect:/");
+
+			} catch (Throwable oops) {
+				result = new ModelAndView("actor/administrator/deleteActor");
+
+				result.addObject("error", oops.getMessage());
+			}
+
+		} else {
+			try {
+				this.administratorService.deleteOwner((Owner) beDeleted);
+
+				result = new ModelAndView("redirect:/");
+			} catch (Throwable oops) {
+				result = new ModelAndView("actor/administrator/deleteActor");
+
+				result.addObject("error", oops.getMessage());
+			}
+
+		}
+
+		return result;
+	}
+
+	// Metodos auxiliares ---------------------------------------------------
+	public ModelAndView createEditModelAndView(AdminForm adminForm) {
+		ModelAndView result;
+
+		result = new ModelAndView("actor/edit");
+		result.addObject("objectForm", adminForm);
+		result.addObject("buttonName", "saveAdmin");
+
+		return result;
+	}
+
+	public ModelAndView createEditModelAndView(AdminForm adminForm,
+											   String messageName,
+											   String messageValue) {
+		ModelAndView result;
+
+		result = this.createEditModelAndView(adminForm);
+		result.addObject(messageName, messageValue);
+
+		return result;
+	}
 
 }

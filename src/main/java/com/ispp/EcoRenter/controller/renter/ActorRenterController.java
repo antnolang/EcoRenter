@@ -33,7 +33,6 @@ public class ActorRenterController {
 	@Autowired
 	private RenterService renterService;
 
-
 	public ActorRenterController() {
 		super();
 	}
@@ -67,7 +66,6 @@ public class ActorRenterController {
 		return result;
 	}
 
-
 	@GetMapping("/register")
 	public ModelAndView register() {
 		ModelAndView result = new ModelAndView("actor/renterRegister");
@@ -75,38 +73,36 @@ public class ActorRenterController {
 
 		result.addObject("renter", renter);
 
-
 		return result;
 	}
 
-
-
 	@PostMapping(value = "/register", params = "save")
-	public ModelAndView registerRenter(@ModelAttribute("renter") @Valid RenterRegister renterRegister, final BindingResult binding) {
+	public ModelAndView registerRenter(
+			@ModelAttribute("renter") @Valid RenterRegister renterRegister,
+			final BindingResult binding) {
 		ModelAndView result;
-
 
 		if (binding.hasErrors()) {
 			result = new ModelAndView("actor/renterRegister");
-		}else {
+		} else {
 			try {
 
 				this.renterService.register(renterRegister, binding);
 
 				result = new ModelAndView("login");
 
-			}catch(Throwable oops) {
+			} catch (Throwable oops) {
 				result = new ModelAndView("actor/renterRegister");
 				String message = oops.getMessage();
 
-				if(message.equals("Las contraseñas no coinciden.")) {
+				if (message.equals("Las contraseñas no coinciden.")) {
 					result.addObject("noMatchPass", message);
-				}else if(message.equals("El usuario elegido ya existe.")) {
+				} else if (message.equals("El usuario elegido ya existe.")) {
 					result.addObject("noValidUser", message);
 
-				}else if(message.equals("Iban incorrecto.")) {
+				} else if (message.equals("Iban incorrecto.")) {
 					result.addObject("noValidIban", message);
-				}else {
+				} else {
 					result.addObject("errorMessage", message);
 				}
 
@@ -120,24 +116,23 @@ public class ActorRenterController {
 	// Metodos auxiliares ---------------------------------------------------
 	public ModelAndView createEditModelAndView(RenterForm renterForm) {
 		ModelAndView result;
-		
+
 		result = new ModelAndView("actor/edit");
 		result.addObject("objectForm", renterForm);
 		result.addObject("buttonName", "saveRenter");
-		
+
 		return result;
 	}
-	
-	public ModelAndView createEditModelAndView(Object objectForm, String messageName, String messageValue) {
+
+	public ModelAndView createEditModelAndView(RenterForm renterForm,
+											   String messageName,
+											   String messageValue) {
 		ModelAndView result;
-		
-		result = new ModelAndView("actor/edit");
-		result.addObject("objectForm", objectForm);
+
+		result = this.createEditModelAndView(renterForm);
 		result.addObject(messageName, messageValue);
-		result.addObject("buttonName", "saveRenter");
-		
+
 		return result;
 	}
-	
 
 }

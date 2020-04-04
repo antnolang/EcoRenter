@@ -206,12 +206,13 @@ public class OwnerService {
 
 		//Comprobamos que las contraseñas coincidan, el usuario no exista y el iban sea correcto.
 
-		Assert.isTrue(this.actorService.checkPassword(ownerRegister.getPassword(), ownerRegister.getPasswordMatch()),
+		Assert.isTrue(this.actorService.checkPassword(ownerRegister.getPassword(),
+													  ownerRegister.getPasswordMatch()),
 				                                      "Las contraseñas no coinciden.");
 		Assert.isTrue(this.actorService.checkNoRepeatedUsername(ownerRegister.getUsername()),
 				                                                "El usuario elegido ya existe.");
-		Assert.isTrue(ownerRegister.getIban().matches("[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}"),
-				      "Iban incorrecto.");
+		Assert.isTrue(ownerRegister.getIban()
+				.matches("[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}"), "Iban incorrecto.");
 		
 
 		//Obtenemos valores del parametro renterRegister obtenido del formulario
