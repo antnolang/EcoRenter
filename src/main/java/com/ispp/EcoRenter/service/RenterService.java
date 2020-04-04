@@ -1,5 +1,7 @@
 package com.ispp.EcoRenter.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -85,6 +87,12 @@ public class RenterService {
     	result = renter.orElse(null);
     	
     	return result;
+    }
+    
+    public List<Renter> findAll(){
+    	
+    	return this.renterRepository.findAll();
+    	
     }
     
     public Renter save(Renter renter) {
@@ -245,5 +253,20 @@ public class RenterService {
     	
     	return result;	
     }
+    
+    public List<Renter> renterExport(List<Renter> renters) {
+    	List<Renter> result = new ArrayList<Renter>();
+    	
+    	for(Renter r : renters) {
+    		
+    	}
+    	
+    	
+    	
+    	
+    	return result;
+    }
+    
+    
     
 }
