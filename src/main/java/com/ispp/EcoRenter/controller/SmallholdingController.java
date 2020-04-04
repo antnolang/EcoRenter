@@ -60,7 +60,8 @@ public class SmallholdingController {
 			@RequestParam("size") final Optional<Integer> size, @RequestParam(required = false, defaultValue = "") String keyword) {
 		ModelAndView result;
 		Collection<Smallholding> smallholdings;
-		int currentPage, pageSize;
+		int currentPage;
+		int pageSize;
 		List<Smallholding> ls_smallholdings;
 		List<String> geoData;
 		Map<Integer,List<String>> sh_photo;
