@@ -46,5 +46,7 @@ deploy:
     strategy: git
     api_key: "$HEROKU_APIKEY"
     on:
-      branch: master
+      branch: 
+        - master
+        - develop
       repo: antnolang/EcoRenter
