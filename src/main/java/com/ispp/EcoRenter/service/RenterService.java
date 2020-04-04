@@ -1,5 +1,6 @@
 package com.ispp.EcoRenter.service;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ispp.EcoRenter.configuration.MyUserDetailsService;
 import com.ispp.EcoRenter.form.RenterForm;
+import com.ispp.EcoRenter.model.CreditCard;
 import com.ispp.EcoRenter.model.Photo;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.register.RenterRegister;
@@ -252,6 +254,20 @@ public class RenterService {
     	result = this.renterRepository.findRenterByCreditCard(creditCardId);
     	
     	return result;
+    }
+    
+    protected void addCreditCard(Renter renter, CreditCard creditCard) {
+    	Collection<CreditCard> creditCards;
+    	
+    	creditCards = renter.getCreditCards();
+    	creditCards.add(creditCard);
+    }
+    
+    protected void removeCreditCard(Renter renter, CreditCard creditCard) {
+    	Collection<CreditCard> creditCards;
+    	
+    	creditCards = renter.getCreditCards();
+    	creditCards.remove(creditCard);
     }
     
 }

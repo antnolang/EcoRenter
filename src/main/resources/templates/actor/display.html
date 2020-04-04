@@ -82,6 +82,15 @@ body {
 								th:text="${iban}"></span>
 						</p>
 					</div>
+					
+					<p th:if="${isMyProfile}" sec:authorize="hasAuthority('RENTER')"
+					   class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
+					    <i class="fa fa-envelope" aria-hidden="true"></i>
+						<a th:href="@{/credit-card/renter/list}">
+							Tarjetas de créditos
+						</a>
+					</p>
+					
 				</div>
 
 				<div th:if="${isMyProfile}" class="aside-content">

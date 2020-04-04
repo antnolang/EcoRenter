@@ -1,143 +1,71 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{master-page/layout :: layout(~{::title}, ~{::div.content})}">
 	<head>
-		<title>Catálogo de parcelas</title>
+		<title>Tajetas de crédito registradas</title>
 	</head>
 	
 	<body>
 		<div class="content">
 			
-		<section class="services1 cid-rRNjW9YKmG" id="services1-6">
-		<div class="container">
-        <div class="row justify-content-center">
-            <!--Titles-->
-            <div class="title pb-5 col-12">
-                <h2 th:if="${requestURI == 'smallholding/list'}"class="align-left pb-3 mbr-fonts-style display-2">
-					Catálogo de parcelas</h2>
-				<h2 th:if="${requestURI == 'owner/smallholding/listOwnSmallholdings'}"class="align-left pb-3 mbr-fonts-style display-2">
-					Mis parcelas</h2>
-				<h2 th:if="${requestURI == 'renter/smallholding/list'}"class="align-left pb-3 mbr-fonts-style display-2">
-					Parcelas alquiladas</h2>
+			<section class="services1 cid-rRNjW9YKmG" id="services1-6">
+				<div class="container">
+        			<div class="row justify-content-center">
+            
+			            <!--Title-->
+			            <div class="title pb-5 col-12">
+			                <h2 class="align-left pb-3 mbr-fonts-style display-2">
+								Tarjetas de crédito registradas
+							</h2>
+			            </div>
 
-            </div>
-
-
-
-            <!--Card-1-->
-            <div class="card col-12 col-md-6 p-3 col-lg-3" th:each="sh : ${smallholdingPage}">
-                <div class="card-wrapper">
-					<div class="card-img">
-						<img th:src="@{'data:' + ${sh_photo.get(sh.id)[1]} + ';base64, ' + ${sh_photo.get(sh.id)[2]}}" th:alt="${sh_photo.get(sh.id)[0]}" style="height: 9rem;">
-                    </div>
-					<div class="card-box">
-                        <h4 class="card-title mbr-fonts-style display-5" th:text="${sh.title}"></h4>
-                        <p class="mbr-text mbr-fonts-style display-7"> <span th:text="${sh.description}"></span></p>
-						<span class="mbr-text mbr-fonts-style display-7" th:text="${sh.locality}">
+			            <!-- Table -->
+			            <div>
+			            	<table th:if="${creditCards.size() > 0}" class="table table-striped">
+								<thead class="thead-dark">
+									<tr>
+										<th>
+										</th>
+										<th>Propietario</th>
+										<th>Marca</th>
+										<th>Número</th>
+										<th>Mes de expiración</th>
+										<th>Año de expiración</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="creditCard : ${creditCards}">
+										<td>
+											<a th:href="@{/credit-card/renter/edit(creditCardId=${creditCard.id})}">Editar</a>
+										</td>
+										<td th:text="${creditCard.holderName}"></td>
+										<td th:text="${creditCard.brandName}"></td>
+										<td th:text="${mapa.get(creditCard.id)}"></td>
+										<td th:text="${creditCard.expirationMonth}"></td>
+										<td th:text="${'20' + creditCard.expirationYear}"></td>
+									</tr>
+								</tbody>
+							</table>
+			            </div>
+             
+						<div th:if="${creditCards.size() == 0}">
+							<span>No existen resultados</span>
+						</div>
 						
-                    </div>
-                </div>
-				<div class="mbr-section-btn align-center"><a th:href="@{~/smallholding/display?smallholdingId=} + ${sh.id}" class="btn btn-warning-outline display-4">Ver parcela</a></div>
-			</div>
-			 
-			<div class="container">
-				<div class="row justify-content-center">
-					<div  th:if="${smallholdingPage.totalPages > 0 && requestURI == 'smallholding/list'}" 
-						th:each="pageNumber : ${pageNumbers}">
-						<nav aria-label="Page navigation example">
-							<ul class="pagination">
-								<li class="page-item">
-									<a th:href="@{/smallholding/list(size=${smallholdingPage.size}, page=${pageNumber})}" th:text=${pageNumber}	class="page-link"></a>
-								</li>
-							</ul>
-						</nav>
-					</div>
-
-					<div  th:if="${smallholdingPage.totalPages > 0 && requestURI == 'owner/smallholding/listOwnSmallholdings'}" 
-						th:each="pageNumber : ${pageNumbers}">
-						<nav aria-label="Page navigation example">
-							 <ul class="pagination">
-					 			<li class="page-item">
-									<a th:href="@{/owner/smallholding/listOwnSmallholdings(size=${smallholdingPage.size}, page=${pageNumber})}"	th:text=${pageNumber} class="page-link"></a>
-								 </li>
-				 			</ul>
-						</nav>
-					</div>
-
-					<div  th:if="${smallholdingPage.totalPages > 0 && requestURI == 'renter/smallholding/list'}" 
-						th:each="pageNumber : ${pageNumbers}">
-						<nav aria-label="Page navigation example">
-							 <ul class="pagination">
-					 			<li class="page-item">
-									<a th:href="@{/renter/smallholding/list(size=${smallholdingPage.size}, page=${pageNumber})}"	th:text=${pageNumber} class="page-link"></a>
-								 </li>
-				 			</ul>
-						</nav>
-					</div>
-
-				</div>
-			</div>
-			
-			<div sec:authorize="isAuthenticated()"
-			     th:if="${smallholdingPage.getTotalElements() > 0 && requestURI == 'smallholding/list'}" 
-			     id="map"></div>	
-								
-			<script>
-				var lats = [];
-				var lngs = [];
-				var str_latitudes;
-				var str_longitudes;
-				
-				str_latitudes = "[[${latitudes}]]";
-				str_longitudes = "[[${longitudes}]]";
-				
-				lats = str_latitudes.split(";");
-				lngs = str_longitudes.split(";");	
-				
-				function initMap() {
-					var infoWindows;
-					var map;
-					var marker;
-					var latLng;
-					
-					latLng = {lat: 40.4167047, lng: -3.7035825};
-					
-					map = new google.maps.Map(document.getElementById('map'), {
-						center: latLng,
-						zoom: 7
-					});
-					
-					var i = 0;
-					var n = lats.length;
-					while (i < n) {
-						var geo = {lat: parseFloat(lats[i]), lng: parseFloat(lngs[i])};
-					
-						marker = new google.maps.Marker({
-							position: geo,
-							map: map
-						});
-						
-						marker.setMap(map);
-						
-						i = i+1;
-					}
-								
-					infoWindows = new google.maps.InfoWindow({
-						maxWidth: 400
-					});
-					
-				}
-			</script>
-			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAB58EHyhLWDPcDS56wNgCig1GK_cDp7xs&callback=initMap"
-			        async defer></script>
-			
-			<div th:if="${smallholdingPage.getTotalElements() == 0}">
-				<span>No existen resultados</span>
-			</div>   
-			
-			
-    </div>
-</section>
-
+						<p>
+							<a th:href="@{/credit-card/renter/create}"
+						   	   class="btn btn-warning-outline">
+								Registrar nueva tarjeta de crédito
+							</a>
+						</p>
+						<p>
+							<a th:href="@{/actor/authenticated/display}"
+						   	   class="btn btn-warning-outline">
+								Volver al perfil
+							</a>
+						</p>   
+					</div>	
+    			</div>
+			</section>
 		</div>
 	</body>
 </html>

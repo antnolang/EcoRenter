@@ -18,7 +18,7 @@ public abstract class ActorForm extends DomainEntity {
 	private static final long serialVersionUID = 1L;
 
 	// Atributos -----------------------------------
-  @NotBlank
+    @NotBlank
 	@Pattern(
 		regexp = "^[^0-9]+$",
 	    message = "Nombre no válido"

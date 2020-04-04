@@ -3,8 +3,8 @@
 	th:replace="~{master-page/layout :: layout(~{::title}, ~{::div.content})}">
 
 <head>
-<title th:if="${smallholding.id != 0}">Editar parcela</title>
-<title th:if="${smallholding.id == 0}">Publicar parcela</title>
+<title th:if="${creditCardForm.id != 0}">Editar tarjeta de crédito</title>
+<title th:if="${creditCardForm.id == 0}">Registrar tarjeta de crédito</title>
 
 </head>
 
@@ -18,16 +18,14 @@
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="title col-12 col-lg-8">
-					<h2
-						class="mbr-section-title align-center pb-3 mbr-fonts-style display-2"
-						style="color: #2a3d2e !important;" th:if="${smallholding.id != 0}">
-						Editar parcela</h2>
-					<h2
-						class="mbr-section-title align-center pb-3 mbr-fonts-style display-2"
-						style="color: #2a3d2e !important;" th:if="${smallholding.id == 0}">
-						Publicar parcela</h2>
-
-
+					<h2 class="mbr-section-title align-center pb-3 mbr-fonts-style display-2"
+						style="color: #2a3d2e !important;" th:if="${creditCardForm.id != 0}">
+							Editar tarjeta de crédito
+					</h2>
+					<h2 class="mbr-section-title align-center pb-3 mbr-fonts-style display-2"
+						style="color: #2a3d2e !important;" th:if="${creditCardForm.id == 0}">
+							Registrar tarjeta de crédito
+					</h2>
 				</div>
 			</div>
 		</div>
@@ -36,197 +34,162 @@
 				<div class="media-container-column col-lg-8"
 					data-form-type="formoid">
 
-					<form th:action="@{/owner/smallholding/edit}" id="myForm"
-						th:object="${smallholding}" method="post"
-						enctype="multipart/form-data" class="mbr-form form-with-styler"
-						data-form-title=" Form">
+					<form th:action="@{/credit-card/renter/edit}" id="myForm"
+						  th:object="${creditCardForm}" method="post"
+						  class="mbr-form form-with-styler"
+						  data-form-title=" Form"
+						  onsubmit="return validateCreditCard()">
 
-						<input type="hidden" value="0.0" id="latitude" name="latitude"
-							data-geocomplete="lat"> <input type="hidden" value="0.0"
-							id="longitude" name="longitude" data-geocomplete="lng"> <input
-							type="hidden" th:field="*{id}" th:value="${smallholding.id}" /> <input
-							type="hidden" th:field="*{version}"
-							th:value="${smallholding.version}" />
-
+						<input type="hidden" th:field="*{id}" />
+						<input type="hidden" th:field="*{version}" />
+						<input type="hidden" th:field="*{renter}" />
+							
 						<div class="dragArea row">
-
-							<div data-for="message" class="col-md-12 form-group">
-								<label for="email-form1-17"
-									class="form-control-label mbr-fonts-style display-7"
-									style="color: #2a3d2e !important;">Dirección</label> <input
-									type="text" id="txtAddress1" data-geocomplete="street address" 
-									placeholder="Escribe una dirección" th:field="*{address}"
-									th:errorclass="fieldError" data-form-field="Message" required="required"
-									class="form-control display-7"></input>
-								<p th:if="${#fields.hasErrors('address')}"
-									style="color: red !important;">
-									<span th:errors="*{address}"></span>
-								</p>
-							</div>
-							<div class="col-md-4  form-group" data-for="name">
+							
+							<div class="col-md-5  form-group" data-for="name">
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
-									style="color: #2a3d2e !important;">Título</label> <input
-									type="text" th:field="*{title}" th:errorclass="fieldError" 
-									data-form-field="Name" required="required"
-									class="form-control display-7">
-								<p th:if="${#fields.hasErrors('title')}"
+									style="color: #2a3d2e !important;">Propietario</label>
+								<input
+									type="text" th:field="*{holderName}" th:errorclass="fieldError"
+									data-form-field="holderName" required="required"
+									class="form-control display-7"
+									onchange="checkHolderName()" />
+								<p th:if="${#fields.hasErrors('holderName')}"
 									style="color: red !important;">
-									<span th:errors="*{title}"></span>
+									<span th:errors="*{holderName}"></span>
+								</p>
+								
+								<p style="color: red !important;">
+									<span id="holderNameError"></span>
 								</p>
 							</div>
-							<div class="col-md-4  form-group" data-for="name">
+						
+							<div class="col-md-5  form-group" data-for="name">
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
-									style="color: #2a3d2e !important;">m²</label> <input
-									type="number" th:field="*{size}" th:errorclass="fieldError"
-									data-form-field="Name" required="required"  min="1"
-									class="form-control display-7">
-								<p th:if="${#fields.hasErrors('size')}"
-									style="color: red !important;">
-									<span th:errors="*{size}"></span>
-								</p>
-							</div>
-							<div class="col-md-4  form-group" data-for="name">
-								<label for="name-form1-17"
-									class="form-control-label mbr-fonts-style display-7"
-									style="color: #2a3d2e !important;">Precio (al mes)</label> <input
-									type="number" th:field="*{price}"  min="1" step="0.01"
-									th:errorclass="fieldError" data-form-field="Name"
-									required="required" class="form-control display-7">
-								<p th:if="${#fields.hasErrors('price')}"
-									style="color: red !important;">
-									<span th:errors="*{price}"></span>
-								</p>
-							</div>
-							<div data-for="message" class="col-md-12 form-group">
-								<label for="name-form1-17"
-									class="form-control-label mbr-fonts-style display-7"
-									style="color: #2a3d2e !important;">Descripción</label>
-								<textarea type="text" th:field="*{description}"
-									th:errorclass="fieldError" data-form-field="Name"
-									required="required" class="form-control display-7"></textarea>
-								<p th:if="${#fields.hasErrors('description')}"
-									style="color: red !important;">
-									<span th:errors="*{description}"></span>
-								</p>
-							</div>
-							<div class="col-md-4  form-group" data-for="name">
-								<label for="name-form1-17"
-									class="form-control-label mbr-fonts-style display-7"
-									style="color: #2a3d2e !important;">Provincia</label> <input
-									type="text" data-geocomplete="county" th:field="*{province}"
-									th:errorclass="fieldError" data-form-field="Name"
-									required="required" class="form-control display-7">
-								<p th:if="${#fields.hasErrors('province')}"
-									style="color: red !important;">
-									<span th:errors="*{province}"></span>
-								</p>
-							</div>
-							<div class="col-md-4  form-group" data-for="name">
-								<label for="name-form1-17"
-									class="form-control-label mbr-fonts-style display-7"
-									style="color: #2a3d2e !important;">Localidad</label> <input
-									type="text" data-geocomplete="city" th:field="*{locality}"
-									th:errorclass="fieldError" data-form-field="Name"
-									required="required" class="form-control display-7">
-								<p th:if="${#fields.hasErrors('locality')}"
-									style="color: red !important;">
-									<span th:errors="*{locality}"></span>
-								</p>
-							</div>
-							<div class="col-md-4  form-group" data-for="name">
-								<label for="name-form1-17"
-									class="form-control-label mbr-fonts-style display-7"
-									style="color: #2a3d2e !important;">Código postal</label> <input 
-									type="number" data-geocomplete="zip code" required="required"  min="10000" max="60000"
-									th:field="*{postalCode}" th:errorclass="fieldError"
-									data-form-field="Name"  
-									class="form-control display-7">
-								<p th:if="${#fields.hasErrors('postalCode')}"
-									style="color: red !important;">
-									<span th:errors="*{postalCode}"></span>
-								</p>
-							</div>
-
-							<div class="col-md-4  form-group" data-for="name">
-								<label for="name-form1-17"
-									class="form-control-label mbr-fonts-style display-7"
-									style="color: #2a3d2e !important;">Tipo de cultivo</label> <select
-									th:field="*{farmingType}" th:errorclass="fieldError"
-									data-form-field="Name" required="required"
-									class="form-control display-7">
-									<option th:value="'Perenne'"
-										class="form-control-label  mbr-fonts-style display-7"
-										style="color: #2a3d2e !important;">Perenne</option>
-									<option th:value="'Cíclico'"
-										class="form-control-label  mbr-fonts-style display-7"
-										style="color: #2a3d2e !important;">Cíclico</option>
-									<option th:value="'Bienal'"
-										class="form-control-label mbr-fonts-style display-7"
-										style="color: #2a3d2e !important;">Bienal</option>
-									<option th:value="'Temporal'"
-										class="form-control-label mbr-fonts-style display-7"
-										style="color: #2a3d2e !important;">Temporal</option>
+									style="color: #2a3d2e !important;">Marca</label>
+								
+								<select th:field="*{brandName}" th:errorclass="fieldError"
+										required="required" class="form-control display-7"
+										onchange="checkBrandName()">
+									<option value="Mastercard">MASTERCARD</option>
+									<option value="Visa">VISA</option>
+									<option value="Discover">DISCOVER</option>
+									<option value="American Express">AMERICAN EXPRESS</option>
+									<option value="JCB">JCB</option>
 								</select>
-								<p th:if="${#fields.hasErrors('farmingType')}"
+								
+								<p th:if="${#fields.hasErrors('brandName')}"
 									style="color: red !important;">
-									<span th:errors="*{farmingType}"></span>
+									<span th:errors="*{brandName}"></span>
+								</p>
+								
+								<p style="color: red !important;">
+									<span id="brandNameError"></span>
 								</p>
 							</div>
-
-							<div class="col-md-4  form-group" data-for="name">
+						
+							<div class="col-md-5  form-group" data-for="name">
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
-									style="color: #2a3d2e !important;">Meses máximos en
-									alquiler</label> <input type="number" th:field="*{maxDuration}"  min="1"
-									th:errorclass="fieldError" data-form-field="Name"
-									required="required" class="form-control display-7">
-								<p th:if="${#fields.hasErrors('maxDuration')}"
+									style="color: #2a3d2e !important;">Número</label>
+								<input
+									type="text" th:field="*{number}" th:errorclass="fieldError"
+									data-form-field="number" required="required"
+									placeholder="5124083976670154"
+									class="form-control display-7"
+									onchange="checkNumber()" />
+								<p th:if="${#fields.hasErrors('number')}"
 									style="color: red !important;">
-									<span th:errors="*{maxDuration}"></span>
+									<span th:errors="*{number}"></span>
 								</p>
-							</div>
-							<div class="col-md-12  form-group" data-for="name">
-								<input th:if="${smallholding.id == 0}" type="file" id="fileid" name="file" accept="image/*"
-									multiple="multiple" required="required"/>
-								<input th:if="${smallholding.id != 0}" type="file" id="fileid" name="file" accept="image/*"
-									multiple="multiple"/>
-								<p th:if="${#fields.hasErrors('photos')}"
-								style="color: red !important;">
-								<span th:errors="*{photos}"></span>
+								
+								<p style="color: red !important;">
+									<span id="numberError"></span>
 								</p>
 							</div>
 							
-							<div data-for="message" class="col-md-12 form-group">
-								<span class="gdpr-block"> <label> <span
-										class="textGDPR" style="color: #a7a7a7"><input
-											type="checkbox" name="gdpr" id="gdpr-form1-17" required="">
-											Para publicar una parcela debes aceptar nuestras <a
-											target="_blank"
-											style="color: #149dcc; text-decoration: none;"
-											href="/miscellaneous/condiciones-arrendamiento">condiciones
-												de arrendamiento</a>. </span>
-								</label>
-								</span>
+							<div class="col-md-5  form-group" data-for="name">
+								<label for="name-form1-17"
+									class="form-control-label mbr-fonts-style display-7"
+									style="color: #2a3d2e !important;">Mes de expiración</label>
+								<input
+									type="text" th:field="*{expirationMonth}" th:errorclass="fieldError"
+									data-form-field="expirationMonth" required="required"
+									placeholder="10"
+									class="form-control display-7"
+									onchange="checkExpirationMonth()" />
+								<p th:if="${#fields.hasErrors('expirationMonth')}"
+									style="color: red !important;">
+									<span th:errors="*{expirationMonth}"></span>
+								</p>
+								
+								<p style="color: red !important;">
+									<span id="expirationMonthError"></span>
+								</p>
 							</div>
+							
+							<div class="col-md-5  form-group" data-for="name">
+								<label for="name-form1-17"
+									class="form-control-label mbr-fonts-style display-7"
+									style="color: #2a3d2e !important;">Año de expiración</label>
+								<input
+									type="text" th:field="*{expirationYear}" th:errorclass="fieldError"
+									data-form-field="expirationYear" required="required"
+									placeholder="23"
+									class="form-control display-7"
+									onchange="checkExpirationYear()" />
+								<p th:if="${#fields.hasErrors('expirationYear')}"
+									style="color: red !important;">
+									<span th:errors="*{expirationYear}"></span>
+								</p>
+								
+								<p style="color: red !important;">
+									<span id="expirationYearError"></span>
+								</p>
+							</div>
+							
+							<div class="col-md-5  form-group" data-for="name">
+								<label for="name-form1-17"
+									class="form-control-label mbr-fonts-style display-7"
+									style="color: #2a3d2e !important;">Código de seguridad</label>
+								<input
+									type="text" th:field="*{cvvCode}" th:errorclass="fieldError"
+									data-form-field="cvvCode" required="required"
+									class="form-control display-7"
+									onchange="checkCVVCode()" />
+								<p th:if="${#fields.hasErrors('cvvCode')}"
+									style="color: red !important;">
+									<span th:errors="*{cvvCode}"></span>
+								</p>
+								
+								<p style="color: red !important;">
+									<span id="cvvCodeError"></span>
+								</p>
+							</div>
+								
 							<div class="col-md-12 form-group" data-for="name"
-								th:if="${messageCode != ''}">
+								th:if="${messageCode != null || messageCode != ''}">
 								<p th:text="${messageCode}" style="color: red !important;"></p>
 							</div>
+							
+							<!-- Botones -->
 							<div data-for="message" class="col-md-12 form-group">
 								<div class="col-md-12 input-group-btn align-center">
 									<button name="save" id="Guarda" type="submit" 
 										class="btn btn-form btn-secondary display-4">Guardar
 									</button>
+									
+									<button th:if="${creditCardForm.id > 0 && count == 0}" name="delete" type="submit" 
+										class="btn btn-form btn-warning display-4" onclick="return confirm('¿Estás seguro de querer borrarla?');">Borrar
+									</button>
 
-
-									<a href="/owner/smallholding/listOwnSmallholdings"
-										class="btn btn-warning-outline display-4" onclick="envioForm()"> Volver </a>
+									<a th:href="@{/credit-card/renter/list}"
+										class="btn btn-warning-outline display-4">
+											Volver
+									</a>
 								</div>
-
-
-
 							</div>
 						</div>
 					</form>

@@ -1,5 +1,8 @@
 package com.ispp.EcoRenter.service;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -8,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.ispp.EcoRenter.form.CreditCardForm;
 import com.ispp.EcoRenter.model.CreditCard;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.repository.CreditCardRepository;
@@ -66,12 +70,44 @@ public class CreditCardService {
 		return result;
 	}
 	
-	public CreditCard save(CreditCard creditCard) {
-		this.checkByPrincipal(creditCard);
+	public CreditCard save(CreditCard creditCard, Renter renter) {
+		this.checkByPrincipal(creditCard, renter);
 		
+		int creditCardId;
 		CreditCard result;
 		
+		creditCardId = creditCard.getId();
+		
 		result = this.creditCardRepository.saveAndFlush(creditCard);
+		
+		if (creditCardId == 0) {
+			// Actualizamos Renter::creditCards
+			this.renterService.addCreditCard(renter, result);
+		}
+		
+		return result;
+	}
+	
+	
+	public CreditCard save(CreditCardForm creditCardForm) {
+		CreditCard creditCard, result;
+		Renter renter;
+		int creditCardId;
+		
+		creditCardId = creditCardForm.getId();
+		
+		creditCard = (creditCardId == 0) ? this.create() : this.findOne(creditCardId);
+		
+		creditCard.setHolderName(creditCardForm.getHolderName().trim());
+		creditCard.setBrandName(creditCardForm.getBrandName().trim());
+		creditCard.setNumber(creditCardForm.getNumber().trim());
+		creditCard.setExpirationMonth(creditCardForm.getExpirationMonth().trim());
+		creditCard.setExpirationYear(creditCardForm.getExpirationYear().trim());
+		creditCard.setCvvCode(creditCardForm.getCvvCode());
+		
+		renter = creditCardForm.getRenter();
+		
+		result = this.save(creditCard, renter);
 		
 		return result;
 	}
@@ -79,22 +115,68 @@ public class CreditCardService {
 	public void delete(CreditCard creditCard) {
 		this.checkByPrincipal(creditCard);
 		
-		int count = this.rentOutService.findRentOutByCreditCard(creditCard.getId());
+		Renter renter;
+		int creditCardId;
+		
+		creditCardId = creditCard.getId();
+		
+		int count = this.rentOutService.findRentOutByCreditCard(creditCardId);
 		
 		Assert.isTrue(count == 0, "No se puede borrar");
+		
+		renter = this.renterService.findRenterByCreditCard(creditCardId);
+		
+		// Actualizamos Renter::creditCards
+		this.renterService.removeCreditCard(renter, creditCard);
 		
 		this.creditCardRepository.delete(creditCard);
 	}
 	
-	private void checkByPrincipal(CreditCard creditCard) {
+	// Otros metodos -------------------------------------------
+	public Map<Integer, String> getCreditCardEncodedNumber(Collection<CreditCard> creditCards) {
+		Map<Integer, String> results;
+		String encodedNumber;
+		
+		results = new HashMap<Integer, String>();
+		
+		for (CreditCard creditCard: creditCards) {
+			encodedNumber = this.getEncodedNumber(creditCard);
+			
+			results.put(creditCard.getId(), encodedNumber);
+		}
+		
+		return results;
+	}
+	
+	private String getEncodedNumber(CreditCard creditCard) {
+		String result, number;
+		
+		number = creditCard.getNumber();
+		int n = number.length();
+		
+		result = "**** **** **** ";
+		
+		result = result + number.substring(n-4, n);
+		
+		return result;
+	}
+	
+	private void checkByPrincipal(CreditCard creditCard, Renter renter) {
 		Assert.notNull(creditCard, "Tarjeta desconocida");
 		
-		Renter renter, principal;
+		Renter principal;
 		
-		renter = this.renterService.findRenterByCreditCard(creditCard.getId());
 		principal = this.renterService.findByPrincipal();
 		
 		Assert.isTrue(principal.getId() == renter.getId(), "Acceso inválido");
+	}
+	
+	private void checkByPrincipal(CreditCard creditCard) {
+		Renter renter;
+		
+		renter = this.renterService.findRenterByCreditCard(creditCard.getId());
+		
+		this.checkByPrincipal(creditCard, renter);
 	}
 	
 }
