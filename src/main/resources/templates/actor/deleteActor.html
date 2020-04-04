@@ -7,52 +7,72 @@
 	<body>
 		<div class="content">
 			
-		<section class="testimonials1 cid-rUE2rYTRTZ" id="testimonials1-1e">
-		
-		<div class="container">
-        <div class="media-container-row">
-            <div class="title col-12 align-center">
-                <h2 class="pb-3 mbr-fonts-style display-2">
-                    Eliminar usuarios</h2>
-                
-            </div>
-        </div>
-    </div>
-<div class="container pt-3 mt-2">
-        <div class="media-container-row">
+		<section class="engine"><a href="https://mobirise.info/l">free web templates</a></section><section class="section-table cid-rV29YLS4n5" id="table1-3o">
 
-            <div class="mbr-testimonial p-3 align-center col-12 col-md-6 col-lg-4" th:each="a: ${actorPage}">
-                <div class="panel-item p-3">
-                    <div class="card-footer">
-                        <div class="mbr-author-name mbr-bold mbr-fonts-style display-7" th:text="${a.userAccount.username}">
-                        </div>
-                    </div>
-<div class="mbr-section-btn align-center"><a th:href="@{~/actor/administrator/delete?actorId=} + ${a.id}" class="btn btn-warning-outline display-4">Eliminar este usuario</a></div>
+  
+  
+  <div class="container container-table">
+      <h2 class="mbr-section-title mbr-fonts-style align-center pb-3 display-2">
+          Eliminar usuario</h2>
+      
+      <div class="table-wrapper">
+        <div class="container">
+          <div class="row search">
+            <div class="col-md-6"></div>
+            <div class="col-md-6">
+                <div class="dataTables_filter">
+                  <label class="searchInfo mbr-fonts-style display-7">Filtra por nombre:</label>
+                  <input class="form-control input-sm" disabled="">
                 </div>
             </div>
-
+          </div>
         </div>
 
-			<div class="container">
-				<div class="row justify-content-center">
-					<div  th:if="${actorPage.totalPages > 0}" 
-						th:each="pageNumber : ${pageNumbers}">
-						<nav aria-label="Page navigation example">
-							<ul class="pagination">
-								<li class="page-item">
-									<a th:href="@{/actor/administrator/deleteActor(size=${actorPage.size}, page=${pageNumber})}" th:text=${pageNumber}	class="page-link"></a>
-								</li>
-							</ul>
-						</nav>
-					</div>
+<div class="row justify-content-center">
+            <div class="media-container-column col-lg-8" data-form-type="formoid">
+        <div class="container scroll">
+          <table id="example" class="table isSearch" cellspacing="0">
+            <thead>
+              <tr class="table-heads ">
+                  
+                  
+                  
+                  
+              <th class="head-item mbr-fonts-style display-7">
+                      Nombre</th><th class="head-item mbr-fonts-style display-7">
+                      Eliminar</th></tr>
+            </thead>
 
-				</div>
-			</div>
+            <tbody>
 
-    </div>   
+            <tr th:each="a: ${actorPage}"> 
+                
+              <td class="body-item mbr-fonts-style display-7" th:text="${a.userAccount.username}"></td><td class="body-item mbr-fonts-style display-7" ><a th:href="@{~/actor/administrator/delete?actorId=} + ${a.id}" class="btn-outline display-7">Eliminar este usuario</a></td></tr></tbody>
+          </table>
+        </div>
+        <div class="container table-info-container">
+          <div class="row info">
+            <div class="col-md-6">
+              <div class="dataTables_info mbr-fonts-style display-7">
+                <span class="infoBefore">Mostrando</span>
+                <span class="inactive infoRows"></span>
+                <span class="infoAfter">usuarios</span>
+                <span class="infoFilteredBefore">(filtrados de</span>
+                <span class="inactive infoRows"></span>
+                <span class="infoFilteredAfter"> usuarios totales)</span>
+              </div>
+            </div>
+            <div class="col-md-6"></div>
+          </div>
+        </div>
+      </div>
+    </div> </div>
+    </div>
+
 </section>
 
 		</div>
 	</body>
+
 </html>
 	
