@@ -112,24 +112,14 @@ public class SmallholdingRenterController {
 	// List
 
 	@GetMapping("/list")
-	public ModelAndView list(@RequestParam(name = "page", defaultValue="1") final Optional<Integer> page, @RequestParam(name = "size", defaultValue = "4") final Optional<Integer> size, @RequestParam(required = false, defaultValue = "") String keyword) {
+	public ModelAndView list(@RequestParam("page") final Optional<Integer> page, @RequestParam("size") final Optional<Integer> size) {
 		ModelAndView result;
 		// Collection<Smallholding> actSmallholdingsRented, prevSmallholdingsRented;
 		Collection<Smallholding> smallholdings;
 		Renter principal;
 		Map<Integer,List<String>> sh_photo;
-		int currentPage, pageSize;
-
-		if(page == null)
-			currentPage = 1;
-		else
-			currentPage = page.orElse(1);
-
-		if(size == null)
-			pageSize = 4;
-		else
-			pageSize = size.orElse(4);
-		
+		int currentPage = page.orElse(1);
+		int pageSize = size.orElse(4);
 
 		sh_photo = new HashMap<Integer,List<String>>();
 
@@ -138,10 +128,7 @@ public class SmallholdingRenterController {
 
 			principal = this.renterService.findByPrincipal();
 			
-			if(keyword.isEmpty())
-				smallholdings = this.smallholdingService.findSmallholdingsByActiveRentOut(principal.getId());
-			else
-				smallholdings = this.smallholdingService.findSmallholdingsByKeyword(keyword);
+			smallholdings = this.smallholdingService.findSmallholdingsByActiveRentOut(principal.getId());
 
 			Page<Smallholding> shPage = this.smallholdingService.findPaginated(PageRequest.of(currentPage - 1, pageSize), smallholdings);
 			int totalPages = shPage.getTotalPages();
@@ -175,7 +162,7 @@ public class SmallholdingRenterController {
 	// Filtro
 	@PostMapping(value = "/filter", params = "filtra")
 	public ModelAndView filtra(@RequestParam("keyword") String keyword){
-		return this.list(null, null, keyword);
+		return this.smallholdingController.list(Optional.empty(), Optional.empty(), keyword);
 	}
 
 }

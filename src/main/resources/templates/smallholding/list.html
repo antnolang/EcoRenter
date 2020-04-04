@@ -21,24 +21,10 @@
 
 			</div>
 			
-			<!-- Filtro de parcelas 
-			<form sec:authorize="hasAuthority('RENTER')" id="filter-form" th:action="@{'/renter/smallholding/filter" method="post">
-				<div data-for="message" class="col-md-12 form-group">
-					<label for="keyword"
-						class="form-control-label mbr-fonts-style display-7"
-						style="color: #2a3d2e !important;">Búsqueda de parcela:
-					</label> 
-					<input
-						type="text" id="keyword" >
-					</input>
-				</div>
-				<button name="save" id="filtra" type="submit" 
-					class="btn btn-form btn-secondary display-4">Buscar
-				</button>
-			</form> -->
-			<form sec:authorize="hasAuthority('RENTER')" th:action="@{/renter/smallholding/filter}" method="post">
+			<!-- Filtro de búsuqeda -->
+			<form th:if="${requestURI == 'smallholding/list'}" sec:authorize="hasAuthority('RENTER')" th:action="@{/renter/smallholding/filter}" method="post">
 				<label>Búsqueda de parcela:</label> 
-				<input type="text" id="keyword" name="keyword"></input>
+				<input type="text" id="keyword" placeholder="Tipo de cultivo, Provincia, Precio y Tamaño" name="keyword"></input>
 				<button name="filtra" id="filtra" type="submit">Buscar</button>
 			</form>
 

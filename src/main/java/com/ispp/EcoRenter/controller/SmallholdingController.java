@@ -57,21 +57,26 @@ public class SmallholdingController {
 
 	@GetMapping("/list")
 	public ModelAndView list(@RequestParam("page") final Optional<Integer> page,
-			@RequestParam("size") final Optional<Integer> size) {
+			@RequestParam("size") final Optional<Integer> size, @RequestParam(required = false, defaultValue = "") String keyword) {
 		ModelAndView result;
 		Collection<Smallholding> smallholdings;
-		int currentPage = page.orElse(1);
-		int pageSize = size.orElse(4);
+		int currentPage, pageSize;
 		List<Smallholding> ls_smallholdings;
 		List<String> geoData;
 		Map<Integer,List<String>> sh_photo;
 
 		sh_photo = new HashMap<Integer,List<String>>();
 
+		currentPage = page.orElse(1);
+		pageSize = size.orElse(4);
+			
 		try {
 			result = new ModelAndView("smallholding/list");
 
-			smallholdings = this.smallholdingService.findSmallholdingsAvailables();
+			if(keyword.isEmpty())
+				smallholdings = this.smallholdingService.findSmallholdingsAvailables();
+			else
+				smallholdings = this.smallholdingService.findSmallholdingsByKeyword(keyword);
 			Page<Smallholding> shPage = this.smallholdingService
 					.findPaginated(PageRequest.of(currentPage - 1, pageSize), smallholdings);
 			int totalPages = shPage.getTotalPages();
