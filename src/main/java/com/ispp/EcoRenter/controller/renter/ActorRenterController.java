@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ispp.EcoRenter.export.ActorExport;
 import com.ispp.EcoRenter.form.RenterForm;
 import com.ispp.EcoRenter.model.Actor;
 import com.ispp.EcoRenter.model.Renter;
@@ -126,24 +127,25 @@ public class ActorRenterController {
 
 	}
 	
-	@GetMapping("/export-renters")
+	@GetMapping("/export-renterData")
 	public void exportCSV(HttpServletResponse response) throws Exception{
 		
-		String filename = "export.csv";
-		List<Renter> result = new ArrayList<Renter>();
+		String filename = "myData.csv";
+		
 		Renter principal = this.renterService.findByPrincipal();
 		
-		result.add(principal);
+		ActorExport toExport = new ActorExport(principal.getIban(),principal.getName(),principal.getSurname(), principal.getTelephoneNumber(), principal.getUserAccount().getUsername(), principal.getEmail());
+		
 		
 		response.setContentType("text/csv");
 		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\" ");
 		
-		StatefulBeanToCsv<Renter> writer = new StatefulBeanToCsvBuilder<Renter>(response.getWriter())
+		StatefulBeanToCsv<ActorExport> writer = new StatefulBeanToCsvBuilder<ActorExport>(response.getWriter())
 				.withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
 				.withSeparator(CSVWriter.DEFAULT_SEPARATOR)
 				.withOrderedResults(false)
 				.build();
-		writer.write(principal);
+		writer.write(toExport);
 	}
 
 	// Metodos auxiliares ---------------------------------------------------
@@ -167,6 +169,8 @@ public class ActorRenterController {
 		
 		return result;
 	}
+	
+	
 	
 
 }
