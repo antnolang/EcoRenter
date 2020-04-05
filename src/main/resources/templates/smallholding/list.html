@@ -6,12 +6,18 @@
 	
 	<body>
 		<div class="content">
+			<style>
 			
+			h2{
+			text-align:center !important;
+			}
+			
+			</style>
 		<section class="services1 cid-rRNjW9YKmG" id="services1-6">
 		<div class="container">
         <div class="row justify-content-center">
             <!--Titles-->
-            <div class="title pb-5 col-12">
+            <div class="title pb-5 col-12" >
                 <h2 th:if="${requestURI == 'smallholding/list'}"class="align-left pb-3 mbr-fonts-style display-2">
 					Catálogo de parcelas</h2>
 				<h2 th:if="${requestURI == 'owner/smallholding/listOwnSmallholdings'}"class="align-left pb-3 mbr-fonts-style display-2">
@@ -30,19 +36,21 @@
 
 
             <!--Card-1-->
-            <div class="card col-12 col-md-6 p-3 col-lg-3" th:each="sh : ${smallholdingPage}">
+            <div class="card col-12 col-md-6 p-3 col-lg-3" th:each="sh : ${smallholdingPage}" >
                 <div class="card-wrapper">
 					<div class="card-img">
-						<img th:src="@{'data:' + ${sh_photo.get(sh.id)[1]} + ';base64, ' + ${sh_photo.get(sh.id)[2]}}" th:alt="${sh_photo.get(sh.id)[0]}" style="height: 9rem;">
+						<img th:src="@{'data:' + ${sh_photo.get(sh.id)[1]} + ';base64, ' + ${sh_photo.get(sh.id)[2]}}" th:alt="${sh_photo.get(sh.id)[0]}"id="fotosListado">
                     </div>
 					<div class="card-box">
                         <h4 class="card-title mbr-fonts-style display-5" th:text="${sh.title}"></h4>
                         <p class="mbr-text mbr-fonts-style display-7"> <span th:text="${sh.description}"></span></p>
-						<span class="mbr-text mbr-fonts-style display-7" th:text="${sh.locality}">
+						<span><i class='fas fa-map-marker-alt'></i></span> <span class="mbr-text mbr-fonts-style display-7" th:text="${sh.locality}"></span><br>
+						<span class="mbr-text mbr-fonts-style display-7" th:text="${sh.price}"> </span> <span> <i class='fas fa-euro-sign'></i></span> <br>
+						<span><i class='fa fa-eur'></i></span> <span class="mbr-text mbr-fonts-style display-7" th:text="${sh.size}"></span> <span style='#54775E !important;'>m²</span><br>
 						
                     </div>
                 </div>
-				<div class="mbr-section-btn align-center"><a th:href="@{~/smallholding/display?smallholdingId=} + ${sh.id}" class="btn btn-warning-outline display-4">Ver parcela</a></div>
+				<div class="mbr-section-btn align-center" style="text-align: center !important;"><a th:href="@{~/smallholding/display?smallholdingId=} + ${sh.id}" class="btn btn-warning-outline display-4">Ver parcela</a></div>
 			</div>
 			 
 			<div class="container">
