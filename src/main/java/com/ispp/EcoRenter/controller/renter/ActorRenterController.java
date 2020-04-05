@@ -1,10 +1,15 @@
 package com.ispp.EcoRenter.controller.renter;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,12 +19,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ispp.EcoRenter.export.ActorExport;
 import com.ispp.EcoRenter.form.RenterForm;
 import com.ispp.EcoRenter.model.Actor;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.register.RenterRegister;
 import com.ispp.EcoRenter.service.ActorService;
 import com.ispp.EcoRenter.service.RenterService;
+import com.opencsv.CSVWriter;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
+
 
 @Controller
 @RequestMapping("/actor/renter")
@@ -116,6 +126,27 @@ public class ActorRenterController {
 		return result;
 
 	}
+	
+	@GetMapping("/export-renterData")
+	public void exportCSV(HttpServletResponse response) throws Exception{
+		
+		String filename = "myData.csv";
+		
+		Renter principal = this.renterService.findByPrincipal();
+		
+		ActorExport toExport = new ActorExport(principal.getIban(),principal.getName(),principal.getSurname(), principal.getTelephoneNumber(), principal.getUserAccount().getUsername(), principal.getEmail());
+		
+		
+		response.setContentType("text/csv");
+		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\" ");
+		
+		StatefulBeanToCsv<ActorExport> writer = new StatefulBeanToCsvBuilder<ActorExport>(response.getWriter())
+				.withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
+				.withSeparator(CSVWriter.DEFAULT_SEPARATOR)
+				.withOrderedResults(false)
+				.build();
+		writer.write(toExport);
+	}
 
 	// Metodos auxiliares ---------------------------------------------------
 	public ModelAndView createEditModelAndView(RenterForm renterForm) {
@@ -138,6 +169,8 @@ public class ActorRenterController {
 		
 		return result;
 	}
+	
+	
 	
 
 }
