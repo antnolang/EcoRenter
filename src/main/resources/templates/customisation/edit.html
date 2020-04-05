@@ -64,12 +64,24 @@
 							</div>
 
 							<div data-for="message" class="col-md-12 form-group">
-								<label>Códigos Descuentos:</label> <input type="text"
-									th:field="*{discountCodes}" th:errorclass="fieldError"
-									placeholder="Separe los códigos de descuentos por coma (,)"></input>
-								<p th:if="${#fields.hasErrors('discountCodes')}"
+								<label>Tamaño máximo de las fotos:</label>
+								<input type="text"
+									th:field="*{maxSizePhoto}" th:errorclass="fieldError"
+									placeholder="5 MB"></input>
+								<p th:if="${#fields.hasErrors('maxSizePhoto')}"
 									style="color: red !important;">
-									<span th:errors="*{discountCodes}"></span>
+									<span th:errors="*{maxSizePhoto}"></span>
+								</p>
+							</div>
+
+							<div data-for="message" class="col-md-12 form-group">
+								<label>Marcas de tarjeta de crédito:</label>
+								<input type="text"
+									th:field="*{creditCardMakes}" th:errorclass="fieldError"
+									placeholder="Las marcas debe de estar separadas por comas y sin espacios" />
+								<p th:if="${#fields.hasErrors('creditCardMakes')}"
+									style="color: red !important;">
+									<span th:errors="*{creditCardMakes}"></span>
 								</p>
 							</div>
 

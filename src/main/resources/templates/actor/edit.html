@@ -95,6 +95,54 @@
 								</p>
 							</div>
 
+							<div class="col-md-12  form-group" data-for="file">
+								<label for="name-form1-17"
+									class="form-control-label mbr-fonts-style display-7"
+									style="color: #2a3d2e !important;" th:text="'Seleccionar foto de
+									perfil (Tamaño máximo de ' + ${customisation.maxSizePhoto} + 'MB)'"></label>
+								
+								<input type="file" th:field="*{file}"
+									th:errorclass="fieldError" data-form-field="file"
+									accept="image/*" class="form-control display-7"
+									onchange="checkSizeFile()" />
+									
+								<p th:if="${#fields.hasErrors('file')}"
+									style="color: red !important;">
+									<span th:errors="*{file}"></span>
+								</p>
+								
+								<p style="color: red !important;"> 
+									<span id="fileError"></span>
+								</p>
+							</div>
+
+							<div class="col-md-12 form-group" data-for="file"
+								th:if="${selImage != ''}">
+								<p th:text="${selImage}" style="color: red !important;"></p>
+							</div>
+
+							<div sec:authorize="hasAnyAuthority('OWNER','RENTER')"
+								class="col-md-12  form-group" data-for="iban">
+								<label for="name-form1-17"
+									class="form-control-label mbr-fonts-style display-7"
+									style="color: #2a3d2e !important;">Iban</label> <input
+									type="text" placeholder="ES1234554678901234567890"
+									pattern="[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}"
+									th:field="*{iban}" th:errorclass="fieldError"
+									data-form-field="iban" class="form-control display-7" />
+								<p>Rellene este campo en el caso de que quiera actualizar el IBAN</p>
+								<p th:if="${#fields.hasErrors('iban')}"
+									style="color: red !important;">
+									<span th:errors="*{iban}"></span>
+								</p>
+							</div>
+
+							<div sec:authorize="hasAnyAuthority('OWNER','RENTER')"
+								class="col-md-12 form-group" data-for="iban"
+								th:if="${noValidIban != ''}">
+								<p th:text="${noValidIban}" style="color: red !important;"></p>
+							</div>
+
 							<div class="col-md-12  form-group" data-for="username">
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
@@ -147,56 +195,6 @@
 									<span th:errors="*{passwordMatch}"></span>
 								</p>
 							</div>
-
-							<div class="col-md-12  form-group" data-for="file">
-								<label for="name-form1-17"
-									class="form-control-label mbr-fonts-style display-7"
-									style="color: #2a3d2e !important;">Seleccionar foto de
-									perfil (Tamaño máximo de 5MB)</label>
-								
-								<input type="file" th:field="*{file}"
-									th:errorclass="fieldError" data-form-field="file"
-									accept="image/*" class="form-control display-7"
-									onchange="checkSizeFile()" />
-									
-								<p th:if="${#fields.hasErrors('file')}"
-									style="color: red !important;">
-									<span th:errors="*{file}"></span>
-								</p>
-								
-								<p style="color: red !important;"> 
-									<span id="fileError"></span>
-								</p>
-							</div>
-
-							<div class="col-md-12 form-group" data-for="file"
-								th:if="${selImage != ''}">
-								<p th:text="${selImage}" style="color: red !important;"></p>
-							</div>
-
-							<div sec:authorize="hasAnyAuthority('OWNER','RENTER')"
-								class="col-md-12  form-group" data-for="iban">
-								<label for="name-form1-17"
-									class="form-control-label mbr-fonts-style display-7"
-									style="color: #2a3d2e !important;">Iban</label> <input
-									type="text" placeholder="ES1234554678901234567890"
-									pattern="[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}"
-									th:field="*{iban}" th:errorclass="fieldError"
-									data-form-field="iban" class="form-control display-7" />
-								<p>Rellene este campo en el caso de que quiera actualizar el IBAN</p>
-								<p th:if="${#fields.hasErrors('iban')}"
-									style="color: red !important;">
-									<span th:errors="*{iban}"></span>
-								</p>
-							</div>
-
-
-							<div sec:authorize="hasAnyAuthority('OWNER','RENTER')"
-								class="col-md-12 form-group" data-for="iban"
-								th:if="${noValidIban != ''}">
-								<p th:text="${noValidIban}" style="color: red !important;"></p>
-							</div>
-
 
 							<div class="col-md-6 input-group-btn align-center">
 								<button th:name="${buttonName}" type="submit"

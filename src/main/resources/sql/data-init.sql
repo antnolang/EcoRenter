@@ -101,8 +101,8 @@ COPY public.comment (id, version, text, written_moment, rent_out_id) FROM stdin;
 -- Data for Name: customization; Type: TABLE DATA; Schema: public; Owner: spring_dev
 --
 
-COPY public.customization (id, version, discount_codes, email, gold_level, silver_level) FROM stdin;
-1	0		ecoRenter@gmail.com	12	3
+COPY public.customization (id, version, credit_card_makes, email, gold_level, max_size_photo, silver_level) FROM stdin;
+1	0	MASTERCARD,VISA,AMERICAN EXPRESS,DISCOVER,JCB	ecoRenter@gmail.com	12	5	3
 \.
 
 
@@ -127,6 +127,14 @@ COPY public.eco_truki_photos (eco_truki_id, photos_id) FROM stdin;
 --
 
 SELECT pg_catalog.setval('public.hibernate_sequence', 1, false);
+
+
+--
+-- Data for Name: provider_discount_code; Type: TABLE DATA; Schema: public; Owner: spring_dev
+--
+
+COPY public.provider_discount_code (id, version, discount_codes, link_page, name) FROM stdin;
+\.
 
 
 --
