@@ -123,6 +123,8 @@ public class CreditCardRenterController {
 				
 				if (message.equals("Acceso inválido")) {
 					result = this.createEditModelAndView(creditCardForm, message);
+				} else if (message.equals("La tarjeta de crédito está expirada")) {
+					result = this.createEditModelAndView(creditCardForm, message);	
 				} else {
 					result = this.createEditModelAndView(
 									creditCardForm, 

@@ -1,5 +1,7 @@
 package com.ispp.EcoRenter.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -72,6 +74,7 @@ public class CreditCardService {
 	
 	public CreditCard save(CreditCard creditCard, Renter renter) {
 		this.checkByPrincipal(creditCard, renter);
+		this.checkExpiredCreditCard(creditCard);
 		
 		int creditCardId;
 		CreditCard result;
@@ -177,6 +180,26 @@ public class CreditCardService {
 		renter = this.renterService.findRenterByCreditCard(creditCard.getId());
 		
 		this.checkByPrincipal(creditCard, renter);
+	}
+	
+	private void checkExpiredCreditCard(CreditCard creditCard) {
+		String year, month, str_date;
+		DateTimeFormatter formatter;
+		LocalDate now, expiration;
+		
+		formatter = DateTimeFormatter.ofPattern("yy-MM-dd");
+		
+		year = creditCard.getExpirationYear();
+		month = creditCard.getExpirationMonth();
+		
+		str_date = year + "-" + month + "-" + "01";
+		
+		expiration = LocalDate.parse(str_date, formatter);
+		expiration.plusMonths(1).minusDays(1);
+		
+		now = LocalDate.now();
+		
+		Assert.isTrue(now.isAfter(expiration), "La tarjeta de crédito está expirada");
 	}
 	
 }
