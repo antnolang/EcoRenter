@@ -36,7 +36,7 @@
 							</h2>
                             <div class="mbr-section-text">
                                 <p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
-                                    <strong>Tamaño:</strong> <span th:text="${smallholding.size}"></span>
+                                    <strong>Tamaño:</strong> <span th:text="${smallholding.size}"></span> m²
                                 </p>
                                 <p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
                                     <strong>Descripción:</strong> <span th:text="${smallholding.description}"></span>
@@ -78,10 +78,10 @@
                                     <a  class="btn btn-secondary-outline display-4">Contactar con el propietario</a>
                                 </div>
                            		<div sec:authorize="hasAuthority('RENTER')" th:if="${isRentedByRenter}" id="contactos"  style="display: none;" >
-                           		<ul style="color: #54775E;">
-                           		<li><a th:href="@{'mailto:' + ${smallholding.owner.email}}" th:text="${smallholding.owner.email}" target="_blank"></a></li>
-                           		<li><a th:href="@{'callto:' + ${smallholding.owner.telephoneNumber}}" th:text="${smallholding.owner.telephoneNumber}" target="_blank"></a></li>
-                           		</ul>
+                           		
+                           		<p><i class='fas fa-envelope'></i>   <a th:href="@{'mailto:' + ${smallholding.owner.email}}" th:text="${smallholding.owner.email}" target="_blank"></a></p>
+                           		<p><i class='fab fa-whatsapp'></i>   <a th:href="@{'tel:' + ${smallholding.owner.telephoneNumber}}" th:text="${smallholding.owner.telephoneNumber}" target="_blank"></a></p>
+                           		
                            
                                 </div>
                                 
@@ -171,25 +171,58 @@
 
             <div class="content">
 
-                <div class="container">
+                <div class="container" style="color:#54775e !important">
                     <div class="row justify-content-center">
                         <!--Titles-->
                         <div class="col-12">
-                            <h1 class="align-left pb-3 mbr-fonts-style display-2">
-								Comentarios:</h1>
+                           
 
                         </div>
 
                         <div class="container" th:each="co : ${comments}">
-                            <p class="mbr-title mbr-fonts-style display-5" th:text="${co.writtenMoment}"></p>
-                            <p class="mbr-text mbr-fonts-style display-7" th:text="${co.text}"></p>
-                            <br>
+                        	<div class="card">
+							  <div class="card-header" ><strong th:text="${co.rentOut.renter.userAccount.username}"></strong><div class="float-right"><span class="liveTime" th:text="${co.writtenMoment}"></span>  <i class="fas fa-clock"></i></div></div>
+							  <div class="card-body" th:text="${co.text}"></div>
+							
+							</div>
+                           
 
                         </div>
+						<script>
+						$('.liveTime').liveTimeAgo({
+						     translate: {
 
-                        <div th:if="${comments.size() == 0}">
-                            <span>No hay comentarios disponibles</span>
-                        </div>
+						    'year':'Hace % año',
+
+						    'years':'Hace % años',
+
+						    'month':'Hace % mes',
+
+						    'months':'Hace % meses',
+
+						    'day':'Hace % día',
+
+						    'days':'Hace % días',
+
+						    'hour':'Hace % hora',
+
+						    'hours':'Hace % horas',
+
+						    'minute':'Hace % minuto',
+
+						    'minutes':'Hace % minutos',
+
+						    'seconds':'Hace pocos segundos',
+
+						    'error':' ',
+
+						  }
+
+						    
+						});
+						
+						</script>
+                       
 
                     </div>
         </section>

@@ -1,114 +1,131 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" class="desktop mbr-site-loaded" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3" th:fragment="layout (title, content)">
-	<head>
-	
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-		<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-		<!-- Estilo fuentes -->
-		 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-  
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="Mobirise v4.12.2, mobirise.com">
-  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-  <link rel="shortcut icon" href="/resources/images/ecorentervectorizada-1.png" type="image/x-icon">
-  <meta name="description" content="">
-  
-  <link rel="stylesheet" th:href="@{/resources/web/assets/mobirise-icons2/mobirise2.css}">
-  <link rel="stylesheet" th:href="@{/resources/web/assets/mobirise-icons/mobirise-icons.css}">
-  <link rel="stylesheet" th:href="@{/resources/facebook-plugin/style.css}">
-  <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap.min.css}">
-  <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap-grid.min.css}">
-  <link rel="stylesheet" th:href="@{/resources/bootstrap/css/bootstrap-reboot.min.css}">
-  <link rel="stylesheet" th:href="@{/resources/tether/tether.min.css}">
-  <link rel="stylesheet" th:href="@{/resources/web/assets/gdpr-plugin/gdpr-styles.css}">
-  <link rel="stylesheet" th:href="@{/resources/dropdown/css/style.css}">
-  <link rel="stylesheet" th:href="@{/resources/theme/css/style.css}">
-  <link rel="preload" as="style" th:href="@{/resources/mobirise/css/mbr-additional.css}">
-  <link rel="stylesheet" th:href="@{/resources/mobirise/css/mbr-additional.css}" type="text/css">
-  
-  	<!-- Actor::telephoneNumber -->
-  	<script type="text/javascript" th:src="@{/resources/actor/js/script.js}"></script>
-  
-  	<!-- Stripe -->
-	<link rel="stylesheet" th:href="@{/resources/stripe/css/normalize.css}" />
-    <link rel="stylesheet" th:href="@{/resources/stripe/css/global.css}" />
-    <script src="https://js.stripe.com/v3/"></script>
-    <!--<script th:src="@{/resources/stripe/js/script.js}" defer></script> -->
-    <script th:src="@{/resources/stripe/js/pay.js}" ></script>
-	<!-- Fin Stripe -->
-		<title th:replace="${title}">Layout Title</title>
-		<link href="https://www.jqueryscript.net/css/jquerysctipttop.css"
-			rel="stylesheet" type="text/css">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	class="desktop mbr-site-loaded" xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	th:fragment="layout (title, content)">
+<head>
 
-		<link rel="stylesheet"
-			th:href="@{/resources/slider/css/jumboslider.css}">
-		
-	<!-- Google Maps -->	
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
-  <link rel="stylesheet" th:href="@{/resources/google-map/css/css-util.min.css}">
-  <link rel="stylesheet" th:href="@{/resources/google-map/css/jquery.geocomplete.min.css}">
-  <script type="text/javascript"
-    	src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDX4rykykLfkgXSZl5oqd7pSIqshF0VPDg"></script>
-  <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>		
-  <script th:src="@{/resources/google-map/js/jquery.geocomplete.js}"></script>
-    <script th:src="@{/resources/google-map/js/inicializaMaps.js}"></script>
-    
-    <style>
-    input[type="text"]{
-    background-color: #f5f5f5 !important;
-    
-    }
-    input[type="text"]:active{
-    background-color: white !important;
-    
-    }
-    
-    input[type="text"]:focus{
-    background-color: white !important;
-    
-    } 
-    
-    </style>
-  
-	</head>
-	
-	<body>
-		<section th:replace="master-page/header :: frag-header">
-			
-		</section>
-		
-	
-			<div th:replace="${content}">Layout content</div>
-	
-		
-		<section>
-			<div th:replace="master-page/footer :: frag-footer"></div>
-		</section>
-		
-		
-  <script th:href="@{/resources/web/assets/jquery/jquery.min.js}"></script>
-  <script th:href="@{/resources/popper/popper.min.js}"></script>
-  <script src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5"></script>
-  <script src="https://apis.google.com/js/plusone.js"></script>
-  <script th:href="@{/resources/facebook-plugin/facebook-script.js}"></script>
-  <script th:href="@{/resources/bootstrap/js/bootstrap.min.js}"></script>
-  <script th:href="@{/resources/tether/tether.min.js}"></script>
-  <script th:href="@{/resources/dropdown/js/nav-dropdown.js}"></script>
-  <script th:href="@{/resources/dropdown/js/navbar-dropdown.js}"></script>
-  <script th:href="@{/resources/touchswipe/jquery.touch-swipe.min.js}"></script>
-  <script th:href="@{/resources/smoothscroll/smooth-scroll.js}"></script>
-  <script th:href="@{/resources/theme/js/script.js}"></script>
-  <script th:src="@{/resources/slider/js/jquery.jumboslider.js}"></script>
-							<script>
-								$.jumboslider({
-									target : $('.mySlider') ,
-									 loop: true ,
-									 autoplay: 3000
-								});
-							</script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+<!-- Estilo fuentes -->
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+	integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+	crossorigin="anonymous">
 
-	</body>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Mobirise v4.12.2, mobirise.com">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, minimum-scale=1">
+<link rel="shortcut icon"
+	href="/resources/images/ecorentervectorizada-1.png" type="image/x-icon">
+<meta name="description" content="">
+
+<link rel="stylesheet"
+	th:href="@{/resources/web/assets/mobirise-icons2/mobirise2.css}">
+<link rel="stylesheet"
+	th:href="@{/resources/web/assets/mobirise-icons/mobirise-icons.css}">
+<link rel="stylesheet" th:href="@{/resources/facebook-plugin/style.css}">
+<link rel="stylesheet"
+	th:href="@{/resources/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet"
+	th:href="@{/resources/bootstrap/css/bootstrap-grid.min.css}">
+<link rel="stylesheet"
+	th:href="@{/resources/bootstrap/css/bootstrap-reboot.min.css}">
+<link rel="stylesheet" th:href="@{/resources/tether/tether.min.css}">
+<link rel="stylesheet"
+	th:href="@{/resources/web/assets/gdpr-plugin/gdpr-styles.css}">
+<link rel="stylesheet" th:href="@{/resources/dropdown/css/style.css}">
+<link rel="stylesheet" th:href="@{/resources/theme/css/style.css}">
+<link rel="preload" as="style"
+	th:href="@{/resources/mobirise/css/mbr-additional.css}">
+<link rel="stylesheet"
+	th:href="@{/resources/mobirise/css/mbr-additional.css}" type="text/css">
+<link rel="stylesheet" th:href="@{/resources/layout/css/layout.css}"
+	type="text/css">
+
+<!-- Actor::telephoneNumber -->
+<script type="text/javascript" th:src="@{/resources/actor/js/script.js}"></script>
+
+<!-- Stripe -->
+<link rel="stylesheet" th:href="@{/resources/stripe/css/normalize.css}" />
+<link rel="stylesheet" th:href="@{/resources/stripe/css/global.css}" />
+<script src="https://js.stripe.com/v3/"></script>
+<!--<script th:src="@{/resources/stripe/js/script.js}" defer></script> -->
+<script th:src="@{/resources/stripe/js/pay.js}"></script>
+<!-- Fin Stripe -->
+<title th:replace="${title}">Layout Title</title>
+<link href="https://www.jqueryscript.net/css/jquerysctipttop.css"
+	rel="stylesheet" type="text/css">
+
+<link rel="stylesheet"
+	th:href="@{/resources/slider/css/jumboslider.css}">
+
+<!-- Google Maps -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+<link rel="stylesheet"
+	th:href="@{/resources/google-map/css/css-util.min.css}">
+<link rel="stylesheet"
+	th:href="@{/resources/google-map/css/jquery.geocomplete.min.css}">
+<script type="text/javascript"
+	src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDX4rykykLfkgXSZl5oqd7pSIqshF0VPDg"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<script th:src="@{/resources/google-map/js/jquery.geocomplete.js}"></script>
+<script th:src="@{/resources/google-map/js/inicializaMaps.js}"></script>
+<!-- Comentarios -->
+<script th:src="@{/resources/comments/js/jquery.liveTimeAgo.min.js}"></script>
+
+</head>
+
+<body>
+	<section th:replace="master-page/header :: frag-header"></section>
+
+
+	<div th:replace="${content}">Layout content</div>
+
+
+	<section>
+		<div th:replace="master-page/footer :: frag-footer"></div>
+	</section>
+
+
+	<script th:href="@{/resources/web/assets/jquery/jquery.min.js}"></script>
+	<script th:href="@{/resources/popper/popper.min.js}"></script>
+	<script
+		src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5"></script>
+	<script src="https://apis.google.com/js/plusone.js"></script>
+	<script th:href="@{/resources/facebook-plugin/facebook-script.js}"></script>
+	<script th:href="@{/resources/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:href="@{/resources/tether/tether.min.js}"></script>
+	<script th:href="@{/resources/dropdown/js/nav-dropdown.js}"></script>
+	<script th:href="@{/resources/dropdown/js/navbar-dropdown.js}"></script>
+	<script th:href="@{/resources/touchswipe/jquery.touch-swipe.min.js}"></script>
+	<script th:href="@{/resources/smoothscroll/smooth-scroll.js}"></script>
+	<script th:href="@{/resources/theme/js/script.js}"></script>
+	<script th:src="@{/resources/slider/js/jquery.jumboslider.js}"></script>
+
+	<script>
+		$.jumboslider({
+			target : $('.mySlider'),
+			loop : true,
+			autoplay : 3000
+		});
+	</script>
+	<script th:src="@{/resources/datatables/jquery.data-tables.min.js}"></script>
+
+</body>
 </html>
