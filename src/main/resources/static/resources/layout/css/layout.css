@@ -23,7 +23,21 @@
     
     #fotosListado{
     height: 9rem; 	
-    border-radius: 10%;
 	border-style: solid;
 	border-color: #54775E !important;
+    }
+    
+    .card-body{
+    border-bottom-color: #54775E;
+	border-style: outset;
+    }
+    
+
+    
+    .card-header{
+    background: #54775e38 !important
+
+    }
+    .card{
+    margin-bottom: 10px;
     }

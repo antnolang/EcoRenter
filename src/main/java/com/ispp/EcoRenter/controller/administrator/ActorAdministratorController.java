@@ -95,17 +95,21 @@ public class ActorAdministratorController {
 		Collection<Actor> actors;
 
 		int currentPage = page.orElse(1);
-		int pageSize = size.orElse(6);
 		Map<Integer, List<String>> actor_photo;
 
 		actor_photo = new HashMap<Integer, List<String>>();
 
+	
+
+
 		try {
 			result = new ModelAndView("actor/deleteActor");
 			actors = this.actorService.findAllExceptAdmin();
+			int pageSize = size.orElse(actors.size());
 
 			Page<Actor> shPage = this.actorService
 					.findPaginated(PageRequest.of(currentPage - 1, pageSize), actors);
+
 
 			int totalPages = shPage.getTotalPages();
 

@@ -336,6 +336,14 @@ public class SmallholdingService {
     	return results;
     }
 
+    public Collection<Smallholding> findSmallholdingsByKeyword(String keyword){
+        Collection<Smallholding> result;
+
+        result = this.smallholdingRepository.findSmallholdingsByKeyword(keyword);
+
+        return result;
+    }
+
     public List<String> getGeoData(Collection<Smallholding> smallholdings) {
     	String latitudes, longitudes, lats, lngs;
     	List<String> results;
