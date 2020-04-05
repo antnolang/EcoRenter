@@ -6,66 +6,79 @@
 	
 	<body>
 		<div class="content">
-			
-			<section class="services1 cid-rRNjW9YKmG" id="services1-6">
-				<div class="container">
-        			<div class="row justify-content-center">
-            
-			            <!--Title-->
-			            <div class="title pb-5 col-12">
-			                <h2 class="align-left pb-3 mbr-fonts-style display-2">
-								Tarjetas de crédito registradas
-							</h2>
-			            </div>
+			<section class="section-table cid-rV29YLS4n5" id="table1-3o">
 
-			            <!-- Table -->
-			            <div>
-			            	<table th:if="${creditCards.size() > 0}" class="table table-striped">
-								<thead class="thead-dark">
-									<tr>
-										<th>
-										</th>
-										<th>Propietario</th>
-										<th>Marca</th>
-										<th>Número</th>
-										<th>Mes de expiración</th>
-										<th>Año de expiración</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr th:each="creditCard : ${creditCards}">
-										<td>
-											<a th:href="@{/credit-card/renter/edit(creditCardId=${creditCard.id})}">Editar</a>
-										</td>
-										<td th:text="${creditCard.holderName}"></td>
-										<td th:text="${creditCard.brandName}"></td>
-										<td th:text="${mapa.get(creditCard.id)}"></td>
-										<td th:text="${creditCard.expirationMonth}"></td>
-										<td th:text="${'20' + creditCard.expirationYear}"></td>
-									</tr>
-								</tbody>
-							</table>
-			            </div>
-             
-						<div th:if="${creditCards.size() == 0}">
-							<span>No existen resultados</span>
+            <div class="container container-table">
+                <h2 class="mbr-section-title mbr-fonts-style align-center pb-3 display-2">
+          Tarjetas de crédito registradas</h2>
+
+                <div class="table-wrapper">
+
+                    <div class="row justify-content-center">
+                        <div class="media-container-column col-lg-8" data-form-type="formoid">
+                            <div class="container scroll">
+                                <table id="example" class="table isSearch" cellspacing="0">
+                                    <thead>
+                                        <tr class="table-heads ">
+
+                                            <th class="head-item mbr-fonts-style display-7">
+                                                Propietario</th>
+                                            <th class="head-item mbr-fonts-style display-7">
+                                                Marca</th>
+											<th class="head-item mbr-fonts-style display-7">
+                                                Número</th>
+                                            <th class="head-item mbr-fonts-style display-7">
+                                                Mes de expiración</th>
+											<th class="head-item mbr-fonts-style display-7">
+                                                Año de expiración</th>
+											<th class="head-item mbr-fonts-style display-7"></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                        <tr th:each="creditCard : ${creditCards}">
+
+                                            <td class="body-item mbr-fonts-style display-7" th:text="${creditCard.holderName}"></td>
+											<td class="body-item mbr-fonts-style display-7" th:text="${creditCard.brandName}"></td>
+											<td class="body-item mbr-fonts-style display-7" th:text="${mapa.get(creditCard.id)}"></td>
+											<td class="body-item mbr-fonts-style display-7" th:text="${creditCard.expirationMonth}"></td>
+											<td class="body-item mbr-fonts-style display-7" th:text="${'20' + creditCard.expirationYear}"></td>
+                                            <td class="body-item mbr-fonts-style display-7"><a th:href="@{/credit-card/renter/edit(creditCardId=${creditCard.id})}" class="btn-outline display-7">Editar</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+<br/>
+<br/>
+<div class="container">
+			<div class="row justify-content-center">
+				<div class="media-container-column col-lg-12"
+					data-form-type="formoid">
+
+						<form  class="mbr-form form-with-styler">
+							<div class="dragArea row">					
+							<div class="col-md-4 input-group-btn">
+								<a th:href="@{/credit-card/renter/create}"
+									class="btn btn-form btn-secondary display-4"> Nueva tarjeta
+								</a>
+							</div>
+							
+							<div class="col-md-4 input-group-btn">
+								<a th:href="@{/actor/authenticated/display}"
+									class="col-md-12 btn btn-warning-outline display-4"> Volver
+								</a>
+							</div>
+							</div>
+						</form>
 						</div>
-						
-						<p>
-							<a th:href="@{/credit-card/renter/create}"
-						   	   class="btn btn-warning-outline">
-								Registrar nueva tarjeta de crédito
-							</a>
-						</p>
-						<p>
-							<a th:href="@{/actor/authenticated/display}"
-						   	   class="btn btn-warning-outline">
-								Volver al perfil
-							</a>
-						</p>   
-					</div>	
-    			</div>
-			</section>
+						</div>
+						</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 		</div>
 	</body>
 </html>

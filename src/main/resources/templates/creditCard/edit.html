@@ -13,6 +13,7 @@
 
 	<div class="content">
 
+<section class="mbr-section form1 cid-rSEqmmuXe6" id="form1-z">
 		
 		<br> <br> <br> <br>
 		<div class="container">
@@ -46,7 +47,7 @@
 							
 						<div class="dragArea row">
 							
-							<div class="col-md-5  form-group" data-for="name">
+							<div class="col-md-6  form-group" data-for="name">
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
 									style="color: #2a3d2e !important;">Propietario</label>
@@ -65,7 +66,67 @@
 								</p>
 							</div>
 						
-							<div class="col-md-5  form-group" data-for="name">
+							<div class="col-md-6  form-group" data-for="name">
+								<label for="name-form1-17"
+									class="form-control-label mbr-fonts-style display-7"
+									style="color: #2a3d2e !important;">Número</label>
+								<input
+									type="text" th:field="*{number}" th:errorclass="fieldError"
+									data-form-field="number" required="required"
+									placeholder="5124083976670154"
+									class="form-control display-7"
+									onchange="checkNumber()" />
+								<p th:if="${#fields.hasErrors('number')}"
+									style="color: red !important;">
+									<span th:errors="*{number}"></span>
+								</p>
+								
+								<p style="color: red !important;">
+									<span id="numberError"></span>
+								</p>
+							</div>
+							
+							<div class="col-md-6  form-group" data-for="name">
+								<label for="name-form1-17"
+									class="form-control-label mbr-fonts-style display-7"
+									style="color: #2a3d2e !important;">Mes de expiración</label>
+								<input
+									type="text" th:field="*{expirationMonth}" th:errorclass="fieldError"
+									data-form-field="expirationMonth" required="required"
+									placeholder="10"
+									class="form-control display-7"
+									onchange="checkExpirationMonth()" />
+								<p th:if="${#fields.hasErrors('expirationMonth')}"
+									style="color: red !important;">
+									<span th:errors="*{expirationMonth}"></span>
+								</p>
+								
+								<p style="color: red !important;">
+									<span id="expirationMonthError"></span>
+								</p>
+							</div>
+							
+							<div class="col-md-6  form-group" data-for="name">
+								<label for="name-form1-17"
+									class="form-control-label mbr-fonts-style display-7"
+									style="color: #2a3d2e !important;">Año de expiración</label>
+								<input
+									type="text" th:field="*{expirationYear}" th:errorclass="fieldError"
+									data-form-field="expirationYear" required="required"
+									placeholder="23"
+									class="form-control display-7"
+									onchange="checkExpirationYear()" />
+								<p th:if="${#fields.hasErrors('expirationYear')}"
+									style="color: red !important;">
+									<span th:errors="*{expirationYear}"></span>
+								</p>
+								
+								<p style="color: red !important;">
+									<span id="expirationYearError"></span>
+								</p>
+							</div>
+							
+							<div class="col-md-6  form-group" data-for="name">
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
 									style="color: #2a3d2e !important;">Marca</label>
@@ -89,68 +150,8 @@
 									<span id="brandNameError"></span>
 								</p>
 							</div>
-						
-							<div class="col-md-5  form-group" data-for="name">
-								<label for="name-form1-17"
-									class="form-control-label mbr-fonts-style display-7"
-									style="color: #2a3d2e !important;">Número</label>
-								<input
-									type="text" th:field="*{number}" th:errorclass="fieldError"
-									data-form-field="number" required="required"
-									placeholder="5124083976670154"
-									class="form-control display-7"
-									onchange="checkNumber()" />
-								<p th:if="${#fields.hasErrors('number')}"
-									style="color: red !important;">
-									<span th:errors="*{number}"></span>
-								</p>
-								
-								<p style="color: red !important;">
-									<span id="numberError"></span>
-								</p>
-							</div>
 							
-							<div class="col-md-5  form-group" data-for="name">
-								<label for="name-form1-17"
-									class="form-control-label mbr-fonts-style display-7"
-									style="color: #2a3d2e !important;">Mes de expiración</label>
-								<input
-									type="text" th:field="*{expirationMonth}" th:errorclass="fieldError"
-									data-form-field="expirationMonth" required="required"
-									placeholder="10"
-									class="form-control display-7"
-									onchange="checkExpirationMonth()" />
-								<p th:if="${#fields.hasErrors('expirationMonth')}"
-									style="color: red !important;">
-									<span th:errors="*{expirationMonth}"></span>
-								</p>
-								
-								<p style="color: red !important;">
-									<span id="expirationMonthError"></span>
-								</p>
-							</div>
-							
-							<div class="col-md-5  form-group" data-for="name">
-								<label for="name-form1-17"
-									class="form-control-label mbr-fonts-style display-7"
-									style="color: #2a3d2e !important;">Año de expiración</label>
-								<input
-									type="text" th:field="*{expirationYear}" th:errorclass="fieldError"
-									data-form-field="expirationYear" required="required"
-									placeholder="23"
-									class="form-control display-7"
-									onchange="checkExpirationYear()" />
-								<p th:if="${#fields.hasErrors('expirationYear')}"
-									style="color: red !important;">
-									<span th:errors="*{expirationYear}"></span>
-								</p>
-								
-								<p style="color: red !important;">
-									<span id="expirationYearError"></span>
-								</p>
-							</div>
-							
-							<div class="col-md-5  form-group" data-for="name">
+							<div class="col-md-6  form-group" data-for="name">
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
 									style="color: #2a3d2e !important;">Código de seguridad</label>
@@ -175,32 +176,30 @@
 							</div>
 							
 							<!-- Botones -->
-							<div data-for="message" class="col-md-12 form-group">
-								<div class="col-md-12 input-group-btn align-center">
-									<button name="save" id="Guarda" type="submit" 
-										class="btn btn-form btn-secondary display-4">Guardar
-									</button>
-									
-									<button th:if="${creditCardForm.id > 0 && count == 0}" name="delete" type="submit" 
-										class="btn btn-form btn-warning display-4" onclick="return confirm('¿Estás seguro de querer borrarla?');">Borrar
-									</button>
-
-									<a th:href="@{/credit-card/renter/list}"
-										class="btn btn-warning-outline display-4">
-											Volver
-									</a>
-								</div>
+							
+							
+							<div class="col-md-4 input-group-btn align-center">
+								<button name="save" id="Guarda" type="submit" 
+									class="btn btn-form btn-secondary display-4">Guardar</button>
 							</div>
+							
+							<div class="col-md-4 input-group-btn align-center">
+								<button th:if="${creditCardForm.id > 0 && count == 0}" name="delete" type="submit"  
+									class="btn btn-form btn-secondary display-4" onclick="return confirm('¿Estás seguro de querer borrarla?');">Borrar</button>
+							</div>
+
+							<div class="col-md-4 pb-5 input-group-btn align-center">
+								<a th:href="@{/credit-card/renter/list}"
+									class="col-md-12 btn btn-warning-outline display-4"> Volver
+								</a>
+							</div>
+							
 						</div>
 					</form>
-
-
-					
-
 					</div>
 			</div>
 		</div>
-
+</section>
 	</div>
 </body>
 </html>
