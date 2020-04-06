@@ -20,7 +20,7 @@
 
 
             <!--Card-1-->
-            <div class="card col-12 col-md-6 p-3 col-lg-3" th:each="dc : ${dcPage}" >
+            <div th:if="${isAvailable}" class="card col-12 col-md-6 p-3 col-lg-3" th:each="dc : ${dcPage}" >
                 <div class="card-wrapper">
 					<div class="card-box ">
                         <p class="mbr-text mbr-fonts-style display-7 text-center"> <span th:text="${dc.name}"></span></p>
@@ -32,7 +32,7 @@
 				<a sec:authorize="hasAuthority('ADMIN')" th:href="@{~/administrator/providerDiscountCode/edit?providerDiscountCodeId=} + ${dc.id}" class="btn btn-warning-outline display-4">Editar código descuento</a></div>
 			</div>				
 			 
-			<div class="container">
+			<div th:if="${isAvailable}" class="container">
 				<div class="row justify-content-center">
 					<div  th:if="${dcPage.totalPages > 0}" 
 						th:each="pageNumber : ${pageNumbers}">
@@ -48,9 +48,13 @@
 				</div>
 			</div>
 			
-			<div th:if="${dcPage.getTotalElements() == 0}">
+			<div th:if="${dcPage.getTotalElements() == 0 && isAvailable}">
 				<span>No existen resultados</span>
 			</div>   
+
+			<div th:if="${!isAvailable}">
+				<span>No tiene permiso para ver los códigos de descuento. Para mostrarlos, debes tener mínimo una parcela alquilada</span>
+			</div>
 
 			<div sec:authorize="hasAuthority('ADMIN')" class="col-md-12 input-group-btn align-center">
 				<a th:href="@{~/administrator/providerDiscountCode/create}"

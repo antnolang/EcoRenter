@@ -46,7 +46,7 @@
 							</div>
 
 							<div class="col-md-4  form-group" data-for="name">
-								<label>Nivel Oro:</label> <input type="text"
+								<label>Nivel Oro:</label> <input type="number"
 									th:field="*{goldLevel}" th:errorclass="fieldError"></input>
 								<p th:if="${#fields.hasErrors('goldLevel')}"
 									style="color: red !important;">
@@ -55,7 +55,7 @@
 							</div>
 
 							<div class="col-md-4  form-group" data-for="name">
-								<label>Nivel Plata:</label> <input type="text"
+								<label>Nivel Plata:</label> <input type="number"
 									th:field="*{silverLevel}" th:errorclass="fieldError"></input>
 								<p th:if="${#fields.hasErrors('silverLevel')}"
 									style="color: red !important;">
@@ -65,7 +65,7 @@
 
 							<div data-for="message" class="col-md-12 form-group">
 								<label>Tamaño máximo de las fotos:</label>
-								<input type="text"
+								<input type="number"
 									th:field="*{maxSizePhoto}" th:errorclass="fieldError"
 									placeholder="5 MB"></input>
 								<p th:if="${#fields.hasErrors('maxSizePhoto')}"

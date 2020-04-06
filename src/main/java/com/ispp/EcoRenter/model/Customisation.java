@@ -22,16 +22,16 @@ public class Customisation extends DomainEntity {
 	@Column(unique = true)
 	private String email;
 		
-	@Range(min = 3, max = 8)
+	@Range(min = 3, max = 8, message = "Debe estar entre el rango 3 - 8")
 	private int silverLevel;
 	
-	@Min(9)
+	@Min(value = 9, message = "Mínimo deber ser 9")
 	private int goldLevel;
 	
 	@NotBlank(message = "No debe estar en blanco")
 	private String creditCardMakes;
 	
-	@Min(1)
+	@Min(value = 1, message = "Mínimo deber ser 1")
 	private long maxSizePhoto;
 	
 	@Transient

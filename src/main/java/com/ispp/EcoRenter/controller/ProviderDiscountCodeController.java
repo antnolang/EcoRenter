@@ -1,13 +1,17 @@
 package com.ispp.EcoRenter.controller;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import com.ispp.EcoRenter.model.ProviderDiscountCode;
+import com.ispp.EcoRenter.model.Smallholding;
+import com.ispp.EcoRenter.service.ActorService;
 import com.ispp.EcoRenter.service.ProviderDiscountCodeService;
+import com.ispp.EcoRenter.service.SmallholdingService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,7 +29,13 @@ public class ProviderDiscountCodeController {
     // Service
 
     @Autowired
-    private ProviderDiscountCodeService providerDiscountCodeService;
+	private ProviderDiscountCodeService providerDiscountCodeService;
+	
+	@Autowired
+	private ActorService actorService;
+
+	@Autowired
+	private SmallholdingService smallholdingService;
 
     // Constructor
 
@@ -59,9 +69,21 @@ public class ProviderDiscountCodeController {
 		Collection<ProviderDiscountCode> discountCodes;
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(4);
+		Boolean isAvailable,principalIsRenter = false;
+		Collection<Smallholding> smallholdings;
 
 		try {
 			result = new ModelAndView("providerDiscountCode/list");
+
+			principalIsRenter = this.actorService.isASpecificRole(this.actorService.findByPrincipal(), "RENTER");
+			if(principalIsRenter){
+				smallholdings = this.smallholdingService.findSmallholdingsByActiveRentOut(this.actorService.findByPrincipal().getId());
+				if(smallholdings.size() > 0)
+					isAvailable = true;
+				else
+					isAvailable = false;
+			} else
+				isAvailable = true;
 
 			discountCodes = this.providerDiscountCodeService.findAll();
 			Page<ProviderDiscountCode> dcPage = this.providerDiscountCodeService
@@ -74,6 +96,7 @@ public class ProviderDiscountCodeController {
 			}
 
 			result.addObject("dcPage", dcPage);
+			result.addObject("isAvailable", isAvailable);
 			result.addObject("requestURI", "providerDiscountCode/list");
 		} catch (Exception e) {
 			result = new ModelAndView("redirect:/miscellaneous/error");
