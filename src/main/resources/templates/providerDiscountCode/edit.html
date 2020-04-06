@@ -3,8 +3,8 @@
 	th:replace="~{master-page/layout :: layout(~{::title}, ~{::div.content})}">
 
 <head>
-<title>Editar código descuento</title>
-
+<title th:if="@{*{providerDiscountCode.id} == 0}">Crear código descuento</title>
+<title th:if="@{*{providerDiscountCode.id} != 0}">Editar código descuento</title>
 </head>
 
 <body>
@@ -17,7 +17,11 @@
 				<div>
 					<h2
 						class="mbr-section-title align-center pb-3 mbr-fonts-style display-2"
-						style="color: #2a3d2e !important;">Editar descuento
+						style="color: #2a3d2e !important;" th:if="@{*{providerDiscountCode.id} != 0}">Editar código descuento
+						</h2>
+											<h2
+						class="mbr-section-title align-center pb-3 mbr-fonts-style display-2"
+						style="color: #2a3d2e !important;" th:if="@{*{providerDiscountCode.id} == 0}">Crear código descuento
 						</h2>
 
 
@@ -82,7 +86,7 @@
 
 									<a th:if="@{*{id} == 0}" th:href="@{~/providerDiscountCode/list}"
 									class="btn btn-warning-outline display-4"> Volver </a>
-									<a th:if="@{*{id} != 0}" th:href="@{~/providerDiscountCode/display?providerDiscountCodeId=} + ${providerDiscountCode.id}"
+									<a th:if="@{*{id} != 0}" th:href="@{~/providerDiscountCode/list}"
 										class="btn btn-warning-outline display-4"> Volver </a>
 									
 								</div>
