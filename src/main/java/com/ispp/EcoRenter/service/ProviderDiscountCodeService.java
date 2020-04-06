@@ -7,7 +7,9 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.ispp.EcoRenter.model.Actor;
 import com.ispp.EcoRenter.model.ProviderDiscountCode;
+import com.ispp.EcoRenter.model.Smallholding;
 import com.ispp.EcoRenter.repository.ProviderDiscountCodeRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,14 @@ public class ProviderDiscountCodeService {
     @Autowired
     private ProviderDiscountCodeRepository providerDiscountCodeRepository;
 
+    // Services
+
+    @Autowired
+    private ActorService actorService;
+
+    @Autowired
+    private SmallholdingService smallholdingService;
+
     // Constructor
 
     public ProviderDiscountCodeService(){
@@ -45,6 +55,20 @@ public class ProviderDiscountCodeService {
 
     public ProviderDiscountCode findOneToDisplay(int providerDiscountCodeId){
         ProviderDiscountCode result;
+        Actor actor;
+        Collection<Smallholding> smallholdings;
+
+        actor = this.actorService.findByPrincipal();
+        switch(actor.getUserAccount().getAuthorities().toString()){
+            case "[RENTER]":
+                smallholdings = this.smallholdingService.findSmallholdingsByActiveRentOut(actor.getId());
+                Assert.isTrue(smallholdings.size() > 0, "No está autorizado a mostrar el descuento");
+                break;
+            case "[OWNER]":
+                smallholdings = this.smallholdingService.findSmallholdingsByOwnerId(actor.getId());
+                Assert.isTrue(smallholdings.size() > 0, "No está autorizado a mostrar el descuento");
+                break;
+        }
 
         result = this.providerDiscountCodeRepository.findById(providerDiscountCodeId).get();
         Assert.notNull(result, "El descuento no existe");

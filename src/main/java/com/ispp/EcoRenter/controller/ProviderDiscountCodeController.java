@@ -1,12 +1,12 @@
 package com.ispp.EcoRenter.controller;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import com.ispp.EcoRenter.model.Actor;
 import com.ispp.EcoRenter.model.ProviderDiscountCode;
 import com.ispp.EcoRenter.model.Smallholding;
 import com.ispp.EcoRenter.service.ActorService;
@@ -69,21 +69,32 @@ public class ProviderDiscountCodeController {
 		Collection<ProviderDiscountCode> discountCodes;
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(4);
-		Boolean isAvailable,principalIsRenter = false;
+		Boolean isAvailable = false;
 		Collection<Smallholding> smallholdings;
+		Actor actor;
 
 		try {
 			result = new ModelAndView("providerDiscountCode/list");
 
-			principalIsRenter = this.actorService.isASpecificRole(this.actorService.findByPrincipal(), "RENTER");
-			if(principalIsRenter){
-				smallholdings = this.smallholdingService.findSmallholdingsByActiveRentOut(this.actorService.findByPrincipal().getId());
-				if(smallholdings.size() > 0)
+			actor = this.actorService.findByPrincipal();
+			switch(actor.getUserAccount().getAuthorities().toString()){
+				case "[RENTER]":
+					smallholdings = this.smallholdingService.findSmallholdingsByActiveRentOut(actor.getId());
+					if(smallholdings.size() > 0)
+						isAvailable = true;
+					else
+						isAvailable = false;
+					break;
+				case "[OWNER]":
+					smallholdings = this.smallholdingService.findSmallholdingsByOwnerId(actor.getId());
+					if(smallholdings.size() > 0)
+						isAvailable = true;
+					else
+						isAvailable = false;
+					break;
+				default:
 					isAvailable = true;
-				else
-					isAvailable = false;
-			} else
-				isAvailable = true;
+			}
 
 			discountCodes = this.providerDiscountCodeService.findAll();
 			Page<ProviderDiscountCode> dcPage = this.providerDiscountCodeService

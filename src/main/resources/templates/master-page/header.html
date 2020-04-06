@@ -54,7 +54,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 					class="nav-link link text-secondary display-4" th:href="@{/administrator/customisation/display}"
 					aria-expanded="false">Configuración del sistema</a></li>
 
-				<li sec:authorize="hasAnyAuthority('RENTER','ADMIN')" class="nav-item"><a
+				<li sec:authorize="hasAnyAuthority('RENTER','ADMIN','OWNER')" class="nav-item"><a
 					class="nav-link link text-secondary display-4" th:href="@{/providerDiscountCode/list}"
 					aria-expanded="false">Códigos de descuento</a></li>
 
