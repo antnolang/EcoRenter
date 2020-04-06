@@ -17,7 +17,7 @@ public class Customisation extends DomainEntity {
 	private static final long serialVersionUID = 1L;
 
 	// Atributos ---------------------------------
-	@NotBlank
+	@NotBlank(message = "No debe estar en blanco")
 	@Email
 	@Column(unique = true)
 	private String email;
@@ -28,7 +28,7 @@ public class Customisation extends DomainEntity {
 	@Min(9)
 	private int goldLevel;
 	
-	@NotBlank
+	@NotBlank(message = "No debe estar en blanco")
 	private String creditCardMakes;
 	
 	@Min(1)

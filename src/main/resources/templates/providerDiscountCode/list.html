@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{master-page/layout :: layout(~{::title}, ~{::div.content})}">
+	<head>
+		<title>Códigos de descuentos</title>
+	</head>
+	
+	<body>
+		<div class="content">
+			
+		<section class="services1 cid-rRNjW9YKmG" id="services1-6">
+		<div class="container">
+        <div class="row justify-content-center">
+            <!--Titles-->
+            <div class="title pb-5 col-12" >
+                <h2 class="align-left pb-3 mbr-fonts-style display-2">
+					Códigos de descuento</h2>
+
+            </div>
+
+
+
+            <!--Card-1-->
+            <div class="card col-12 col-md-6 p-3 col-lg-3" th:each="dc : ${dcPage}" >
+                <div class="card-wrapper">
+					<div class="card-box">
+                        <p class="mbr-text mbr-fonts-style display-7"> <span th:text="${dc.name}"></span></p>
+                        <p class="mbr-text mbr-fonts-style display-7"> <span th:text="${dc.discountCodes}"></span></p>
+						<p class="mbr-text mbr-fonts-style display-7"> <span th:text="${dc.linkPage}"></span></p>
+                    </div>
+                </div>
+				<div class="mbr-section-btn align-center" style="text-align: center !important;"><a th:href="@{~/providerDiscountCode/display?providerDiscountCodeId=} + ${dc.id}" class="btn btn-warning-outline display-4">Ver código descuento</a></div>
+			</div>
+			 
+			<div class="container">
+				<div class="row justify-content-center">
+					<div  th:if="${dcPage.totalPages > 0}" 
+						th:each="pageNumber : ${pageNumbers}">
+						<nav aria-label="Page navigation example">
+							<ul class="pagination">
+								<li class="page-item">
+									<a th:href="@{/providerDiscountCode/list(size=${dcPage.size}, page=${pageNumber})}" th:text=${pageNumber}	class="page-link"></a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+
+				</div>
+			</div>
+			
+			<div th:if="${dcPage.getTotalElements() == 0}">
+				<span>No existen resultados</span>
+			</div>   
+
+			<div sec:authorize="hasAuthority('ADMIN')" class="col-md-12 input-group-btn align-center">
+				<a th:href="@{~/administrator/providerDiscountCode/create}"
+					class="btn btn-secondary-outline display-4">Crear
+					descuento</a>
+			</div> 
+			
+			
+    </div>
+</section>
+
+		</div>
+	</body>
+</html>

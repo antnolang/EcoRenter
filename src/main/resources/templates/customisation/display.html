@@ -34,7 +34,6 @@ th, tr {
 				<div class="row">
 					<div class="col-md-6">
 
-
 						<table class="table table-striped table-hover">
 
 
@@ -42,21 +41,15 @@ th, tr {
 							<thead>
 								<tr>
 									<th>Contacto</th>
-									<th>Cupones descuentos</th>
+									<th>Tamño máximo de las fotos</th>
+									<th>Marcas de tarjetas de crédito aceptadas</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
 									<td th:text="${customisation.email}"></td>
-
-									<td style="text-align: initial !important; ">
-										<p th:unless="${customisation.discountCodes == ''}">
-										<div
-											th:each="desc : ${#strings.arraySplit(customisation.discountCodes, ',')}">
-											<li th:text="${desc}"></li>
-										</div>
-										</p>
-									</td>
+									<td th:text="${customisation.maxSizePhoto}"></td>
+									<td th:text="${customisation.creditCardMakes}"></td>
 								</tr>
 							</tbody>
 						</table>

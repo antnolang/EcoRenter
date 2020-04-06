@@ -19,11 +19,11 @@ public class ProviderDiscountCode extends DomainEntity {
 	// Atributos -----------------------------
 	private String discountCodes;
 	
-	@NotBlank
+	@NotBlank(message = "No debe estar en blanco")
 	private String name;
 		
-	@URL
-	@NotBlank
+	@URL(message = "Debe ser una url")
+	@NotBlank(message = "No debe estar en blanco")
 	@Column(unique = true)
 	private String linkPage;	
 	
