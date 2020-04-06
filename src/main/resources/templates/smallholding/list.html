@@ -1,151 +1,162 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{master-page/layout :: layout(~{::title}, ~{::div.content})}">
-	<head>
-		<title>Catálogo de parcelas</title>
-	</head>
-	
-	<body>
-		<div class="content">
-			<style>
-			
-			h2{
-			text-align:center !important;
-			}
-			
-			</style>
-		<section class="services1 cid-rRNjW9YKmG" id="services1-6">
-		<div class="container">
-        <div class="row justify-content-center">
-            <!--Titles-->
-            <div class="title pb-5 col-12" >
-                <h2 th:if="${requestURI == 'smallholding/list'}"class="align-left pb-3 mbr-fonts-style display-2">
+
+<head>
+    <title>Catálogo de parcelas</title>
+</head>
+
+<body>
+    <div class="content">
+        <style>
+            h2 {
+                text-align: center !important;
+            }
+        </style>
+        <section class="services1 cid-rRNjW9YKmG" id="services1-6">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <!--Titles-->
+                    <div class="title pb-5 col-12">
+                        <h2 th:if="${requestURI == 'smallholding/list'}" class="align-left pb-3 mbr-fonts-style display-2">
 					Catálogo de parcelas</h2>
-				<h2 th:if="${requestURI == 'owner/smallholding/listOwnSmallholdings'}"class="align-left pb-3 mbr-fonts-style display-2">
+                        <h2 th:if="${requestURI == 'owner/smallholding/listOwnSmallholdings'}" class="align-left pb-3 mbr-fonts-style display-2">
 					Mis parcelas</h2>
-				<h2 th:if="${requestURI == 'renter/smallholding/list'}"class="align-left pb-3 mbr-fonts-style display-2">
+                        <h2 th:if="${requestURI == 'renter/smallholding/list'}" class="align-left pb-3 mbr-fonts-style display-2">
 					Parcelas alquiladas</h2>
 
-            </div>
-
-
-
-            <!--Card-1-->
-            <div class="card col-12 col-md-6 p-3 col-lg-3" th:each="sh : ${smallholdingPage}" >
-                <div class="card-wrapper">
-					<div class="card-img">
-						<img th:src="@{'data:' + ${sh_photo.get(sh.id)[1]} + ';base64, ' + ${sh_photo.get(sh.id)[2]}}" th:alt="${sh_photo.get(sh.id)[0]}"id="fotosListado">
                     </div>
-					<div class="card-box">
-                        <h4 class="card-title mbr-fonts-style display-5" th:text="${sh.title}"></h4>
-                        <p class="mbr-text mbr-fonts-style display-7"> <span th:text="${sh.description}"></span></p>
-						<span><i class='fas fa-map-marker-alt'></i></span> <span class="mbr-text mbr-fonts-style display-7" th:text="${sh.locality}"></span><br>
-						<span class="mbr-text mbr-fonts-style display-7" th:text="${sh.price}"> </span> <span> <i class='fas fa-euro-sign'></i></span> <br>
-						<span><i class='fa fa-eur'></i></span> <span class="mbr-text mbr-fonts-style display-7" th:text="${sh.size}"></span> <span style='#54775E !important;'>m²</span><br>
-						
+
+                    <!-- Filtro de búsuqeda -->
+                    <div class="container">
+                        <form class="form-inline" th:if="${requestURI == 'smallholding/list'}" sec:authorize="hasAuthority('RENTER')" th:action="@{/renter/smallholding/filter}" method="post">
+
+                            <input type="text" class="form-control col-md-4" id="keyword" placeholder="Tipo de cultivo, Provincia, Localidad, Precio o Tamaño" name="keyword">
+                            <button class="btn btn-secondary col-md-2" type="submit" name="filtra" id="filtra">
+                                Buscar
+                            </button>
+                        </form>
                     </div>
+
+                    <!--Card-1-->
+                    <div class="card col-12 col-md-6 p-3 col-lg-3" th:each="sh : ${smallholdingPage}">
+                        <div class="card-wrapper">
+                            <div class="card-img">
+                                <img th:src="@{'data:' + ${sh_photo.get(sh.id)[1]} + ';base64, ' + ${sh_photo.get(sh.id)[2]}}" th:alt="${sh_photo.get(sh.id)[0]}" id="fotosListado">
+                            </div>
+                            <div class="card-box">
+                                <h4 class="card-title mbr-fonts-style display-5" th:text="${sh.title}"></h4>
+                                <p class="mbr-text mbr-fonts-style display-7"> <span th:text="${sh.description}"></span></p>
+                                <span><i class='fas fa-map-marker-alt'></i></span> <span class="mbr-text mbr-fonts-style display-7" th:text="${sh.locality}"></span>
+                                <br>
+                                <span class="mbr-text mbr-fonts-style display-7" th:text="${sh.price}"> </span> <span> <i class='fas fa-euro-sign'></i></span>
+                                <br>
+                                <span><i class='fa fa-eur'></i></span> <span class="mbr-text mbr-fonts-style display-7" th:text="${sh.size}"></span> <span style='#54775E !important;'>m²</span>
+                                <br>
+
+                            </div>
+                        </div>
+                        <div class="mbr-section-btn align-center" style="text-align: center !important;"><a th:href="@{~/smallholding/display?smallholdingId=} + ${sh.id}" class="btn btn-warning-outline display-4">Ver parcela</a></div>
+                    </div>
+
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div th:if="${smallholdingPage.totalPages > 0 && requestURI == 'smallholding/list'}" th:each="pageNumber : ${pageNumbers}">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
+                                        <li class="page-item">
+                                            <a th:href="@{/smallholding/list(size=${smallholdingPage.size}, page=${pageNumber})}" th:text=${pageNumber} class="page-link"></a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+
+                            <div th:if="${smallholdingPage.totalPages > 0 && requestURI == 'owner/smallholding/listOwnSmallholdings'}" th:each="pageNumber : ${pageNumbers}">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
+                                        <li class="page-item">
+                                            <a th:href="@{/owner/smallholding/listOwnSmallholdings(size=${smallholdingPage.size}, page=${pageNumber})}" th:text=${pageNumber} class="page-link"></a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+
+                            <div th:if="${smallholdingPage.totalPages > 0 && requestURI == 'renter/smallholding/list'}" th:each="pageNumber : ${pageNumbers}">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
+                                        <li class="page-item">
+                                            <a th:href="@{/renter/smallholding/list(size=${smallholdingPage.size}, page=${pageNumber})}" th:text=${pageNumber} class="page-link"></a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div sec:authorize="isAuthenticated()" th:if="${smallholdingPage.getTotalElements() > 0 && requestURI == 'smallholding/list'}" id="map"></div>
+
+                    <script>
+                        var lats = [];
+                        var lngs = [];
+                        var str_latitudes;
+                        var str_longitudes;
+
+                        str_latitudes = "[[${latitudes}]]";
+                        str_longitudes = "[[${longitudes}]]";
+
+                        lats = str_latitudes.split(";");
+                        lngs = str_longitudes.split(";");
+
+                        function initMap() {
+                            var infoWindows;
+                            var map;
+                            var marker;
+                            var latLng;
+
+                            latLng = {
+                                lat: 40.4167047,
+                                lng: -3.7035825
+                            };
+
+                            map = new google.maps.Map(document.getElementById('map'), {
+                                center: latLng,
+                                zoom: 7
+                            });
+
+                            var i = 0;
+                            var n = lats.length;
+                            while (i < n) {
+                                var geo = {
+                                    lat: parseFloat(lats[i]),
+                                    lng: parseFloat(lngs[i])
+                                };
+
+                                marker = new google.maps.Marker({
+                                    position: geo,
+                                    map: map
+                                });
+
+                                marker.setMap(map);
+
+                                i = i + 1;
+                            }
+
+                            infoWindows = new google.maps.InfoWindow({
+                                maxWidth: 400
+                            });
+
+                        }
+                    </script>
+                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAB58EHyhLWDPcDS56wNgCig1GK_cDp7xs&callback=initMap" async defer></script>
+
+                    <div th:if="${smallholdingPage.getTotalElements() == 0}">
+                        <span>No existen resultados</span>
+                    </div>
+
                 </div>
-				<div class="mbr-section-btn align-center" style="text-align: center !important;"><a th:href="@{~/smallholding/display?smallholdingId=} + ${sh.id}" class="btn btn-warning-outline display-4">Ver parcela</a></div>
-			</div>
-			 
-			<div class="container">
-				<div class="row justify-content-center">
-					<div  th:if="${smallholdingPage.totalPages > 0 && requestURI == 'smallholding/list'}" 
-						th:each="pageNumber : ${pageNumbers}">
-						<nav aria-label="Page navigation example">
-							<ul class="pagination">
-								<li class="page-item">
-									<a th:href="@{/smallholding/list(size=${smallholdingPage.size}, page=${pageNumber})}" th:text=${pageNumber}	class="page-link"></a>
-								</li>
-							</ul>
-						</nav>
-					</div>
+        </section>
 
-					<div  th:if="${smallholdingPage.totalPages > 0 && requestURI == 'owner/smallholding/listOwnSmallholdings'}" 
-						th:each="pageNumber : ${pageNumbers}">
-						<nav aria-label="Page navigation example">
-							 <ul class="pagination">
-					 			<li class="page-item">
-									<a th:href="@{/owner/smallholding/listOwnSmallholdings(size=${smallholdingPage.size}, page=${pageNumber})}"	th:text=${pageNumber} class="page-link"></a>
-								 </li>
-				 			</ul>
-						</nav>
-					</div>
+        </div>
+</body>
 
-					<div  th:if="${smallholdingPage.totalPages > 0 && requestURI == 'renter/smallholding/list'}" 
-						th:each="pageNumber : ${pageNumbers}">
-						<nav aria-label="Page navigation example">
-							 <ul class="pagination">
-					 			<li class="page-item">
-									<a th:href="@{/renter/smallholding/list(size=${smallholdingPage.size}, page=${pageNumber})}"	th:text=${pageNumber} class="page-link"></a>
-								 </li>
-				 			</ul>
-						</nav>
-					</div>
-
-				</div>
-			</div>
-			
-			<div sec:authorize="isAuthenticated()"
-			     th:if="${smallholdingPage.getTotalElements() > 0 && requestURI == 'smallholding/list'}" 
-			     id="map"></div>	
-								
-			<script>
-				var lats = [];
-				var lngs = [];
-				var str_latitudes;
-				var str_longitudes;
-				
-				str_latitudes = "[[${latitudes}]]";
-				str_longitudes = "[[${longitudes}]]";
-				
-				lats = str_latitudes.split(";");
-				lngs = str_longitudes.split(";");	
-				
-				function initMap() {
-					var infoWindows;
-					var map;
-					var marker;
-					var latLng;
-					
-					latLng = {lat: 40.4167047, lng: -3.7035825};
-					
-					map = new google.maps.Map(document.getElementById('map'), {
-						center: latLng,
-						zoom: 7
-					});
-					
-					var i = 0;
-					var n = lats.length;
-					while (i < n) {
-						var geo = {lat: parseFloat(lats[i]), lng: parseFloat(lngs[i])};
-					
-						marker = new google.maps.Marker({
-							position: geo,
-							map: map
-						});
-						
-						marker.setMap(map);
-						
-						i = i+1;
-					}
-								
-					infoWindows = new google.maps.InfoWindow({
-						maxWidth: 400
-					});
-					
-				}
-			</script>
-			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAB58EHyhLWDPcDS56wNgCig1GK_cDp7xs&callback=initMap"
-			        async defer></script>
-			
-			<div th:if="${smallholdingPage.getTotalElements() == 0}">
-				<span>No existen resultados</span>
-			</div>   
-			
-			
-    </div>
-</section>
-
-		</div>
-	</body>
 </html>

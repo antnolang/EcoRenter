@@ -21,8 +21,11 @@ public class Renter extends Actor {
 	// Constructores ------------------
 	public Renter() {
 		super();
+		
+		
 	}
 	
+
 	
 	// Getters y setters --------------
 	public String getIban() {

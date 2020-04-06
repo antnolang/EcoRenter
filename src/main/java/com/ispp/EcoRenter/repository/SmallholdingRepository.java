@@ -23,4 +23,7 @@ public interface SmallholdingRepository extends JpaRepository<Smallholding,Integ
     @Query("select distinct ro.smallholding from RentOut ro where ro.smallholding.owner.id = ?1 and ro.isActive = true")
     Collection<Smallholding> findSmallholdingsRentedByOwnerId(int ownerId);
 
+    @Query("select distinct s from Smallholding s where (s.isAvailable = true and s.status = 'NO ALQUILADA') and ((s.province like concat('%', concat(?1, '%'))) or (s.farmingType like concat('%', concat(?1, '%'))) or (s.locality like concat('%', concat(?1, '%'))) or (CAST(s.size as text) like concat('%', concat(?1, '%'))) or (CAST(s.price as text) like concat('%', concat(?1, '%'))))")
+    Collection<Smallholding> findSmallholdingsByKeyword(String keyword);
+
 }

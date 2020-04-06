@@ -155,16 +155,25 @@ body {
 					<a th:href="@{/actor/administrator/unban(actorId=${actor.id})}"
 						class="btn btn-secondary-outline display-4"> Desbanear actor </a>
 				</div>
-
+				<div sec:authorize="hasAuthority('RENTER')" class="mbr-section-btn pt-3">
+					<a class="btn btn-secondary-outline display-4"
+						th:href="@{/actor/renter/export-renterData}"> Exportar mis datos </a>
+				</div>
+				<div sec:authorize="hasAuthority('OWNER')" class="mbr-section-btn pt-3">
+					<a class="btn btn-secondary-outline display-4"
+						th:href="@{/actor/owner/export-ownerData}"> Exportar mis datos </a>
+				</div>
 				<div class="mbr-section-btn pt-3 ">
 					<a class="btn btn-secondary-outline display-4" th:href="@{/}">
 						Volver atrás </a>
 				</div>
 
-				<div sec:authorize="hasAuthority('ADMIN')" class="mbr-section-btn pt-3">
-					<a class="btn btn-secondary-outline display-4" th:href="@{/actor/administrator/deleteActor}">
-						Eliminar un usuario
-					</a>
+
+				<div sec:authorize="hasAuthority('ADMIN')"
+					class="mbr-section-btn pt-3">
+					<a class="btn btn-secondary-outline display-4"
+						th:href="@{/actor/administrator/deleteActor}"> Eliminar un
+						usuario </a>
 				</div>
 
 			</div>
