@@ -17,6 +17,7 @@ public class ProviderDiscountCode extends DomainEntity {
 	private static final long serialVersionUID = 1L;
 
 	// Atributos -----------------------------
+	@NotBlank(message = "No debe estar en blanco")
 	private String discountCodes;
 	
 	@NotBlank(message = "No debe estar en blanco")

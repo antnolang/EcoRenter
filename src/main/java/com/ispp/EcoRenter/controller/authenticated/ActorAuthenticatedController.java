@@ -23,7 +23,6 @@ import com.ispp.EcoRenter.form.AdminForm;
 import com.ispp.EcoRenter.form.OwnerForm;
 import com.ispp.EcoRenter.form.RenterForm;
 import com.ispp.EcoRenter.model.Actor;
-import com.ispp.EcoRenter.model.Customisation;
 import com.ispp.EcoRenter.model.Owner;
 import com.ispp.EcoRenter.model.Photo;
 import com.ispp.EcoRenter.model.Renter;
@@ -107,6 +106,8 @@ public class ActorAuthenticatedController {
 			
 			result = this.actorAdministratorController.createEditModelAndView(adminForm);
 		}
+		
+		
 		
 		return result;
 	}
@@ -249,13 +250,12 @@ public class ActorAuthenticatedController {
 	@GetMapping(value = "/display")
 	public ModelAndView findOne(@RequestParam(required = false, defaultValue = "0") int actorId) {
 		ModelAndView result;
-		Customisation customisation;
 		Actor actor, principal;
 		boolean isMyProfile;
 		Renter renter;
 		Owner owner;
 		int principalId;
-		String iban, role, level, discountCodes;
+		String iban, role, level;
 		Collection<Smallholding> smallholdings;
 		Photo photo;
 		String imageData;
@@ -314,16 +314,6 @@ public class ActorAuthenticatedController {
 				smallholdings = this.smallholdingService.findSmallholdingsByActiveRentOut(actor.getId());
 				
 				result.addObject("smallholdings", smallholdings);
-				
-				if (!smallholdings.isEmpty()) {
-					customisation = this.customisationService.find();
-					
-					//TODO: Actualziar
-					discountCodes = "4738473discountCodes";
-					
-					result.addObject("discountCodes", discountCodes);
-				}
-				
 			}
 			
 			result.addObject("actor", actor);

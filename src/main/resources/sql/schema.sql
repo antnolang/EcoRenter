@@ -322,7 +322,7 @@ CREATE TABLE public.valuation (
     version integer NOT NULL,
     mark integer NOT NULL,
     valuation_moment timestamp without time zone NOT NULL,
-    CONSTRAINT valuation_mark_check CHECK (((mark <= 5) AND (mark >= 0)))
+    CONSTRAINT valuation_mark_check CHECK (((mark >= 0) AND (mark <= 5)))
 );
 
 

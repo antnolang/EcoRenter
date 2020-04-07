@@ -1,8 +1,5 @@
 package com.ispp.EcoRenter.controller.renter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -22,9 +19,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ispp.EcoRenter.export.ActorExport;
 import com.ispp.EcoRenter.form.RenterForm;
 import com.ispp.EcoRenter.model.Actor;
+import com.ispp.EcoRenter.model.Customisation;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.register.RenterRegister;
 import com.ispp.EcoRenter.service.ActorService;
+import com.ispp.EcoRenter.service.CustomisationService;
 import com.ispp.EcoRenter.service.RenterService;
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.StatefulBeanToCsv;
@@ -36,13 +35,15 @@ import com.opencsv.bean.StatefulBeanToCsvBuilder;
 public class ActorRenterController {
 
 	private static final Log log = LogFactory.getLog(ActorRenterController.class);
-
+	
 	@Autowired
 	private ActorService actorService;
 
 	@Autowired
 	private RenterService renterService;
 
+	@Autowired
+	private CustomisationService customisationService;
 
 	public ActorRenterController() {
 		super();
@@ -82,9 +83,10 @@ public class ActorRenterController {
 	public ModelAndView register() {
 		ModelAndView result = new ModelAndView("actor/renterRegister");
 		RenterRegister renter = new RenterRegister();
-
+		Customisation custo = this.customisationService.find();
+		
 		result.addObject("renter", renter);
-
+		result.addObject("maxSizePhoto", custo.getMaxSizePhoto());
 
 		return result;
 	}
@@ -95,18 +97,18 @@ public class ActorRenterController {
 	public ModelAndView registerRenter(@ModelAttribute("renter") @Valid RenterRegister renterRegister, final BindingResult binding) {
 		ModelAndView result;
 
-
 		if (binding.hasErrors()) {
 			result = new ModelAndView("actor/renterRegister");
 		}else {
 			try {
-
 				this.renterService.register(renterRegister, binding);
 
 				result = new ModelAndView("login");
-
 			}catch(Throwable oops) {
 				result = new ModelAndView("actor/renterRegister");
+				result.addObject("maxSizePhoto",
+						         this.customisationService.find().getMaxSizePhoto());
+				
 				String message = oops.getMessage();
 
 				if(message.equals("Las contraseñas no coinciden.")) {
@@ -151,21 +153,24 @@ public class ActorRenterController {
 	// Metodos auxiliares ---------------------------------------------------
 	public ModelAndView createEditModelAndView(RenterForm renterForm) {
 		ModelAndView result;
+		Customisation custo;
+		
+		custo = this.customisationService.find();
 		
 		result = new ModelAndView("actor/edit");
 		result.addObject("objectForm", renterForm);
 		result.addObject("buttonName", "saveRenter");
+		result.addObject("maxSizePhoto", custo.getMaxSizePhoto());
 		
 		return result;
 	}
 	
-	public ModelAndView createEditModelAndView(Object objectForm, String messageName, String messageValue) {
+	public ModelAndView createEditModelAndView(RenterForm renterForm, String messageName,
+			String messageValue) {
 		ModelAndView result;
 		
-		result = new ModelAndView("actor/edit");
-		result.addObject("objectForm", objectForm);
+		result = this.createEditModelAndView(renterForm);
 		result.addObject(messageName, messageValue);
-		result.addObject("buttonName", "saveRenter");
 		
 		return result;
 	}
