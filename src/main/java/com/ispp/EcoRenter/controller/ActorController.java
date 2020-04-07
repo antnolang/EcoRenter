@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ispp.EcoRenter.model.Actor;
-import com.ispp.EcoRenter.model.Customisation;
 import com.ispp.EcoRenter.model.Owner;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.model.Smallholding;
@@ -50,13 +49,12 @@ public class ActorController {
 	@GetMapping(value = "/display")
 	public ModelAndView findOne(@RequestParam(required = false, defaultValue = "0") int actorId) {
 		ModelAndView result;
-		Customisation customisation;
 		Actor actor, principal;
 		boolean isMyProfile;
 		Renter renter;
 		Owner owner;
 		int principalId;
-		String iban, role, level, discountCodes;
+		String iban, role, level;
 		Collection<Smallholding> smallholdings, smallholdingsRentedByOwnerPrincipal;
 		
 		iban = "";
@@ -102,27 +100,13 @@ public class ActorController {
 			if (isMyProfile) {
 				if(this.actorService.isASpecificRole(actor, "RENTER")){
 					smallholdings = this.smallholdingService.findSmallholdingsByActiveRentOut(actor.getId());
+					
 					result.addObject("smallholdings", smallholdings);
-					if (!smallholdings.isEmpty()) {
-						customisation = this.customisationService.find();
-						
-						//TODO: actualizar
-						discountCodes = "kfdlfjkdfjdiscountCode";
-						
-						result.addObject("discountCodes", discountCodes);
-					}
 				} 
 				else if(this.actorService.isASpecificRole(actor, "OWNER")) {
 					smallholdingsRentedByOwnerPrincipal = this.smallholdingService.findSmallholdingsByOwnerId(actor.getId());
+					
 					result.addObject("smallholdings", smallholdingsRentedByOwnerPrincipal);
-					if (!smallholdingsRentedByOwnerPrincipal.isEmpty()) {
-						customisation = this.customisationService.find();
-						
-						//TODO: actualizar
-						discountCodes = "kfdlfjkdfjdiscountCode";
-						
-						result.addObject("discountCodes", discountCodes);
-					}
 				}
 				
 			}

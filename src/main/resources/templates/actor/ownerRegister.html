@@ -169,8 +169,9 @@
 							<div class="col-md-12  form-group" data-for="file">
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
-									style="color: #2a3d2e !important;">Seleccionar foto de
-									perfil (El tamaño máximo debe ser 5MB)</label>
+									style="color: #2a3d2e !important;"
+									th:text="'Seleccionar foto de
+												perfil (Tamaño máximo de ' + ${maxSizePhoto} + 'MB)'"></label>
 								<input type="file" th:field="*{file}"
 									th:errorclass="fieldError" data-form-field="file"
 									accept="image/*" class="form-control display-7"

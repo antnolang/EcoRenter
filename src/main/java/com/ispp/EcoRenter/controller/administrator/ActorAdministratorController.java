@@ -22,11 +22,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ispp.EcoRenter.form.AdminForm;
 import com.ispp.EcoRenter.model.Actor;
+import com.ispp.EcoRenter.model.Customisation;
 import com.ispp.EcoRenter.model.Owner;
 import com.ispp.EcoRenter.model.Photo;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.service.ActorService;
 import com.ispp.EcoRenter.service.AdministratorService;
+import com.ispp.EcoRenter.service.CustomisationService;
 import com.ispp.EcoRenter.service.PhotoService;
 
 @Controller
@@ -44,6 +46,9 @@ public class ActorAdministratorController {
     @Autowired
     private PhotoService photoService;
 
+    @Autowired
+	private CustomisationService customisationService;
+    
     public ActorAdministratorController() {
 	super();
     }
@@ -177,24 +182,26 @@ public class ActorAdministratorController {
     // Metodos auxiliares ---------------------------------------------------
     public ModelAndView createEditModelAndView(final AdminForm adminForm) {
 	ModelAndView result;
-
+	Customisation custo;
+	
+	custo = this.customisationService.find();
+	
 	result = new ModelAndView("actor/edit");
 	result.addObject("objectForm", adminForm);
 	result.addObject("buttonName", "saveAdmin");
+	result.addObject("maxSizePhoto", custo.getMaxSizePhoto());
 
 	return result;
     }
 
     public ModelAndView createEditModelAndView(final AdminForm adminForm, final String messageName,
 	    final String messageValue) {
-	ModelAndView result;
-
-	result = new ModelAndView("actor/edit");
-	result.addObject("objectForm", adminForm);
-	result.addObject(messageName, messageValue);
-	result.addObject("buttonName", "saveAdmin");
-
-	return result;
+		ModelAndView result;
+	
+		result = this.createEditModelAndView(adminForm);
+		result.addObject(messageName, messageValue);
+	
+		return result;
     }
 
 }
