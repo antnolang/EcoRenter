@@ -131,16 +131,16 @@
 										th:href="@{'/owner/smallholding/edit?smallholdingId=' + ${smallholding.id}}"
 										class="btn btn-secondary-outline display-4">Editar parcela</a>
 								</div>
-								<div sec:authorize="hasAuthority('OWNER')"
+								<div sec:authorize="hasAuthority('OWNER')" title="Si está activada, los arrendatarios podrán pagar el alquiler. Sin embargo, puedes desactivarla para tenerla almacenada en el sistema sin publicar y activarla cuando quieras ;)"
 									th:if="${smallholding.status == 'NO ALQUILADA' && ownerPrincipal && smallholding.available}"
 									class="mbr-section-btn pt-3 align-left">
 									<a
 										th:href="@{'/owner/smallholding/deactivate?smallholdingId=' + ${smallholding.id}}"
-										class="btn btn-secondary-outline display-4">Desactivar
+										class="btn btn-secondary-outline display-4" >Desactivar
 										parcela</a>
 								</div>
 								<div sec:authorize="hasAuthority('OWNER')"
-									th:if="${smallholding.status == 'NO ALQUILADA' && ownerPrincipal && !smallholding.available}"
+									th:if="${smallholding.status == 'NO ALQUILADA' && ownerPrincipal && !smallholding.available}" title="Si está activada, los arrendatarios podrán pagar el alquiler. Sin embargo, puedes desactivarla para tenerla almacenada en el sistema sin publicar y activarla cuando quieras ;)"
 									class="mbr-section-btn pt-3 align-left">
 									<a
 										th:href="@{'/owner/smallholding/activate?smallholdingId=' + ${smallholding.id}}"
