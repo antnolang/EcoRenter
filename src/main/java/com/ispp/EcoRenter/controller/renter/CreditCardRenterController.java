@@ -125,6 +125,8 @@ public class CreditCardRenterController {
 					result = this.createEditModelAndView(creditCardForm, message);
 				} else if (message.equals("La tarjeta de crédito está expirada")) {
 					result = this.createEditModelAndView(creditCardForm, message);	
+				} else if (message.equals("Marca desconocida")) {
+					result = this.createEditModelAndView(creditCardForm, message);
 				} else {
 					result = this.createEditModelAndView(
 									creditCardForm, 
@@ -164,6 +166,7 @@ public class CreditCardRenterController {
 	
 	protected ModelAndView createEditModelAndView(CreditCardForm creditCardForm, 
 												  String messageCode) {
+		Collection<String> creditCardMakes;
 		ModelAndView result;
 		int count, creditCardId;
 		
@@ -173,8 +176,11 @@ public class CreditCardRenterController {
 				? this.rentOutService.findRentOutByCreditCard(creditCardId)
 				: 0;
 		
+		creditCardMakes = this.creditCardService.getCreditCardMakes();
+				
 		result = new ModelAndView("creditCard/edit");
 		result.addObject("creditCardForm", creditCardForm);
+		result.addObject("creditCardMakes", creditCardMakes);
 		result.addObject("messageCode", messageCode);
 		result.addObject("count", count);
 		

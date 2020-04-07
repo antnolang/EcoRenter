@@ -2,8 +2,10 @@ package com.ispp.EcoRenter.service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -15,6 +17,7 @@ import org.springframework.util.Assert;
 
 import com.ispp.EcoRenter.form.CreditCardForm;
 import com.ispp.EcoRenter.model.CreditCard;
+import com.ispp.EcoRenter.model.Customisation;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.repository.CreditCardRepository;
 
@@ -33,6 +36,9 @@ public class CreditCardService {
 	
 	@Autowired
 	private RentOutService rentOutService;
+	
+	@Autowired
+	private CustomisationService customisationService;
 	
 	// Constructores -----------------------------------
 	public CreditCardService() {
@@ -75,6 +81,8 @@ public class CreditCardService {
 	public CreditCard save(CreditCard creditCard, Renter renter) {
 		this.checkByPrincipal(creditCard, renter);
 		this.checkExpiredCreditCard(creditCard);
+		Assert.isTrue(this.getCreditCardMakes().contains(creditCard.getBrandName()),
+					  "Marca desconocida");
 		
 		int creditCardId;
 		CreditCard result;
@@ -195,11 +203,30 @@ public class CreditCardService {
 		str_date = year + "-" + month + "-" + "01";
 		
 		expiration = LocalDate.parse(str_date, formatter);
-		expiration.plusMonths(1).minusDays(1);
+		//expiration.plusMonths(1).minusDays(1);
 		
 		now = LocalDate.now();
 		
-		Assert.isTrue(now.isAfter(expiration), "La tarjeta de crédito está expirada");
+		Assert.isTrue(now.isBefore(expiration), "La tarjeta de crédito está expirada");
+	}
+	
+	public Collection<String> getCreditCardMakes() {
+		List<String> results;
+		String creditCardMakes;
+		String[] fields;
+		Customisation custo;
+		
+		custo = this.customisationService.find();
+		creditCardMakes = custo.getCreditCardMakes();
+		
+		fields = creditCardMakes.split(",");
+		
+		results = new ArrayList<String>();
+		for (String make: fields) {
+			results.add(make.trim());
+		}
+		
+		return results;
 	}
 	
 }

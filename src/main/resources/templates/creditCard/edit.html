@@ -134,11 +134,11 @@
 								<select th:field="*{brandName}" th:errorclass="fieldError"
 										required="required" class="form-control display-7"
 										onchange="checkBrandName()">
-									<option value="Mastercard">MASTERCARD</option>
-									<option value="Visa">VISA</option>
-									<option value="Discover">DISCOVER</option>
-									<option value="American Express">AMERICAN EXPRESS</option>
-									<option value="JCB">JCB</option>
+									
+									<option th:each="make: ${creditCardMakes}"
+										    th:value="${make}"
+										    th:text="${make}" />	
+									
 								</select>
 								
 								<p th:if="${#fields.hasErrors('brandName')}"
@@ -176,8 +176,7 @@
 							</div>
 							
 							<!-- Botones -->
-							
-							
+														
 							<div class="col-md-4 input-group-btn align-center">
 								<button name="save" id="Guarda" type="submit" 
 									class="btn btn-form btn-secondary display-4">Guardar</button>
