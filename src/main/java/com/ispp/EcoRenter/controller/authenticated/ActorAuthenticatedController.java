@@ -141,7 +141,7 @@ public class ActorAuthenticatedController {
 					result = this.actorOwnerController.createEditModelAndView(ownerForm,
 							  												  "selImage",
 							  												  message);
-				} else if (message.equals("La imagen supera los 5MB")) {
+				} else if (message.equals("La imagen supera el tamaño máximo")) {
 					result = this.actorOwnerController.createEditModelAndView(ownerForm,
 							  												  "selImage",
 							  												  message);	
@@ -186,7 +186,7 @@ public class ActorAuthenticatedController {
 						result = this.actorRenterController.createEditModelAndView(renterForm,
 								  												  "selImage",
 								  												  message);
-				} else if (message.equals("La imagen supera los 5MB")) {
+				} else if (message.equals("La imagen supera el tamaño máximo")) {
 					result = this.actorRenterController.createEditModelAndView(renterForm,
 							  												   "selImage",
 							  												   message);
@@ -231,7 +231,7 @@ public class ActorAuthenticatedController {
 					result = this.actorAdministratorController.createEditModelAndView(adminForm,
 							  														  "selImage",
 							  														  message);
-				} else if (message.equals("La imagen supera los 5MB")) {
+				} else if (message.equals("La imagen supera el tamaño máximo")) {
 					result = this.actorAdministratorController.createEditModelAndView(adminForm,
 						  												  			  "selImage",
 						  												  			  message);
@@ -318,7 +318,8 @@ public class ActorAuthenticatedController {
 				if (!smallholdings.isEmpty()) {
 					customisation = this.customisationService.find();
 					
-					discountCodes = customisation.getDiscountCodes();
+					//TODO: Actualziar
+					discountCodes = "4738473discountCodes";
 					
 					result.addObject("discountCodes", discountCodes);
 				}

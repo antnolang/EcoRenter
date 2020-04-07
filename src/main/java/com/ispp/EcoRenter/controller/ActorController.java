@@ -106,7 +106,8 @@ public class ActorController {
 					if (!smallholdings.isEmpty()) {
 						customisation = this.customisationService.find();
 						
-						discountCodes = customisation.getDiscountCodes();
+						//TODO: actualizar
+						discountCodes = "kfdlfjkdfjdiscountCode";
 						
 						result.addObject("discountCodes", discountCodes);
 					}
@@ -117,7 +118,8 @@ public class ActorController {
 					if (!smallholdingsRentedByOwnerPrincipal.isEmpty()) {
 						customisation = this.customisationService.find();
 						
-						discountCodes = customisation.getDiscountCodes();
+						//TODO: actualizar
+						discountCodes = "kfdlfjkdfjdiscountCode";
 						
 						result.addObject("discountCodes", discountCodes);
 					}
