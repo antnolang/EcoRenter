@@ -17,6 +17,12 @@ public class ContractController {
 		return "miscellaneous/condiciones-arrendamiento";
 	}
 	
+	@RequestMapping("/terminos-y-condiciones")
+	public String terminos() {
+
+		return "miscellaneous/terminos-y-condiciones";
+	}
+	
 	
 
 }

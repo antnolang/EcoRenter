@@ -35,8 +35,11 @@ public abstract class ActorForm extends DomainEntity {
 
 
 	@NotBlank
-	@Column(unique = true)
 	@Email
+	@Column(unique = true)
+	@Pattern(
+		regexp = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$",
+    	message = "Email inválido")
 	private String email;
 
 	@NotBlank
@@ -164,12 +167,9 @@ public abstract class ActorForm extends DomainEntity {
 	}
 	
 	
-
-
 	@Override
 	public String toString() {
 		return "ActorForm [email=" + email + ", username=" + username + "]";
 	}
-	
 	
 }

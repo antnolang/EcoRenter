@@ -117,9 +117,9 @@ public class SmallholdingRenterController {
 		// Collection<Smallholding> actSmallholdingsRented, prevSmallholdingsRented;
 		Collection<Smallholding> smallholdings;
 		Renter principal;
+		Map<Integer,List<String>> sh_photo;
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(4);
-		Map<Integer,List<String>> sh_photo;
 
 		sh_photo = new HashMap<Integer,List<String>>();
 
@@ -129,6 +129,7 @@ public class SmallholdingRenterController {
 			principal = this.renterService.findByPrincipal();
 			
 			smallholdings = this.smallholdingService.findSmallholdingsByActiveRentOut(principal.getId());
+
 			Page<Smallholding> shPage = this.smallholdingService.findPaginated(PageRequest.of(currentPage - 1, pageSize), smallholdings);
 			int totalPages = shPage.getTotalPages();
 
@@ -156,6 +157,12 @@ public class SmallholdingRenterController {
 		}
 
 		return result;
+	}
+
+	// Filtro
+	@PostMapping(value = "/filter", params = "filtra")
+	public ModelAndView filtra(@RequestParam("keyword") String keyword){
+		return this.smallholdingController.list(Optional.empty(), Optional.empty(), keyword);
 	}
 
 }

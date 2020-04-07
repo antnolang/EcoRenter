@@ -16,6 +16,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ispp.EcoRenter.model.Customisation;
 import com.ispp.EcoRenter.model.Photo;
 import com.ispp.EcoRenter.repository.PhotoRepository;
 
@@ -31,6 +32,9 @@ public class PhotoService {
 	@Autowired
 	private PhotoRepository photoRepository;
 
+	@Autowired
+	private CustomisationService customisationService;
+	
 	public PhotoService() {
 		super();
 	}
@@ -125,7 +129,7 @@ public class PhotoService {
 		Assert.notNull(file, "Fichero no nulo");
 		
 		Photo result;
-		
+		Customisation custo;
 		String fileName, contentType;
 		byte[] bytes;
 		
@@ -134,8 +138,11 @@ public class PhotoService {
 		fileName = StringUtils.cleanPath(file.getOriginalFilename());
 		contentType = file.getContentType();
 		
+		custo = this.customisationService.find();
+		
 		if (StringUtils.hasText(fileName) && !contentType.equals("application/octet-stream")) {		
-			Assert.isTrue(file.getSize() < MAX_SIZE, "La imagen supera los 5MB");
+			Assert.isTrue(file.getSize() < custo.getMaxSizePhotoBytes(),
+						  "La imagen supera el tamaño máximo");
 			Assert.isTrue(contentType.startsWith("image/"), "No es una imagen");
 			
 			try {

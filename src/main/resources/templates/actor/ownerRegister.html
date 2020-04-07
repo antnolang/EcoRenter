@@ -169,8 +169,9 @@
 							<div class="col-md-12  form-group" data-for="file">
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
-									style="color: #2a3d2e !important;">Seleccionar foto de
-									perfil (El tamaño máximo debe ser 5MB)</label>
+									style="color: #2a3d2e !important;"
+									th:text="'Seleccionar foto de
+												perfil (Tamaño máximo de ' + ${maxSizePhoto} + 'MB)'"></label>
 								<input type="file" th:field="*{file}"
 									th:errorclass="fieldError" data-form-field="file"
 									accept="image/*" class="form-control display-7"
@@ -196,6 +197,18 @@
 								<p th:text="${errorMessage}" style="color: red !important;"></p>
 							</div>
 							
+							 <div data-for="message" class="col-md-12 form-group">
+								<span class="gdpr-block"> <label> <span
+										class="textGDPR" style="color: #a7a7a7"><input
+											type="checkbox" name="gdpr" id="gdpr-form1-17" required="">
+											Para registrarte acepta los  <a
+											target="_blank"
+											style="color: #149dcc; text-decoration: none;"
+											href="/miscellaneous/terminos-y-condiciones">términos y condiciones</a>. </span>
+								</label>
+								</span>
+							</div>
+							
 							<div class="col-md-6 input-group-btn align-center">
 								<button name="save" type="submit"
 									class="btn btn-form btn-secondary display-4">Guardar</button>
@@ -205,7 +218,20 @@
 								<a href="/" class="col-md-12 btn btn-warning-outline display-4">
 									Volver </a>
 							</div>
-
+							
+							
+							
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>	
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
 
 						</div>
 				</div>

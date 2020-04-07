@@ -86,8 +86,9 @@ public class CustomisationService {
 		result.setId(custo.getId());
 		result.setVersion(custo.getVersion());
 
-		result.setEmail(customisation.getEmail());
-		result.setDiscountCodes(customisation.getDiscountCodes());
+		result.setEmail(customisation.getEmail().trim());
+		result.setMaxSizePhoto(customisation.getMaxSizePhoto());
+		result.setCreditCardMakes(customisation.getCreditCardMakes().trim());
 		result.setGoldLevel(customisation.getGoldLevel());
 		result.setSilverLevel(customisation.getSilverLevel());
 
@@ -95,5 +96,5 @@ public class CustomisationService {
 
 		return result;
 	}
-	
+
 }

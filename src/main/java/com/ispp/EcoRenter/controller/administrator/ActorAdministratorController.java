@@ -22,11 +22,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ispp.EcoRenter.form.AdminForm;
 import com.ispp.EcoRenter.model.Actor;
+import com.ispp.EcoRenter.model.Customisation;
 import com.ispp.EcoRenter.model.Owner;
 import com.ispp.EcoRenter.model.Photo;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.service.ActorService;
 import com.ispp.EcoRenter.service.AdministratorService;
+import com.ispp.EcoRenter.service.CustomisationService;
 import com.ispp.EcoRenter.service.PhotoService;
 
 @Controller
@@ -43,6 +45,9 @@ public class ActorAdministratorController {
 
 	@Autowired
 	private PhotoService photoService;
+
+	@Autowired
+	private CustomisationService customisationService;
 
 	public ActorAdministratorController() {
 		super();
@@ -95,7 +100,6 @@ public class ActorAdministratorController {
 		Collection<Actor> actors;
 
 		int currentPage = page.orElse(1);
-		int pageSize = size.orElse(6);
 		Map<Integer, List<String>> actor_photo;
 
 		actor_photo = new HashMap<Integer, List<String>>();
@@ -103,6 +107,7 @@ public class ActorAdministratorController {
 		try {
 			result = new ModelAndView("actor/deleteActor");
 			actors = this.actorService.findAllExceptAdmin();
+			int pageSize = size.orElse(actors.size());
 
 			Page<Actor> shPage = this.actorService
 					.findPaginated(PageRequest.of(currentPage - 1, pageSize), actors);
@@ -110,22 +115,18 @@ public class ActorAdministratorController {
 			int totalPages = shPage.getTotalPages();
 
 			if (totalPages > 0) {
-				List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-						.boxed()
+				List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed()
 						.collect(Collectors.toList());
-
 				result.addObject("pageNumbers", pageNumbers);
 			}
 
 			for (Actor a : actors) {
 				if (a.getPhoto() != null) {
 					Photo photo = this.photoService.getPhotoById(a.getPhoto().getId());
-					
 					List<String> photoAttr = new ArrayList<String>();
 					photoAttr.add(photo.getName());
 					photoAttr.add(photo.getSuffix());
 					photoAttr.add(this.photoService.getImageBase64(photo));
-					
 					actor_photo.put(a.getId(), photoAttr);
 				}
 
@@ -181,19 +182,22 @@ public class ActorAdministratorController {
 	}
 
 	// Metodos auxiliares ---------------------------------------------------
-	public ModelAndView createEditModelAndView(AdminForm adminForm) {
+	public ModelAndView createEditModelAndView(final AdminForm adminForm) {
 		ModelAndView result;
+		Customisation custo;
+
+		custo = this.customisationService.find();
 
 		result = new ModelAndView("actor/edit");
 		result.addObject("objectForm", adminForm);
 		result.addObject("buttonName", "saveAdmin");
+		result.addObject("maxSizePhoto", custo.getMaxSizePhoto());
 
 		return result;
 	}
 
-	public ModelAndView createEditModelAndView(AdminForm adminForm,
-											   String messageName,
-											   String messageValue) {
+	public ModelAndView createEditModelAndView(final AdminForm adminForm, final String messageName,
+			final String messageValue) {
 		ModelAndView result;
 
 		result = this.createEditModelAndView(adminForm);

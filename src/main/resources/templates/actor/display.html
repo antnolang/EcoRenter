@@ -107,20 +107,7 @@ body {
 
 			</div>
 			<div class="col-md-6 text-center">
-				<div class=" aside-content" sec:authorize="hasAuthority('RENTER')"
-					th:if="${isMyProfile && smallholdings.size() > 0}">
-					<h1>Códigos de descuentos</h1>
 
-					<p
-						th:if="${isMyProfile && discountCodes != null && discountCodes != ''}">
-					<div th:each="desc : ${#strings.arraySplit(discountCodes, ',')}">
-
-						<i class="fa fa-money-bill" aria-hidden="true"> </i> <span
-							th:text="${desc}"></span>
-
-					</div>
-					</p>
-				</div>
 				<div class=" aside-content" sec:authorize="hasAuthority('OWNER')">
 					<p>
 						<strong>Nivel alcanzado:</strong>
@@ -164,16 +151,25 @@ body {
 					<a th:href="@{/actor/administrator/unban(actorId=${actor.id})}"
 						class="btn btn-secondary-outline display-4"> Desbanear actor </a>
 				</div>
-
+				<div sec:authorize="hasAuthority('RENTER')" class="mbr-section-btn pt-3">
+					<a class="btn btn-secondary-outline display-4"
+						th:href="@{/actor/renter/export-renterData}"> Exportar mis datos </a>
+				</div>
+				<div sec:authorize="hasAuthority('OWNER')" class="mbr-section-btn pt-3">
+					<a class="btn btn-secondary-outline display-4"
+						th:href="@{/actor/owner/export-ownerData}"> Exportar mis datos </a>
+				</div>
 				<div class="mbr-section-btn pt-3 ">
 					<a class="btn btn-secondary-outline display-4" th:href="@{/}">
 						Volver atrás </a>
 				</div>
 
-				<div sec:authorize="hasAuthority('ADMIN')" class="mbr-section-btn pt-3">
-					<a class="btn btn-secondary-outline display-4" th:href="@{/actor/administrator/deleteActor}">
-						Eliminar un usuario
-					</a>
+
+				<div sec:authorize="hasAuthority('ADMIN')"
+					class="mbr-section-btn pt-3">
+					<a class="btn btn-secondary-outline display-4"
+						th:href="@{/actor/administrator/deleteActor}"> Eliminar un
+						usuario </a>
 				</div>
 
 			</div>

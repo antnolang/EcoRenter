@@ -88,11 +88,13 @@ ALTER TABLE public.credit_card OWNER TO spring_dev;
 CREATE TABLE public.customization (
     id integer NOT NULL,
     version integer NOT NULL,
-    discount_codes character varying(255),
+    credit_card_makes character varying(255),
     email character varying(255),
     gold_level integer NOT NULL,
+    max_size_photo bigint NOT NULL,
     silver_level integer NOT NULL,
     CONSTRAINT customization_gold_level_check CHECK ((gold_level >= 9)),
+    CONSTRAINT customization_max_size_photo_check CHECK ((max_size_photo >= 1)),
     CONSTRAINT customization_silver_level_check CHECK (((silver_level >= 3) AND (silver_level <= 8)))
 );
 
@@ -175,6 +177,21 @@ CREATE TABLE public.photo (
 
 
 ALTER TABLE public.photo OWNER TO spring_dev;
+
+--
+-- Name: provider_discount_code; Type: TABLE; Schema: public; Owner: spring_dev; Tablespace: 
+--
+
+CREATE TABLE public.provider_discount_code (
+    id integer NOT NULL,
+    version integer NOT NULL,
+    discount_codes character varying(255),
+    link_page character varying(255),
+    name character varying(255)
+);
+
+
+ALTER TABLE public.provider_discount_code OWNER TO spring_dev;
 
 --
 -- Name: rent_out; Type: TABLE; Schema: public; Owner: spring_dev; Tablespace: 
@@ -305,7 +322,7 @@ CREATE TABLE public.valuation (
     version integer NOT NULL,
     mark integer NOT NULL,
     valuation_moment timestamp without time zone NOT NULL,
-    CONSTRAINT valuation_mark_check CHECK (((mark <= 5) AND (mark >= 0)))
+    CONSTRAINT valuation_mark_check CHECK (((mark >= 0) AND (mark <= 5)))
 );
 
 
@@ -365,6 +382,14 @@ ALTER TABLE ONLY public.owner
 
 ALTER TABLE ONLY public.photo
     ADD CONSTRAINT photo_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: provider_discount_code_pkey; Type: CONSTRAINT; Schema: public; Owner: spring_dev; Tablespace: 
+--
+
+ALTER TABLE ONLY public.provider_discount_code
+    ADD CONSTRAINT provider_discount_code_pkey PRIMARY KEY (id);
 
 
 --
@@ -437,6 +462,14 @@ ALTER TABLE ONLY public.user_account
 
 ALTER TABLE ONLY public.renter_credit_cards
     ADD CONSTRAINT uk_cyqu4mdolqhpsfryd0j5xu040 UNIQUE (credit_cards_id);
+
+
+--
+-- Name: uk_ftrv2xb6pc6ysmeakvajd5t62; Type: CONSTRAINT; Schema: public; Owner: spring_dev; Tablespace: 
+--
+
+ALTER TABLE ONLY public.provider_discount_code
+    ADD CONSTRAINT uk_ftrv2xb6pc6ysmeakvajd5t62 UNIQUE (link_page);
 
 
 --
