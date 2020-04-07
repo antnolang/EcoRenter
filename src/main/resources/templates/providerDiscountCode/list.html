@@ -53,7 +53,7 @@
 			</div>   
 
 			<div th:if="${!isAvailable}">
-				<span>No tiene permiso para ver los códigos de descuento. Para mostrarlos, debes tener mínimo una parcela alquilada</span>
+				<h2>Para poder disfrutar de los códigos descuentos debes tener como mínimo una parcela alquilada</h2>
 			</div>
 
 			<div sec:authorize="hasAuthority('ADMIN')" class="col-md-12 input-group-btn align-center">
