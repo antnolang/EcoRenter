@@ -80,7 +80,7 @@ public class ProviderDiscountCodeAdministratorController {
 			} catch (final Throwable oops) {
 				providerDiscountCode.setId(0);
 				if(oops.getMessage().equals("El código de descuento que se ha introducido no es válido"))
-					result = this.createEditModelAndView(providerDiscountCode, oops.getMessage());
+					result = this.createEditModelAndView(providerDiscountCode, oops.getMessage() + ". Separe los códigos por comas.");
 				else
 					result = this.createEditModelAndView(providerDiscountCode, "No se pudo realizar la operación");
 			}
