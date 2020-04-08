@@ -86,9 +86,10 @@ public class ProviderDiscountCodeService {
 
     public ProviderDiscountCode save(ProviderDiscountCode providerDiscountCode){
         Assert.notNull(providerDiscountCode, "El descuento es nulo");
+        Assert.isTrue(providerDiscountCode.getDiscountCodes().matches("[\\w]*[,]*[\\w]+$"), "El código de descuento que se ha introducido no es válido");
 
         ProviderDiscountCode result;
-
+        
         result = this.providerDiscountCodeRepository.save(providerDiscountCode);
         this.providerDiscountCodeRepository.flush();
 

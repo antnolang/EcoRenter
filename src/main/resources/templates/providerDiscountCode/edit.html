@@ -45,7 +45,7 @@
 
 							<div class="col-md-4  form-group" data-for="name">
 								<label>Nombre:</label> <input type="text"
-									th:field="*{name}" th:errorclass="fieldError"></input>
+									th:field="*{name}" required="required" th:errorclass="fieldError"></input>
 								<p th:if="${#fields.hasErrors('name')}"
 									style="color: red !important;">
 									<span th:errors="*{name}"></span>
@@ -54,7 +54,7 @@
 
 							<div class="col-md-4  form-group" data-for="name">
 								<label>Código descuento:</label> <input type="text"
-									th:field="*{discountCodes}" th:errorclass="fieldError"></input>
+									th:field="*{discountCodes}" required="required" th:errorclass="fieldError"></input>
 								<p th:if="${#fields.hasErrors('discountCodes')}"
 									style="color: red !important;">
 									<span th:errors="*{discountCodes}"></span>
@@ -63,7 +63,7 @@
 
 							<div class="col-md-4  form-group" data-for="name">
 								<label>Enlace a la página:</label> <input type="text"
-									th:field="*{linkPage}" placeholder="https://..." th:errorclass="fieldError"></input>
+									th:field="*{linkPage}" required="required" placeholder="https://..." th:errorclass="fieldError"></input>
 								<p th:if="${#fields.hasErrors('linkPage')}"
 									style="color: red !important;">
 									<span th:errors="*{linkPage}"></span>
