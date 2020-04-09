@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ispp.EcoRenter.form.CreditCardForm;
 import com.ispp.EcoRenter.model.Actor;
 import com.ispp.EcoRenter.model.Comment;
 import com.ispp.EcoRenter.model.Owner;
@@ -26,7 +27,9 @@ import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.model.Smallholding;
 import com.ispp.EcoRenter.service.ActorService;
 import com.ispp.EcoRenter.service.CommentService;
+import com.ispp.EcoRenter.service.CreditCardService;
 import com.ispp.EcoRenter.service.PhotoService;
+import com.ispp.EcoRenter.service.RenterService;
 import com.ispp.EcoRenter.service.SmallholdingService;
 
 @Controller
@@ -46,6 +49,12 @@ public class SmallholdingController {
 
 	@Autowired
 	private PhotoService photoService;
+
+	@Autowired
+	private CreditCardService creditCardService;
+
+	@Autowired
+	private RenterService renterService;
 
 	// Constructor
 
@@ -126,6 +135,7 @@ public class SmallholdingController {
 		Boolean isRentedByRenter;
 		Map<Photo,String> photo_imageData;
 		Collection<Photo> photos;
+		CreditCardForm creditCardForm;
 
 		photo_imageData = new HashMap<Photo,String>();
 		principal = null;
@@ -135,10 +145,13 @@ public class SmallholdingController {
 			principal = this.actorService.findByPrincipal();
 			
 			if (principal instanceof Renter) {
-				isRentedByRenter = this.smallholdingService.isSmallholdingRentedByRenter(principal.getId(),
-						smallholdingId);
-				result.addObject("correoRenter",principal.getEmail());
-				result.addObject("nombreCompleto",principal.getFullname());
+				isRentedByRenter = this.smallholdingService.isSmallholdingRentedByRenter(principal.getId(),	smallholdingId);
+				if(!isRentedByRenter){
+					creditCardForm = new CreditCardForm();
+					creditCardForm.setRenter(this.renterService.findByPrincipal());
+					result.addObject("creditCardForm", creditCardForm);
+					result.addObject("creditCardMakes", this.creditCardService.getCreditCardMakes());
+				}
 			} 
 		} catch (Exception e) {
 			isRentedByRenter = false;
@@ -147,7 +160,6 @@ public class SmallholdingController {
 		try {
 			smallholding = this.smallholdingService.findOneToDisplay(smallholdingId);
 			comments = this.commentService.findCommentsBySmallholdingId(smallholdingId);
-			//photos = smallholding.getPhotos(); No devuelve las fotos de la smallholding bien
 			photos = this.photoService.findPhotosBySmallholdingId(smallholding.getId());
 
 			for(Photo p: photos)
@@ -157,6 +169,7 @@ public class SmallholdingController {
 			result.addObject("comments", comments);
 			result.addObject("isRentedByRenter", isRentedByRenter);
 			result.addObject("photo_imageData", photo_imageData);
+			
 			
 			
 			if(principal != null && principal instanceof Owner && smallholding.getOwner().equals(principal)){

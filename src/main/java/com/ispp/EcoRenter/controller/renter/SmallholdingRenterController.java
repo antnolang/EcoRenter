@@ -9,12 +9,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.websocket.server.PathParam;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,18 +23,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ispp.EcoRenter.controller.SmallholdingController;
+import com.ispp.EcoRenter.form.CreditCardForm;
 import com.ispp.EcoRenter.model.Photo;
 import com.ispp.EcoRenter.model.RentOut;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.model.Smallholding;
+import com.ispp.EcoRenter.service.CreditCardService;
 import com.ispp.EcoRenter.service.PhotoService;
 import com.ispp.EcoRenter.service.RentOutService;
 import com.ispp.EcoRenter.service.RenterService;
 import com.ispp.EcoRenter.service.SmallholdingService;
-import com.stripe.Stripe;
-import com.stripe.exception.StripeException;
-import com.stripe.model.PaymentIntent;
-import com.stripe.param.PaymentIntentCreateParams;
 
 @Controller
 @RequestMapping("/renter/smallholding")
@@ -54,59 +53,42 @@ public class SmallholdingRenterController {
 	@Autowired
 	private SmallholdingController smallholdingController;
 
+	@Autowired
+	private CreditCardService creditCardService;
+
+	// Constructor
+
+	public SmallholdingRenterController(){
+		super();
+	}
+
+	// Alquiler
+
 	@PostMapping(value = "/rent", params = "saveRent")
-	public ModelAndView checkout(@RequestParam final int smallholdingId, @PathParam("card") String card,
-	@PathParam("fecha") String fecha, @PathParam("cvv") String cvv) throws StripeException {
-
+	public ModelAndView checkout(@Valid CreditCardForm creditCardForm, BindingResult binding,
+	@RequestParam final int smallholdingId) {
 		ModelAndView result;
+		RentOut rentOut;
+		Smallholding smallholding;
 
-		result = new ModelAndView("redirect:/renter/smallholding/list");
-
-		Smallholding sh = this.smallholdingService.findOne(smallholdingId);
-
-		Stripe.apiKey = "sk_test_DxeIjPSmKslD2tFg1b1CG2TU00Q4RigZkT";
-		
-		// Logic
-
-		try {
-			this.rentoutService.checkChard(card, fecha, cvv);
-
-			Long amount = (new Double(sh.getPrice())).longValue();
-
-			PaymentIntentCreateParams paymentParams = PaymentIntentCreateParams.builder()
-				.setCurrency("eur")
-				.setAmount(amount*100)
-				.setReceiptEmail(this.renterService.findByPrincipal().getEmail())
-				.putMetadata("integration_check", "accept_a_payment")
-				.build();
-
-			PaymentIntent intent = PaymentIntent.create(paymentParams);
-
-			PaymentIntent paymentIntent = PaymentIntent.retrieve(intent.getId());
-
-			Map<String, Object> params = new HashMap<>();
-			params.put("payment_method", "pm_card_visa");
-
-			paymentIntent.confirm(params);
-			
-			this.smallholdingService.rent(sh);
-
-			RentOut rent = this.rentoutService.create();
-
-			rent.setSmallholding(sh);
-			
-			rent.setIsActive(true);
-			
-			this.rentoutService.save(rent);
-
-		} catch (Exception ex) {
-			//result = new ModelAndView("redirect:/smallholding/display?smallholdingId=" + smallholdingId);
-			result = this.smallholdingController.display(smallholdingId);
-			result.addObject("errorPay", "No se ha podido realizar el pago correctamente");
+		if(binding.hasErrors()){
+			result = this.createEditModelAndView(smallholdingId,creditCardForm);
+		} else {
+			try {
+				smallholding = this.smallholdingService.findOne(smallholdingId);
+				rentOut = this.rentoutService.reconstruct(smallholding, creditCardForm, binding);
+				if(binding.hasErrors())
+					throw new IllegalArgumentException();
+				this.rentoutService.save(rentOut);
+				result = new ModelAndView("redirect:/renter/smallholding/list");
+			} catch(Throwable oops){
+				result = this.smallholdingController.display(smallholdingId);
+				result.addObject("messageCode", "No se ha podido realizar el alquiler correctamente");
+			}
 		}
 
-		
 		return result;
+		
 	}
 
 	// List
@@ -163,6 +145,27 @@ public class SmallholdingRenterController {
 	@PostMapping(value = "/filter", params = "filtra")
 	public ModelAndView filtra(@RequestParam("keyword") String keyword){
 		return this.smallholdingController.list(Optional.empty(), Optional.empty(), keyword);
+	}
+
+	// Ancillary methods
+
+	protected ModelAndView createEditModelAndView(int smallholdingId, CreditCardForm creditCardForm) {
+		return this.createEditModelAndView(smallholdingId,creditCardForm, null);
+	}
+	
+	protected ModelAndView createEditModelAndView(int smallholdingId, CreditCardForm creditCardForm, 
+												  String messageCode) {
+		Collection<String> creditCardMakes;
+		ModelAndView result;
+		
+		creditCardMakes = this.creditCardService.getCreditCardMakes();
+				
+		result = this.smallholdingController.display(smallholdingId);
+		result.addObject("creditCardForm", creditCardForm);
+		result.addObject("creditCardMakes", creditCardMakes);
+		result.addObject("messageCode", messageCode);
+		
+		return result;
 	}
 
 }

@@ -168,6 +168,165 @@
 
 								<!-- Pago -->
 
+								<form sec:authorize="hasAuthority('RENTER')" th:action="@{'/renter/smallholding/rent?smallholdingId=' + ${smallholding.id}}"
+								id="payment-form" style="display: none;" th:object="${creditCardForm}" method="post" class="sr-payment-form"
+								data-form-title=" Form"  onsubmit="return validateCreditCard()">
+
+
+									<input type="hidden" th:field="*{id}" />
+									<input type="hidden" th:field="*{version}" />
+									<input type="hidden" th:field="*{renter}" />
+							
+									<div class="dragArea row">
+							
+										<div class="col-md-6  form-group" data-for="name">
+											<label for="name-form1-17"
+												class="form-control-label mbr-fonts-style display-7"
+												style="color: #2a3d2e !important;">Propietario</label>
+											<input
+												type="text" th:field="*{holderName}" th:errorclass="fieldError"
+												data-form-field="holderName" required="required"
+												class="form-control display-7"
+												onchange="checkHolderName()" />
+											<p th:if="${#fields.hasErrors('holderName')}"
+												style="color: red !important;">
+												<span th:errors="*{holderName}"></span>
+											</p>
+								
+											<p style="color: red !important;">
+												<span id="holderNameError"></span>
+											</p>
+										</div>
+						
+										<div class="col-md-6  form-group" data-for="name">
+											<label for="name-form1-17"
+												class="form-control-label mbr-fonts-style display-7"
+												style="color: #2a3d2e !important;">Número</label>
+											<input
+												type="text" th:field="*{number}" th:errorclass="fieldError"
+												data-form-field="number" required="required"
+												placeholder="5124083976670154"
+												class="form-control display-7"
+												onchange="checkNumber()" />
+											<p th:if="${#fields.hasErrors('number')}"
+												style="color: red !important;">
+												<span th:errors="*{number}"></span>
+											</p>
+								
+											<p style="color: red !important;">
+												<span id="numberError"></span>
+											</p>
+										</div>
+							
+										<div class="col-md-6  form-group" data-for="name">
+											<label for="name-form1-17"
+												class="form-control-label mbr-fonts-style display-7"
+												style="color: #2a3d2e !important;">Mes de expiración</label>
+											<input
+												type="text" th:field="*{expirationMonth}" th:errorclass="fieldError"
+												data-form-field="expirationMonth" required="required"
+												placeholder="10"
+												class="form-control display-7"
+												onchange="checkExpirationMonth()" />
+											<p th:if="${#fields.hasErrors('expirationMonth')}"
+												style="color: red !important;">
+												<span th:errors="*{expirationMonth}"></span>
+											</p>
+								
+											<p style="color: red !important;">
+												<span id="expirationMonthError"></span>
+											</p>
+										</div>
+							
+										<div class="col-md-6  form-group" data-for="name">
+											<label for="name-form1-17"
+												class="form-control-label mbr-fonts-style display-7"
+												style="color: #2a3d2e !important;">Año de expiración</label>
+											<input
+												type="text" th:field="*{expirationYear}" th:errorclass="fieldError"
+												data-form-field="expirationYear" required="required"
+												placeholder="23"
+												class="form-control display-7"
+												onchange="checkExpirationYear()" />
+											<p th:if="${#fields.hasErrors('expirationYear')}"
+												style="color: red !important;">
+												<span th:errors="*{expirationYear}"></span>
+											</p>
+								
+											<p style="color: red !important;">
+												<span id="expirationYearError"></span>
+											</p>
+										</div>
+							
+										<div class="col-md-6  form-group" data-for="name">
+											<label for="name-form1-17"
+												class="form-control-label mbr-fonts-style display-7"
+												style="color: #2a3d2e !important;">Marca</label>
+											
+											<select th:field="*{brandName}" th:errorclass="fieldError"
+													required="required" class="form-control display-7"
+													onchange="checkBrandName()">
+												
+												<option th:each="make: ${creditCardMakes}"
+														th:value="${make}"
+														th:text="${make}" />	
+												
+											</select>
+											
+											<p th:if="${#fields.hasErrors('brandName')}"
+												style="color: red !important;">
+												<span th:errors="*{brandName}"></span>
+											</p>
+											
+											<p style="color: red !important;">
+												<span id="brandNameError"></span>
+											</p>
+										</div>
+							
+										<div class="col-md-6  form-group" data-for="name">
+											<label for="name-form1-17"
+												class="form-control-label mbr-fonts-style display-7"
+												style="color: #2a3d2e !important;">Código de seguridad</label>
+											<input
+												type="text" th:field="*{cvvCode}" th:errorclass="fieldError"
+												data-form-field="cvvCode" required="required"
+												class="form-control display-7"
+												onchange="checkCVVCode()" />
+											<p th:if="${#fields.hasErrors('cvvCode')}"
+												style="color: red !important;">
+												<span th:errors="*{cvvCode}"></span>
+											</p>
+											
+											<p style="color: red !important;">
+												<span id="cvvCodeError"></span>
+											</p>
+										</div>
+								
+										<div class="col-md-12 form-group" data-for="name"
+											th:if="${messageCode != null || messageCode != ''}">
+											<p th:text="${messageCode}" style="color: red !important;"></p>
+										</div>
+
+										<div data-for="message" class="col-md-12 form-group">
+											<span class="gdpr-block"> <label> <span
+													class="textGDPR" style="color: #a7a7a7"><input
+														type="checkbox" name="gdpr" id="gdpr-form1-17" required="">
+														Para publicar una parcela debes aceptar nuestras <a
+														target="_blank"
+														style="color: #149dcc; text-decoration: none;"
+														href="/miscellaneous/condiciones-arrendamiento">condiciones
+															de arrendamiento</a>. </span>
+											</label>
+											</span>
+										</div>
+	
+										<!-- Display mandate acceptance text. -->
+	
+										<button id="confirm-mandate" name="saveRent" type="submit"
+											class="btn btn-form btn-secondary display-4">Pagar</button>
+									</div>
+								</form>
+								<!--
 								<form sec:authorize="hasAuthority('RENTER')" id="payment-form"
 									style="display: none;"
 									th:action="@{'/renter/smallholding/rent?smallholdingId=' + ${smallholding.id}}"
@@ -207,12 +366,11 @@
 										</span>
 									</div>
 
-									<!-- Display mandate acceptance text. -->
 
 									<button id="confirm-mandate" name="saveRent" type="submit"
 										class="btn btn-form btn-secondary display-4">Pagar</button>
 								</form>
-
+								-->
 
 							</div>
 
