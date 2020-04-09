@@ -25,9 +25,6 @@ import com.ispp.EcoRenter.repository.PhotoRepository;
 public class PhotoService {
 
 	private static final Log log = LogFactory.getLog(PhotoService.class);
-
-	// Tamaño máximo
-	private static final long MAX_SIZE = 5242880l;
 	
 	@Autowired
 	private PhotoRepository photoRepository;
@@ -117,6 +114,12 @@ public class PhotoService {
 		this.photoRepository.deleteById(photoId);
 	}
 
+	public void deleteAll(Collection<Photo> photos) {
+		Assert.notEmpty(photos, "No debe estar vacio");
+		
+		this.photoRepository.deleteAll(photos);
+	}
+	
 	public Collection<Photo> findPhotosBySmallholdingId(int smallholdingId){
 		Collection<Photo> result;
 
@@ -140,7 +143,7 @@ public class PhotoService {
 		
 		custo = this.customisationService.find();
 		
-		if (StringUtils.hasText(fileName) && !contentType.equals("application/octet-stream")) {		
+		if (this.isNotDefaultFile(file)) {		
 			Assert.isTrue(file.getSize() < custo.getMaxSizePhotoBytes(),
 						  "La imagen supera el tamaño máximo");
 			Assert.isTrue(contentType.startsWith("image/"), "No es una imagen");
@@ -161,6 +164,42 @@ public class PhotoService {
 	
 	public Photo getPhotoById(int id) {
 		return this.photoRepository.findPhotoById(id);
+	}
+	
+	public boolean isNotDefaultFile(MultipartFile file) {
+		boolean result;
+		String filename, contentType;
+		
+		filename = StringUtils.cleanPath(file.getOriginalFilename());
+		contentType = file.getContentType();
+			
+		result = StringUtils.hasText(filename) && !contentType.equals("application/octet-stream");
+		
+		return result;
+	}
+	
+	public boolean isNotDefaultFile(Collection<MultipartFile> files) {
+		List<MultipartFile> ls_files;
+		MultipartFile file;
+		boolean result;
+		
+		ls_files = new ArrayList<MultipartFile>(files);
+		file = ls_files.get(0);
+		
+		result = this.isNotDefaultFile(file);
+		
+		return result;
+	}
+	
+	public List<String> getAttrs(Photo photo) {
+		List<String> results;
+		
+		results = new ArrayList<String>();
+		results.add(photo.getName());
+		results.add(photo.getSuffix());
+		results.add(this.getImageBase64(photo));
+		
+		return results;
 	}
 	
 }

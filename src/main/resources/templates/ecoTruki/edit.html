@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+	<html xmlns:th="http://www.thymeleaf.org"
+		  th:replace="~{master-page/layout :: layout(~{::title}, ~{::div.content})}">
+
+		<head>
+			<title th:text="${ecoTrukiForm.id != 0 ? 'Editar Eco truki' : 'Crear Eco truki'}">
+				Crear Eco truki
+			</title>
+		</head>
+
+		<body>
+			<div class="content">
+				<br> <br> <br> <br>
+				<div class="container">
+					<div class="row justify-content-center">
+						<div class="title col-12 col-lg-8">
+							<h2 class="mbr-section-title align-center pb-3 mbr-fonts-style display-2"
+								style="color: #2a3d2e !important;"
+								th:text="${ecoTrukiForm.id != 0 ? 'Editar Eco truki' : 'Crear Eco truki'}">Editar Eco truki
+								</h2>
+						</div>
+					</div>
+				</div>
+
+				<div class="container">
+					<div class="row justify-content-center">
+						<div class="media-container-column col-lg-6"
+							 data-form-type="formoid">
+		
+							<form th:action="@{/eco-truki/administrator/edit}" id="myForm"
+								th:object="${ecoTrukiForm}" method="post"
+								enctype="multipart/form-data"
+								onsubmit="return validateEcoTruki()"
+								class="mbr-form form-with-styler" data-form-title=" Form">
+								
+								<input type="hidden" th:field="*{id}" />
+								
+								<div>
+									<div class="col-md-4  form-group" data-for="name">
+										<label>Título:</label>
+										<input type="text" th:field="*{title}"
+										       required="required" th:errorclass="fieldError" />
+										
+										<p th:if="${#fields.hasErrors('title')}"
+											style="color: red !important;">
+											<span th:errors="*{title}"></span>
+										</p>
+									</div>
+		
+									<div class="col-md-4  form-group" data-for="name">
+										<label>Descripción:</label>
+										<textarea rows="5" cols="50" th:field="*{description}" required="required"
+												  th:errorclass="fieldError">
+										</textarea>
+										
+										<p th:if="${#fields.hasErrors('description')}"
+											style="color: red !important;">
+											<span th:errors="*{description}"></span>
+										</p>
+									</div>
+		
+									<div class="col-md-12  form-group" data-for="name">
+										<label for="name-form1-17"
+												class="form-control-label mbr-fonts-style display-7"
+												style="color: #2a3d2e !important;"
+												th:text="'Seleccionar foto de
+												perfil (Tamaño máximo de ' + ${maxSizePhoto} + 'MB)'"></label>
+									
+										<input type="file" th:field="*{files}" id="file" accept="image/*"
+											   multiple="multiple" onchange="checkEcoTrukiFiles()"
+											   th:required="${ecoTrukiForm.id == 0 ? true : false}"/>
+										
+										<p th:if="${#fields.hasErrors('files')}"
+										   style="color: red !important;">
+											<span th:errors="*{files}"></span>
+										</p>
+										
+										<p style="color: red !important;"> 
+											<span id="ecoTrukifilesError"></span>
+										</p>
+										
+										<p style="color: red !important;"
+										   th:if="${messagePhoto != null && messagePhoto != ''}"
+										   th:text="${messagePhoto}"> 
+										</p>
+									</div>
+									
+									<div class="col-md-12 form-group" data-for="name"
+										 th:if="${messageCode != null && messageCode != ''}">
+										<p th:text="${messageCode}"
+										   style="color: red !important;"></p>
+									</div>
+		
+									<div data-for="message" class="col-md-12 form-group">
+										<div class="col-md-12 input-group-btn align-center">
+											<button name="save" type="submit"
+												class="btn btn-form btn-secondary display-4">Guardar
+											</button>
+											<button th:if="${ecoTrukiForm.id > 0}"
+											        name="delete" type="submit"
+												    class="btn btn-form btn-secondary display-4">Eliminar
+											</button>
+		
+											<a th:href="@{/eco-truki/authenticated/list}"
+											   class="btn btn-warning-outline display-4"> Volver </a>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</body>
+	</html>

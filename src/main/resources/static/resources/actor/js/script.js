@@ -21,6 +21,30 @@ function checkTelephoneNumber() {
 	return error;
 }
 
+function checkSizeFiles() {
+	var ls_files = document.getElementById("file");
+	var files = ls_files.files;
+	var sixeMax = 5 * 1024 * 1024;
+	var error = "";
+	var result;
+	
+	var n = files.length;
+	if (n > 0) {
+		for (var i=0;i<n;i++) {
+			result = files[i].size > sixeMax;
+			
+			if (result) {
+				error = "Existe una imagen seleccionada que supera los 5MB";
+				break;
+			}
+		}
+	}
+	
+	document.getElementById("fileError").innerHTML = error;
+	
+	return error;
+}
+
 function checkSizeFile() {
 	var ls_files = document.getElementById("file");
 	var files = ls_files.files;
