@@ -188,13 +188,16 @@
 								</p>
 							</div>
 							<div class="col-md-12  form-group" data-for="name">
-								<input th:if="${smallholding.id == 0}" type="file" id="fileid" name="file" accept="image/*"
+								<input th:if="${smallholding.id == 0}" onchange="checkSizeFiles()" id="file" type="file" name="file" accept="image/*"
 									multiple="multiple" required="required"/>
-								<input th:if="${smallholding.id != 0}" type="file" id="fileid" name="file" accept="image/*"
+								<input th:if="${smallholding.id != 0}" onchange="checkSizeFiles()" id="file" type="file" name="file" accept="image/*"
 									multiple="multiple"/>
 								<p th:if="${#fields.hasErrors('photos')}"
 								style="color: red !important;">
 								<span th:errors="*{photos}"></span>
+								</p>
+								<p style="color: red !important;"> 
+									<span id="fileError"></span>
 								</p>
 							</div>
 							

@@ -58,6 +58,10 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 					class="nav-link link text-secondary display-4" th:href="@{/providerDiscountCode/list}"
 					aria-expanded="false">Códigos de descuento</a></li>
 
+				<li sec:authorize="isAuthenticated()" class="nav-item"><a
+					class="nav-link link text-secondary display-4" th:href="@{/eco-truki/authenticated/list}"
+					aria-expanded="false">Eco Trukis</a></li>
+				
 				<li sec:authorize="isAnonymous()" class="nav-item"><a
 					class="nav-link link text-secondary display-4" th:href="@{/actor/owner/register}"
 					aria-expanded="false">Registro (Propietario)</a></li>
