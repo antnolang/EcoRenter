@@ -85,17 +85,12 @@ public class CreditCardService {
 		Assert.isTrue(this.getCreditCardMakes().contains(creditCard.getBrandName()),
 					  "Marca desconocida");
 		
-		int creditCardId;
 		CreditCard result;
-		
-		creditCardId = creditCard.getId();
-		
+			
 		result = this.creditCardRepository.saveAndFlush(creditCard);
 		
-		if (creditCardId == 0) {
-			// Actualizamos Renter::creditCards
-			this.renterService.addCreditCard(renter, result);
-		}
+		// Actualizamos Renter::creditCards
+		this.renterService.addCreditCard(renter, result);
 		
 		return result;
 	}

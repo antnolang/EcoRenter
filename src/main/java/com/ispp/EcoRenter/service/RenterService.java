@@ -2,6 +2,7 @@ package com.ispp.EcoRenter.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,6 +73,11 @@ public class RenterService {
     	
     	
     	result.setUserAccount(userAccount);
+    	result.setCreditCards(Collections.emptySet());
+    	
+    	//TODO: A la espera de lo que nos diga Fernando para
+    	// quitar Renter::iban. Mientras tanto, lo mantenemos
+    	result.setIban("ES1031903747351357512213");
     	
     	return result;
     	
