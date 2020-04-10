@@ -3,6 +3,7 @@
 
 <head>
     <title>Catálogo de parcelas</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -35,7 +36,35 @@
                                 Buscar
                             </button>
                         </form>
+						<form class="form-inline" th:if="${requestURI == 'smallholding/list'}" sec:authorize="hasAuthority('RENTER')" th:action="@{/renter/smallholding/filter}" method="post">
+						<button type="button" class="btn-secondary col-md-2" data-toggle="modal" data-target="#myModal">
+      Ver en Mapa
+    </button>
+						</form>
                     </div>
+
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Ver mapa</h4>
+        	<button type="button" class="close col-md-1" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          
+		</div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 modal_body_map">
+              <div class="location-map" id="location-map">
+                <div style="width: 600px; height: 400px;" id="map"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
                     <!--Card-1-->
                     <div class="card col-12 col-md-6 p-3 col-lg-3" th:each="sh : ${smallholdingPage}">
@@ -119,8 +148,10 @@
                             };
 
                             map = new google.maps.Map(document.getElementById('map'), {
-                                center: latLng,
-                                zoom: 7
+                                zoom: 6,
+								center: latLng,
+								zoomControl: true,
+                                mapTypeId: google.maps.MapTypeId.ROADMAP
                             });
 
                             var i = 0;
@@ -146,6 +177,19 @@
                             });
 
                         }
+
+$('#myModal').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget);
+    initMap();
+    $("#location-map").css("width", "100%");
+    $("#map").css("width", "100%");
+
+  });
+
+$('#myModal').on('shown.bs.modal', function() {
+    google.maps.event.trigger(map, "resize");
+    map.setCenter(myLatlng);
+  });
                     </script>
                     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAB58EHyhLWDPcDS56wNgCig1GK_cDp7xs&callback=initMap" async defer></script>
 
@@ -157,6 +201,10 @@
         </section>
 
         </div>
+<script th:src="//ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script th:src="//maps.googleapis.com/maps/api/js"></script>
+  <script th:src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script th:src="script.js"></script>
 </body>
 
 </html>
