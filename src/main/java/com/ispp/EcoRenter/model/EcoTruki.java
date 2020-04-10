@@ -84,6 +84,4 @@ public class EcoTruki extends DomainEntity {
 		this.photos = photos;
 	}
 	
-	
-	
 }

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+	<html th:replace="~{master-page/layout :: layout(~{::title}, ~{::div.content})}">
+	
+		<head>
+			<title>Detalles de eco truki</title>
+		</head>
+
+		<body>
+			<div class="container content">
+				<br> <br> <br> <br>
+				
+				<div class="row">
+					<div>
+						<h1> Detalles del Eco truki </h1>
+						
+						<div class="mbr-figure" style="width: 50%;">
+							<div class="mySlider">
+								<div class="jumboslider-viewport">
+									<div class="jumboslider-overview"
+										th:each="photo : ${ecoTruki.photos}">
+										<div class="jumboslider-item">
+											<img class="d-block w-100"
+												th:src="@{'data:' + ${photo.suffix} + ';base64, ' + ${mapa.get(photo.id)}}"
+												th:alt="${photo.name}" width="100%">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						
+						<div class="mbr-section-text">
+							<h2 th:text="${ecoTruki.title}"> </h2>
+							
+							<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
+								<span th:text="${ecoTruki.description}"></span>
+							</p>
+						</div>
+		
+					</div>
+				</div>
+				
+				
+				<div class="row">	
+					<div>
+						<div class="mbr-section-btn pt-3 ">
+							<a class="btn btn-secondary-outline display-4"
+							   th:href="@{/eco-truki/authenticated/list}">
+								Volver atrás </a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</body>
+	</html>

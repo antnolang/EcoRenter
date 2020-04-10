@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{master-page/layout :: layout(~{::title}, ~{::div.content})}">
+	<head>
+		<title>Listado de Eco trukis</title>
+	</head>
+	
+	<body>
+		<div class="content">
+			<section class="services1 cid-rRNjW9YKmG" id="services1-6">
+				<div class="container">
+	        		<div class="row justify-content-center">
+	        
+	            		<div class="title pb-5 col-12">
+	                		<h2 class="align-left pb-3 mbr-fonts-style display-2 text-center">
+								Listado de Eco trukis</h2>
+	            		</div>
+	
+			            <div class="card col-12 col-md-6 p-3 col-lg-3"
+			            	 th:if="${tam > 0 && hasAccess}"
+			                 th:each="et : ${ecoTrukis}" >
+			                
+			                <div class="card-wrapper">
+			                	<!-- Imagen principal del eco truki: la imagen actua como
+			                	     enlace para mostrar el eco truki
+			                	-->
+			                	<div class="card-img">
+		                        	<a th:href="@{/eco-truki/authenticated/display(ecoTrukiId=${et.id})}">
+		                        		<img th:src="@{'data:' + ${mapa.get(et.id)[1]} + ';base64, ' + ${mapa.get(et.id)[2]}}"
+		                        	         th:alt="${mapa.get(et.id)[0]}" />
+		                        	</a> 
+		                        </div>
+				                
+				                <!-- Datos del eco truki -->
+								<div class="card-box ">
+			                        <p class="mbr-text mbr-fonts-style display-7 text-center">
+			                        	<span th:text="${et.title}"></span>
+			                        </p>
+			                         
+			                        <p class="mbr-text mbr-fonts-style display-7 text-center">
+			                        	<span th:text="${#dates.format(et.moment, 'dd/MM/yyyy HH:mm')}">
+			                        	</span>
+			                        </p>
+			                    </div>
+			                    
+			                    <!-- Enlace de edicion -->
+			                    <div sec:authorize="hasAuthority('ADMIN')"
+			                         class="mbr-section-btn align-center"
+			                    	 style="text-align: center !important;">
+			                    	 <a th:href="@{/eco-truki/administrator/edit(ecoTrukiId=${et.id})}"
+			                    	    class="btn btn-warning-outline display-4">Editar</a>
+			                    </div>
+			                </div>			                
+						</div>				
+				 		
+				 		<!-- PAGINACION -->
+						<div th:if="${tam > 0 && hasAccess}" class="container">
+							<div class="row justify-content-center">
+								<div th:each="pageNumber : ${pages}">
+									<nav aria-label="Page navigation example">
+										<ul class="pagination">
+											<li th:class="${pageNumber == selectedPage} ? 'page-item active' : 'page-item'">
+												<a th:href="@{/eco-truki/authenticated/list(page=${pageNumber})}"
+												   th:text=${pageNumber} class="page-link"></a>
+											</li>
+										</ul>
+									</nav>
+								</div>
+							</div>
+						</div>
+					
+						<div th:if="${tam == 0}">
+							<span>No existen resultados</span>
+						</div>   
+						
+					
+						<div th:if="${!hasAccess}">
+							<h2>Para poder visualizar los Eco trukis debe de tener al menos un alquiler activo</h2>
+						</div>
+						
+						
+						<div sec:authorize="hasAuthority('ADMIN')"
+						     class="col-md-12 input-group-btn">
+							<a th:href="@{/eco-truki/administrator/create}"
+								class="btn btn-secondary-outline display-4">Crear eco truki</a>
+						</div> 
+					</div>
+    			</div>
+			</section>
+		</div>
+	</body>
+</html>
