@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import com.ispp.EcoRenter.model.EcoTruki;
 import com.ispp.EcoRenter.service.EcoTrukiService;
@@ -20,6 +21,7 @@ public class EcoTrukiServiceTest {
 	@Autowired
 	private EcoTrukiService ecoTrukiService;
 	
+	@WithMockUser("admin1")
 	@Test
 	@Transactional
 	public void test_findOne() {
@@ -32,6 +34,7 @@ public class EcoTrukiServiceTest {
 		assertNotNull(ecoTruki);
 	}
 	
+	@WithMockUser("admin1")
 	@Test
 	public void test_findAll() {
 		Page<EcoTruki> all;
