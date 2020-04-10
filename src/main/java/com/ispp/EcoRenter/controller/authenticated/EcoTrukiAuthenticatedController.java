@@ -56,7 +56,8 @@ public class EcoTrukiAuthenticatedController {
 		Map<Integer, List<String>> mapa;
 		ModelAndView result;
 		Page<EcoTruki> ecoTrukis;
-		int val_page, totalPages;
+		int val_page;
+		int totalPages;
 		boolean hasAccess;
 		List<Integer> pages;
 		

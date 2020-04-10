@@ -170,7 +170,8 @@ public class PhotoService {
 	
 	public boolean isNotDefaultFile(MultipartFile file) {
 		boolean result;
-		String filename, contentType;
+		String filename;
+		String contentType;
 		
 		filename = StringUtils.cleanPath(file.getOriginalFilename());
 		contentType = file.getContentType();

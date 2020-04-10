@@ -106,8 +106,10 @@ public class EcoTrukiService {
 	public EcoTruki save(EcoTrukiForm ecoTrukiForm) {
 		Assert.notNull(ecoTrukiForm, "No se pudo completar la operación");
 		
-		EcoTruki ecoTruki, result;
-		String title, description;
+		EcoTruki ecoTruki;
+		EcoTruki result;
+		String title;
+		String description;
 		int id;
 		
 		id = ecoTrukiForm.getId();
