@@ -25,7 +25,7 @@
 			                	-->
 			                	<div class="card-img">
 		                        	<a th:href="@{/eco-truki/authenticated/display(ecoTrukiId=${et.id})}">
-		                        		<img th:src="@{'data:' + ${mapa.get(et.id)[1]} + ';base64, ' + ${mapa.get(et.id)[2]}}"
+		                        		<img id="fotosListado" th:src="@{'data:' + ${mapa.get(et.id)[1]} + ';base64, ' + ${mapa.get(et.id)[2]}}"
 		                        	         th:alt="${mapa.get(et.id)[0]}" />
 		                        	</a> 
 		                        </div>
@@ -37,8 +37,9 @@
 			                        </p>
 			                         
 			                        <p class="mbr-text mbr-fonts-style display-7 text-center">
-			                        	<span th:text="${#dates.format(et.moment, 'dd/MM/yyyy HH:mm')}">
-			                        	</span>
+			                        	
+			                        	<span class="liveTime" th:text="${et.moment}"></span> <i
+											class="fas fa-clock"></i>
 			                        </p>
 			                    </div>
 			                    
@@ -79,10 +80,44 @@
 						
 						
 						<div sec:authorize="hasAuthority('ADMIN')"
-						     class="col-md-12 input-group-btn">
+						     class="col-md-12 input-group-btn text-center">
 							<a th:href="@{/eco-truki/administrator/create}"
 								class="btn btn-secondary-outline display-4">Crear eco truki</a>
 						</div> 
+						
+												<script>
+							$('.liveTime').liveTimeAgo({
+								translate : {
+
+									'year' : 'Publicado hace % año',
+
+									'years' : 'Publicado hace % años',
+
+									'month' : 'Publicado hace % mes',
+
+									'months' : 'Publicado hace % meses',
+
+									'day' : 'Publicado hace % día',
+
+									'days' : 'Publicado hace % días',
+
+									'hour' : 'Publicado hace % hora',
+
+									'hours' : 'Publicado hace % horas',
+
+									'minute' : 'Publicado hace % minuto',
+
+									'minutes' : 'Publicado hace % minutos',
+
+									'seconds' : 'Publicado hace pocos segundos',
+
+									'error' : ' ',
+
+								}
+
+							});
+						</script>
+						
 					</div>
     			</div>
 			</section>

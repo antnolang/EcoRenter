@@ -53,3 +53,18 @@
     .card{
     margin-bottom: 10px;
     }
+    
+	.page-item.active .page-link{
+    
+    color: white !important;
+	background-color: #54775E  !important;
+	border-color: #54775E  !important;
+	
+    }
+    
+    .page-item .page-link{
+    
+    color:  #54775E  !important;
+	border-color: #54775E  !important;
+	
+    }

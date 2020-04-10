@@ -1,5 +1,7 @@
 package com.ispp.EcoRenter.controller.authenticated;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ispp.EcoRenter.model.EcoTruki;
+import com.ispp.EcoRenter.model.Photo;
 import com.ispp.EcoRenter.service.EcoTrukiService;
 import com.ispp.EcoRenter.service.PhotoService;
 import com.ispp.EcoRenter.service.UtilityService;
@@ -36,17 +39,22 @@ public class EcoTrukiAuthenticatedController {
 	
 	@GetMapping("/display")
 	public ModelAndView display(@RequestParam int ecoTrukiId) {
-		Map<Integer,String> mapa;
 		ModelAndView result;
 		EcoTruki ecoTruki;
+		Map<Photo,String> photo_imageData;
+		Collection<Photo> photos;
+		photo_imageData = new HashMap<Photo,String>();
 		
 		ecoTruki = this.ecoTrukiService.findOne(ecoTrukiId);
 		
-		mapa = this.photoService.getEncodedDataByPhoto(ecoTruki.getPhotos());
+		photos = this.photoService.findPhotosByEcoTrukiId(ecoTruki.getId());
+		
+		for(Photo p: photos)
+			photo_imageData.put(p, this.photoService.getImageBase64(p));
 		
 		result = new ModelAndView("ecoTruki/display");
 		result.addObject("ecoTruki", ecoTruki);
-		result.addObject("mapa", mapa);
+		result.addObject("photo_imageData", photo_imageData);
 		
 		return result;
 	}

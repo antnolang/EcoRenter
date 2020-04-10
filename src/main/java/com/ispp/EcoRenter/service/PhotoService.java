@@ -219,5 +219,14 @@ public class PhotoService {
 		
 		return results;
 	}
+
+	public Collection<Photo> findPhotosByEcoTrukiId(int id) {
+		Collection<Photo> result;
+
+		result = this.photoRepository.findPhotosByEcoTrukiId(id);
+
+		return result;
+	
+	}
 	
 }

@@ -7,21 +7,29 @@
 
 		<body>
 			<div class="container content">
+			<style>
+			body{
+			color: #2a3d2e !important;
+			}
+			</style>
 				<br> <br> <br> <br>
+				<h1 style="text-align: center !important;"> Detalles del Eco truki </h1>
 				
-				<div class="row">
-					<div>
-						<h1> Detalles del Eco truki </h1>
-						
+
+
+			<div class="container">
+				<div class="col-md-12">
+					<div class="media-container-row">
+
 						<div class="mbr-figure" style="width: 50%;">
 							<div class="mySlider">
 								<div class="jumboslider-viewport">
 									<div class="jumboslider-overview"
-										th:each="photo : ${ecoTruki.photos}">
+										th:each="ph_im,iterador : ${photo_imageData}">
 										<div class="jumboslider-item">
 											<img class="d-block w-100"
-												th:src="@{'data:' + ${photo.suffix} + ';base64, ' + ${mapa.get(photo.id)}}"
-												th:alt="${photo.name}" width="100%">
+												th:src="@{'data:' + ${ph_im.key.suffix} + ';base64, ' + ${ph_im.value}}"
+												th:alt="${ph_im.key.name}" width="100%">
 										</div>
 									</div>
 								</div>
@@ -29,27 +37,67 @@
 						</div>
 						
 						
-						<div class="mbr-section-text">
+						
+						
+						
+						<div class="col-md-6" style="margin-top: 50px;">
 							<h2 th:text="${ecoTruki.title}"> </h2>
 							
 							<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
 								<span th:text="${ecoTruki.description}"></span>
 							</p>
+							<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
+								<span class="liveTime" th:text="${ecoTruki.moment}"></span> <i
+											class="fas fa-clock"></i>
+							</p>
 						</div>
 		
-					</div>
+					
 				</div>
 				
 				
-				<div class="row">	
-					<div>
-						<div class="mbr-section-btn pt-3 ">
+				
+				
+						<div class="mbr-section-btn pt-3 text-center">
 							<a class="btn btn-secondary-outline display-4"
 							   th:href="@{/eco-truki/authenticated/list}">
 								Volver atrás </a>
 						</div>
-					</div>
-				</div>
+						
+						<script>
+							$('.liveTime').liveTimeAgo({
+								translate : {
+
+									'year' : 'Publicado hace % año',
+
+									'years' : 'Publicado hace % años',
+
+									'month' : 'Publicado hace % mes',
+
+									'months' : 'Publicado hace % meses',
+
+									'day' : 'Publicado hace % día',
+
+									'days' : 'Publicado hace % días',
+
+									'hour' : 'Publicado hace % hora',
+
+									'hours' : 'Publicado hace % horas',
+
+									'minute' : 'Publicado hace % minuto',
+
+									'minutes' : 'Publicado hace % minutos',
+
+									'seconds' : 'Publicado hace pocos segundos',
+
+									'error' : ' ',
+
+								}
+
+							});
+						</script>
+					
+				
 			</div>
 		</body>
 	</html>
