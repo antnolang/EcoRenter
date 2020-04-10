@@ -20,6 +20,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.HtmlUtils;
 
 import com.ispp.EcoRenter.form.EcoTrukiForm;
 import com.ispp.EcoRenter.model.EcoTruki;
@@ -67,7 +68,7 @@ public class EcoTrukiService {
 		Pageable pageable;
 		Sort sort;
 		
-		sort = Sort.by(Direction.ASC, "moment");
+		sort = Sort.by(Direction.DESC, "moment");
 		pageable = PageRequest.of(page-1, UtilityService.LIMIT, sort);
 		
 		results = this.ecoTrukiRepository.findAll(pageable);
@@ -110,13 +111,16 @@ public class EcoTrukiService {
 		int id;
 		
 		id = ecoTrukiForm.getId();
-		title = ecoTrukiForm.getTitle().trim();
-		description = ecoTrukiForm.getDescription().trim();
+		title = HtmlUtils.htmlEscape(ecoTrukiForm.getTitle().trim());
+		description = HtmlUtils.htmlEscape(ecoTrukiForm.getDescription().trim());
 		
 		ecoTruki = (id <= 0) ? this.create() : this.findOne(id);
 		ecoTruki.setTitle(title);
 		ecoTruki.setDescription(description);
-		ecoTruki.setMoment(this.utilityService.getCurrentMoment());
+		
+		if (id <= 0) {
+			ecoTruki.setMoment(this.utilityService.getCurrentMoment());
+		}
 		
 		// Persistimos en BD
 		result = this.save(ecoTruki, ecoTrukiForm.getFiles());

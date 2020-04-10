@@ -3,7 +3,9 @@ package com.ispp.EcoRenter.service;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -198,6 +200,21 @@ public class PhotoService {
 		results.add(photo.getName());
 		results.add(photo.getSuffix());
 		results.add(this.getImageBase64(photo));
+		
+		return results;
+	}
+	
+	public Map<Integer,String> getEncodedDataByPhoto(Collection<Photo> photos) {
+		Map<Integer,String> results;
+		String encodedData;
+		
+		results = new HashMap<Integer, String>();
+		
+		for (Photo photo: photos) {
+			encodedData = this.getImageBase64(photo);
+			
+			results.put(photo.getId(), encodedData);
+		}
 		
 		return results;
 	}

@@ -20,13 +20,17 @@
 			                 th:each="et : ${ecoTrukis}" >
 			                
 			                <div class="card-wrapper">
+			                	<!-- Imagen principal del eco truki: la imagen actua como
+			                	     enlace para mostrar el eco truki
+			                	-->
 			                	<div class="card-img">
 		                        	<a th:href="@{/eco-truki/authenticated/display(ecoTrukiId=${et.id})}">
 		                        		<img th:src="@{'data:' + ${mapa.get(et.id)[1]} + ';base64, ' + ${mapa.get(et.id)[2]}}"
-		                        	     th:alt="${mapa.get(et.id)[0]}" />
+		                        	         th:alt="${mapa.get(et.id)[0]}" />
 		                        	</a> 
 		                        </div>
 				                
+				                <!-- Datos del eco truki -->
 								<div class="card-box ">
 			                        <p class="mbr-text mbr-fonts-style display-7 text-center">
 			                        	<span th:text="${et.title}"></span>
@@ -38,7 +42,9 @@
 			                        </p>
 			                    </div>
 			                    
-			                    <div class="mbr-section-btn align-center"
+			                    <!-- Enlace de edicion -->
+			                    <div sec:authorize="hasAuthority('ADMIN')"
+			                         class="mbr-section-btn align-center"
 			                    	 style="text-align: center !important;">
 			                    	 <a th:href="@{/eco-truki/administrator/edit(ecoTrukiId=${et.id})}"
 			                    	    class="btn btn-warning-outline display-4">Editar</a>
@@ -46,9 +52,10 @@
 			                </div>			                
 						</div>				
 				 		
+				 		<!-- PAGINACION -->
 						<div th:if="${tam > 0 && hasAccess}" class="container">
 							<div class="row justify-content-center">
-								<div  th:each="pageNumber : ${pages}">
+								<div th:each="pageNumber : ${pages}">
 									<nav aria-label="Page navigation example">
 										<ul class="pagination">
 											<li th:class="${pageNumber == selectedPage} ? 'page-item active' : 'page-item'">
@@ -67,7 +74,7 @@
 						
 					
 						<div th:if="${!hasAccess}">
-							<h2>Para poder visualizar los Eco truki debe de tener al menos un alquiler activo</h2>
+							<h2>Para poder visualizar los Eco trukis debe de tener al menos un alquiler activo</h2>
 						</div>
 						
 						

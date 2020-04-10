@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -28,10 +29,23 @@ public class UtilityService {
 	@Autowired
 	private SmallholdingService smallholdingService;
 	
+	
 	public UtilityService() {
 		super();
 	}
 
+	
+	public int getValidSelectedPage(Optional<Integer> page) {
+		int result;
+		
+		result = page.orElse(1);
+		
+		if (result < 1) {
+			result = 1;
+		}
+		
+		return result;
+	}
 	
 	public boolean hasAccessToExclusiveContent() {
 		Collection<Smallholding> smallholdings;

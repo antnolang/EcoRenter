@@ -17,7 +17,7 @@
 							<h2 class="mbr-section-title align-center pb-3 mbr-fonts-style display-2"
 								style="color: #2a3d2e !important;"
 								th:text="${ecoTrukiForm.id != 0 ? 'Editar Eco truki' : 'Crear Eco truki'}">Editar Eco truki
-								</h2>
+							</h2>
 						</div>
 					</div>
 				</div>
@@ -49,8 +49,9 @@
 		
 									<div class="col-md-4  form-group" data-for="name">
 										<label>Descripción:</label>
-										<textarea rows="5" cols="50" th:field="*{description}" required="required"
-												  th:errorclass="fieldError">
+										<textarea rows="5" cols="50" th:field="*{description}"
+												  maxlength="255"
+												  required="required" th:errorclass="fieldError">
 										</textarea>
 										
 										<p th:if="${#fields.hasErrors('description')}"
@@ -63,8 +64,8 @@
 										<label for="name-form1-17"
 												class="form-control-label mbr-fonts-style display-7"
 												style="color: #2a3d2e !important;"
-												th:text="'Seleccionar foto de
-												perfil (Tamaño máximo de ' + ${maxSizePhoto} + 'MB)'"></label>
+												th:text="'Seleccionar imágenes
+												(Tamaño máximo de ' + ${maxSizePhoto} + 'MB por cada imagen)'"></label>
 									
 										<input type="file" th:field="*{files}" id="file" accept="image/*"
 											   multiple="multiple" onchange="checkEcoTrukiFiles()"

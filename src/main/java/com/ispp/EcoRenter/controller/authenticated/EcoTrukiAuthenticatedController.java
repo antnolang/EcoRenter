@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ispp.EcoRenter.model.EcoTruki;
 import com.ispp.EcoRenter.service.EcoTrukiService;
+import com.ispp.EcoRenter.service.PhotoService;
 import com.ispp.EcoRenter.service.UtilityService;
 
 @Controller
@@ -24,6 +25,9 @@ public class EcoTrukiAuthenticatedController {
 	private EcoTrukiService ecoTrukiService;
 	
 	@Autowired
+	private PhotoService photoService;
+	
+	@Autowired
 	private UtilityService utilityService;
 	
 	public EcoTrukiAuthenticatedController() {
@@ -32,13 +36,17 @@ public class EcoTrukiAuthenticatedController {
 	
 	@GetMapping("/display")
 	public ModelAndView display(@RequestParam int ecoTrukiId) {
+		Map<Integer,String> mapa;
 		ModelAndView result;
 		EcoTruki ecoTruki;
 		
 		ecoTruki = this.ecoTrukiService.findOne(ecoTrukiId);
 		
+		mapa = this.photoService.getEncodedDataByPhoto(ecoTruki.getPhotos());
+		
 		result = new ModelAndView("ecoTruki/display");
 		result.addObject("ecoTruki", ecoTruki);
+		result.addObject("mapa", mapa);
 		
 		return result;
 	}
@@ -52,7 +60,7 @@ public class EcoTrukiAuthenticatedController {
 		boolean hasAccess;
 		List<Integer> pages;
 		
-		val_page = page.orElse(1);
+		val_page = this.utilityService.getValidSelectedPage(page);
 		
 		ecoTrukis = this.ecoTrukiService.findAll(val_page);
 		
