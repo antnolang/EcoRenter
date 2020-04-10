@@ -38,7 +38,7 @@
                                             <th class="head-item mbr-fonts-style display-7">
                                                 Nombre</th>
                                             <th class="head-item mbr-fonts-style display-7">
-                                                Eliminar</th>
+                                            </th>
                                         </tr>
                                     </thead>
 
@@ -47,7 +47,12 @@
                                         <tr th:each="a: ${actorPage}">
 
                                             <td class="body-item mbr-fonts-style display-7" th:text="${a.userAccount.username}"></td>
-                                            <td class="body-item mbr-fonts-style display-7"><a th:href="@{~/actor/administrator/delete?actorId=} + ${a.id}" class="btn-outline display-7">Eliminar este usuario</a></td>
+                                            <td class="body-item mbr-fonts-style display-7">
+                                                <button type="button" class="btn-info col-md-7" data-toggle="modal" data-target="#modalDelete">
+                                                    Eliminar
+                                                </button>
+                                            </td>
+
                                         </tr>
                                     </tbody>
                                 </table>
@@ -67,6 +72,42 @@
                                     <div class="col-md-6"></div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal" id="modalDelete" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content" style="width: 600px; height:300px;">
+                        <div class="modal-header">
+                            <button type="button" class="close col-md-1" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>¿Está seguro que desea eliminar al usuario?</p>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <div class="container">
+                                <div class="row justify-content-center">
+                                    <div class="media-container-column col-lg-12" data-form-type="formoid">
+
+                                        <form class="mbr-form form-with-styler">
+                                            <div class="dragArea row">
+                                                <div class="col-md-6 input-group-btn align-center">
+                                                    <a th:href="@{/actor/administrator/deleteActor}" class="col-md-12 btn btn-warning-outline display-4"> Volver
+                                            </a>
+                                                </div>
+                                                <div class="col-md-6 input-group-btn align-center">
+                                                    <a th:href="@{/actor/administrator/deleteActor}" class="col-md-12 btn btn-secondary display-4">Eliminar</a>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

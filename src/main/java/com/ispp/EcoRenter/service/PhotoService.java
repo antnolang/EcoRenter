@@ -44,11 +44,7 @@ public class PhotoService {
 
 		optionalPhoto = this.photoRepository.findById(photoId);
 
-		if (optionalPhoto.isPresent()) {
-			result = optionalPhoto.get();
-		} else {
-			result = null;
-		}
+		result = optionalPhoto.orElse(null);
 
 		return result;
 	}

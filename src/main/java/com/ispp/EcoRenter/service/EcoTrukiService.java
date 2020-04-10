@@ -86,7 +86,7 @@ public class EcoTrukiService {
 		return result;
 	}
 	
-	public EcoTruki save(EcoTruki ecoTruki, Set<MultipartFile> files) {
+	private EcoTruki save(EcoTruki ecoTruki, Set<MultipartFile> files) {
 		Assert.notNull(ecoTruki, "No se pudo completar la operación");
 		
 		Collection<Photo> photos;
