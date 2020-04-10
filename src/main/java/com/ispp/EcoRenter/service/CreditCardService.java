@@ -14,6 +14,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.web.util.HtmlUtils;
 
 import com.ispp.EcoRenter.form.CreditCardForm;
 import com.ispp.EcoRenter.model.CreditCard;
@@ -101,15 +102,21 @@ public class CreditCardService {
 	
 	
 	public CreditCard save(CreditCardForm creditCardForm) {
-		CreditCard creditCard, result;
+		CreditCard creditCard;
+		CreditCard result;
 		Renter renter;
 		int creditCardId;
+		String holderName;
 		
 		creditCardId = creditCardForm.getId();
 		
-		creditCard = (creditCardId == 0) ? this.create() : this.findOne(creditCardId);
+		Assert.isTrue(creditCardId == 0, "No se puede editar una tarjeta de credito");
 		
-		creditCard.setHolderName(creditCardForm.getHolderName().trim());
+		creditCard = this.create();
+		
+		holderName = HtmlUtils.htmlEscape(creditCardForm.getHolderName().trim());
+		
+		creditCard.setHolderName(holderName);
 		creditCard.setBrandName(creditCardForm.getBrandName().trim());
 		creditCard.setNumber(creditCardForm.getNumber().trim());
 		creditCard.setExpirationMonth(creditCardForm.getExpirationMonth().trim());
@@ -224,6 +231,22 @@ public class CreditCardService {
 		results = new ArrayList<String>();
 		for (String make: fields) {
 			results.add(make.trim());
+		}
+		
+		return results;
+	}
+	
+	public Map<Integer, Boolean> getCreditCardByRentOutNumber(Collection<CreditCard> creditCards) {
+		Map<Integer, Boolean> results;
+		Integer count;
+		int id;
+		
+		results = new HashMap<Integer, Boolean>();
+		for (CreditCard cc: creditCards) {
+			id = cc.getId();
+			count = this.rentOutService.findRentOutByCreditCard(id);
+			
+			results.put(id, count == 0);
 		}
 		
 		return results;

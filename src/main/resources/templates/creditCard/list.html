@@ -20,7 +20,6 @@
                                 <table id="example" class="table isSearch" cellspacing="0">
                                     <thead>
                                         <tr class="table-heads ">
-
                                             <th class="head-item mbr-fonts-style display-7">
                                                 Propietario</th>
                                             <th class="head-item mbr-fonts-style display-7">
@@ -38,16 +37,26 @@
                                     <tbody>
 
                                         <tr th:each="creditCard : ${creditCards}">
-
                                             <td class="body-item mbr-fonts-style display-7" th:text="${creditCard.holderName}"></td>
 											<td class="body-item mbr-fonts-style display-7" th:text="${creditCard.brandName}"></td>
 											<td class="body-item mbr-fonts-style display-7" th:text="${mapa.get(creditCard.id)}"></td>
 											<td class="body-item mbr-fonts-style display-7" th:text="${creditCard.expirationMonth}"></td>
 											<td class="body-item mbr-fonts-style display-7" th:text="${'20' + creditCard.expirationYear}"></td>
-                                            <td class="body-item mbr-fonts-style display-7"><a th:href="@{/credit-card/renter/edit(creditCardId=${creditCard.id})}" class="btn-outline display-7">Editar</a></td>
+                                            
+                                        	<td class="body-item mbr-fonts-style display-7">
+												<a th:if="${mapaDos.get(creditCard.id)}"
+												   onclick="return confirm('¿Estás seguro de eliminar esta forma de pago?');"
+												   th:href="@{/credit-card/renter/delete(creditCardId=${creditCard.id})}">Borrar</a>
+											</td>
                                         </tr>
                                     </tbody>
                                 </table>
+                                
+                                <div class="col-md-12 form-group" data-for="name"
+									 th:if="${deleteError != null && deleteError != ''}">
+									<p th:text="${deleteError}" style="color: red !important;"></p>
+								</div>
+                                
 <br/>
 <br/>
 <div class="container">

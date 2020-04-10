@@ -18,7 +18,6 @@ import com.ispp.EcoRenter.form.CreditCardForm;
 import com.ispp.EcoRenter.model.CreditCard;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.service.CreditCardService;
-import com.ispp.EcoRenter.service.RentOutService;
 import com.ispp.EcoRenter.service.RenterService;
 
 @Controller
@@ -31,8 +30,6 @@ public class CreditCardRenterController {
 	@Autowired
 	private RenterService renterService;
 	
-	@Autowired
-	private RentOutService rentOutService;
 	
 	public CreditCardRenterController() {
 		super();
@@ -42,6 +39,7 @@ public class CreditCardRenterController {
 	public ModelAndView list() {
 		Collection<CreditCard> creditCards;
 		Map<Integer, String> mapa;
+		Map<Integer, Boolean> mapaDos;
 		ModelAndView result;
 		Renter principal;
 		
@@ -50,11 +48,13 @@ public class CreditCardRenterController {
 		creditCards = principal.getCreditCards();
 		
 		mapa = this.creditCardService.getCreditCardEncodedNumber(creditCards);
+		mapaDos = this.creditCardService.getCreditCardByRentOutNumber(creditCards);
 		
 		result = new ModelAndView("creditCard/list");
 		result.addObject("creditCards", creditCards);
 		result.addObject("renter", principal);
 		result.addObject("mapa", mapa);
+		result.addObject("mapaDos", mapaDos);
 		
 		return result;
 	}
@@ -71,36 +71,6 @@ public class CreditCardRenterController {
 		creditCardForm.setRenter(principal);
 		
 		result = this.createEditModelAndView(creditCardForm);
-		
-		return result;
-	}
-	
-	@GetMapping("/edit")
-	public ModelAndView edit(@RequestParam int creditCardId) {
-		CreditCardForm creditCardForm;
-		ModelAndView result;
-		CreditCard creditCard;
-		Renter principal;
-		
-		try {
-			creditCard = this.creditCardService.findOneToEdit(creditCardId);
-		
-			principal = this.renterService.findByPrincipal();
-			
-			creditCardForm = new CreditCardForm(creditCard.getId(),
-												creditCard.getVersion(),
-												creditCard.getHolderName(),
-												creditCard.getBrandName(),
-												creditCard.getNumber(),
-												creditCard.getExpirationMonth(),
-												creditCard.getExpirationYear(),
-												creditCard.getCvvCode(),
-												principal);
-			
-			result = this.createEditModelAndView(creditCardForm);
-		} catch (Throwable oops) {
-			result = new ModelAndView("redirect:/miscellaneous/error");
-		}
 		
 		return result;
 	}
@@ -139,22 +109,20 @@ public class CreditCardRenterController {
 		return result;
 	}
 	
-	@PostMapping(value = "/edit", params = "delete")
-	public ModelAndView delete(CreditCardForm creditCardForm, BindingResult binding) {
+	@GetMapping(value = "/delete")
+	public ModelAndView delete(@RequestParam int creditCardId) {
 		ModelAndView result;
 		CreditCard creditCard;
 		
 		try {
-			creditCard = this.creditCardService.findOneToEdit(creditCardForm.getId());
+			creditCard = this.creditCardService.findOneToEdit(creditCardId);
 			
 			this.creditCardService.delete(creditCard);
 			
 			result = new ModelAndView("redirect:list");
 		} catch (Throwable oops) {
-			result = this.createEditModelAndView(
-					 creditCardForm,
-					"No se pudo completar la operación"
-			);
+			result = new ModelAndView("redirect:list");
+			result.addObject("deleteError", "Algo fue mal al eliminar la tarjeta de crédito");
 		}
 		
 		return result;
@@ -168,13 +136,6 @@ public class CreditCardRenterController {
 												  String messageCode) {
 		Collection<String> creditCardMakes;
 		ModelAndView result;
-		int count, creditCardId;
-		
-		creditCardId = creditCardForm.getId();
-		
-		count = (creditCardId > 0) 
-				? this.rentOutService.findRentOutByCreditCard(creditCardId)
-				: 0;
 		
 		creditCardMakes = this.creditCardService.getCreditCardMakes();
 				
@@ -182,7 +143,6 @@ public class CreditCardRenterController {
 		result.addObject("creditCardForm", creditCardForm);
 		result.addObject("creditCardMakes", creditCardMakes);
 		result.addObject("messageCode", messageCode);
-		result.addObject("count", count);
 		
 		return result;
 	}
