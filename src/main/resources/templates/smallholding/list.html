@@ -36,7 +36,7 @@
                                 Buscar
                             </button>
                         </form>
-						<form class="form-inline" th:if="${requestURI == 'smallholding/list'}" sec:authorize="hasAuthority('RENTER')" th:action="@{/renter/smallholding/filter}" method="post">
+						<form class="form-inline"  method="post">
 						<button type="button" class="btn-secondary col-md-2" data-toggle="modal" data-target="#myModal">
       Ver en Mapa
     </button>
