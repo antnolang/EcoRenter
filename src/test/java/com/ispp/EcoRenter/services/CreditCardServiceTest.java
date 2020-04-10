@@ -3,6 +3,9 @@ package com.ispp.EcoRenter.services;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Collection;
+import java.util.Map;
+
 import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.Test;
@@ -291,6 +294,40 @@ public class CreditCardServiceTest {
 		creditCard = this.creditCardService.findOne(creditCardId);
 		
 		assertNotNull(creditCard);
+	}
+	
+	@Test
+	@Transactional
+	@WithMockUser("renter1")
+	public void positiveTest_getCreditCardEncodedNumber() {
+		Map<Integer, String> results;
+		Collection<CreditCard> creditCards;
+		Renter principal;
+		
+		principal = this.renterService.findByPrincipal();
+		
+		creditCards = principal.getCreditCards();
+		results = this.creditCardService.getCreditCardEncodedNumber(creditCards);
+		
+		assertNotNull(results);
+		assertTrue(!results.isEmpty());
+	}
+	
+	@Test
+	@Transactional
+	@WithMockUser("renter1")
+	public void positiveTest_getCreditCardByRentOutNumber() {
+		Map<Integer, Boolean> results;
+		Collection<CreditCard> creditCards;
+		Renter principal;
+		
+		principal = this.renterService.findByPrincipal();
+		
+		creditCards = principal.getCreditCards();
+		results = this.creditCardService.getCreditCardByRentOutNumber(creditCards);
+		
+		assertNotNull(results);
+		assertTrue(!results.isEmpty());
 	}
 	
 }
