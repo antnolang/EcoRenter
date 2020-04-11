@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ispp.EcoRenter.form.CreditCardForm;
 import com.ispp.EcoRenter.model.Actor;
 import com.ispp.EcoRenter.model.Comment;
+import com.ispp.EcoRenter.model.CreditCard;
 import com.ispp.EcoRenter.model.Owner;
 import com.ispp.EcoRenter.model.Photo;
 import com.ispp.EcoRenter.model.Renter;
@@ -136,6 +137,8 @@ public class SmallholdingController {
 		Map<Photo,String> photo_imageData;
 		Collection<Photo> photos;
 		CreditCardForm creditCardForm;
+		boolean gotCredit = false;
+		CreditCard creditCard;
 
 		photo_imageData = new HashMap<Photo,String>();
 		principal = null;
@@ -149,6 +152,16 @@ public class SmallholdingController {
 				if(!isRentedByRenter){
 					creditCardForm = new CreditCardForm();
 					creditCardForm.setRenter(this.renterService.findByPrincipal());
+					
+					if(!((Renter) principal).getCreditCards().isEmpty()) {
+						creditCard = ((Renter) principal).getCreditCards().iterator().next();
+						gotCredit = true;
+
+						result.addObject("creditCard", creditCard);
+
+					}
+
+					result.addObject("gotCredit", gotCredit);
 					result.addObject("creditCardForm", creditCardForm);
 					result.addObject("creditCardMakes", this.creditCardService.getCreditCardMakes());
 				}
