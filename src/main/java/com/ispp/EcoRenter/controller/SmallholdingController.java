@@ -2,6 +2,7 @@ package com.ispp.EcoRenter.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,12 +25,14 @@ import com.ispp.EcoRenter.model.Comment;
 import com.ispp.EcoRenter.model.CreditCard;
 import com.ispp.EcoRenter.model.Owner;
 import com.ispp.EcoRenter.model.Photo;
+import com.ispp.EcoRenter.model.RentOut;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.model.Smallholding;
 import com.ispp.EcoRenter.service.ActorService;
 import com.ispp.EcoRenter.service.CommentService;
 import com.ispp.EcoRenter.service.CreditCardService;
 import com.ispp.EcoRenter.service.PhotoService;
+import com.ispp.EcoRenter.service.RentOutService;
 import com.ispp.EcoRenter.service.RenterService;
 import com.ispp.EcoRenter.service.SmallholdingService;
 
@@ -56,6 +59,9 @@ public class SmallholdingController {
 
 	@Autowired
 	private RenterService renterService;
+	
+	@Autowired
+	private RentOutService rentoutService;
 
 	// Constructor
 
@@ -174,7 +180,24 @@ public class SmallholdingController {
 			smallholding = this.smallholdingService.findOneToDisplay(smallholdingId);
 			comments = this.commentService.findCommentsBySmallholdingId(smallholdingId);
 			photos = this.photoService.findPhotosBySmallholdingId(smallholding.getId());
-
+			
+			Collection<RentOut> rentsOut = this.rentoutService.findByOwnerAndSmallholding(principal.getId(),smallholdingId);
+			Collection<Renter> myRenters = new ArrayList<Renter>();
+			boolean isRentedMySmall = false;
+			
+			
+			for(RentOut r : rentsOut) {
+				if(r.getEndDate().before(new Date(System.currentTimeMillis()-1))) {
+					myRenters.add(r.getRenter());
+					isRentedMySmall = true;
+					
+					result.addObject("myRenters", myRenters);
+					
+					break;
+				}
+				
+			}
+			
 			for(Photo p: photos)
 				photo_imageData.put(p, this.photoService.getImageBase64(p));
 
@@ -182,7 +205,7 @@ public class SmallholdingController {
 			result.addObject("comments", comments);
 			result.addObject("isRentedByRenter", isRentedByRenter);
 			result.addObject("photo_imageData", photo_imageData);
-			
+			result.addObject("isRentedMySmall", isRentedMySmall);
 			
 			
 			if(principal != null && principal instanceof Owner && smallholding.getOwner().equals(principal)){
