@@ -59,7 +59,7 @@ public class SmallholdingController {
 
 	@Autowired
 	private RenterService renterService;
-	
+
 	@Autowired
 	private RentOutService rentoutService;
 
@@ -86,7 +86,7 @@ public class SmallholdingController {
 
 		currentPage = page.orElse(1);
 		pageSize = size.orElse(4);
-			
+
 		try {
 			result = new ModelAndView("smallholding/list");
 
@@ -105,9 +105,9 @@ public class SmallholdingController {
 
 			// Para crear los marcadores en el mapa necesito las coordenadas
 			ls_smallholdings = shPage.getContent();
-	
+
 			geoData = this.smallholdingService.getGeoData(ls_smallholdings);
-			
+
 			if (!geoData.isEmpty()) {
 				result.addObject("latitudes", geoData.get(0));
 				result.addObject("longitudes", geoData.get(1));
@@ -122,7 +122,7 @@ public class SmallholdingController {
 				photoAttr.add(this.photoService.getImageBase64(photo));
 				sh_photo.put(sh.getId(), photoAttr);
 			}
-			
+
 			result.addObject("smallholdingPage", shPage);
 			result.addObject("sh_photo", sh_photo);
 			result.addObject("requestURI", "smallholding/list");
@@ -152,13 +152,13 @@ public class SmallholdingController {
 		result = new ModelAndView("smallholding/display");
 		try {
 			principal = this.actorService.findByPrincipal();
-			
+
 			if (principal instanceof Renter) {
 				isRentedByRenter = this.smallholdingService.isSmallholdingRentedByRenter(principal.getId(),	smallholdingId);
 				if(!isRentedByRenter){
 					creditCardForm = new CreditCardForm();
 					creditCardForm.setRenter(this.renterService.findByPrincipal());
-					
+
 					if(!((Renter) principal).getCreditCards().isEmpty()) {
 						creditCard = ((Renter) principal).getCreditCards().iterator().next();
 						gotCredit = true;
@@ -180,23 +180,27 @@ public class SmallholdingController {
 			smallholding = this.smallholdingService.findOneToDisplay(smallholdingId);
 			comments = this.commentService.findCommentsBySmallholdingId(smallholdingId);
 			photos = this.photoService.findPhotosBySmallholdingId(smallholding.getId());
-			
-			Collection<RentOut> rentsOut = this.rentoutService.findByOwnerAndSmallholding(principal.getId(),smallholdingId);
 			boolean isRentedMySmall = false;
-			
-			
-			for(RentOut r : rentsOut) {
-				if(r.getEndDate().after(new Date(System.currentTimeMillis()-1))) {
-					
-					isRentedMySmall = true;
-					
-					result.addObject("renterToContact", r.getRenter());
-					
-					break;
+
+
+			if(principal instanceof Owner) {
+				Collection<RentOut> rentsOut = this.rentoutService.findByOwnerAndSmallholding(principal.getId(),smallholdingId);
+
+
+				for(RentOut r : rentsOut) {
+					if(r.getEndDate().after(new Date(System.currentTimeMillis()-1))) {
+
+						isRentedMySmall = true;
+
+						result.addObject("renterToContact", r.getRenter());
+
+						break;
+					}
+
 				}
-				
 			}
-			
+
+
 			for(Photo p: photos)
 				photo_imageData.put(p, this.photoService.getImageBase64(p));
 
@@ -205,8 +209,8 @@ public class SmallholdingController {
 			result.addObject("isRentedByRenter", isRentedByRenter);
 			result.addObject("photo_imageData", photo_imageData);
 			result.addObject("isRentedMySmall", isRentedMySmall);
-			
-			
+
+
 			if(principal != null && principal instanceof Owner && smallholding.getOwner().equals(principal)){
 				result.addObject("ownerPrincipal", true);
 			} else {
