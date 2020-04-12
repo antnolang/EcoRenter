@@ -182,16 +182,15 @@ public class SmallholdingController {
 			photos = this.photoService.findPhotosBySmallholdingId(smallholding.getId());
 			
 			Collection<RentOut> rentsOut = this.rentoutService.findByOwnerAndSmallholding(principal.getId(),smallholdingId);
-			Collection<Renter> myRenters = new ArrayList<Renter>();
 			boolean isRentedMySmall = false;
 			
 			
 			for(RentOut r : rentsOut) {
-				if(r.getEndDate().before(new Date(System.currentTimeMillis()-1))) {
-					myRenters.add(r.getRenter());
+				if(r.getEndDate().after(new Date(System.currentTimeMillis()-1))) {
+					
 					isRentedMySmall = true;
 					
-					result.addObject("myRenters", myRenters);
+					result.addObject("renterToContact", r.getRenter());
 					
 					break;
 				}
