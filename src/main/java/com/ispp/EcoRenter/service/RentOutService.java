@@ -142,6 +142,13 @@ public class RentOutService {
 
         return result;
     }
+    
+    public Collection<RentOut> findBySmallholding(int smallholdingId){
+    	
+    	return this.rentOutRepository.findBySmallholding(smallholdingId);
+    	
+    	
+    }
 
     public void stripePayment(Double price, int monthsNumber) throws StripeException {
         Stripe.apiKey = "sk_test_DxeIjPSmKslD2tFg1b1CG2TU00Q4RigZkT";
