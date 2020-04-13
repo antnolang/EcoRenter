@@ -184,18 +184,16 @@ public class SmallholdingController {
 
 
 			if(principal instanceof Owner) {
-				Collection<RentOut> rentsOut = this.rentoutService.findByOwnerAndSmallholding(principal.getId(),smallholdingId);
+				RentOut rentOut = this.rentoutService.findByOwnerAndSmallholding(principal.getId(),smallholdingId);
 
 
-				for(RentOut r : rentsOut) {
-					if(r.getEndDate().after(new Date(System.currentTimeMillis()-1))) {
+				if(rentOut != null) {
 
-						isRentedMySmall = true;
+					isRentedMySmall = true;
 
-						result.addObject("renterToContact", r.getRenter());
+					result.addObject("renterToContact", rentOut.getRenter());
 
-						break;
-					}
+					
 
 				}
 			}

@@ -143,7 +143,7 @@ public class RentOutService {
         return result;
     }
     
-    public Collection<RentOut> findByOwnerAndSmallholding(int ownerId, int smallholdingId){
+    public RentOut findByOwnerAndSmallholding(int ownerId, int smallholdingId){
     	
     	return this.rentOutRepository.findRentOutByOwnerAndSmallholding(ownerId, smallholdingId);
     	
