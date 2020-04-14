@@ -54,10 +54,10 @@ public class AdministratorService {
 
 	@Autowired
 	private CommentService commentService;
-	
+
 	@Autowired
 	private SmallholdingService smallholdingService;
-	
+
 	@Autowired
 	private OwnerService ownerService;
 
@@ -160,43 +160,43 @@ public class AdministratorService {
 
 
 	}
-	
+
 	public void deleteOwner(Owner owner) {
 		Collection<Smallholding> smallByThisOwner = this.smallholdingService.findSmallholdingsByOwnerId(owner.getId());
-		
+
 		if(!smallByThisOwner.isEmpty()) {
 			for(Smallholding s : smallByThisOwner) {
-				
+
 				Collection<RentOut> rentsForThisSmall = this.rentoutService.findBySmallholding(s.getId());
-				
+
 				if(!rentsForThisSmall.isEmpty()) {
 					for(RentOut r : rentsForThisSmall) {
-						
+
 						Collection<Comment> comments = this.commentService.findCommentsByRentOut(r.getId());
-						
+
 						if(!comments.isEmpty()) {
 							for(Comment c : comments) {
 								this.commentService.delete(c);
 							}
-							
+
 						}
-						
+
 						this.rentoutService.delete(r);
-						
+
 					}
 				}
-				
+
 				this.smallholdingService.delete(s);
 			}
 			this.ownerService.delete(owner);
 		}else {
 			this.ownerService.delete(owner);
 		}
-		
+
 	}
-	
-	
-	
+
+
+
 	// Other business methods ------------------
 	public Administrator findByPrincipal() {
 		Administrator result;
@@ -220,9 +220,17 @@ public class AdministratorService {
 
 		return result;
 	}
+	
+	public Collection<Administrator> findAll(){
+
+		return this.administratorRepository.findAll();
+
+	}
 
 	private Administrator save(Administrator administrator) {
 		return this.administratorRepository.saveAndFlush(administrator);
 	}
+
+
 
 }
