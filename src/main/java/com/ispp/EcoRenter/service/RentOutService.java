@@ -73,7 +73,10 @@ public class RentOutService {
 
     public RentOut save(RentOut rent) throws StripeException {
         Assert.notNull(rent, "El alquiler debe existir");
-
+        Assert.isTrue(rent.getIsActive() == true, "Esta parcela ya está alquilada");
+        Assert.isTrue(rent.getSmallholding().getStatus().equals("NO ALQUILADA"), "Esta parcela ya está alquilada");
+        
+        
         RentOut result;
         Renter principal = this.renterService.findByPrincipal();
 
