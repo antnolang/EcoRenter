@@ -345,7 +345,7 @@ public class SmallholdingService {
     }
 
     public List<String> getGeoData(Collection<Smallholding> smallholdings) {
-    	String latitudes, longitudes, lats, lngs;
+    	String latitudes, longitudes, lats, lngs, title, temp_title;
     	List<String> results;
     	int n;
     	
@@ -354,18 +354,23 @@ public class SmallholdingService {
     	if (smallholdings.size() > 0) {
     		latitudes = "";
         	longitudes = "";
+        	temp_title = "";
         	for (Smallholding sh: smallholdings) {
         		latitudes = latitudes + sh.getLatitude() + ";";
         		longitudes = longitudes +  sh.getLongitude() + ";";
+        		temp_title = temp_title + sh.getTitle() + ";";
         	}
         	
         	n = latitudes.length();
+        	n = n-1;
         	
-        	lats = latitudes.substring(0, n-1);
-        	lngs = longitudes.substring(0, n-1);
+        	lats = latitudes.substring(0, n);
+        	lngs = longitudes.substring(0, n);
+        	title = temp_title.substring(0, temp_title.length()-1);
         	
         	results.add(lats);
         	results.add(lngs);
+        	results.add(title);
     	}
     	
     	return results;

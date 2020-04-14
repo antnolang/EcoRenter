@@ -166,6 +166,26 @@ public class AdministratorService {
 		
 		if(!smallByThisOwner.isEmpty()) {
 			for(Smallholding s : smallByThisOwner) {
+				
+				Collection<RentOut> rentsForThisSmall = this.rentoutService.findBySmallholding(s.getId());
+				
+				if(!rentsForThisSmall.isEmpty()) {
+					for(RentOut r : rentsForThisSmall) {
+						
+						Collection<Comment> comments = this.commentService.findCommentsByRentOut(r.getId());
+						
+						if(!comments.isEmpty()) {
+							for(Comment c : comments) {
+								this.commentService.delete(c);
+							}
+							
+						}
+						
+						this.rentoutService.delete(r);
+						
+					}
+				}
+				
 				this.smallholdingService.delete(s);
 			}
 			this.ownerService.delete(owner);

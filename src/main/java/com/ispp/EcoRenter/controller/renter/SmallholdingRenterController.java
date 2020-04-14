@@ -96,12 +96,13 @@ public class SmallholdingRenterController {
 	@GetMapping("/list")
 	public ModelAndView list(@RequestParam("page") final Optional<Integer> page, @RequestParam("size") final Optional<Integer> size) {
 		ModelAndView result;
-		// Collection<Smallholding> actSmallholdingsRented, prevSmallholdingsRented;
 		Collection<Smallholding> smallholdings;
 		Renter principal;
 		Map<Integer,List<String>> sh_photo;
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(4);
+		List<Smallholding> ls_smallholdings;
+		List<String> geoData;
 
 		sh_photo = new HashMap<Integer,List<String>>();
 
@@ -122,6 +123,17 @@ public class SmallholdingRenterController {
 
 			result.addObject("smallholdingPage", shPage);
 
+			// Para crear los marcadores en el mapa necesito las coordenadas
+			ls_smallholdings = shPage.getContent();
+			
+			geoData = this.smallholdingService.getGeoData(ls_smallholdings);
+						
+			if (!geoData.isEmpty()) {
+				result.addObject("latitudes", geoData.get(0));
+				result.addObject("longitudes", geoData.get(1));
+				result.addObject("titles", geoData.get(2));
+			}
+			
 			for(Smallholding sh: smallholdings){
 				List<Photo> photos = new ArrayList<Photo>(this.photoService.findPhotosBySmallholdingId(sh.getId()));
 				Photo photo = photos.get(0);

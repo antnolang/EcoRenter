@@ -157,21 +157,19 @@ public class ActorAdministratorController {
 
 				this.administratorService.deleteRenter((Renter) beDeleted);
 
-				result = new ModelAndView("redirect:/");
+				result = new ModelAndView("redirect:/actor/administrator/deleteActor");
 
 			} catch (Throwable oops) {
-				result = new ModelAndView("actor/administrator/deleteActor");
-
-				result.addObject("error", oops.getMessage());
+	 	result.addObject("error", oops.getMessage());
 			}
 
 		} else {
 			try {
 				this.administratorService.deleteOwner((Owner) beDeleted);
 
-				result = new ModelAndView("redirect:/");
+				result = new ModelAndView("redirect:/actor/administrator/deleteActor");
 			} catch (Throwable oops) {
-				result = new ModelAndView("actor/administrator/deleteActor");
+				result = new ModelAndView("redirect:actor/administrator/deleteActor");
 
 				result.addObject("error", oops.getMessage());
 			}

@@ -1,8 +1,10 @@
 package com.ispp.EcoRenter.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.transaction.Transactional;
@@ -14,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import com.ispp.EcoRenter.form.CreditCardForm;
+import com.ispp.EcoRenter.model.Actor;
 import com.ispp.EcoRenter.model.CreditCard;
 import com.ispp.EcoRenter.model.RentOut;
 import com.ispp.EcoRenter.model.Renter;
@@ -41,6 +44,9 @@ public class RentOutService {
 
     @Autowired
     private CreditCardService creditCardService;
+
+    @Autowired
+    private MailService mailService;
 
     // Constructor
 
@@ -79,6 +85,7 @@ public class RentOutService {
         
         RentOut result;
         Renter principal = this.renterService.findByPrincipal();
+        List<Actor> recipients;
 
         Assert.notNull(rent, "No debe ser nulo.");
         Assert.isTrue(rent.getRenter().equals(principal), "No la está alquilando el usuario logeado.");
@@ -87,6 +94,15 @@ public class RentOutService {
 
         this.stripePayment(rent.getSmallholding().getPrice(), rent.getSmallholding().getMaxDuration());
         result.getSmallholding().setAvailable(false);
+
+        recipients = new ArrayList<Actor>();
+        recipients.add(result.getRenter());
+        recipients.add(result.getSmallholding().getOwner());
+
+        this.mailService.sendEmail(recipients, "Alquiler de parcela " + result.getSmallholding().getTitle(), 
+            "Se ha realizado correctamente el alquiler de la parcela " + result.getSmallholding().getTitle() + 
+            " con dirección " + result.getSmallholding().getAddress() + " y cuyo precio es " + result.getSmallholding().getPrice() + 
+            "€ por el periodo de " + result.getSmallholding().getMaxDuration() + " meses");
 
         return result;
     }
@@ -146,9 +162,16 @@ public class RentOutService {
         return result;
     }
     
+
     public RentOut findByOwnerAndSmallholding(int ownerId, int smallholdingId){
     	
     	return this.rentOutRepository.findRentOutByOwnerAndSmallholding(ownerId, smallholdingId);
+    }
+
+    public Collection<RentOut> findBySmallholding(int smallholdingId){
+    	
+    	return this.rentOutRepository.findBySmallholding(smallholdingId);
+
     	
     	
     }
