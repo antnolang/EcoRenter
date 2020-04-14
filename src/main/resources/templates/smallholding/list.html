@@ -125,15 +125,19 @@
                     <script>
                         var lats = [];
                         var lngs = [];
+                        var titles = [];
                         var str_latitudes;
                         var str_longitudes;
-
+						var str_titles;
+                        
                         str_latitudes = "[[${latitudes}]]";
                         str_longitudes = "[[${longitudes}]]";
-
+						str_titles = "[[${titles}]]";
+                        
                         lats = str_latitudes.split(";");
                         lngs = str_longitudes.split(";");
-
+						titles = str_titles.split(";");
+                        
                         function initMap() {
                             var infoWindows;
                             var map;
@@ -159,9 +163,11 @@
                                     lat: parseFloat(lats[i]),
                                     lng: parseFloat(lngs[i])
                                 };
+                                var titulo = titles[i];
 
                                 marker = new google.maps.Marker({
                                     position: geo,
+                                    title: titulo,
                                     map: map
                                 });
 
@@ -180,6 +186,7 @@
                             var button = $(event.relatedTarget);
                             initMap();
                             $("#location-map").css("width", "100%");
+   							$("div.modal-content").css("height", "90%");
                             $("#map").css("width", "100%");
 
                         });

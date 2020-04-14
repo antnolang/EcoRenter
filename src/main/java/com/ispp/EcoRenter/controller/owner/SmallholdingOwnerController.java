@@ -61,6 +61,8 @@ public class SmallholdingOwnerController {
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(4);
 		Map<Integer,List<String>> sh_photo;
+		List<Smallholding> ls_smallholdings;
+		List<String> geoData;
 
 		sh_photo = new HashMap<Integer,List<String>>();
 
@@ -87,6 +89,17 @@ public class SmallholdingOwnerController {
 				sh_photo.put(sh.getId(), photoAttr);
 			}
 
+			// Para crear los marcadores en el mapa necesito las coordenadas
+			ls_smallholdings = shPage.getContent();
+
+			geoData = this.smallholdingService.getGeoData(ls_smallholdings);
+			
+			if (!geoData.isEmpty()) {
+				result.addObject("latitudes", geoData.get(0));
+				result.addObject("longitudes", geoData.get(1));
+				result.addObject("titles", geoData.get(2));
+			}
+			
 			result.addObject("smallholdingPage", shPage);
 			result.addObject("sh_photo", sh_photo);
 			result.addObject("requestURI", "owner/smallholding/listOwnSmallholdings");

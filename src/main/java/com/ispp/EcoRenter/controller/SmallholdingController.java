@@ -105,6 +105,7 @@ public class SmallholdingController {
 			if (!geoData.isEmpty()) {
 				result.addObject("latitudes", geoData.get(0));
 				result.addObject("longitudes", geoData.get(1));
+				result.addObject("titles", geoData.get(2));
 			}
 
 			for(Smallholding sh: smallholdings){
