@@ -96,7 +96,6 @@ public class SmallholdingRenterController {
 	@GetMapping("/list")
 	public ModelAndView list(@RequestParam("page") final Optional<Integer> page, @RequestParam("size") final Optional<Integer> size) {
 		ModelAndView result;
-		// Collection<Smallholding> actSmallholdingsRented, prevSmallholdingsRented;
 		Collection<Smallholding> smallholdings;
 		Renter principal;
 		Map<Integer,List<String>> sh_photo;
