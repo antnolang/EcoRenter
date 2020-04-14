@@ -59,14 +59,14 @@ public class Comment extends DomainEntity {
 	@NotNull
 	@Valid
 	@ManyToOne(optional = false)
-	private RentOut rentOut;
+	private Smallholding smallholding;
 
-	public RentOut getRentOut() {
-		return rentOut;
+	public Smallholding getSmallholding() {
+		return smallholding;
 	}
 
-	public void setRentOut(RentOut rentOut) {
-		this.rentOut = rentOut;
+	public void setSmallholding(Smallholding smallholding) {
+		this.smallholding = smallholding;
 	}
-	
+
 }
