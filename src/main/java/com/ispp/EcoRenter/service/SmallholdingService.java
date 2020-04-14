@@ -344,6 +344,14 @@ public class SmallholdingService {
         return result;
     }
 
+    public Collection<Smallholding> findSmallholdingsByRenterId(int renterId){
+        Collection<Smallholding> result;
+
+        result = this.smallholdingRepository.findSmallholdingsByRenterId(renterId);
+
+        return result;
+    }
+
     public List<String> getGeoData(Collection<Smallholding> smallholdings) {
     	String latitudes, longitudes, lats, lngs, title, temp_title;
     	List<String> results;

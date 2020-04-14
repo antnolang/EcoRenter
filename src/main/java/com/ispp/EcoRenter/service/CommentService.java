@@ -7,13 +7,15 @@ import javax.transaction.Transactional;
 import com.ispp.EcoRenter.model.Actor;
 import com.ispp.EcoRenter.model.Comment;
 import com.ispp.EcoRenter.model.Owner;
-import com.ispp.EcoRenter.model.RentOut;
 import com.ispp.EcoRenter.model.Renter;
+import com.ispp.EcoRenter.model.Smallholding;
 import com.ispp.EcoRenter.repository.CommentRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 @Service
 @Transactional
@@ -24,11 +26,19 @@ public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
 
+    // Services
+
     @Autowired
-    private RentOutService rentOutService;
+    private SmallholdingService smallholdingService;
 
     @Autowired
     private ActorService actorService;
+
+    @Autowired
+    private UtilityService utilityService;
+
+    @Autowired
+    private Validator validator;
 
     // Constructor
 
@@ -38,30 +48,29 @@ public class CommentService {
 
     // CRUD methods
 
-    public Comment create(int rentOutId){
-        Assert.isTrue(rentOutId !=0, "El alquiler debe existir");
-        Assert.notNull(rentOutId, "El alquiler no puede ser nulo");
+    public Comment create(int smallholdingId){
+        Assert.isTrue(smallholdingId !=0, "La parcela debe existir");
 
         Comment result;
-        RentOut rentOut;
+        Smallholding smallholding;
 
-        rentOut = this.rentOutService.findOne(rentOutId);
-        this.checkEdit(rentOut);
+        smallholding = this.smallholdingService.findOne(smallholdingId);
+        this.checkEdit(smallholding);
 
         result = new Comment();
-        result.setRentOut(this.rentOutService.findOne(rentOutId));
+        result.setSmallholding(smallholding);
+        result.setWrittenMoment(this.utilityService.getCurrentMoment());
 
         return result;
 
     }
 
     public Comment save(Comment comment){
-        Assert.isTrue(comment.getId() != 0, "El comentario debe existir");
         Assert.notNull(comment, "El comentario no puede ser nulo");
 
         Comment result;
         
-        this.checkEdit(comment.getRentOut());
+        this.checkEdit(comment.getSmallholding());
 
         result = this.commentRepository.save(comment);
 
@@ -69,11 +78,12 @@ public class CommentService {
 
     }
 
-    public Comment findOne(int commentId){
+    public Comment findOneToEdit(int commentId){
         Comment result;
 
         result = this.commentRepository.findById(commentId).get();
         Assert.notNull(result, "El comentario debe existir");
+        this.checkEdit(result.getSmallholding());
 
         return result;
     }
@@ -83,7 +93,7 @@ public class CommentService {
         Assert.isTrue(comment.getId() != 0, "El comentario debe existir");
         Assert.notNull(comment, "El comentario no puede ser nulo");
 
-        this.checkEdit(comment.getRentOut());
+        this.checkEdit(comment.getSmallholding());
 
     	this.commentRepository.delete(comment);
     }
@@ -98,18 +108,37 @@ public class CommentService {
         return result;
     }
     
-    public Collection<Comment> findCommentsByRentOut(int rentOutId){
-       
-        return this.commentRepository.findCommentsByRentOut(rentOutId);
-    }
-
-    private void checkEdit(RentOut rentOut){
+    private void checkEdit(Smallholding smallholding){
         Actor actor;
         actor = this.actorService.findByPrincipal();
+        Collection<Smallholding> smallholdings;
 
-        if(actor instanceof Renter)
-            Assert.isTrue(rentOut.getRenter().equals(actor), "No se pueden hacer comentarios sobre parcelas no alquiladas");
-        else if(actor instanceof Owner)
-            Assert.isTrue(rentOut.getSmallholding().getOwner().equals(actor), "No se pueden hacer comentarios sobre otras parcelas");
+        if(actor instanceof Renter){
+            smallholdings = this.smallholdingService.findSmallholdingsByRenterId(actor.getId());
+            Assert.isTrue(smallholdings.contains(smallholding), "No se pueden hacer comentarios sobre parcelas no alquiladas");
+        } else if(actor instanceof Owner)
+            Assert.isTrue(smallholding.getOwner().equals(actor), "No se pueden hacer comentarios sobre otras parcelas");
+    }
+
+    public Comment reconstruct(Comment comment, BindingResult binding){
+        Comment result,saved;
+
+        if(comment.getId() == 0)
+            result = this.create(comment.getSmallholding().getId());
+        else {
+            saved = this.findOneToEdit(comment.getId());
+
+            result = new Comment();
+            result.setId(saved.getId());
+            result.setVersion(saved.getVersion());
+            result.setSmallholding(saved.getSmallholding());
+            result.setWrittenMoment(saved.getWrittenMoment());
+        }
+
+        result.setText(comment.getText().trim());
+            
+        this.validator.validate(result, binding);
+
+        return result;
     }
 }

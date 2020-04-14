@@ -140,6 +140,7 @@ public class SmallholdingController {
 		CreditCardForm creditCardForm;
 		boolean gotCredit = false;
 		CreditCard creditCard;
+		Comment comment;
 
 		photo_imageData = new HashMap<Photo,String>();
 		principal = null;
@@ -165,6 +166,11 @@ public class SmallholdingController {
 					result.addObject("gotCredit", gotCredit);
 					result.addObject("creditCardForm", creditCardForm);
 					result.addObject("creditCardMakes", this.creditCardService.getCreditCardMakes());
+				} else {
+					comment = this.commentService.create(smallholdingId);
+
+					result.addObject("comment", comment);
+
 				}
 			} 
 		} catch (Exception e) {
@@ -187,6 +193,9 @@ public class SmallholdingController {
 			
 			
 			if(principal != null && principal instanceof Owner && smallholding.getOwner().equals(principal)){
+				comment = this.commentService.create(smallholdingId);
+
+				result.addObject("comment", comment);
 				result.addObject("ownerPrincipal", true);
 			} else {
 				result.addObject("ownerPrincipal", false);

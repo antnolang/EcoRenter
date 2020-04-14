@@ -14,6 +14,4 @@ public interface CommentRepository extends JpaRepository<Comment,Integer> {
     @Query("select c from Comment c where c.smallholding.id=?1")
     Collection<Comment> findCommentsBySmallholdingId(int smallholdingId);
     
-    @Query("select c from Comment c where c.smallholding.id=?1")
-    Collection<Comment> findCommentsByRentOut(int rentOutId);
 }

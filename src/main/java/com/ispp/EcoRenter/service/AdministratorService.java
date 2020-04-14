@@ -135,7 +135,7 @@ public class AdministratorService {
 
 		if(!rentsByThisRenter.isEmpty()) {
 			for(RentOut r : rentsByThisRenter) {
-
+				/*TODO Ya no existe la relación Comment - RentOut
 				Collection<Comment> commentsOfThisRent = this.commentService.findCommentsByRentOut(r.getId());
 
 				if(!commentsOfThisRent.isEmpty()) {
@@ -149,7 +149,7 @@ public class AdministratorService {
 				}else {
 					this.rentoutService.delete(r);
 				}
-
+				*/
 
 			}
 			this.renterService.delete(renter);
@@ -171,7 +171,7 @@ public class AdministratorService {
 				
 				if(!rentsForThisSmall.isEmpty()) {
 					for(RentOut r : rentsForThisSmall) {
-						
+						/*TODO
 						Collection<Comment> comments = this.commentService.findCommentsByRentOut(r.getId());
 						
 						if(!comments.isEmpty()) {
@@ -182,7 +182,7 @@ public class AdministratorService {
 						}
 						
 						this.rentoutService.delete(r);
-						
+						*/
 					}
 				}
 				

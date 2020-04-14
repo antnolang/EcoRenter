@@ -171,7 +171,7 @@
 
 								<!-- Pago -->
 
-								<form sec:authorize="hasAuthority('RENTER')"
+								<form th:if="${!isRentedByRenter}" sec:authorize="hasAuthority('RENTER')"
 									th:action="@{'/renter/smallholding/rent?smallholdingId=' + ${smallholding.id}}"
 									id="payment-form" style="display: none;"
 									th:object="${creditCardForm}" method="post"
@@ -339,7 +339,6 @@
 									</div>
 								</form>
 
-
 							</div>
 
 						</div>
@@ -348,20 +347,22 @@
 			</div>
 
 
-
+			
 			<div class="content">
 
 				<div class="container" style="color: #54775e !important">
 					<div class="row justify-content-center">
 
+						
+						<div th:if="${comment != null}" sec:authorize="hasAnyAuthority('RENTER','OWNER')" class="container">
+							<form th:action="@{'/comment/edit'}" id="formComment" th:object="${comment}" method="post" data-form-title=" Form">
 
-						<!-- 	<div class="container">
-							<form th:action="@{/añadirURLCONTROLADOR}" id="formComment" th:object="${comment}"
-								method="post" 
-								data-form-title=" Form">
+								<input type="hidden" th:field="*{id}" /> <input type="hidden"
+										th:field="*{version}" /> <input type="hidden"
+										th:field="*{smallholding}" />
 								
 								<div class="dragArea row">
-								<button type="submit" name="comentar" style="width: 170px; height:10px;" class="btn btn-form btn-secondary display-4">Comentar</button>
+									<button type="submit" name="comentar" style="width: 170px; height:10px;" class="btn btn-form btn-secondary display-4">Comentar</button>
 									<div data-for="message" class="col-md-12 form-group">
 										<input type="text" placeholder="Escribe un comentario"
 											name="text" data-form-field="Message" required="required"
@@ -369,28 +370,31 @@
 
 									</div>
 									
+									
 
 								</div>
 
 							</form>
 						</div>
-						-->
+						
 						<div class="container" th:each="co : ${comments}">
 							<div class="card">
 								<div class="card-header">
-									<strong th:text="${co.rentOut.renter.userAccount.username}"></strong>
+									<!--<strong th:text="${co.rentOut.renter.userAccount.username}"><strong>-->
 									<div class="float-right">
 										<span class="liveTime" th:text="${co.writtenMoment}"></span> <i
 											class="fas fa-clock"></i>
 									</div>
 								</div>
 								<div class="card-body" th:text="${co.text}"></div>
-
-							</div>
+								<!--
+								<a th:href="@{~/comment/delete?commentId=}+${co.id}"
+										class="btn btn-warning-outline display-4"> Eliminar </a>-->
+							</div>	
 
 
 						</div>
-
+						
 						<script>
 							$('.liveTime').liveTimeAgo({
 								translate : {

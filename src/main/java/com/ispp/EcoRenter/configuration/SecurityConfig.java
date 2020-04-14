@@ -41,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/actor/owner/register").anonymous()
 		.antMatchers("/providerDiscountCode/**").hasAnyAuthority("RENTER","ADMIN","OWNER")
 		.antMatchers("/administrator/providerDiscountCode/**").hasAnyAuthority("ADMIN")
+		.antMatchers("/comment/**").hasAnyAuthority("RENTER","OWNER")
 		.and()
 		.formLogin()
 		.loginPage("/login")
