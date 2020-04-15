@@ -61,15 +61,17 @@
 									<strong>Localidad:</strong> <span
 										th:text="${smallholding.locality}"></span>
 								</p>
-								<!--<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7"><strong>Dirección:</strong>
-                                    <span th:text="${smallholding.address}"></span></p>
-								<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7"><strong>Código postal:</strong>
-                                    <span th:text="${smallholding.postalCode}"></span></p>-->
+								<p
+									class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
+									<strong>Dirección:</strong> <span
+										th:text="${smallholding.address}"></span>
+								</p>
+								<p
+									class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
+									<strong>Código postal:</strong> <span
+										th:text="${smallholding.postalCode}"></span>
+								</p>
 
-								<!--<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7"><strong>Latitud:</strong>
-                                    <span th:text="${smallholding.latitude}"></span></p>
-								<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7"><strong>Longitud:</strong>
-                                    <span th:text="${smallholding.longitude}"></span></p>-->
 								<p
 									class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
 									<strong>Máxima duracion alquiler: </strong> <span
@@ -84,8 +86,11 @@
 										th:if="${smallholding.available}==false">No</span>
 
 								</p>
-								<!--<p class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7"><strong>Nombre del propietario:</strong>
-                                    <span th:text="${smallholding.owner.fullname}"></span></p>-->
+								<p
+									class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">
+									<strong>Nombre del propietario:</strong> <span
+										th:text="${smallholding.owner.fullname}"></span>
+								</p>
 
 								<p
 									class="mbr-text text2 pt-4 mbr-light mbr-fonts-style display-2">
@@ -118,13 +123,23 @@
 
 
 								</div>
-																<!--Btn-->
+								<!--Btn-->
 								<div sec:authorize="hasAuthority('OWNER')"
-									th:if="${isRentedMySmall}" onclick="desapareceContactoArrendatario()"
-									id="contactABtn" class="mbr-section-btn pt-3 align-left">
+									th:if="${isRentedMySmall}"
+									onclick="desapareceContactoArrendatario()" id="contactABtn"
+									class="mbr-section-btn pt-3 align-left">
 									<a class="btn btn-secondary-outline display-4">Contactar
 										con el arrendatario</a>
 								</div>
+								<div
+									sec:authorize="hasAuthority('OWNER') || hasAuthority('RENTER')"
+									th:if="${isRentedMySmall || isRentedByRenter }"
+									onclick="desapareceDisputa()" id="disputaBtn"
+									class="mbr-section-btn pt-3 align-left">
+									<a class="btn btn-secondary-outline display-4"> Abrir
+										disputa </a>
+								</div>
+
 								<div sec:authorize="hasAuthority('OWNER')"
 									th:if="${isRentedMySmall}" id="contactosArrendatario"
 									style="display: none;">
@@ -137,8 +152,7 @@
 									<p>
 										<i class='fab fa-whatsapp'></i> <a
 											th:href="@{'tel:' + ${renterToContact.telephoneNumber}}"
-											th:text="${renterToContact.telephoneNumber}"
-											target="_blank"></a>
+											th:text="${renterToContact.telephoneNumber}" target="_blank"></a>
 									</p>
 
 
@@ -192,7 +206,54 @@
 
 								</div>
 
+								<!-- Disputa formulario -->
 
+
+								<form sec:authorize="hasAuthority('OWNER') || hasAuthority('RENTER')"
+									th:if="${isRentedMySmall || isRentedByRenter }" id="disputaForm"
+									style="display: none; padding-bottom: 20px;"
+									th:action="@{'/dispute/make?smallholdingId=' + ${smallholding.id}}"
+									method="post" class="sr-payment-form">
+
+									<div class="dragArea row">
+
+										<div class="col-md-12  form-group" data-for="name">
+											<label for="name-form1-17"
+												class="form-control-label mbr-fonts-style display-7"
+												style="color: #2a3d2e !important;">Tipo</label> <select
+												name="tipo" required="required"
+												class="form-control display-7"
+												oninvalid="this.setCustomValidity('Debes incluir un tipo de disputa') "
+												oninput="setCustomValidity('')">
+
+												<option value="Problemas con el pago">Problemas
+													con el pago</option>
+												<option value="Uso indebido de las instalaciones">Uso
+													indebido de las instalaciones</option>
+												<option value="Otros">Otros</option>
+
+											</select>
+
+										</div>
+										<div class="col-md-12 form-group">
+											<label for="name-form1-17"
+												class="form-control-label mbr-fonts-style display-7"
+												style="color: #2a3d2e !important;">Descripción</label>
+											<textarea type="text" data-form-field="Name" name="descripcion"
+												required="required" class="form-control display-7" oninvalid="this.setCustomValidity('Debes incluir una descripción en la disputa') "
+												oninput="setCustomValidity('')"></textarea>
+
+										</div>
+
+
+
+
+										<button id="confirm-mandate" name="makeDispute" type="submit"
+											class="btn btn-form btn-secondary display-4">Realizar
+											disputa</button>
+											
+											</div>
+								</form>
 
 								<!-- Pago -->
 
@@ -274,8 +335,8 @@
 										<div class="col-md-6  form-group" data-for="name">
 											<label for="name-form1-17"
 												class="form-control-label mbr-fonts-style display-7"
-												style="color: #2a3d2e !important;">Año de
-												expiración</label> <input type="text" th:field="*{expirationYear}"
+												style="color: #2a3d2e !important;">Año de expiración</label>
+											<input type="text" th:field="*{expirationYear}"
 												th:errorclass="fieldError" data-form-field="expirationYear"
 												required="required" placeholder="23"
 												class="form-control display-7"
@@ -449,10 +510,13 @@
 							});
 						</script>
 						<script th:if="${gotCredit} == true">
-							$('#holderName').val("[[${creditCard.holderName}]]");
+							$('#holderName')
+									.val("[[${creditCard.holderName}]]");
 							$('#number').val("[[${creditCard.number}]]");
-							$('#expirationMonth').val("[[${creditCard.expirationMonth}]]");
-							$('#expirationYear').val("[[${creditCard.expirationYear}]]");
+							$('#expirationMonth').val(
+									"[[${creditCard.expirationMonth}]]");
+							$('#expirationYear').val(
+									"[[${creditCard.expirationYear}]]");
 							$('#brandName').val("[[${creditCard.brandName}]]");
 							$('#cvvCode').val("[[${creditCard.cvvCode}]]");
 						</script>
