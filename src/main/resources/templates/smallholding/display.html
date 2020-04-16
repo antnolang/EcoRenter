@@ -171,7 +171,8 @@
 
 								<!-- Pago -->
 
-								<form th:if="${!isRentedByRenter}" sec:authorize="hasAuthority('RENTER')"
+								<form th:if="${!isRentedByRenter}"
+									sec:authorize="hasAuthority('RENTER')"
 									th:action="@{'/renter/smallholding/rent?smallholdingId=' + ${smallholding.id}}"
 									id="payment-form" style="display: none;"
 									th:object="${creditCardForm}" method="post"
@@ -249,8 +250,8 @@
 										<div class="col-md-6  form-group" data-for="name">
 											<label for="name-form1-17"
 												class="form-control-label mbr-fonts-style display-7"
-												style="color: #2a3d2e !important;">Año de
-												expiración</label> <input type="text" th:field="*{expirationYear}"
+												style="color: #2a3d2e !important;">Año de expiración</label>
+											<input type="text" th:field="*{expirationYear}"
 												th:errorclass="fieldError" data-form-field="expirationYear"
 												required="required" placeholder="23"
 												class="form-control display-7"
@@ -347,36 +348,41 @@
 			</div>
 
 
-			
+
 			<div class="content">
 
 				<div class="container" style="color: #54775e !important">
 					<div class="row justify-content-center">
 
-						
-						<div th:if="${comment != null}" sec:authorize="hasAnyAuthority('RENTER','OWNER')" class="container">
-							<form th:action="@{'/comment/edit'}" id="formComment" th:object="${comment}" method="post" data-form-title=" Form">
+
+						<div th:if="${comment != null}"
+							sec:authorize="hasAnyAuthority('RENTER','OWNER')"
+							class="container">
+							<form th:action="@{'/comment/edit'}" id="formComment"
+								th:object="${comment}" method="post" data-form-title=" Form">
 
 								<input type="hidden" th:field="*{id}" /> <input type="hidden"
-										th:field="*{version}" /> <input type="hidden"
-										th:field="*{smallholding}" />
-								
+									th:field="*{version}" /> <input type="hidden"
+									th:field="*{smallholding}" />
+
 								<div class="dragArea row">
-									<button type="submit" name="comentar" style="width: 170px; height:10px;" class="btn btn-form btn-secondary display-4">Comentar</button>
+									<button type="submit" name="comentar"
+										style="width: 170px; height: 10px;"
+										class="btn btn-form btn-secondary display-4">Comentar</button>
 									<div data-for="message" class="col-md-12 form-group">
 										<input type="text" placeholder="Escribe un comentario"
 											name="text" data-form-field="Message" required="required"
 											class="form-control display-7"></input>
 
 									</div>
-									
-									
+
+
 
 								</div>
 
 							</form>
 						</div>
-						
+
 						<div class="container" th:each="co : ${comments}">
 							<div class="card">
 								<div class="card-header">
@@ -387,13 +393,18 @@
 									</div>
 								</div>
 								<div class="card-body" th:text="${co.text}"></div>
-								<a th:if="${principalId != null && principalId == co.actor.id}" th:href="@{~/comment/delete?commentId=}+${co.id}"
-										class="btn btn-warning-outline display-4"> Eliminar </a>
-							</div>	
+								<a th:if="${principalId != null && principalId == co.actor.id}"
+									th:href="@{~/comment/delete?commentId=}+${co.id}"
+									class="btn btn-form btn-secondary display-4"
+									style="width: 20px; height: 10px; background-color: red !important; margin-left: 0px !important; margin-top: 0px !important; padding-right: 20px; padding-left: 20px">
+									<i class="fas fa-trash" style="color: white !important;"></i>
+								</a>
+							</div>
+
 
 
 						</div>
-						
+
 						<script>
 							$('.liveTime').liveTimeAgo({
 								translate : {
@@ -427,10 +438,13 @@
 							});
 						</script>
 						<script th:if="${gotCredit} == true">
-							$('#holderName').val("[[${creditCard.holderName}]]");
+							$('#holderName')
+									.val("[[${creditCard.holderName}]]");
 							$('#number').val("[[${creditCard.number}]]");
-							$('#expirationMonth').val("[[${creditCard.expirationMonth}]]");
-							$('#expirationYear').val("[[${creditCard.expirationYear}]]");
+							$('#expirationMonth').val(
+									"[[${creditCard.expirationMonth}]]");
+							$('#expirationYear').val(
+									"[[${creditCard.expirationYear}]]");
 							$('#brandName').val("[[${creditCard.brandName}]]");
 							$('#cvvCode').val("[[${creditCard.cvvCode}]]");
 						</script>
