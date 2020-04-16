@@ -380,16 +380,15 @@
 						<div class="container" th:each="co : ${comments}">
 							<div class="card">
 								<div class="card-header">
-									<!--<strong th:text="${co.rentOut.renter.userAccount.username}"><strong>-->
+									<strong th:text="${co.actor.userAccount.username}"></strong>
 									<div class="float-right">
 										<span class="liveTime" th:text="${co.writtenMoment}"></span> <i
 											class="fas fa-clock"></i>
 									</div>
 								</div>
 								<div class="card-body" th:text="${co.text}"></div>
-								<!--
-								<a th:href="@{~/comment/delete?commentId=}+${co.id}"
-										class="btn btn-warning-outline display-4"> Eliminar </a>-->
+								<a th:if="${principalId != null && principalId == co.actor.id}" th:href="@{~/comment/delete?commentId=}+${co.id}"
+										class="btn btn-warning-outline display-4"> Eliminar </a>
 							</div>	
 
 

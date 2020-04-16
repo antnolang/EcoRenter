@@ -60,6 +60,7 @@ public class CommentService {
         result = new Comment();
         result.setSmallholding(smallholding);
         result.setWrittenMoment(this.utilityService.getCurrentMoment());
+        result.setActor(this.actorService.findByPrincipal());
 
         return result;
 
@@ -92,6 +93,7 @@ public class CommentService {
     public void delete(Comment comment) {
         Assert.isTrue(comment.getId() != 0, "El comentario debe existir");
         Assert.notNull(comment, "El comentario no puede ser nulo");
+        Assert.isTrue(comment.getActor().equals(this.actorService.findByPrincipal()), "El actor que elimina debe ser el mismo que el creador del mismo");
 
         this.checkEdit(comment.getSmallholding());
 
@@ -133,6 +135,7 @@ public class CommentService {
             result.setVersion(saved.getVersion());
             result.setSmallholding(saved.getSmallholding());
             result.setWrittenMoment(saved.getWrittenMoment());
+            result.setActor(this.actorService.findByPrincipal());
         }
 
         result.setText(comment.getText().trim());

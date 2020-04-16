@@ -189,6 +189,8 @@ public class SmallholdingController {
 			result.addObject("comments", comments);
 			result.addObject("isRentedByRenter", isRentedByRenter);
 			result.addObject("photo_imageData", photo_imageData);
+			if(principal != null)
+				result.addObject("principalId", principal.getId());
 			
 			
 			

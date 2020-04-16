@@ -19,7 +19,10 @@ public class CommentController {
     // Services
 
     @Autowired
-    private CommentService commentService;
+	private CommentService commentService;
+	
+	@Autowired
+	private SmallholdingController smallholdingController;
 
     // Constructor
 
@@ -32,18 +35,17 @@ public class CommentController {
 	@PostMapping(value = "/edit", params = "comentar")
 	public ModelAndView save(Comment comment, final BindingResult binding) {
         ModelAndView result;
-        Comment commentRec;
-
-        commentRec = this.commentService.reconstruct(comment,binding);
+        Comment commentRec=null;
 		
 		if (binding.hasErrors()) {
 			result = this.createEditModelAndView(comment);
 		} else {
 			try {
+				commentRec = this.commentService.reconstruct(comment,binding);
                 this.commentService.save(commentRec);
                 result = new ModelAndView("redirect:/smallholding/display?smallholdingId=" + commentRec.getSmallholding().getId());
 			} catch (final Throwable oops) {
-                result = this.createEditModelAndView(commentRec, "No se pudo realizar la operación");
+                result = this.createEditModelAndView(comment, "No se pudo realizar la operación");
 			}
 		}
 
@@ -80,8 +82,7 @@ public class CommentController {
 
 	protected ModelAndView createEditModelAndView(final Comment comment, final String messageCode) {
 		ModelAndView result;
-
-		result = new ModelAndView("smallholding/display?smallholdingId=" + comment.getSmallholding().getId());
+		result = this.smallholdingController.display(comment.getSmallholding().getId());
 		result.addObject("comment", comment);
 		result.addObject("messageCode", messageCode);
 
