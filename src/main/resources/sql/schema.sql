@@ -56,6 +56,7 @@ CREATE TABLE public.comment (
     version integer NOT NULL,
     text character varying(255),
     written_moment timestamp without time zone NOT NULL,
+    actor_id integer NOT NULL,
     smallholding_id integer NOT NULL
 );
 
@@ -322,7 +323,7 @@ CREATE TABLE public.valuation (
     version integer NOT NULL,
     mark integer NOT NULL,
     valuation_moment timestamp without time zone NOT NULL,
-    CONSTRAINT valuation_mark_check CHECK (((mark >= 0) AND (mark <= 5)))
+    CONSTRAINT valuation_mark_check CHECK (((mark <= 5) AND (mark >= 0)))
 );
 
 

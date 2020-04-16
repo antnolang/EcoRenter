@@ -61,6 +61,12 @@ public class Comment extends DomainEntity {
 	@ManyToOne(optional = false)
 	private Smallholding smallholding;
 
+	@NotNull
+	@Valid
+	@ManyToOne(optional = false)
+	private Actor actor;
+	
+	
 	public Smallholding getSmallholding() {
 		return smallholding;
 	}
@@ -69,4 +75,11 @@ public class Comment extends DomainEntity {
 		this.smallholding = smallholding;
 	}
 
+	public Actor getActor() {
+		return actor;
+	}
+
+	public void setActor(Actor actor) {
+		this.actor = actor;
+	}	
 }
