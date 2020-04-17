@@ -211,8 +211,6 @@ public class OwnerService {
 				                                      "Las contraseñas no coinciden.");
 		Assert.isTrue(this.actorService.checkNoRepeatedUsername(ownerRegister.getUsername()),
 				                                                "El usuario elegido ya existe.");
-		Assert.isTrue(ownerRegister.getIban()
-				.matches("[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}"), "Iban incorrecto.");
 		
 
 		//Obtenemos valores del parametro renterRegister obtenido del formulario
@@ -223,7 +221,7 @@ public class OwnerService {
 		String telephone = ownerRegister.getTelephoneNumber();
 		String username = ownerRegister.getUsername();
 		String password = ownerRegister.getPassword();
-		String iban = ownerRegister.getIban();
+		
 		int months = 0;
 		MultipartFile file = ownerRegister.getFile();
 
@@ -236,7 +234,6 @@ public class OwnerService {
 		result.setSurname(surname);
 		result.setEmail(email);
 		result.setTelephoneNumber(telephone);
-		result.setIban(iban);
 		result.setAccumulatedMonths(months);
 		
 		if (file != null) {

@@ -78,7 +78,7 @@ public class SmallholdingService {
         Assert.notNull(smallholding, "La parcela debe existir");
         Assert.isTrue(smallholding.getOwner().equals(
             this.ownerService.findByPrincipal()), "El propietario de la parcela no corresponde con el usuario autenticado");
-        Assert.isTrue(!smallholding.getOwner().getIban().isEmpty(), "El propietario debe tener un IBAN asociado");
+        Assert.isTrue(!(smallholding.getOwner().getIban() == null), "El propietario debe tener un IBAN asociado");
         Assert.isTrue(smallholding.getStatus().equals("NO ALQUILADA"), "No se puede editar una parcela ya alquilada");
 
         Smallholding result;
