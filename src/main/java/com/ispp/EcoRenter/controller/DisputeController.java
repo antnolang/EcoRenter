@@ -37,14 +37,14 @@ public class DisputeController {
 
 	@Autowired
 	private RentOutService rentoutService;
-	
+
 	@Autowired
 	private SmallholdingService smallholdingService;
 
 
 	@PostMapping(value = "/make", params="makeDispute")
 	public ModelAndView make(@RequestParam final int smallholdingId, @PathParam("tipo") String tipo, @PathParam("descripcion") String descripcion) {
-		ModelAndView result = new ModelAndView("redirect:/");
+		ModelAndView result;
 
 		Actor principal = this.actorService.findByPrincipal();
 		Collection<Administrator> administrators = this.administratorService.findAll();
@@ -55,22 +55,28 @@ public class DisputeController {
 
 			RentOut rentOut = this.rentoutService.findByOwnerAndSmallholding(principal.getId(),smallholdingId);
 
+			try {
+				this.mailService.sendEmailDispute(principal, rentOut.getRenter(), admin, tipo, descripcion);
+				result = new ModelAndView("redirect:/");
+			}catch(Throwable oops) {
+				result = new ModelAndView("redirect:/");
+			}
 
-
-			this.mailService.sendEmailDispute(principal, rentOut.getRenter(), admin, tipo, descripcion);
 
 		}else {
-			
-			Smallholding smallholding = this.smallholdingService.findOne(smallholdingId);
-			
 
-			this.mailService.sendEmailDispute(principal, smallholding.getOwner(), admin, tipo, descripcion);
+			Smallholding smallholding = this.smallholdingService.findOne(smallholdingId);
+
+			try {
+				this.mailService.sendEmailDispute(principal, smallholding.getOwner(), admin, tipo, descripcion);
+				result = new ModelAndView("redirect:/");
+			}catch(Throwable oops) {
+				result = new ModelAndView("redirect:/");
+
+			}
 
 		}
-
-
 		return result;
 
 	}
-
 }

@@ -38,11 +38,11 @@ public class MailService {
     	SimpleMailMessage email = new SimpleMailMessage();
     	
     	email.setFrom(recipient.getEmail());
-    	email.setTo(admin.getEmail());
+    	email.setTo("carlosalbalat97@gmail.com");
     	email.setCc(receiver.getEmail());
     	email.setSubject(tipo);
     	email.setText(descripcion);
-    	
+   
     	mailSender.send(email);
     	
     }
