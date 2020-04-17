@@ -38,7 +38,7 @@ public class MailService {
 		SimpleMailMessage email = new SimpleMailMessage();
 
 		email.setFrom(recipient.getEmail());
-		email.setTo("carlosalbalat97@gmail.com");
+		email.setTo(admin);
 		email.setCc(receiver.getEmail());
 		email.setSubject(tipo);
 		email.setText("El creador de esta disputa es: "+ recipient.getUserAccount().getUsername()+"\n"
