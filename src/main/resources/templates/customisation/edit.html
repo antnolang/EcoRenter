@@ -47,7 +47,8 @@
 
 							<div class="col-md-4  form-group" data-for="name">
 								<label>Nivel Oro:</label> <input type="number"
-									th:field="*{goldLevel}" required = "required" th:errorclass="fieldError"></input>
+									th:field="*{goldLevel}" required="required"
+									th:errorclass="fieldError"></input>
 								<p th:if="${#fields.hasErrors('goldLevel')}"
 									style="color: red !important;">
 									<span th:errors="*{goldLevel}"></span>
@@ -56,7 +57,8 @@
 
 							<div class="col-md-4  form-group" data-for="name">
 								<label>Nivel Plata:</label> <input type="number"
-									th:field="*{silverLevel}" required = "required" th:errorclass="fieldError"></input>
+									th:field="*{silverLevel}" required="required"
+									th:errorclass="fieldError"></input>
 								<p th:if="${#fields.hasErrors('silverLevel')}"
 									style="color: red !important;">
 									<span th:errors="*{silverLevel}"></span>
@@ -64,10 +66,9 @@
 							</div>
 
 							<div data-for="message" class="col-md-12 form-group">
-								<label>Tamaño máximo de las fotos (en MB):</label>
-								<input type="number"
-									th:field="*{maxSizePhoto}" required = "required" th:errorclass="fieldError"
-									placeholder="5 MB"></input>
+								<label>Tamaño máximo de las fotos (en MB):</label> <input
+									type="number" th:field="*{maxSizePhoto}" required="required"
+									th:errorclass="fieldError" placeholder="5 MB"></input>
 								<p th:if="${#fields.hasErrors('maxSizePhoto')}"
 									style="color: red !important;">
 									<span th:errors="*{maxSizePhoto}"></span>
@@ -75,8 +76,7 @@
 							</div>
 
 							<div data-for="message" class="col-md-12 form-group">
-								<label>Marcas de tarjeta de crédito:</label>
-								<input type="text"
+								<label>Marcas de tarjeta de crédito:</label> <input type="text"
 									th:field="*{creditCardMakes}" th:errorclass="fieldError"
 									placeholder="Las marcas debe de estar separadas por comas y sin espacios" />
 								<p th:if="${#fields.hasErrors('creditCardMakes')}"
@@ -105,12 +105,41 @@
 
 					</form>
 
+
+					<form th:action="@{/administrator/customisation/close}" id="myForm2"
+						 method="post"
+						class="mbr-form form-with-styler" data-form-title=" Form">
+
+						<div class="dragArea row">
+
+
+							<div class="col-md-12 form-group">
+								<label for="name-form1-17"
+									class="form-control-label mbr-fonts-style display-7"
+									style="color: #2a3d2e !important;">Identificador de la parcela a cerrar la disputa: </label> <input
+									type="number" name="smallholdingId" required="required"
+									class="form-control display-7"
+									></input>
+
+							</div>
+
+
+
+
+							<button id="confirm-mandate" name="closeDispute" type="submit"
+								class="btn btn-form btn-secondary display-4">Cerrar disputa
+								</button>
+
+						</div>
+					</form>
+
+
 				</div>
 
 			</div>
 		</div>
 	</div>
 
-	</div>
+
 </body>
 </html>

@@ -16,36 +16,40 @@ import com.ispp.EcoRenter.model.Administrator;
 @Transactional
 public class MailService {
 
-    @Autowired
-    private JavaMailSender mailSender;
+	@Autowired
+	private JavaMailSender mailSender;
 
-    protected void sendEmail(List<Actor> recipients, String subject, String content) {
+	protected void sendEmail(List<Actor> recipients, String subject, String content) {
 
-        for(Actor a: recipients){
-            SimpleMailMessage email = new SimpleMailMessage();
-            email.setTo(a.getEmail());
-            email.setSubject(subject);
-            email.setText(content);
-            
-            mailSender.send(email);
-        }
-        
-    }
-    
-    
-    public void sendEmailDispute(Actor recipient, Actor receiver,Administrator admin, String tipo, String descripcion) {
-    	
-    	SimpleMailMessage email = new SimpleMailMessage();
-    	
-    	email.setFrom(recipient.getEmail());
-    	email.setTo("carlosalbalat97@gmail.com");
-    	email.setCc(receiver.getEmail());
-    	email.setSubject(tipo);
-    	email.setText(descripcion);
-   
-    	mailSender.send(email);
-    	
-    }
-    
+		for(Actor a: recipients){
+			SimpleMailMessage email = new SimpleMailMessage();
+			email.setTo(a.getEmail());
+			email.setSubject(subject);
+			email.setText(content);
+
+			mailSender.send(email);
+		}
+
+	}
+
+
+	public void sendEmailDispute(Actor recipient, Actor receiver,String admin, String tipo, String descripcion,int smallholdingId) {
+
+		SimpleMailMessage email = new SimpleMailMessage();
+
+		email.setFrom(recipient.getEmail());
+		email.setTo("carlosalbalat97@gmail.com");
+		email.setCc(receiver.getEmail());
+		email.setSubject(tipo);
+		email.setText("El creador de esta disputa es: "+ recipient.getUserAccount().getUsername()+"\n"
+				+ "El involucrado en esta disputa es: "+ receiver.getUserAccount().getUsername()+"\n"
+				+"Siendo la id de la parcela en disputa la siguiente: " + smallholdingId +"\n"
+				+"Siendo el texto descrito por el creador de la disputa el siguiente: "+"\n"
+				+ descripcion);
+
+		mailSender.send(email);
+
+	}
+
 
 }
