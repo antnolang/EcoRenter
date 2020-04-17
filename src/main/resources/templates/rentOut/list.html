@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{master-page/layout :: layout(~{::title}, ~{::div.content})}">
+	<head>
+		<title>Mis alquileres</title>
+	</head>
+	
+	<body>
+		<div class="content ">
+			
+		<section class="services1 cid-rRNjW9YKmG" id="services1-6">
+		<div class="container">
+        <div class="row justify-content-center">
+            <!--Titles-->
+            <div class="title pb-5 col-12" >
+                <h2 class="align-left pb-3 mbr-fonts-style display-2 text-center">
+					Mis alquileres</h2>
+
+            </div>
+
+
+
+            <div class="card col-12 col-md-6 p-3 col-lg-3" th:each="ro : ${roPage}" >
+                <div class="card-wrapper">
+					<div class="card-box ">
+                        <p class="mbr-text mbr-fonts-style display-7 text-center">Fecha inicio: <span th:text="${#dates.format(ro.startDate, 'dd/MM/yyyy')}"></span></p>
+                        <p class="mbr-text mbr-fonts-style display-7 text-center">Fecha fin: <span th:text="${#dates.format(ro.endDate, 'dd/MM/yyyy')}"></span></p>
+						<p class="mbr-text mbr-fonts-style display-7 text-center"> <span th:text="${ro.smallholding.locality}" style="font-size: 14px;background-color: #54775e !important;" class="badge badge-secondary"></span></p>
+                    </div>
+				</div>
+				<div class="mbr-section-btn align-center" style="text-align: center !important;">
+				<a th:if="${ro.valuation == null}" th:href="@{~/renter/valuation/create?rentOutId=} + ${ro.id}" class="btn btn-warning-outline display-4">Hacer valoración</a>
+				<a th:href="@{~/renter/rentOut/display?rentOutId=} + ${ro.id}" class="btn btn-warning-outline display-4">Ver alquiler</a></div>
+			</div>				
+			 
+			<div class="container">
+				<div class="row justify-content-center">
+					<div  th:if="${roPage.totalPages > 0}" 
+						th:each="pageNumber : ${pageNumbers}">
+						<nav aria-label="Page navigation example">
+							<ul class="pagination">
+								<li class="page-item">
+									<a th:href="@{/renter/rentOut/list(size=${roPage.size}, page=${pageNumber})}" th:text=${pageNumber}	class="page-link"></a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+
+				</div>
+			</div>
+			
+			<div th:if="${roPage.getTotalElements() == 0}">
+				<span>No existen resultados</span>
+			</div>   
+
+			
+    </div>
+</section>
+
+		</div>
+	</body>
+</html>

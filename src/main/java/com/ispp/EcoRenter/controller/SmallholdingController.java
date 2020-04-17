@@ -26,12 +26,14 @@ import com.ispp.EcoRenter.model.Owner;
 import com.ispp.EcoRenter.model.Photo;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.model.Smallholding;
+import com.ispp.EcoRenter.model.Valuation;
 import com.ispp.EcoRenter.service.ActorService;
 import com.ispp.EcoRenter.service.CommentService;
 import com.ispp.EcoRenter.service.CreditCardService;
 import com.ispp.EcoRenter.service.PhotoService;
 import com.ispp.EcoRenter.service.RenterService;
 import com.ispp.EcoRenter.service.SmallholdingService;
+import com.ispp.EcoRenter.service.ValuationService;
 
 @Controller
 @RequestMapping("/smallholding")
@@ -56,6 +58,9 @@ public class SmallholdingController {
 
 	@Autowired
 	private RenterService renterService;
+
+	@Autowired
+	private ValuationService valuationService;
 
 	// Constructor
 
@@ -141,6 +146,8 @@ public class SmallholdingController {
 		boolean gotCredit = false;
 		CreditCard creditCard;
 		Comment comment;
+		Long avgMark;
+		Collection<Valuation> valuations;
 
 		photo_imageData = new HashMap<Photo,String>();
 		principal = null;
@@ -192,7 +199,13 @@ public class SmallholdingController {
 			if(principal != null)
 				result.addObject("principalId", principal.getId());
 			
-			
+			valuations = this.valuationService.findValuationsBySmallholding(smallholdingId);
+			if(valuations.isEmpty())
+				result.addObject("avgMark", "No se han obtenido valoraciones por el momento");
+			else {
+				avgMark = this.valuationService.avgMarkSmallholding(smallholdingId);
+				result.addObject("avgMark", avgMark);
+			}
 			
 			if(principal != null && principal instanceof Owner && smallholding.getOwner().equals(principal)){
 				comment = this.commentService.create(smallholdingId);
