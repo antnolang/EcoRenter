@@ -110,10 +110,7 @@ public class ActorOwnerController {
 				} else if (message.equals("El usuario elegido ya existe.")) {
 					result.addObject("noValidUser", message);
 
-				} else if (message.equals("Iban incorrecto.")) {
-					result.addObject("noValidIban", message);
-
-				} else {
+				}  else {
 					result.addObject("errorMessage",
 							"No se pudo realizar el registro. Intentelo de nuevo por favor.");
 				}

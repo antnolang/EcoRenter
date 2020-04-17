@@ -146,25 +146,7 @@
 
 
 
-							<div class="col-md-12  form-group" data-for="iban">
-								<label for="name-form1-17"
-									class="form-control-label mbr-fonts-style display-7"
-									style="color: #2a3d2e !important;">Iban</label> <input
-									type="text" placeholder="ES1234554678901234567890"
-									pattern="[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}"
-									th:field="*{iban}" th:errorclass="fieldError"
-									data-form-field="iban" required="required"
-									class="form-control display-7" />
-								<p th:if="${#fields.hasErrors('iban')}"
-									style="color: red !important;">
-									<span th:errors="*{iban}"></span>
-								</p>
-							</div>
-
-							<div class="col-md-12 form-group" data-for="iban"
-								th:if="${noValidIban != ''}">
-								<p th:text="${noValidIban}" style="color: red !important;"></p>
-							</div>
+							
 
 							<div class="col-md-12  form-group" data-for="file">
 								<label for="name-form1-17"
