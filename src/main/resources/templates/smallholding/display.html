@@ -92,6 +92,11 @@
 									<span th:text="${smallholding.price}"></span> €/mes
 								</p>
 
+								<p
+									class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">Valoración de otros usuarios:
+									<span th:if="${avgMark != null}" th:text="${avgMark}"></span>
+								</p>
+
 
 								<!--Btn-->
 								<div sec:authorize="hasAuthority('RENTER')"
