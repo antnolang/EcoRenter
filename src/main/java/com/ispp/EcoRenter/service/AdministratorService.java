@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ispp.EcoRenter.configuration.MyUserDetailsService;
 import com.ispp.EcoRenter.form.AdminForm;
+import com.ispp.EcoRenter.model.Actor;
 import com.ispp.EcoRenter.model.Administrator;
 import com.ispp.EcoRenter.model.Comment;
 import com.ispp.EcoRenter.model.Owner;
@@ -54,10 +55,10 @@ public class AdministratorService {
 
 	@Autowired
 	private CommentService commentService;
-	
+
 	@Autowired
 	private SmallholdingService smallholdingService;
-	
+
 	@Autowired
 	private OwnerService ownerService;
 
@@ -135,68 +136,53 @@ public class AdministratorService {
 
 		if(!rentsByThisRenter.isEmpty()) {
 			for(RentOut r : rentsByThisRenter) {
-				/*TODO Ya no existe la relación Comment - RentOut
-				Collection<Comment> commentsOfThisRent = this.commentService.findCommentsByRentOut(r.getId());
-
-				if(!commentsOfThisRent.isEmpty()) {
-					for(Comment c : commentsOfThisRent) {
-						this.commentService.delete(c);
-
-
-					}
-
-					this.rentoutService.delete(r);
-				}else {
-					this.rentoutService.delete(r);
-				}
-				*/
-
+				this.rentoutService.delete(r);
 			}
-			this.renterService.delete(renter);
-		}else {
-			this.renterService.delete(renter);
 		}
 
+		Collection<Comment> commentsThisRenter = this.commentService.findCommentsByActor(renter.getId());
 
+		if(!commentsThisRenter.isEmpty()) {
+			for(Comment c : commentsThisRenter) {
+				this.commentService.actorDelete(c);
+			}
+		}
 
+		this.renterService.delete(renter);
 	}
-	
+
 	public void deleteOwner(Owner owner) {
 		Collection<Smallholding> smallByThisOwner = this.smallholdingService.findSmallholdingsByOwnerId(owner.getId());
-		
+
 		if(!smallByThisOwner.isEmpty()) {
 			for(Smallholding s : smallByThisOwner) {
-				
+
 				Collection<RentOut> rentsForThisSmall = this.rentoutService.findBySmallholding(s.getId());
-				
+
 				if(!rentsForThisSmall.isEmpty()) {
 					for(RentOut r : rentsForThisSmall) {
-						/*TODO
-						Collection<Comment> comments = this.commentService.findCommentsByRentOut(r.getId());
-						
-						if(!comments.isEmpty()) {
-							for(Comment c : comments) {
-								this.commentService.delete(c);
-							}
-							
-						}
-						
 						this.rentoutService.delete(r);
-						*/
 					}
 				}
-				
+
+				Collection<Comment> commentsByOwner = this.commentService.findCommentsBySmallholdingId(s.getId());
+
+				if(!commentsByOwner.isEmpty()) {
+					for(Comment c : commentsByOwner) {
+						this.commentService.actorDelete(c);
+					}
+				}
+
+
 				this.smallholdingService.delete(s);
+
 			}
-			this.ownerService.delete(owner);
-		}else {
-			this.ownerService.delete(owner);
 		}
-		
+
+
+		this.ownerService.delete(owner);
 	}
-	
-	
-	
+
 	// Other business methods ------------------
 	public Administrator findByPrincipal() {
 		Administrator result;

@@ -129,8 +129,7 @@ public class ActorOwnerController {
 		
 		Owner principal = this.ownerService.findByPrincipal();
 		
-		ActorExport toExport = new ActorExport(principal.getIban(),
-											   principal.getName(),
+		ActorExport toExport = new ActorExport(principal.getName(),
 											   principal.getSurname(),
 											   principal.getTelephoneNumber(),
 											   principal.getUserAccount().getUsername(),
