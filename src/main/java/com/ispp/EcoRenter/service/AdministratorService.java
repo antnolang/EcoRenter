@@ -131,7 +131,7 @@ public class AdministratorService {
 		return result;
 	}
 
-public void deleteRenter(Renter renter) {
+	public void deleteRenter(Renter renter) {
 		Collection<RentOut> rentsByThisRenter = this.rentoutService.findRentOutsByRenter(renter.getId());
 
 		if(!rentsByThisRenter.isEmpty()) {
@@ -150,9 +150,9 @@ public void deleteRenter(Renter renter) {
 
 		this.renterService.delete(renter);
 	}
-  
-  
-public void deleteOwner(Owner owner) {
+
+
+	public void deleteOwner(Owner owner) {
 		Collection<Smallholding> smallByThisOwner = this.smallholdingService.findSmallholdingsByOwnerId(owner.getId());
 
 		if(!smallByThisOwner.isEmpty()) {
@@ -208,7 +208,7 @@ public void deleteOwner(Owner owner) {
 
 		return result;
 	}
-	
+
 	public Collection<Administrator> findAll(){
 
 		return this.administratorRepository.findAll();
