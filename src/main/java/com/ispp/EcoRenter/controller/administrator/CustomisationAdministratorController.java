@@ -81,16 +81,24 @@ public class CustomisationAdministratorController {
     @PostMapping(value = "/close", params = "closeDispute")
     public ModelAndView close(@PathParam("smallholdingId") int smallholdingId) {
     	ModelAndView result;
-    	Smallholding small = this.smallholdingService.findOne(smallholdingId);
+    	
+    	Customisation customisation;
+
+        customisation = this.customisationService.find();
+        
+    	
     	try {
+    		
+    		
+    		Smallholding small = this.smallholdingService.findOne(smallholdingId);
     		small.setArgumented(false);
     		this.smallholdingService.saveDispute(small);
     		
     		result = new ModelAndView("redirect:/");
     		
     	}catch(Throwable oops) {
-    		result = new ModelAndView("redirect:/administrator/customisation/edit");
-    		result.addObject("closeError", "No se pudo cerrar la disputa, intentelo de nuevo");
+    		
+    		result = this.editModelAndView(customisation, "No se pudo cerrar la disputa, introduzca un identificador valido.");
     	}
     	
     		
@@ -113,8 +121,13 @@ public class CustomisationAdministratorController {
 		ModelAndView result;
 
 		result = new ModelAndView("customisation/edit");
+		if(messageCode.equals("No se pudo cerrar la disputa, introduzca un identificador valido.")) {
+			result.addObject("closeError", messageCode);
+		}else {
+			result.addObject("messageCode", messageCode);
+		}
 		result.addObject("customisation", customisation);
-		result.addObject("messageCode", messageCode);
+		
 
 		return result;
 	}

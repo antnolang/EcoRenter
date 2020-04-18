@@ -124,7 +124,10 @@
 							</div>
 
 
-
+							<div class="col-md-12 form-group" data-for="name"
+								th:if="${closeError != ''}">
+								<p th:text="${closeError}"></p>
+							</div>
 
 							<button id="confirm-mandate" name="closeDispute" type="submit"
 								class="btn btn-form btn-secondary display-4">Cerrar disputa
