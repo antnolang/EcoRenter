@@ -96,7 +96,7 @@ CREATE TABLE public.customization (
     silver_level integer NOT NULL,
     CONSTRAINT customization_gold_level_check CHECK ((gold_level >= 9)),
     CONSTRAINT customization_max_size_photo_check CHECK ((max_size_photo >= 1)),
-    CONSTRAINT customization_silver_level_check CHECK (((silver_level <= 8) AND (silver_level >= 3)))
+    CONSTRAINT customization_silver_level_check CHECK (((silver_level >= 3) AND (silver_level <= 8)))
 );
 
 
@@ -226,8 +226,7 @@ CREATE TABLE public.renter (
     surname character varying(255),
     telephone_number character varying(255),
     photo_id integer,
-    user_account_id integer NOT NULL,
-    iban character varying(255)
+    user_account_id integer NOT NULL
 );
 
 
@@ -323,7 +322,7 @@ CREATE TABLE public.valuation (
     version integer NOT NULL,
     mark integer NOT NULL,
     valuation_moment timestamp without time zone NOT NULL,
-    CONSTRAINT valuation_mark_check CHECK (((mark <= 5) AND (mark >= 0)))
+    CONSTRAINT valuation_mark_check CHECK (((mark >= 0) AND (mark <= 5)))
 );
 
 

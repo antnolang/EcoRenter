@@ -117,7 +117,7 @@ COPY public.provider_discount_code (id, version, discount_codes, link_page, name
 -- Data for Name: renter; Type: TABLE DATA; Schema: public; Owner: spring_dev
 --
 
-COPY public.renter (id, version, email, name, surname, telephone_number, photo_id, user_account_id, iban) FROM stdin;
+COPY public.renter (id, version, email, name, surname, telephone_number, photo_id, user_account_id) FROM stdin;
 \.
 
 
