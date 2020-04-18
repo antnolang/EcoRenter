@@ -42,7 +42,7 @@ public class SmallholdingServiceTest {
         El owner1 realiza un listado de sus parcelas
     */
     @Transactional
-    @WithMockUser("propietario1")
+    @WithMockUser("owner1")
     @Test
     public void list_positive_test(){
         Collection<Smallholding> smallholdings;
@@ -59,7 +59,7 @@ public class SmallholdingServiceTest {
         La parcela se crea correctamente
     */
     @Transactional
-    @WithMockUser("propietario1")
+    @WithMockUser("owner1")
     @Test
     public void create_positive_test(){
         Smallholding smallholding, saved;
@@ -111,7 +111,7 @@ public class SmallholdingServiceTest {
      /*
         La parcela no se crea correctamente. El atributo título está en blanco
     */
-    @WithMockUser("propietario1")
+    @WithMockUser("owner1")
     @Test
     public void create_negative_test() {
         Smallholding smallholding;
@@ -151,7 +151,7 @@ public class SmallholdingServiceTest {
         El owner1 edita una parcela la cual no está alquilada
     */
     @Transactional
-    @WithMockUser("propietario1")
+    @WithMockUser("owner1")
     @Test
     public void edit_positive_test(){
         Smallholding smallholding;
@@ -169,7 +169,7 @@ public class SmallholdingServiceTest {
         El owner2 intenta editar una parcela la cual no es suya
     */
     @Transactional
-    @WithMockUser("propietario2")
+    @WithMockUser("owner2")
     @Test
     public void edit_negative_test(){
         Boolean catched;
@@ -188,7 +188,7 @@ public class SmallholdingServiceTest {
         El owner1 intenta editar una parcela alquilada
     */
     @Transactional
-    @WithMockUser("propietario1")
+    @WithMockUser("owner1")
     @Test
     public void edit_negative_test2(){
         Boolean catched;
@@ -206,7 +206,7 @@ public class SmallholdingServiceTest {
     /*
         Renter2 visualiza una parcela de otro arrendatario alquilada
     */
-    @WithMockUser("arrendatario2")
+    @WithMockUser("renter2")
     @Test
     public void display_negative_test(){
         Boolean catched;

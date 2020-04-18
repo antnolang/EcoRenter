@@ -42,10 +42,26 @@ COPY public.administrator (id, version, email, name, surname, telephone_number, 
 
 
 --
+-- Data for Name: credit_card; Type: TABLE DATA; Schema: public; Owner: spring_dev
+--
+
+COPY public.credit_card (id, version, brand_name, cvv_code, expiration_month, expiration_year, holder_name, number) FROM stdin;
+\.
+
+
+--
 -- Data for Name: owner; Type: TABLE DATA; Schema: public; Owner: spring_dev
 --
 
 COPY public.owner (id, version, email, name, surname, telephone_number, photo_id, user_account_id, accumulated_months, iban) FROM stdin;
+\.
+
+
+--
+-- Data for Name: renter; Type: TABLE DATA; Schema: public; Owner: spring_dev
+--
+
+COPY public.renter (id, version, email, name, surname, telephone_number, photo_id, user_account_id, iban) FROM stdin;
 \.
 
 
@@ -58,18 +74,26 @@ COPY public.smallholding (id, version, address, description, farming_type, is_ar
 
 
 --
--- Data for Name: comment; Type: TABLE DATA; Schema: public; Owner: spring_dev
+-- Data for Name: valuation; Type: TABLE DATA; Schema: public; Owner: spring_dev
 --
 
-COPY public.comment (id, version, text, written_moment, actor_id, smallholding_id) FROM stdin;
+COPY public.valuation (id, version, mark, valuation_moment) FROM stdin;
 \.
 
 
 --
--- Data for Name: credit_card; Type: TABLE DATA; Schema: public; Owner: spring_dev
+-- Data for Name: rent_out; Type: TABLE DATA; Schema: public; Owner: spring_dev
 --
 
-COPY public.credit_card (id, version, brand_name, cvv_code, expiration_month, expiration_year, holder_name, number) FROM stdin;
+COPY public.rent_out (id, version, is_active, month, start_date, credit_card_id, renter_id, smallholding_id, valuation_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: comment; Type: TABLE DATA; Schema: public; Owner: spring_dev
+--
+
+COPY public.comment (id, version, text, written_moment, rent_out_id) FROM stdin;
 \.
 
 
@@ -110,30 +134,6 @@ SELECT pg_catalog.setval('public.hibernate_sequence', 1, false);
 --
 
 COPY public.provider_discount_code (id, version, discount_codes, link_page, name) FROM stdin;
-\.
-
-
---
--- Data for Name: renter; Type: TABLE DATA; Schema: public; Owner: spring_dev
---
-
-COPY public.renter (id, version, email, name, surname, telephone_number, photo_id, user_account_id) FROM stdin;
-\.
-
-
---
--- Data for Name: valuation; Type: TABLE DATA; Schema: public; Owner: spring_dev
---
-
-COPY public.valuation (id, version, mark, valuation_moment) FROM stdin;
-\.
-
-
---
--- Data for Name: rent_out; Type: TABLE DATA; Schema: public; Owner: spring_dev
---
-
-COPY public.rent_out (id, version, is_active, month, start_date, credit_card_id, renter_id, smallholding_id, valuation_id) FROM stdin;
 \.
 
 

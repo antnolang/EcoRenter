@@ -2,11 +2,11 @@ package com.ispp.EcoRenter.export;
 
 public class ActorExport {
 	
-	private String name,surname,telephone,username,email;
+	private String name,surname,telephone,username,email,iban;
 	
 	
 	
-	public ActorExport(String name, String surname, String telephone, String username,String email) {
+	public ActorExport(String iban,String name, String surname, String telephone, String username,String email) {
 		
 		
 		this.name = name;
@@ -14,7 +14,7 @@ public class ActorExport {
 		this.telephone = telephone;
 		this.username = username;
 		this.email = email;
-		
+		this.iban = iban;
 		
 	}
 
@@ -80,7 +80,16 @@ public class ActorExport {
 
 
 
-	
+	public String getIban() {
+		return iban;
+	}
+
+
+
+	public void setIban(String iban) {
+		this.iban = iban;
+	}
+
 	
 	
 

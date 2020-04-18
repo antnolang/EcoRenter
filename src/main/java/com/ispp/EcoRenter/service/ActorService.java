@@ -20,10 +20,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 import com.ispp.EcoRenter.model.Actor;
 import com.ispp.EcoRenter.model.Administrator;
+import com.ispp.EcoRenter.model.Smallholding;
 import com.ispp.EcoRenter.repository.ActorRepository;
 import com.ispp.EcoRenter.security.Authority;
 import com.ispp.EcoRenter.security.UserAccount;
@@ -155,7 +155,7 @@ public class ActorService {
     public String getEncodedIban(String iban) {
     	String result;
     	
-    	result = (StringUtils.hasText(iban))
+    	result = (iban != null && iban != "" && !iban.isEmpty())
     			? iban.substring(0, 4) + " **** **** **** **** " + iban.subSequence(20, 24)
     			: "";
     	

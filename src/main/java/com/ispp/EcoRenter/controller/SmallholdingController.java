@@ -2,6 +2,7 @@ package com.ispp.EcoRenter.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,6 @@ import com.ispp.EcoRenter.model.Photo;
 import com.ispp.EcoRenter.model.RentOut;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.model.Smallholding;
-import com.ispp.EcoRenter.model.Valuation;
 import com.ispp.EcoRenter.service.ActorService;
 import com.ispp.EcoRenter.service.CommentService;
 import com.ispp.EcoRenter.service.CreditCardService;
@@ -37,7 +37,6 @@ import com.ispp.EcoRenter.service.PhotoService;
 import com.ispp.EcoRenter.service.RentOutService;
 import com.ispp.EcoRenter.service.RenterService;
 import com.ispp.EcoRenter.service.SmallholdingService;
-import com.ispp.EcoRenter.service.ValuationService;
 
 @Controller
 @RequestMapping("/smallholding")
@@ -62,9 +61,6 @@ public class SmallholdingController {
 
 	@Autowired
 	private RenterService renterService;
-
-	@Autowired
-	private ValuationService valuationService;
 
 	@Autowired
 	private RentOutService rentoutService;
@@ -162,9 +158,6 @@ public class SmallholdingController {
 		CreditCardForm creditCardForm;
 		boolean gotCredit = false;
 		CreditCard creditCard;
-		Comment comment;
-		Long avgMark;
-		Collection<Valuation> valuations;
 
 		photo_imageData = new HashMap<Photo,String>();
 		principal = null;
@@ -190,11 +183,6 @@ public class SmallholdingController {
 					result.addObject("gotCredit", gotCredit);
 					result.addObject("creditCardForm", creditCardForm);
 					result.addObject("creditCardMakes", this.creditCardService.getCreditCardMakes());
-				} else {
-					comment = this.commentService.create(smallholdingId);
-
-					result.addObject("comment", comment);
-
 				}
 			} 
 		} catch (Exception e) {
@@ -231,25 +219,9 @@ public class SmallholdingController {
 			result.addObject("comments", comments);
 			result.addObject("isRentedByRenter", isRentedByRenter);
 			result.addObject("photo_imageData", photo_imageData);
-
-			if(principal != null)
-				result.addObject("principalId", principal.getId());
-			
-			valuations = this.valuationService.findValuationsBySmallholding(smallholdingId);
-			if(valuations.isEmpty())
-				result.addObject("ratingVacio", "Parcela sin valoraciones");
-			else {
-				avgMark = this.valuationService.avgMarkSmallholding(smallholdingId);
-				result.addObject("avgMark", avgMark);
-			}
-			
 			result.addObject("isRentedMySmall", isRentedMySmall);
-			result.addObject("inDispute", smallholding.isArgumented());
 
 			if(principal != null && principal instanceof Owner && smallholding.getOwner().equals(principal)){
-				comment = this.commentService.create(smallholdingId);
-
-				result.addObject("comment", comment);
 				result.addObject("ownerPrincipal", true);
 			} else {
 				result.addObject("ownerPrincipal", false);

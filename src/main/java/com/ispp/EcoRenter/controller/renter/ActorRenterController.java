@@ -55,6 +55,7 @@ public class ActorRenterController {
 		Actor actor;
 		Renter principal;
 		boolean isMyProfile;
+		String iban;
 
 		principal = this.renterService.findByPrincipal();
 
@@ -63,9 +64,17 @@ public class ActorRenterController {
 		actor = this.actorService.findOne(principal.getId());
 
 		result = new ModelAndView("actor/display");
+
+		if (isMyProfile) {
+			iban = this.actorService.getEncodedIban(principal.getIban());
+
+			result.addObject("iban", iban);
+
+			log.info("Es un arrendatario.");
+		}
+
 		result.addObject("actor", actor);
-		result.addObject("isMyProfile", isMyProfile);
-		
+
 		return result;
 	}
 
@@ -128,8 +137,7 @@ public class ActorRenterController {
 		
 		Renter principal = this.renterService.findByPrincipal();
 		
-		// TODO: Carlos, revisa esto
-		ActorExport toExport = new ActorExport(principal.getName(),principal.getSurname(), principal.getTelephoneNumber(), principal.getUserAccount().getUsername(), principal.getEmail());
+		ActorExport toExport = new ActorExport(principal.getIban(),principal.getName(),principal.getSurname(), principal.getTelephoneNumber(), principal.getUserAccount().getUsername(), principal.getEmail());
 		
 		
 		response.setContentType("text/csv");

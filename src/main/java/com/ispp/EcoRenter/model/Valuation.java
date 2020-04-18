@@ -18,7 +18,7 @@ public class Valuation extends DomainEntity {
  
 	private static final long serialVersionUID = 1L;
 	
-	@Range(min = 0, max = 5, message = "Debe valorar entre 0 y 5, siendo 5 el valor más alto")
+	@Range(min = 0, max = 5)
 	private int mark;
 	
 	@NotNull

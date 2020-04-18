@@ -15,7 +15,9 @@ public class Renter extends Actor {
 	private static final long serialVersionUID = 1L;
 	
 	// Atributos ----------------------
-	
+	private String iban;
+
+
 	// Constructores ------------------
 	public Renter() {
 		super();
@@ -24,8 +26,16 @@ public class Renter extends Actor {
 	}
 	
 
+	
 	// Getters y setters --------------
+	public String getIban() {
+		return iban;
+	}
 
+	public void setIban(String iban) {
+		this.iban = iban;
+	}
+	
 	
 	// Asociaciones -------------------
 
@@ -42,5 +52,8 @@ public class Renter extends Actor {
 	public void setCreditCards(Collection<CreditCard> creditCards) {
 		this.creditCards = creditCards;
 	}
-			
+	
+	
+
+		
 }

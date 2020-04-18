@@ -32,7 +32,7 @@ public class CreditCardServiceTest {
 	
 	@Test
 	@Transactional
-	@WithMockUser("arrendatario1")
+	@WithMockUser("renter1")
 	public void positiveTest_findOneToEdit() {
 		CreditCard creditCard;
 		int creditCardId;
@@ -45,7 +45,7 @@ public class CreditCardServiceTest {
 	
 	@Test
 	@Transactional
-	@WithMockUser("arrendatario2")
+	@WithMockUser("renter2")
 	public void negativeTest_findOneToEdit() {
 		CreditCard creditCard;
 		int creditCardId;
@@ -64,7 +64,7 @@ public class CreditCardServiceTest {
 	
 	@Test
 	@Transactional
-	@WithMockUser("arrendatario2")
+	@WithMockUser("renter2")
 	public void positiveTest_create() {
 		CreditCard creditCard;
 		
@@ -78,7 +78,7 @@ public class CreditCardServiceTest {
 	 */
 	@Test
 	@Transactional
-	@WithMockUser("arrendatario2")
+	@WithMockUser("renter2")
 	public void positiveTest_save() {
 		CreditCardForm creditCardForm;
 		CreditCard creditCard;
@@ -119,7 +119,7 @@ public class CreditCardServiceTest {
 	 */
 	@Test
 	@Transactional
-	@WithMockUser("arrendatario2")
+	@WithMockUser("renter2")
 	public void negativeTest_save_uno() {
 		CreditCardForm creditCardForm;
 		CreditCard creditCard;
@@ -166,7 +166,7 @@ public class CreditCardServiceTest {
 	 */
 	@Test
 	@Transactional
-	@WithMockUser("arrendatario2")
+	@WithMockUser("renter2")
 	public void negativeTest_save_dos() {
 		CreditCardForm creditCardForm;
 		CreditCard creditCard;
@@ -210,7 +210,7 @@ public class CreditCardServiceTest {
 	 */
 	@Test
 	@Transactional
-	@WithMockUser("arrendatario2")
+	@WithMockUser("renter2")
 	public void negativeTest_save_tres() {
 		CreditCardForm creditCardForm;
 		CreditCard creditCard;
@@ -254,7 +254,7 @@ public class CreditCardServiceTest {
 	 */
 	@Test
 	@Transactional
-	@WithMockUser("arrendatario1")
+	@WithMockUser("renter1")
 	public void negativeTest_delete_uno() {
 		CreditCard creditCard;
 		int creditCardId;
@@ -278,7 +278,7 @@ public class CreditCardServiceTest {
 	 */
 	@Test
 	@Transactional
-	@WithMockUser("arrendatario2")
+	@WithMockUser("renter2")
 	public void negativeTest_delete_dos() {
 		CreditCard creditCard;
 		int creditCardId;
@@ -298,7 +298,7 @@ public class CreditCardServiceTest {
 	
 	@Test
 	@Transactional
-	@WithMockUser("arrendatario1")
+	@WithMockUser("renter1")
 	public void positiveTest_getCreditCardEncodedNumber() {
 		Map<Integer, String> results;
 		Collection<CreditCard> creditCards;
@@ -315,7 +315,7 @@ public class CreditCardServiceTest {
 	
 	@Test
 	@Transactional
-	@WithMockUser("arrendatario1")
+	@WithMockUser("renter1")
 	public void positiveTest_getCreditCardByRentOutNumber() {
 		Map<Integer, Boolean> results;
 		Collection<CreditCard> creditCards;

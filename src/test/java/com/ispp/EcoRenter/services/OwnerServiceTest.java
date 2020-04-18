@@ -24,7 +24,7 @@ public class OwnerServiceTest {
 	/*
 	 * Un owner edita su perfil
 	 */
-	@WithMockUser("propietario2")
+	@WithMockUser("owner2")
 	@Transactional
 	@Test
 	public void positiveTest_edit_one() {
@@ -53,7 +53,7 @@ public class OwnerServiceTest {
 	 * Un owner edita su perfil
 	 * La contraseñas no coinciden.
 	 */
-	@WithMockUser("propietario2")
+	@WithMockUser("owner2")
 	@Transactional
 	@Test
 	public void negativeTest_edit_one() {
@@ -65,7 +65,7 @@ public class OwnerServiceTest {
 		surname = "Arenas Mellado";
 		email = "jules@hotmail.com";
 		telephoneNumber = "+34 696465208";
-		username = "propietario2";
+		username = "owner2";
 		password = username;
 		passwordMatch = "Las contraseñas no coinciden";
 		iban = "ES1501287541639316325975";
@@ -85,7 +85,7 @@ public class OwnerServiceTest {
 	 * Un owner edita su perfil
 	 * La username ya existe.
 	 */
-	@WithMockUser("propietario2")
+	@WithMockUser("owner2")
 	@Transactional
 	@Test
 	public void negativeTest_edit_dos() {
@@ -97,9 +97,9 @@ public class OwnerServiceTest {
 		surname = "Arenas Mellado";
 		email = "jules@hotmail.com";
 		telephoneNumber = "+34 696465208";
-		username = "propietario1";
-		password = "propietario2";
-		passwordMatch = "propietario2";
+		username = "owner1";
+		password = "owner2";
+		passwordMatch = "owner2";
 		iban = "ES1501287541639316325975";
 	
 		ownerForm = this.getOwnerForm(name, surname, email, telephoneNumber, username, password, passwordMatch, iban);
@@ -117,7 +117,7 @@ public class OwnerServiceTest {
 	 * Un owner edita su perfil
 	 * Datos no validos en atributos.
 	 */
-	@WithMockUser("propietario2")
+	@WithMockUser("owner2")
 	@Transactional
 	@Test
 	public void negativeTest_edit_tres() {
@@ -129,9 +129,9 @@ public class OwnerServiceTest {
 		surname = "";
 		email = "jules##";
 		telephoneNumber = "";
-		username = "propietario1";
-		password = "propietario2";
-		passwordMatch = "propietario2";
+		username = "owner1";
+		password = "owner2";
+		passwordMatch = "owner2";
 		iban = "ES1501287541639316325975";
 	
 		ownerForm = this.getOwnerForm(name, surname, email, telephoneNumber, username, password, passwordMatch, iban);

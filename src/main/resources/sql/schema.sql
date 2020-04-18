@@ -56,8 +56,7 @@ CREATE TABLE public.comment (
     version integer NOT NULL,
     text character varying(255),
     written_moment timestamp without time zone NOT NULL,
-    actor_id integer NOT NULL,
-    smallholding_id integer NOT NULL
+    rent_out_id integer NOT NULL
 );
 
 
@@ -76,7 +75,7 @@ CREATE TABLE public.credit_card (
     expiration_year character varying(255),
     holder_name character varying(255),
     number character varying(255),
-    CONSTRAINT credit_card_cvv_code_check CHECK (((cvv_code <= 999) AND (cvv_code >= 100)))
+    CONSTRAINT credit_card_cvv_code_check CHECK (((cvv_code >= 100) AND (cvv_code <= 999)))
 );
 
 
@@ -226,7 +225,8 @@ CREATE TABLE public.renter (
     surname character varying(255),
     telephone_number character varying(255),
     photo_id integer,
-    user_account_id integer NOT NULL
+    user_account_id integer NOT NULL,
+    iban character varying(255)
 );
 
 
@@ -625,19 +625,19 @@ ALTER TABLE ONLY public.rent_out
 
 
 --
--- Name: fkc0pxkg1dl4wk0257pxdkqr5cf; Type: FK CONSTRAINT; Schema: public; Owner: spring_dev
---
-
-ALTER TABLE ONLY public.comment
-    ADD CONSTRAINT fkc0pxkg1dl4wk0257pxdkqr5cf FOREIGN KEY (smallholding_id) REFERENCES public.smallholding(id);
-
-
---
 -- Name: fki1vsr0uw536n5xewcq6hupv0b; Type: FK CONSTRAINT; Schema: public; Owner: spring_dev
 --
 
 ALTER TABLE ONLY public.rent_out
     ADD CONSTRAINT fki1vsr0uw536n5xewcq6hupv0b FOREIGN KEY (smallholding_id) REFERENCES public.smallholding(id);
+
+
+--
+-- Name: fkjei8pnwif8vhbu7n0t1nkf5tf; Type: FK CONSTRAINT; Schema: public; Owner: spring_dev
+--
+
+ALTER TABLE ONLY public.comment
+    ADD CONSTRAINT fkjei8pnwif8vhbu7n0t1nkf5tf FOREIGN KEY (rent_out_id) REFERENCES public.rent_out(id);
 
 
 --
