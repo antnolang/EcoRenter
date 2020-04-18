@@ -49,7 +49,17 @@ public class SmallholdingService {
 	@Autowired
 	private PhotoService photoService;
 
+
 	// Constructor
+
+    public Smallholding save(Smallholding smallholding, List<MultipartFile> file){
+        Assert.notNull(smallholding, "La parcela debe existir");
+        Assert.isTrue(smallholding.getOwner().equals(
+            this.ownerService.findByPrincipal()), "El propietario de la parcela no corresponde con el usuario autenticado");
+        Assert.isTrue(!(smallholding.getOwner().getIban() == null), "El propietario debe tener un IBAN asociado");
+        Assert.isTrue(smallholding.getStatus().equals("NO ALQUILADA"), "No se puede editar una parcela ya alquilada");
+
+}
 
 	public SmallholdingService(){
 		super();
@@ -356,6 +366,7 @@ public class SmallholdingService {
 		return result;
 	}
 
+
 	public List<String> getGeoData(Collection<Smallholding> smallholdings) {
 		String latitudes, longitudes, lats, lngs, title, temp_title;
 		List<String> results;
@@ -391,5 +402,124 @@ public class SmallholdingService {
 	public void flush() {
 		this.smallholdingRepository.flush();
 	}
+
+
+    public Page<Smallholding> findPaginated(Pageable pageable, Collection<Smallholding> smallholdings) {
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<Smallholding> list;
+        ArrayList<Smallholding> smaList= new ArrayList<>(smallholdings);
+ 
+        if (smaList.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, smaList.size());
+            list = smaList.subList(startItem, toIndex);
+        }
+ 
+        Page<Smallholding> smPage
+          = new PageImpl<Smallholding>(list, PageRequest.of(currentPage, pageSize), smaList.size());
+ 
+        return smPage;
+    }
+
+    public Collection<Smallholding> findSmallholdingsByOwnerId(int ownerId){
+        Collection<Smallholding> result;
+
+        result = this.smallholdingRepository.findSmallholdingsByOwnerId(ownerId);
+
+        return result;
+    }
+
+    public Collection<Smallholding> findSmallholdingsAvailables(){
+        Collection<Smallholding> result;
+
+        result = this.smallholdingRepository.findSmallholdingsAvailables();
+
+        return result;
+    }
+
+    public Boolean isSmallholdingRentedByRenter(int renterId, int smallholdingId){
+        Boolean result;
+        Collection<Smallholding> smallholdingsRented;
+        Smallholding smallholding;
+
+        smallholdingsRented = this.smallholdingRepository.findSmallholdingsByActiveRentOut(renterId);
+        smallholding = this.findOne(smallholdingId);
+
+        result = (smallholdingsRented.contains(smallholding) ? true : false);              
+
+        return result;
+    }
+
+    public Collection<Smallholding> findSmallholdingsRentedByOwnerId(int ownerId) {
+        Collection<Smallholding> result;
+
+        result = this.smallholdingRepository.findSmallholdingsRentedByOwnerId(ownerId);
+
+        return result;
+    }
+
+    public Collection<Smallholding> findSmallholdingsByActiveRentOut(int renterId) {
+    	Collection<Smallholding> results;
+    	 	
+    	results = this.smallholdingRepository.findSmallholdingsByActiveRentOut(renterId);
+    	
+    	return results;
+    }
+
+    public Collection<Smallholding> findSmallholdingsByKeyword(String keyword){
+        Collection<Smallholding> result;
+
+        result = this.smallholdingRepository.findSmallholdingsByKeyword(keyword);
+
+        return result;
+    }
+
+    public Collection<Smallholding> findSmallholdingsByRenterId(int renterId){
+        Collection<Smallholding> result;
+
+        result = this.smallholdingRepository.findSmallholdingsByRenterId(renterId);
+
+        return result;
+    }
+
+    public List<String> getGeoData(Collection<Smallholding> smallholdings) {
+    	String latitudes, longitudes, lats, lngs, title, temp_title;
+    	List<String> results;
+    	int n;
+    	
+    	results = new ArrayList<String>();
+    	
+    	if (smallholdings.size() > 0) {
+    		latitudes = "";
+        	longitudes = "";
+        	temp_title = "";
+        	for (Smallholding sh: smallholdings) {
+        		latitudes = latitudes + sh.getLatitude() + ";";
+        		longitudes = longitudes +  sh.getLongitude() + ";";
+        		temp_title = temp_title + sh.getTitle() + ";";
+        	}
+        	
+        	n = latitudes.length();
+        	n = n-1;
+        	
+        	lats = latitudes.substring(0, n);
+        	lngs = longitudes.substring(0, n);
+        	title = temp_title.substring(0, temp_title.length()-1);
+        	
+        	results.add(lats);
+        	results.add(lngs);
+        	results.add(title);
+    	}
+    	
+    	return results;
+    }
+
+    public void flush() {
+        this.smallholdingRepository.flush();
+    }
+    
 
 }

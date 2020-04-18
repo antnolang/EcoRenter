@@ -16,7 +16,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -71,16 +70,10 @@ public class RenterService {
     	userAccount.addAuthority(auth);
     	userAccount.setIsBanned(false);
     	
-    	
     	result.setUserAccount(userAccount);
     	result.setCreditCards(Collections.emptySet());
     	
-    	//TODO: A la espera de lo que nos diga Fernando para
-    	// quitar Renter::iban. Mientras tanto, lo mantenemos
-    	result.setIban("ES1031903747351357512213");
-    	
-    	return result;
-    	
+    	return result;	
     }
     
     
@@ -131,7 +124,7 @@ public class RenterService {
     
     public Renter edit(RenterForm renterForm) {
     	String name, surname, email, telephoneNumber, username;
-    	String password, passwordMatch, iban, encodedPassword, usernameDB;
+    	String password, passwordMatch, encodedPassword, usernameDB;
     	UsernamePasswordAuthenticationToken usernameToken;
     	Renter result;
     	UserAccount userAccount;
@@ -148,7 +141,6 @@ public class RenterService {
 		username = renterForm.getUsername();
 		password = renterForm.getPassword();
 		passwordMatch = renterForm.getPasswordMatch();
-		iban = renterForm.getIban();
 		file = renterForm.getFile();
 		
 		userAccount = result.getUserAccount();
@@ -163,16 +155,6 @@ public class RenterService {
 					      "El usuario elegido ya existe.");
 		}
 		
-		// Si el usuario ha introducido un nuevo iban, comprobamos que sea válido
-		// Si no ha introducido ningun valor, para el iban se mantiene el que tenía anteriormente
-		if (StringUtils.hasText(iban)) {
-			Assert.isTrue(iban.matches("[ES]{2}[0-9]{6}[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}"),
-					      "Iban incorrecto.");
-		
-			result.setIban(iban.trim());
-		}
-	
-		
 		// Insertar foto y setear Actor::photo.
 		if (file != null) {
 			photo = this.photoService.storeImage(file);
@@ -180,7 +162,6 @@ public class RenterService {
 			if (photo != null) {
 				result.setPhoto(photo);
 			}
-			
 		}
 		
 		encodedPassword = this.passwordEncoder.encode(password);

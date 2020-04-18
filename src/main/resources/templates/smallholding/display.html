@@ -10,6 +10,7 @@
 
 <body>
 	<div class="content">
+		<script type="text/javascript" th:src="@{/resources/rating/js/rating.js}"></script>
 		<section class="services2 cid-rRNDCjx6s4" id="services2-q">
 
 			<div class="container">
@@ -29,6 +30,21 @@
 									</div>
 								</div>
 							</div>
+							<div th:if="${avgMark != null}" class="text-center"style="font-size: 2em;">
+							<div id="dataReadonlyReview" >
+							</div>
+
+							</div>
+
+							<div th:if="${ratingVacio}" class="text-center"style="font-size: 2em;">
+							<div id="dataReadonlyReviewCero" >
+							</div>
+							<p th:text="${ratingVacio}">
+							
+							</p>
+
+							</div>
+
 						</div>
 
 						<div class="align-left aside-content">
@@ -96,6 +112,8 @@
 									class="mbr-text text2 pt-4 mbr-light mbr-fonts-style display-2">
 									<span th:text="${smallholding.price}"></span> €/mes
 								</p>
+
+
 
 
 								<!--Btn-->
@@ -259,7 +277,8 @@
 
 								<!-- Pago -->
 
-								<form sec:authorize="hasAuthority('RENTER')"
+								<form th:if="${!isRentedByRenter}"
+									sec:authorize="hasAuthority('RENTER')"
 									th:action="@{'/renter/smallholding/rent?smallholdingId=' + ${smallholding.id}}"
 									id="payment-form" style="display: none;"
 									th:object="${creditCardForm}" method="post"
@@ -427,7 +446,6 @@
 									</div>
 								</form>
 
-
 							</div>
 
 						</div>
@@ -443,38 +461,52 @@
 					<div class="row justify-content-center">
 
 
-						<!-- 	<div class="container">
-							<form th:action="@{/añadirURLCONTROLADOR}" id="formComment" th:object="${comment}"
-								method="post" 
-								data-form-title=" Form">
-								
+						<div th:if="${comment != null}"
+							sec:authorize="hasAnyAuthority('RENTER','OWNER')"
+							class="container">
+							<form th:action="@{'/comment/edit'}" id="formComment"
+								th:object="${comment}" method="post" data-form-title=" Form">
+
+								<input type="hidden" th:field="*{id}" /> <input type="hidden"
+									th:field="*{version}" /> <input type="hidden"
+									th:field="*{smallholding}" />
+
 								<div class="dragArea row">
-								<button type="submit" name="comentar" style="width: 170px; height:10px;" class="btn btn-form btn-secondary display-4">Comentar</button>
+									<button type="submit" name="comentar"
+										style="width: 170px; height: 10px;"
+										class="btn btn-form btn-secondary display-4">Comentar</button>
 									<div data-for="message" class="col-md-12 form-group">
 										<input type="text" placeholder="Escribe un comentario"
 											name="text" data-form-field="Message" required="required"
 											class="form-control display-7"></input>
 
 									</div>
-									
+
+
 
 								</div>
 
 							</form>
 						</div>
-						-->
+
 						<div class="container" th:each="co : ${comments}">
 							<div class="card">
 								<div class="card-header">
-									<strong th:text="${co.rentOut.renter.userAccount.username}"></strong>
+									<strong th:text="${co.actor.userAccount.username}"></strong>
 									<div class="float-right">
 										<span class="liveTime" th:text="${co.writtenMoment}"></span> <i
 											class="fas fa-clock"></i>
 									</div>
 								</div>
 								<div class="card-body" th:text="${co.text}"></div>
-
+								<a th:if="${principalId != null && principalId == co.actor.id}"
+									th:href="@{~/comment/delete?commentId=}+${co.id}"
+									class="btn btn-form btn-secondary display-4"
+									style="width: 20px; height: 10px; background-color: red !important; margin-left: 0px !important; margin-top: 0px !important; padding-right: 20px; padding-left: 20px">
+									<i class="fas fa-trash" style="color: white !important;"></i>
+								</a>
 							</div>
+
 
 
 						</div>
@@ -510,6 +542,30 @@
 								}
 
 							});
+							
+					
+							
+						</script>
+						
+						<script th:if="${avgMark != null}" >
+						    $("#dataReadonlyReview").rating({
+						    	 "half":true ,
+						        "readonly":true,
+						        "value" : '[[${avgMark}]]',
+						       
+						    });
+							
+						
+						</script>
+						<script th:if="${ratingVacio}">
+						    $("#dataReadonlyReviewCero").rating({
+						        "half":true ,
+						        "readonly":true,
+						        "value" : '0',
+						       
+						    });
+							
+						
 						</script>
 						<script th:if="${gotCredit} == true">
 							$('#holderName')

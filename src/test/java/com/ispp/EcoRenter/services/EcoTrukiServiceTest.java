@@ -56,7 +56,7 @@ public class EcoTrukiServiceTest {
 	/*
 	 * Un renter con al menos un alquiler activo visualiza un eco truki
 	 */
-	@WithMockUser("renter1")
+	@WithMockUser("arrendatario1")
 	@Test
 	@Transactional
 	public void positiveTest_findOne_dos() {
@@ -73,7 +73,7 @@ public class EcoTrukiServiceTest {
 	/*
 	 * Un owner con al menos un alquiler activo visualiza un eco truki
 	 */
-	@WithMockUser("owner1")
+	@WithMockUser("propietario1")
 	@Test
 	@Transactional
 	public void positiveTest_findOne_tres() {
@@ -90,7 +90,7 @@ public class EcoTrukiServiceTest {
 	/*
 	 * Un renter sin alquileres activos trata de acceder a un eco truki
 	 */
-	@WithMockUser("renter2")
+	@WithMockUser("propietario2")
 	@Test
 	@Transactional
 	public void negativeTest_findOne_uno() {

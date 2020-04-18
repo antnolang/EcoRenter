@@ -61,6 +61,10 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 				<li sec:authorize="isAuthenticated()" class="nav-item"><a
 					class="nav-link link text-secondary display-4" th:href="@{/eco-truki/authenticated/list}"
 					aria-expanded="false">Eco Trukis</a></li>
+
+				<li sec:authorize="hasAuthority('RENTER')" class="nav-item"><a
+					class="nav-link link text-secondary display-4" th:href="@{/renter/rentOut/list}"
+					aria-expanded="false">Mis alquileres</a></li>
 				
 				<li sec:authorize="isAnonymous()" class="nav-item"><a
 					class="nav-link link text-secondary display-4" th:href="@{/actor/owner/register}"
