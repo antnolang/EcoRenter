@@ -10,6 +10,7 @@
 
 <body>
 	<div class="content">
+		<script type="text/javascript" th:src="@{/resources/rating/js/rating.js}"></script>
 		<section class="services2 cid-rRNDCjx6s4" id="services2-q">
 
 			<div class="container">
@@ -29,6 +30,21 @@
 									</div>
 								</div>
 							</div>
+							<div th:if="${avgMark != null}" class="text-center"style="font-size: 2em;">
+							<div id="dataReadonlyReview" >
+							</div>
+
+							</div>
+
+							<div th:if="${ratingVacio}" class="text-center"style="font-size: 2em;">
+							<div id="dataReadonlyReviewCero" >
+							</div>
+							<p th:text="${ratingVacio}">
+							
+							</p>
+
+							</div>
+
 						</div>
 
 						<div class="align-left aside-content">
@@ -92,10 +108,7 @@
 									<span th:text="${smallholding.price}"></span> €/mes
 								</p>
 
-								<p
-									class="mbr-text text1 pt-2 mbr-light mbr-fonts-style display-7">Valoración de otros usuarios:
-									<span th:if="${avgMark != null}" th:text="${avgMark}"></span>
-								</p>
+
 
 
 								<!--Btn-->
@@ -441,6 +454,30 @@
 								}
 
 							});
+							
+					
+							
+						</script>
+						
+						<script th:if="${avgMark != null}" >
+						    $("#dataReadonlyReview").rating({
+						    	 "half":true ,
+						        "readonly":true,
+						        "value" : '[[${avgMark}]]',
+						       
+						    });
+							
+						
+						</script>
+						<script th:if="${ratingVacio}">
+						    $("#dataReadonlyReviewCero").rating({
+						        "half":true ,
+						        "readonly":true,
+						        "value" : '0',
+						       
+						    });
+							
+						
 						</script>
 						<script th:if="${gotCredit} == true">
 							$('#holderName')

@@ -28,8 +28,8 @@
                     </div>
 				</div>
 				<div class="mbr-section-btn align-center" style="text-align: center !important;">
-				<a th:if="${ro.valuation == null}" th:href="@{~/renter/valuation/create?rentOutId=} + ${ro.id}" class="btn btn-warning-outline display-4">Hacer valoración</a>
-				<a th:href="@{~/renter/rentOut/display?rentOutId=} + ${ro.id}" class="btn btn-warning-outline display-4">Ver alquiler</a></div>
+				<a th:if="${ro.valuation == null}" th:href="@{~/renter/valuation/create?rentOutId=} + ${ro.id}" class="btn btn-warning-outline display-4">Realizar valoración</a>
+				<a th:href="@{~/smallholding/display?smallholdingId=} + ${ro.smallholding.id}" class="btn btn-warning-outline display-4">Ver parcela</a></div>
 			</div>				
 			 
 			<div class="container">
