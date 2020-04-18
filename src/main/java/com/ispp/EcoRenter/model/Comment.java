@@ -59,14 +59,27 @@ public class Comment extends DomainEntity {
 	@NotNull
 	@Valid
 	@ManyToOne(optional = false)
-	private RentOut rentOut;
+	private Smallholding smallholding;
 
-	public RentOut getRentOut() {
-		return rentOut;
-	}
-
-	public void setRentOut(RentOut rentOut) {
-		this.rentOut = rentOut;
-	}
+	@NotNull
+	@Valid
+	@ManyToOne(optional = false)
+	private Actor actor;
 	
+	
+	public Smallholding getSmallholding() {
+		return smallholding;
+	}
+
+	public void setSmallholding(Smallholding smallholding) {
+		this.smallholding = smallholding;
+	}
+
+	public Actor getActor() {
+		return actor;
+	}
+
+	public void setActor(Actor actor) {
+		this.actor = actor;
+	}	
 }
