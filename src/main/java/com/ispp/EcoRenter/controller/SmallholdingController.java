@@ -23,6 +23,7 @@ import com.ispp.EcoRenter.form.CreditCardForm;
 import com.ispp.EcoRenter.model.Actor;
 import com.ispp.EcoRenter.model.Comment;
 import com.ispp.EcoRenter.model.CreditCard;
+import com.ispp.EcoRenter.model.Customisation;
 import com.ispp.EcoRenter.model.Owner;
 import com.ispp.EcoRenter.model.Photo;
 import com.ispp.EcoRenter.model.RentOut;
@@ -31,6 +32,7 @@ import com.ispp.EcoRenter.model.Smallholding;
 import com.ispp.EcoRenter.service.ActorService;
 import com.ispp.EcoRenter.service.CommentService;
 import com.ispp.EcoRenter.service.CreditCardService;
+import com.ispp.EcoRenter.service.CustomisationService;
 import com.ispp.EcoRenter.service.PhotoService;
 import com.ispp.EcoRenter.service.RentOutService;
 import com.ispp.EcoRenter.service.RenterService;
@@ -63,6 +65,9 @@ public class SmallholdingController {
 	@Autowired
 	private RentOutService rentoutService;
 
+	@Autowired
+	private CustomisationService customisationService;
+
 	// Constructor
 
 	public SmallholdingController() {
@@ -81,6 +86,8 @@ public class SmallholdingController {
 		List<Smallholding> ls_smallholdings;
 		List<String> geoData;
 		Map<Integer,List<String>> sh_photo;
+		int goldLevel;
+		int silverLever;
 
 		sh_photo = new HashMap<Integer,List<String>>();
 
@@ -124,6 +131,11 @@ public class SmallholdingController {
 				sh_photo.put(sh.getId(), photoAttr);
 			}
 
+			goldLevel = this.customisationService.find().getGoldLevel();
+			silverLever = this.customisationService.find().getSilverLevel();
+
+			result.addObject("goldLevel", goldLevel);
+			result.addObject("silverLever", silverLever);
 			result.addObject("smallholdingPage", shPage);
 			result.addObject("sh_photo", sh_photo);
 			result.addObject("requestURI", "smallholding/list");
@@ -208,7 +220,6 @@ public class SmallholdingController {
 			result.addObject("isRentedByRenter", isRentedByRenter);
 			result.addObject("photo_imageData", photo_imageData);
 			result.addObject("isRentedMySmall", isRentedMySmall);
-
 
 			if(principal != null && principal instanceof Owner && smallholding.getOwner().equals(principal)){
 				result.addObject("ownerPrincipal", true);
