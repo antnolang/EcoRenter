@@ -99,6 +99,12 @@ public class CommentService {
 
     	this.commentRepository.delete(comment);
     }
+    
+    public void actorDelete(Comment comment) {
+      
+
+    	this.commentRepository.delete(comment);
+    }
 
     // Other business methods
 
@@ -108,6 +114,11 @@ public class CommentService {
         result = this.commentRepository.findCommentsBySmallholdingId(smallholdingId);
 
         return result;
+    }
+    
+    public Collection<Comment> findCommentsByActor(int actorId){
+    	
+    	return this.commentRepository.findCommentsByActor(actorId);
     }
     
     private void checkEdit(Smallholding smallholding){

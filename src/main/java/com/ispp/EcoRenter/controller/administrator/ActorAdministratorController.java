@@ -169,7 +169,7 @@ public class ActorAdministratorController {
 
 				result = new ModelAndView("redirect:/actor/administrator/deleteActor");
 			} catch (Throwable oops) {
-				result = new ModelAndView("redirect:actor/administrator/deleteActor");
+				result = new ModelAndView("redirect:/actor/administrator/deleteActor");
 
 				result.addObject("error", oops.getMessage());
 			}

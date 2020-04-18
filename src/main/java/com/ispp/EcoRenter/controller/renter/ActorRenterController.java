@@ -129,8 +129,8 @@ public class ActorRenterController {
 		Renter principal = this.renterService.findByPrincipal();
 		
 		// TODO: Carlos, revisa esto
-		//ActorExport toExport = new ActorExport(principal.getIban(),principal.getName(),principal.getSurname(), principal.getTelephoneNumber(), principal.getUserAccount().getUsername(), principal.getEmail());
-		ActorExport toExport = new ActorExport("",principal.getName(),principal.getSurname(), principal.getTelephoneNumber(), principal.getUserAccount().getUsername(), principal.getEmail());
+		ActorExport toExport = new ActorExport(principal.getName(),principal.getSurname(), principal.getTelephoneNumber(), principal.getUserAccount().getUsername(), principal.getEmail());
+		
 		
 		response.setContentType("text/csv");
 		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\" ");
