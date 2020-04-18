@@ -23,3 +23,13 @@
 		document.getElementById("contactosArrendatario").style.display = "block";
 		
 	}
+	
+	
+
+	
+	function desapareceDisputa(){
+		
+		document.getElementById("disputaBtn").style.display = "none";
+		document.getElementById("disputaForm").style.display = "block";
+		
+	}

@@ -232,6 +232,7 @@ public class SmallholdingController {
 			}
 			
 			result.addObject("isRentedMySmall", isRentedMySmall);
+			result.addObject("inDispute", smallholding.isArgumented());
 
 
 			if(principal != null && principal instanceof Owner && smallholding.getOwner().equals(principal)){
