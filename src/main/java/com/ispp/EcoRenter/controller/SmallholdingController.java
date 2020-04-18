@@ -24,6 +24,7 @@ import com.ispp.EcoRenter.model.Comment;
 import com.ispp.EcoRenter.model.CreditCard;
 import com.ispp.EcoRenter.model.Owner;
 import com.ispp.EcoRenter.model.Photo;
+import com.ispp.EcoRenter.model.RentOut;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.model.Smallholding;
 import com.ispp.EcoRenter.model.Valuation;
@@ -31,6 +32,7 @@ import com.ispp.EcoRenter.service.ActorService;
 import com.ispp.EcoRenter.service.CommentService;
 import com.ispp.EcoRenter.service.CreditCardService;
 import com.ispp.EcoRenter.service.PhotoService;
+import com.ispp.EcoRenter.service.RentOutService;
 import com.ispp.EcoRenter.service.RenterService;
 import com.ispp.EcoRenter.service.SmallholdingService;
 import com.ispp.EcoRenter.service.ValuationService;
@@ -62,6 +64,9 @@ public class SmallholdingController {
 	@Autowired
 	private ValuationService valuationService;
 
+	@Autowired
+	private RentOutService rentoutService;
+
 	// Constructor
 
 	public SmallholdingController() {
@@ -85,7 +90,7 @@ public class SmallholdingController {
 
 		currentPage = page.orElse(1);
 		pageSize = size.orElse(4);
-			
+
 		try {
 			result = new ModelAndView("smallholding/list");
 
@@ -104,9 +109,9 @@ public class SmallholdingController {
 
 			// Para crear los marcadores en el mapa necesito las coordenadas
 			ls_smallholdings = shPage.getContent();
-	
+
 			geoData = this.smallholdingService.getGeoData(ls_smallholdings);
-			
+
 			if (!geoData.isEmpty()) {
 				result.addObject("latitudes", geoData.get(0));
 				result.addObject("longitudes", geoData.get(1));
@@ -122,7 +127,7 @@ public class SmallholdingController {
 				photoAttr.add(this.photoService.getImageBase64(photo));
 				sh_photo.put(sh.getId(), photoAttr);
 			}
-			
+
 			result.addObject("smallholdingPage", shPage);
 			result.addObject("sh_photo", sh_photo);
 			result.addObject("requestURI", "smallholding/list");
@@ -155,13 +160,13 @@ public class SmallholdingController {
 		result = new ModelAndView("smallholding/display");
 		try {
 			principal = this.actorService.findByPrincipal();
-			
+
 			if (principal instanceof Renter) {
 				isRentedByRenter = this.smallholdingService.isSmallholdingRentedByRenter(principal.getId(),	smallholdingId);
 				if(!isRentedByRenter){
 					creditCardForm = new CreditCardForm();
 					creditCardForm.setRenter(this.renterService.findByPrincipal());
-					
+
 					if(!((Renter) principal).getCreditCards().isEmpty()) {
 						creditCard = ((Renter) principal).getCreditCards().iterator().next();
 						gotCredit = true;
@@ -188,6 +193,24 @@ public class SmallholdingController {
 			smallholding = this.smallholdingService.findOneToDisplay(smallholdingId);
 			comments = this.commentService.findCommentsBySmallholdingId(smallholdingId);
 			photos = this.photoService.findPhotosBySmallholdingId(smallholding.getId());
+			boolean isRentedMySmall = false;
+
+
+			if(principal instanceof Owner) {
+				RentOut rentOut = this.rentoutService.findByOwnerAndSmallholding(principal.getId(),smallholdingId);
+
+
+				if(rentOut != null) {
+
+					isRentedMySmall = true;
+
+					result.addObject("renterToContact", rentOut.getRenter());
+
+					
+
+				}
+			}
+
 
 			for(Photo p: photos)
 				photo_imageData.put(p, this.photoService.getImageBase64(p));
@@ -196,6 +219,7 @@ public class SmallholdingController {
 			result.addObject("comments", comments);
 			result.addObject("isRentedByRenter", isRentedByRenter);
 			result.addObject("photo_imageData", photo_imageData);
+
 			if(principal != null)
 				result.addObject("principalId", principal.getId());
 			
@@ -207,6 +231,9 @@ public class SmallholdingController {
 				result.addObject("avgMark", avgMark);
 			}
 			
+			result.addObject("isRentedMySmall", isRentedMySmall);
+
+
 			if(principal != null && principal instanceof Owner && smallholding.getOwner().equals(principal)){
 				comment = this.commentService.create(smallholdingId);
 

@@ -15,3 +15,11 @@
 		document.getElementById("contactos").style.display = "block";
 		
 	}
+
+	
+	function desapareceContactoArrendatario(){
+		
+		document.getElementById("contactABtn").style.display = "none";
+		document.getElementById("contactosArrendatario").style.display = "block";
+		
+	}

@@ -136,6 +136,31 @@
 
 
 								</div>
+																<!--Btn-->
+								<div sec:authorize="hasAuthority('OWNER')"
+									th:if="${isRentedMySmall}" onclick="desapareceContactoArrendatario()"
+									id="contactABtn" class="mbr-section-btn pt-3 align-left">
+									<a class="btn btn-secondary-outline display-4">Contactar
+										con el arrendatario</a>
+								</div>
+								<div sec:authorize="hasAuthority('OWNER')"
+									th:if="${isRentedMySmall}" id="contactosArrendatario"
+									style="display: none;">
+
+									<p>
+										<i class='fas fa-envelope'></i> <a
+											th:href="@{'mailto:' + ${renterToContact.email}}"
+											th:text="${renterToContact.email}" target="_blank"></a>
+									</p>
+									<p>
+										<i class='fab fa-whatsapp'></i> <a
+											th:href="@{'tel:' + ${renterToContact.telephoneNumber}}"
+											th:text="${renterToContact.telephoneNumber}"
+											target="_blank"></a>
+									</p>
+
+
+								</div>
 
 								<div sec:authorize="hasAuthority('RENTER')"
 									onclick="desapareceAlquilar()" th:if="${!isRentedByRenter}"
