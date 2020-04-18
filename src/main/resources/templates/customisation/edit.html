@@ -97,8 +97,7 @@
 									</button>
 
 
-									<a th:href="@{'/administrator/customisation/display'}"
-										class="btn btn-warning-outline display-4"> Volver </a>
+									
 								</div>
 							</div>
 						</div>
@@ -106,9 +105,9 @@
 					</form>
 
 
-					<form th:action="@{/administrator/customisation/close}" id="myForm2"
-						 method="post"
-						class="mbr-form form-with-styler" data-form-title=" Form">
+					<form th:action="@{/administrator/customisation/close}"
+						id="myForm2" method="post" class="mbr-form form-with-styler"
+						data-form-title=" Form">
 
 						<div class="dragArea row">
 
@@ -116,22 +115,32 @@
 							<div class="col-md-12 form-group">
 								<label for="name-form1-17"
 									class="form-control-label mbr-fonts-style display-7"
-									style="color: #2a3d2e !important;">Identificador de la parcela a cerrar la disputa: </label> <input
-									type="number" name="smallholdingId" required="required"
-									class="form-control display-7"
-									></input>
+									style="color: #2a3d2e !important;">Identificador de la
+									parcela a cerrar la disputa: </label> <input type="number"
+									name="smallholdingId" required="required"
+									class="form-control display-7"></input>
 
 							</div>
 
 
 							<div class="col-md-12 form-group" data-for="name"
 								th:if="${closeError != ''}">
-								<p th:text="${closeError}"></p>
+								<p th:text="${closeError}" style="color: red;"></p>
 							</div>
 
-							<button id="confirm-mandate" name="closeDispute" type="submit"
-								class="btn btn-form btn-secondary display-4">Cerrar disputa
-								</button>
+
+
+							<div data-for="message" class="col-md-12 form-group">
+								<div class="col-md-12 input-group-btn align-center">
+									<button id="confirm-mandate" name="closeDispute" type="submit"
+										class="btn btn-form btn-secondary display-4">Cerrar
+										disputa</button>
+
+
+									<a th:href="@{'/administrator/customisation/display'}"
+										class="btn btn-warning-outline display-4"> Volver </a>
+								</div>
+							</div>
 
 						</div>
 					</form>

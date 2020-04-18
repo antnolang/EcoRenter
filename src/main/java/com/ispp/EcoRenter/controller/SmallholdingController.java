@@ -208,6 +208,7 @@ public class SmallholdingController {
 			result.addObject("isRentedByRenter", isRentedByRenter);
 			result.addObject("photo_imageData", photo_imageData);
 			result.addObject("isRentedMySmall", isRentedMySmall);
+			result.addObject("inDispute", smallholding.isArgumented());
 
 
 			if(principal != null && principal instanceof Owner && smallholding.getOwner().equals(principal)){

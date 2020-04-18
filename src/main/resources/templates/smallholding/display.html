@@ -136,7 +136,7 @@
 									th:if="${isRentedMySmall || isRentedByRenter }"
 									onclick="desapareceDisputa()" id="disputaBtn"
 									class="mbr-section-btn pt-3 align-left">
-									<a class="btn btn-secondary-outline display-4"> Abrir
+									<a class="btn btn-secondary-outline display-4" th:if="${inDispute == false}"> Abrir
 										disputa </a>
 								</div>
 
@@ -207,10 +207,11 @@
 								</div>
 
 								<!-- Disputa formulario -->
-								
-								<form sec:authorize="hasAuthority('OWNER') || hasAuthority('RENTER')"
-									th:if="${isRentedMySmall || isRentedByRenter }" id="disputaForm"
-									style="display: none; padding-bottom: 20px;"
+
+								<form
+									sec:authorize="hasAuthority('OWNER') || hasAuthority('RENTER')"
+									th:if="${isRentedMySmall || isRentedByRenter }"
+									id="disputaForm" style="display: none; padding-bottom: 20px;"
 									th:action="@{'/dispute/make?smallholdingId=' + ${smallholding.id}}"
 									method="post" class="sr-payment-form">
 
@@ -225,8 +226,8 @@
 												oninvalid="this.setCustomValidity('Debes incluir un tipo de disputa') "
 												oninput="setCustomValidity('')">
 
-												<option value="Problemas con el pago">Problemas
-													con el pago</option>
+												<option value="Problemas con el pago">Problemas con
+													el pago</option>
 												<option value="Uso indebido de las instalaciones">Uso
 													indebido de las instalaciones</option>
 												<option value="Otros">Otros</option>
@@ -238,20 +239,22 @@
 											<label for="name-form1-17"
 												class="form-control-label mbr-fonts-style display-7"
 												style="color: #2a3d2e !important;">Descripción</label>
-											<textarea type="text" data-form-field="Name" name="descripcion"
-												required="required" class="form-control display-7" oninvalid="this.setCustomValidity('Debes incluir una descripción en la disputa') "
+											<textarea type="text" data-form-field="Name"
+												name="descripcion" required="required"
+												class="form-control display-7"
+												oninvalid="this.setCustomValidity('Debes incluir una descripción en la disputa') "
 												oninput="setCustomValidity('')"></textarea>
 
 										</div>
 
 
-
+										
 
 										<button id="confirm-mandate" name="makeDispute" type="submit"
 											class="btn btn-form btn-secondary display-4">Realizar
 											disputa</button>
-											
-											</div>
+
+									</div>
 								</form>
 
 								<!-- Pago -->
