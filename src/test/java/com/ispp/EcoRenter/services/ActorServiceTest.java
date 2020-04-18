@@ -3,15 +3,11 @@ package com.ispp.EcoRenter.services;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import com.ispp.EcoRenter.model.Actor;
@@ -23,39 +19,6 @@ public class ActorServiceTest {
 	@Autowired
 	private ActorService actorService;
 	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-
-	@Transactional
-	@Test
-	public void test_generateHashPassword() {
-		String encodedPassword;
-		List<String> pass;
-		
-		pass = new ArrayList<String>();
-		pass.add("arrendatario1");
-		pass.add("arrendatario2");
-		pass.add("arrendatario3");
-		pass.add("arrendatario4");
-		pass.add("arrendatario5");
-		pass.add("arrendatario6");
-		
-		pass.add("propietario1");
-		pass.add("propietario2");
-		pass.add("propietario3");
-		pass.add("propietario4");
-		pass.add("propietario5");
-		pass.add("propietario6");
-		
-		for (String s: pass) {
-			encodedPassword = this.passwordEncoder.encode(s);
-			
-			System.out.println("Password clara: " + s);
-			System.out.println("Password cifrada: " + encodedPassword);
-			System.out.println("---------------------");
-		}
-		
-	}
 	
 	/*
 	 * Un administrador puede visitar cualquier perfil
@@ -111,7 +74,7 @@ public class ActorServiceTest {
 	/*
 	 * Un owner puede acceder al perfil de un arrendatario
 	 */
-	@WithMockUser("owner2")
+	@WithMockUser("propietario2")
 	@Test
 	@Transactional
 	public void positiveTest_findOne_four() {
@@ -129,7 +92,7 @@ public class ActorServiceTest {
 	/*
 	 * Un renter puede acceder al perfil de un propietario
 	 */
-	@WithMockUser("renter2")
+	@WithMockUser("arrendatario2")
 	@Test
 	@Transactional
 	public void positiveTest_findOne_five() {
@@ -147,7 +110,7 @@ public class ActorServiceTest {
 	 * Un owner puede acceder al perfil de un arrendatario.
 	 * Sin embargo, el owner está baneado.
 	 */
-	@WithMockUser("owner6")
+	@WithMockUser("propietario6")
 	@Test
 	@Transactional
 	public void negativeTest_findOne_one() {
@@ -169,7 +132,7 @@ public class ActorServiceTest {
 	/*
 	 * Un owner no puede acceder al perfil de otro propietario.
 	 */
-	@WithMockUser("owner3")
+	@WithMockUser("propietario3")
 	@Test
 	@Transactional
 	public void negativeTest_findOne_two() {
@@ -191,7 +154,7 @@ public class ActorServiceTest {
 	/*
 	 * Un arrendatario no puede acceder al perfil de otro arrendatario.
 	 */
-	@WithMockUser("renter2")
+	@WithMockUser("arrendatario2")
 	@Test
 	@Transactional
 	public void negativeTest_findOne_three() {	
@@ -272,7 +235,7 @@ public class ActorServiceTest {
 	 * El actor no es un administrator, es un renter
 	 * 
 	 */
-	@WithMockUser("renter2")
+	@WithMockUser("arrendatario2")
 	@Test
 	@Transactional
 	public void negativeTest_ban_dos() {
@@ -359,7 +322,7 @@ public class ActorServiceTest {
 	 * El actor no es un administrator, es un renter
 	 * 
 	 */
-	@WithMockUser("renter2")
+	@WithMockUser("arrendatario2")
 	@Test
 	@Transactional
 	public void negativeTest_unban_three() {
