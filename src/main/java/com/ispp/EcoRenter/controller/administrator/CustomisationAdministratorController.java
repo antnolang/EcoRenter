@@ -121,11 +121,16 @@ public class CustomisationAdministratorController {
 		ModelAndView result;
 
 		result = new ModelAndView("customisation/edit");
-		if(messageCode.equals("No se pudo cerrar la disputa, introduzca un identificador valido.")) {
-			result.addObject("closeError", messageCode);
+		if(messageCode != null) {
+			if(messageCode.equals("No se pudo cerrar la disputa, introduzca un identificador valido.")) {
+				result.addObject("closeError", messageCode);
+			}else {
+				result.addObject("messageCode", messageCode);
+			}
 		}else {
 			result.addObject("messageCode", messageCode);
 		}
+		
 		result.addObject("customisation", customisation);
 		
 

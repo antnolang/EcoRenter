@@ -207,8 +207,7 @@
 								</div>
 
 								<!-- Disputa formulario -->
-
-
+								
 								<form sec:authorize="hasAuthority('OWNER') || hasAuthority('RENTER')"
 									th:if="${isRentedMySmall || isRentedByRenter }" id="disputaForm"
 									style="display: none; padding-bottom: 20px;"
