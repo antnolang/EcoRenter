@@ -29,6 +29,7 @@ import com.ispp.EcoRenter.model.RentOut;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.model.Smallholding;
 import com.ispp.EcoRenter.service.CreditCardService;
+import com.ispp.EcoRenter.service.CustomisationService;
 import com.ispp.EcoRenter.service.PhotoService;
 import com.ispp.EcoRenter.service.RentOutService;
 import com.ispp.EcoRenter.service.RenterService;
@@ -55,6 +56,9 @@ public class SmallholdingRenterController {
 
 	@Autowired
 	private CreditCardService creditCardService;
+
+	@Autowired
+    private CustomisationService customisationService;
 
 	// Constructor
 
@@ -103,6 +107,8 @@ public class SmallholdingRenterController {
 		int pageSize = size.orElse(4);
 		List<Smallholding> ls_smallholdings;
 		List<String> geoData;
+		int goldLevel;
+		int silverLevel;
 
 		sh_photo = new HashMap<Integer,List<String>>();
 
@@ -144,6 +150,11 @@ public class SmallholdingRenterController {
 				sh_photo.put(sh.getId(), photoAttr);
 			}
 
+			goldLevel = this.customisationService.find().getGoldLevel();
+			silverLevel = this.customisationService.find().getSilverLevel();
+
+			result.addObject("goldLevel", goldLevel);
+			result.addObject("silverLevel", silverLevel);
 			result.addObject("sh_photo", sh_photo);
 			result.addObject("requestURI", "renter/smallholding/list");
 		} catch (Exception e) {

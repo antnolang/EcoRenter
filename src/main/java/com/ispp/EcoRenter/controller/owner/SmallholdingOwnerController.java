@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ispp.EcoRenter.model.Owner;
 import com.ispp.EcoRenter.model.Photo;
 import com.ispp.EcoRenter.model.Smallholding;
+import com.ispp.EcoRenter.service.CustomisationService;
 import com.ispp.EcoRenter.service.OwnerService;
 import com.ispp.EcoRenter.service.PhotoService;
 import com.ispp.EcoRenter.service.SmallholdingService;
@@ -43,6 +44,9 @@ public class SmallholdingOwnerController {
 
 	@Autowired
 	private PhotoService photoService;
+
+	@Autowired
+    private CustomisationService customisationService;
 
 
 	// Constructor
@@ -63,6 +67,8 @@ public class SmallholdingOwnerController {
 		Map<Integer,List<String>> sh_photo;
 		List<Smallholding> ls_smallholdings;
 		List<String> geoData;
+		int goldLevel;
+		int silverLevel;
 
 		sh_photo = new HashMap<Integer,List<String>>();
 
@@ -99,6 +105,12 @@ public class SmallholdingOwnerController {
 				result.addObject("longitudes", geoData.get(1));
 				result.addObject("titles", geoData.get(2));
 			}
+
+			goldLevel = this.customisationService.find().getGoldLevel();
+			silverLevel = this.customisationService.find().getSilverLevel();
+
+			result.addObject("goldLevel", goldLevel);
+			result.addObject("silverLevel", silverLevel);
 			
 			result.addObject("smallholdingPage", shPage);
 			result.addObject("sh_photo", sh_photo);
