@@ -12,7 +12,6 @@ import com.ispp.EcoRenter.model.RentOut;
 import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.service.ActorService;
 import com.ispp.EcoRenter.service.RentOutService;
-import com.ispp.EcoRenter.service.RenterService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

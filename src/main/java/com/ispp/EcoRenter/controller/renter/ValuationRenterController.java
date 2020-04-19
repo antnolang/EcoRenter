@@ -62,7 +62,7 @@ public class ValuationRenterController {
 		} else {
 			try {
                 this.valuationService.save(valuationRec, rentOutId);
-                result = new ModelAndView("redirect:/renter/rentOut/list");
+                result = new ModelAndView("redirect:/rentOut/list");
 			} catch (final Throwable oops) {
                 result = this.createEditModelAndView(valuationRec, rentOutId, "No se pudo realizar la operación");
 			}
