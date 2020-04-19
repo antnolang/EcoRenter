@@ -110,7 +110,9 @@ public class ActorOwnerController {
 				} else if (message.equals("El usuario elegido ya existe.")) {
 					result.addObject("noValidUser", message);
 
-				}  else {
+				} else if (message.equals("No es una imagen")) {
+					result.addObject("selImage", message);
+				}   else {
 					result.addObject("errorMessage",
 							"No se pudo realizar el registro. Intentelo de nuevo por favor.");
 				}

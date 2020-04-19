@@ -35,7 +35,7 @@ import com.opencsv.bean.StatefulBeanToCsvBuilder;
 public class ActorRenterController {
 
 	private static final Log log = LogFactory.getLog(ActorRenterController.class);
-	
+
 	@Autowired
 	private ActorService actorService;
 
@@ -65,7 +65,7 @@ public class ActorRenterController {
 		result = new ModelAndView("actor/display");
 		result.addObject("actor", actor);
 		result.addObject("isMyProfile", isMyProfile);
-		
+
 		return result;
 	}
 
@@ -74,10 +74,10 @@ public class ActorRenterController {
 		ModelAndView result = new ModelAndView("actor/renterRegister");
 		RenterRegister renter = new RenterRegister();
 		Customisation custo = this.customisationService.find();
-		
+
 		result.addObject("renter", renter);
 		result.addObject("maxSizePhoto", custo.getMaxSizePhoto());
-		
+
 		return result;
 	}
 
@@ -99,8 +99,8 @@ public class ActorRenterController {
 
 				result = new ModelAndView("actor/renterRegister");
 				result.addObject("maxSizePhoto",
-						         this.customisationService.find().getMaxSizePhoto());
-				
+						this.customisationService.find().getMaxSizePhoto());
+
 				String message = oops.getMessage();
 
 				if (message.equals("Las contraseñas no coinciden.")) {
@@ -110,6 +110,8 @@ public class ActorRenterController {
 
 				} else if (message.equals("Iban incorrecto.")) {
 					result.addObject("noValidIban", message);
+				} else if (message.equals("No es una imagen")) {
+					result.addObject("selImage", message);
 				} else {
 					result.addObject("errorMessage", message);
 				}
@@ -120,21 +122,21 @@ public class ActorRenterController {
 		return result;
 
 	}
-	
+
 	@GetMapping("/export-renterData")
 	public void exportCSV(HttpServletResponse response) throws Exception{
-		
+
 		String filename = "myData.csv";
-		
+
 		Renter principal = this.renterService.findByPrincipal();
-		
+
 		// TODO: Carlos, revisa esto
 		ActorExport toExport = new ActorExport(principal.getName(),principal.getSurname(), principal.getTelephoneNumber(), principal.getUserAccount().getUsername(), principal.getEmail());
-		
-		
+
+
 		response.setContentType("text/csv");
 		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\" ");
-		
+
 		StatefulBeanToCsv<ActorExport> writer = new StatefulBeanToCsvBuilder<ActorExport>(response.getWriter())
 				.withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
 				.withSeparator(CSVWriter.DEFAULT_SEPARATOR)
@@ -147,20 +149,20 @@ public class ActorRenterController {
 	public ModelAndView createEditModelAndView(RenterForm renterForm) {
 		ModelAndView result;
 		Customisation custo;
-		
+
 		custo = this.customisationService.find();
-		
+
 		result = new ModelAndView("actor/edit");
 		result.addObject("objectForm", renterForm);
 		result.addObject("buttonName", "saveRenter");
 		result.addObject("maxSizePhoto", custo.getMaxSizePhoto());
-		
+
 		return result;	
 	}
 
 	public ModelAndView createEditModelAndView(RenterForm renterForm,
-											   String messageName,
-											   String messageValue) {
+			String messageName,
+			String messageValue) {
 		ModelAndView result;
 
 		result = this.createEditModelAndView(renterForm);
