@@ -66,8 +66,15 @@
 
                     <!--Card-1-->
                     <div class="card col-12 col-md-6 p-3 col-lg-3" th:each="sh : ${smallholdingPage}">
-                        <div class="card-wrapper">
-                            <div class="card-img">
+						
+							<div class="card-wrapper">
+							<div class="card-img" id="fotosParcelaOro" th:if="${goldLevel <= sh.owner.accumulatedMonths}">
+                                <img th:src="@{'data:' + ${sh_photo.get(sh.id)[1]} + ';base64, ' + ${sh_photo.get(sh.id)[2]}}" th:alt="${sh_photo.get(sh.id)[0]}" id="fotosListado">
+                            </div>
+							<div class="card-img" id="fotosParcelaPlata" th:if="${goldLevel > sh.owner.accumulatedMonths && silverLevel <= sh.owner.accumulatedMonths}">
+                                <img th:src="@{'data:' + ${sh_photo.get(sh.id)[1]} + ';base64, ' + ${sh_photo.get(sh.id)[2]}}" th:alt="${sh_photo.get(sh.id)[0]}" id="fotosListado">
+                            </div>
+							<div class="card-img" id="fotosParcela" th:if="${silverLevel > sh.owner.accumulatedMonths}">
                                 <img th:src="@{'data:' + ${sh_photo.get(sh.id)[1]} + ';base64, ' + ${sh_photo.get(sh.id)[2]}}" th:alt="${sh_photo.get(sh.id)[0]}" id="fotosListado">
                             </div>
                             <div class="card-box">
@@ -82,6 +89,7 @@
 
                             </div>
                         </div>
+                            
                         <div class="mbr-section-btn align-center" style="text-align: center !important;"><a th:href="@{~/smallholding/display?smallholdingId=} + ${sh.id}" class="btn btn-warning-outline display-4">Ver parcela</a></div>
                     </div>
 
