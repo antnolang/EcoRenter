@@ -74,7 +74,7 @@
 							<div class="card-img" id="fotosParcelaPlata" th:if="${goldLevel > sh.owner.accumulatedMonths && silverLevel <= sh.owner.accumulatedMonths}">
                                 <img th:src="@{'data:' + ${sh_photo.get(sh.id)[1]} + ';base64, ' + ${sh_photo.get(sh.id)[2]}}" th:alt="${sh_photo.get(sh.id)[0]}" id="fotosListado">
                             </div>
-							<div class="card-img" id="fotosParcela" th:if="${silverLevel > sh.owner.accumulatedMonths}">
+							<div class="card-img" id="fotosParcelaBronce" th:if="${silverLevel > sh.owner.accumulatedMonths}">
                                 <img th:src="@{'data:' + ${sh_photo.get(sh.id)[1]} + ';base64, ' + ${sh_photo.get(sh.id)[2]}}" th:alt="${sh_photo.get(sh.id)[0]}" id="fotosListado">
                             </div>
                             <div class="card-box">
