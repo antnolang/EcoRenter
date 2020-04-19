@@ -160,7 +160,7 @@ public class AdministratorService {
 
 
 	}
-	
+
 	public void deleteOwner(Owner owner) {
 		Collection<Smallholding> smallByThisOwner = this.smallholdingService.findSmallholdingsByOwnerId(owner.getId());
 		
@@ -219,6 +219,12 @@ public class AdministratorService {
 		result = this.administratorRepository.findByUsername(username);
 
 		return result;
+	}
+
+	public Collection<Administrator> findAll(){
+
+		return this.administratorRepository.findAll();
+
 	}
 
 	private Administrator save(Administrator administrator) {
