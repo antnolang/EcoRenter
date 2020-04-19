@@ -68,27 +68,3 @@
 	border-color: #54775E  !important;
 	
     }
-
-    #fotosParcelaOro{
-	padding: 15px 15px;
-	border: #54775E 4px double;
-	border-radius: 20px;
-    }
-
-    #fotosParcelaPlata{
-	padding: 15px 15px;
-	border: #BEE5C9 4px double;
-	border-radius: 20px;
-    }
-
-    #fotosParcelaBronce{
-	padding: 15px 15px;
-	border: #BEE5C9 5px double;
-	border-radius: 20px;
-    }
-    
-	#fotosParcela{
-	padding: 15px 15px;
-	border: #FFFFFF 5px double;
-	border-radius: 20px;
-    }

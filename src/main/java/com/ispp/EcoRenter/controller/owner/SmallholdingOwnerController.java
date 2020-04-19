@@ -33,210 +33,209 @@ import com.ispp.EcoRenter.service.SmallholdingService;
 @RequestMapping("/owner/smallholding")
 public class SmallholdingOwnerController {
 
-    // Services
+	// Services
 
-    @Autowired
-    private SmallholdingService smallholdingService;
+	@Autowired
+	private SmallholdingService	smallholdingService;
 
-    @Autowired
-    private OwnerService ownerService;
+	@Autowired
+	private OwnerService		ownerService;
 
-    @Autowired
-    private PhotoService photoService;
+	@Autowired
+	private PhotoService photoService;
 
-    // Constructor
 
-    public SmallholdingOwnerController() {
-	super();
-    }
+	// Constructor
 
-    // List
-
-    @GetMapping("/listOwnSmallholdings")
-    public ModelAndView list(@RequestParam("page") final Optional<Integer> page,
-	    @RequestParam("size") final Optional<Integer> size) {
-	ModelAndView result;
-	Collection<Smallholding> smallholdings;
-	Owner principal;
-	int currentPage = page.orElse(1);
-	int pageSize = size.orElse(8);
-	Map<Integer, List<String>> sh_photo;
-	List<Smallholding> ls_smallholdings;
-	List<String> geoData;
-
-	sh_photo = new HashMap<Integer, List<String>>();
-
-	try {
-	    result = new ModelAndView("smallholding/list");
-
-	    principal = this.ownerService.findByPrincipal();
-	    smallholdings = this.smallholdingService.findSmallholdingsByOwnerId(principal.getId());
-	    Page<Smallholding> shPage = this.smallholdingService
-		    .findPaginated(PageRequest.of(currentPage - 1, pageSize), smallholdings);
-	    int totalPages = shPage.getTotalPages();
-
-	    if (totalPages > 0) {
-		List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
-		result.addObject("pageNumbers", pageNumbers);
-	    }
-
-	    for (Smallholding sh : smallholdings) {
-		List<Photo> photos = new ArrayList<Photo>(this.photoService.findPhotosBySmallholdingId(sh.getId()));
-		Photo photo = photos.get(0);
-		List<String> photoAttr = new ArrayList<String>();
-		photoAttr.add(photo.getName());
-		photoAttr.add(photo.getSuffix());
-		photoAttr.add(this.photoService.getImageBase64(photo));
-		sh_photo.put(sh.getId(), photoAttr);
-	    }
-
-	    // Para crear los marcadores en el mapa necesito las coordenadas
-	    ls_smallholdings = shPage.getContent();
-
-	    geoData = this.smallholdingService.getGeoData(ls_smallholdings);
-
-	    if (!geoData.isEmpty()) {
-		result.addObject("latitudes", geoData.get(0));
-		result.addObject("longitudes", geoData.get(1));
-		result.addObject("titles", geoData.get(2));
-	    }
-
-	    result.addObject("smallholdingPage", shPage);
-	    result.addObject("sh_photo", sh_photo);
-	    result.addObject("requestURI", "owner/smallholding/listOwnSmallholdings");
-	} catch (Exception e) {
-	    result = new ModelAndView("redirect:/miscellaneous/error");
+	public SmallholdingOwnerController() {
+		super();
 	}
 
-	return result;
-    }
+	// List
 
-    // Create
+	@GetMapping("/listOwnSmallholdings")
+	public ModelAndView list(@RequestParam("page") final Optional<Integer> page, @RequestParam("size") final Optional<Integer> size) {
+		ModelAndView result;
+		Collection<Smallholding> smallholdings;
+		Owner principal;
+		int currentPage = page.orElse(1);
+		int pageSize = size.orElse(4);
+		Map<Integer,List<String>> sh_photo;
+		List<Smallholding> ls_smallholdings;
+		List<String> geoData;
 
-    @GetMapping("/create")
-    public ModelAndView create() {
-	ModelAndView result;
-	Smallholding smallholding;
+		sh_photo = new HashMap<Integer,List<String>>();
 
-	smallholding = this.smallholdingService.create();
+		try {
+			result = new ModelAndView("smallholding/list");
 
-	result = this.createEditModelAndView(smallholding);
+			principal = this.ownerService.findByPrincipal();
+			smallholdings = this.smallholdingService.findSmallholdingsByOwnerId(principal.getId());
+			Page<Smallholding> shPage = this.smallholdingService.findPaginated(PageRequest.of(currentPage - 1, pageSize), smallholdings);
+			int totalPages = shPage.getTotalPages();
 
-	return result;
-    }
+			if (totalPages > 0) {
+				List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+				result.addObject("pageNumbers", pageNumbers);
+			}
 
-    // Edit
+			for(Smallholding sh: smallholdings){
+				List<Photo> photos = new ArrayList<Photo>(this.photoService.findPhotosBySmallholdingId(sh.getId()));
+				Photo photo = photos.get(0);
+				List<String> photoAttr = new ArrayList<String>();
+				photoAttr.add(photo.getName());
+				photoAttr.add(photo.getSuffix());
+				photoAttr.add(this.photoService.getImageBase64(photo));
+				sh_photo.put(sh.getId(), photoAttr);
+			}
 
-    @GetMapping("/edit")
-    public ModelAndView edit(@RequestParam final int smallholdingId) {
-	ModelAndView result;
-	Smallholding smallholding;
-	Collection<Photo> photos;
+			// Para crear los marcadores en el mapa necesito las coordenadas
+			ls_smallholdings = shPage.getContent();
 
-	try {
-	    smallholding = this.smallholdingService.findOneToEdit(smallholdingId);
-	    photos = this.photoService.findPhotosBySmallholdingId(smallholdingId);
-	    smallholding.setPhotos(photos);
-
-	    result = this.createEditModelAndView(smallholding);
-	} catch (final Throwable oops) {
-	    result = new ModelAndView("redirect:/miscellaneous/error");
-	}
-
-	return result;
-    }
-
-    // Save
-
-    @PostMapping(value = "/edit", params = "save")
-    public ModelAndView save(final List<MultipartFile> file, final Smallholding smallholding,
-	    final BindingResult binding) {
-	ModelAndView result;
-	Smallholding smallholdingRec;
-
-	smallholdingRec = this.smallholdingService.reconstruct(smallholding, binding);
-
-	if (binding.hasErrors() && binding.getErrorCount() != 1) {
-	    result = this.createEditModelAndView(smallholding);
-	} else {
-	    try {
-		if (binding.hasErrors() && binding.getFieldErrorCount("photos") == 1) {
-		    this.smallholdingService.save(smallholdingRec, file);
-		    result = new ModelAndView("redirect:/owner/smallholding/listOwnSmallholdings");
-		} else {
-		    throw new IllegalArgumentException();
+			geoData = this.smallholdingService.getGeoData(ls_smallholdings);
+			
+			if (!geoData.isEmpty()) {
+				result.addObject("latitudes", geoData.get(0));
+				result.addObject("longitudes", geoData.get(1));
+				result.addObject("titles", geoData.get(2));
+			}
+			
+			result.addObject("smallholdingPage", shPage);
+			result.addObject("sh_photo", sh_photo);
+			result.addObject("requestURI", "owner/smallholding/listOwnSmallholdings");
+		} catch (Exception e) {
+			result = new ModelAndView("redirect:/miscellaneous/error");
 		}
 
-	    } catch (final Throwable oops) {
-		if (oops.getMessage().equals("El propietario debe tener un IBAN asociado")) {
-		    result = this.createEditModelAndView(smallholdingRec, "Debes tener un IBAN asociado a tu perfil");
-		} else {
-		    result = this.createEditModelAndView(smallholdingRec, "No se pudo realizar la operación");
+		return result;
+	}
+
+	// Create
+
+	@GetMapping("/create")
+	public ModelAndView create() {
+		ModelAndView result;
+		Smallholding smallholding;
+
+		smallholding = this.smallholdingService.create();
+
+		result = this.createEditModelAndView(smallholding);
+
+		return result;
+	}
+
+	// Edit
+
+	@GetMapping("/edit")
+	public ModelAndView edit(@RequestParam final int smallholdingId) {
+		ModelAndView result;
+		Smallholding smallholding;
+		Collection<Photo> photos;
+
+		try {
+			smallholding = this.smallholdingService.findOneToEdit(smallholdingId);
+			photos = this.photoService.findPhotosBySmallholdingId(smallholdingId);
+			smallholding.setPhotos(photos);
+
+			result = this.createEditModelAndView(smallholding);
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:/miscellaneous/error");
 		}
-	    }
+
+		return result;
 	}
 
-	return result;
-    }
+	// Save
 
-    // Deactivate
+	@PostMapping(value = "/edit", params = "save")
+	public ModelAndView save(List<MultipartFile> file, Smallholding smallholding, final BindingResult binding) {
+		ModelAndView result;
+		Smallholding smallholdingRec;
+		
+		smallholdingRec = this.smallholdingService.reconstruct(smallholding, binding);
+		
+		if (binding.hasErrors() && binding.getErrorCount() != 1) {
+			result = this.createEditModelAndView(smallholding);
+		} else {
+			try {
+				if(binding.hasErrors() && binding.getFieldErrorCount("photos") == 1){
+					this.smallholdingService.save(smallholdingRec,file);
+					result = new ModelAndView("redirect:/owner/smallholding/listOwnSmallholdings");
+				} 
+				else 
+					throw new IllegalArgumentException();
+				
+			} catch (final Throwable oops) {
+				if (oops.getMessage().equals("El propietario debe tener un IBAN asociado")) {
+					result = this.createEditModelAndView(smallholdingRec, "Debes tener un IBAN asociado a tu perfil");
+				} else {
+					result = this.createEditModelAndView(smallholdingRec, "No se pudo realizar la operación");
+				}
+			}
+		}
 
-    @GetMapping("/deactivate")
-    public ModelAndView deactivate(@RequestParam final int smallholdingId) {
-	ModelAndView result;
-	Smallholding sh;
-
-	sh = this.smallholdingService.findOne(smallholdingId);
-
-	try {
-	    this.smallholdingService.deactivate(sh);
-
-	    result = new ModelAndView("redirect:/smallholding/display?smallholdingId=" + smallholdingId);
-	} catch (final Throwable oops) {
-	    result = new ModelAndView("redirect:/miscellaneous/error");
+		return result;
 	}
 
-	return result;
-    }
+	// Deactivate
 
-    // Activate
+	@GetMapping("/deactivate")
+	public ModelAndView deactivate(@RequestParam final int smallholdingId) {
+		ModelAndView result;
+		Smallholding sh;
 
-    @GetMapping("/activate")
-    public ModelAndView activate(@RequestParam final int smallholdingId) {
-	ModelAndView result;
-	Smallholding sh;
+		sh = this.smallholdingService.findOne(smallholdingId);
 
-	sh = this.smallholdingService.findOne(smallholdingId);
+		try {
+			this.smallholdingService.deactivate(sh);
 
-	try {
-	    this.smallholdingService.activate(sh);
+			result = new ModelAndView("redirect:/smallholding/display?smallholdingId=" + smallholdingId);
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:/miscellaneous/error");
+		}
 
-	    result = new ModelAndView("redirect:/smallholding/display?smallholdingId=" + smallholdingId);
-	} catch (final Throwable oops) {
-	    result = new ModelAndView("redirect:/miscellaneous/error");
+		return result;
 	}
 
-	return result;
-    }
+	// Activate
 
-    // Ancillary methods
+	@GetMapping("/activate")
+	public ModelAndView activate(@RequestParam final int smallholdingId) {
+		ModelAndView result;
+		Smallholding sh;
 
-    protected ModelAndView createEditModelAndView(final Smallholding smallholding) {
-	ModelAndView result;
+		sh = this.smallholdingService.findOne(smallholdingId);
 
-	result = this.createEditModelAndView(smallholding, null);
+		try {
+			this.smallholdingService.activate(sh);
 
-	return result;
-    }
+			result = new ModelAndView("redirect:/smallholding/display?smallholdingId=" + smallholdingId);
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:/miscellaneous/error");
+		}
 
-    protected ModelAndView createEditModelAndView(final Smallholding smallholding, final String messageCode) {
-	ModelAndView result;
+		return result;
+	}
 
-	result = new ModelAndView("smallholding/edit");
-	result.addObject("smallholding", smallholding);
-	result.addObject("messageCode", messageCode);
+	// Ancillary methods
 
-	return result;
-    }
+	protected ModelAndView createEditModelAndView(final Smallholding smallholding) {
+		ModelAndView result;
+
+		result = this.createEditModelAndView(smallholding, null);
+
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndView(final Smallholding smallholding, final String messageCode) {
+		ModelAndView result;
+
+		result = new ModelAndView("smallholding/edit");
+		result.addObject("smallholding", smallholding);
+		result.addObject("messageCode", messageCode);
+
+		return result;
+	}
+
 
 }
