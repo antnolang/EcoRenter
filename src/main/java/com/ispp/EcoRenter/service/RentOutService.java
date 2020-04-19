@@ -2,6 +2,7 @@ package com.ispp.EcoRenter.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +11,10 @@ import java.util.Map;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -120,6 +125,15 @@ public class RentOutService {
         return result;
     }
 
+    public RentOut findOneToDisplay(int rentOutId){
+        RentOut result;
+
+        result = this.findOne(rentOutId);
+        Assert.isTrue(this.renterService.findByPrincipal().equals(result.getRenter()), "No se puede visualizar alquileres de otros arrendatarios");
+
+        return result;
+    }
+
     public RentOut reconstruct(Smallholding smallholding, CreditCardForm creditCardForm, BindingResult binding){
         RentOut result;
         CreditCard creditCard;
@@ -196,6 +210,26 @@ public class RentOutService {
         params.put("payment_method", "pm_card_visa");
 
         paymentIntent.confirm(params);
+    }
+
+    public Page<RentOut> findPaginated(Pageable pageable, Collection<RentOut> rentOuts) {
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<RentOut> list;
+        ArrayList<RentOut> roList= new ArrayList<>(rentOuts);
+ 
+        if (roList.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, roList.size());
+            list = roList.subList(startItem, toIndex);
+        }
+ 
+        Page<RentOut> roPage
+          = new PageImpl<RentOut>(list, PageRequest.of(currentPage, pageSize), roList.size());
+ 
+        return roPage;
     }
     
 }

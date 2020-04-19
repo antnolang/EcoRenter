@@ -25,11 +25,11 @@ public class RenterServiceTest {
 	/*
 	 * Un renter edita su perfil
 	 */
-	@WithMockUser("renter2")
+	@WithMockUser("arrendatario2")
 	@Transactional
 	@Test
 	public void positiveTest_edit_one() {
-		String name, surname, email, telephoneNumber, username, password, passwordMatch, iban;
+		String name, surname, email, telephoneNumber, username, password, passwordMatch;
 		RenterForm renterForm;
 		Renter renter;
 		
@@ -40,9 +40,8 @@ public class RenterServiceTest {
 		username = "renter2Edited";
 		password = username;
 		passwordMatch = password;
-		iban = "ES1501287541639316325975";
 	
-		renterForm = this.getRenterForm(name, surname, email, telephoneNumber, username, password, passwordMatch, iban);
+		renterForm = this.getRenterForm(name, surname, email, telephoneNumber, username, password, passwordMatch);
 		
 		renter = this.renterService.edit(renterForm);
 		
@@ -55,11 +54,11 @@ public class RenterServiceTest {
 	 * Un renter edita su perfil
 	 * Las contraseñas no coinciden
 	 */
-	@WithMockUser("renter2")
+	@WithMockUser("arrendatario2")
 	@Transactional
 	@Test
 	public void negativeTest_edit_one() {
-		String name, surname, email, telephoneNumber, username, password, passwordMatch, iban;
+		String name, surname, email, telephoneNumber, username, password, passwordMatch;
 		RenterForm renterForm;
 		Renter renter;
 		
@@ -67,12 +66,11 @@ public class RenterServiceTest {
 		surname = "Arenas Mellado";
 		email = "jules@hotmail.com";
 		telephoneNumber = "+34 696465208";
-		username = "renter2";
+		username = "arrendatario2";
 		password = username;
 		passwordMatch = "Obviamente no coinciden";
-		iban = "ES1501287541639316325975";
 			
-		renterForm = this.getRenterForm(name, surname, email, telephoneNumber, username, password, passwordMatch, iban);
+		renterForm = this.getRenterForm(name, surname, email, telephoneNumber, username, password, passwordMatch);
 		
 		try {
 			renter = this.renterService.edit(renterForm);
@@ -89,11 +87,11 @@ public class RenterServiceTest {
 	 * El usuario decide actualizar su username, pero dicho username ya esta
 	 * siendo usado por otro usuario
 	 */
-	@WithMockUser("renter2")
+	@WithMockUser("arrendatario2")
 	@Transactional
 	@Test
 	public void negativeTest_edit_dos() {
-		String name, surname, email, telephoneNumber, username, password, passwordMatch, iban;
+		String name, surname, email, telephoneNumber, username, password, passwordMatch;
 		RenterForm renterForm;
 		Renter renter;
 		
@@ -101,12 +99,11 @@ public class RenterServiceTest {
 		surname = "Arenas Mellado";
 		email = "jules@hotmail.com";
 		telephoneNumber = "+34 696465208";
-		username = "renter1";
-		password = "renter2";
-		passwordMatch = "renter2";
-		iban = "ES1501287541639316325975";
-			
-		renterForm = this.getRenterForm(name, surname, email, telephoneNumber, username, password, passwordMatch, iban);
+		username = "arrendatario1";
+		password = "arrendatario2";
+		passwordMatch = "arrendatario2";
+		
+		renterForm = this.getRenterForm(name, surname, email, telephoneNumber, username, password, passwordMatch);
 		
 		try {
 			renter = this.renterService.edit(renterForm);
@@ -121,11 +118,11 @@ public class RenterServiceTest {
 	 * Un renter edita su perfil
 	 * Datos no validos en atributos
 	 */
-	@WithMockUser("renter2")
+	@WithMockUser("arrendatario2")
 	@Transactional
 	@Test
 	public void negativeTest_edit_tres() {
-		String name, surname, email, telephoneNumber, username, password, passwordMatch, iban;
+		String name, surname, email, telephoneNumber, username, password, passwordMatch;
 		RenterForm renterForm;
 		Renter renter;
 		
@@ -133,12 +130,11 @@ public class RenterServiceTest {
 		surname = "55";
 		email = null;
 		telephoneNumber = "";
-		username = "renter1";
-		password = "renter2";
-		passwordMatch = "renter2";
-		iban = "ES1501287541639316325975";
+		username = "arrendatario1";
+		password = "arrendatario2";
+		passwordMatch = "arrendatario2";
 			
-		renterForm = this.getRenterForm(name, surname, email, telephoneNumber, username, password, passwordMatch, iban);
+		renterForm = this.getRenterForm(name, surname, email, telephoneNumber, username, password, passwordMatch);
 		
 		try {
 			renter = this.renterService.edit(renterForm);
@@ -150,13 +146,12 @@ public class RenterServiceTest {
 	}
 	
 	private RenterForm getRenterForm(String name, String surname, String email, String telephoneNumber, String username,
-			String password, String passwordMatch, String iban) {
+			String password, String passwordMatch) {
 		RenterForm result;
 
 		result = new RenterForm(name, surname, email, telephoneNumber, username);
 		result.setPassword(password);
 		result.setPasswordMatch(passwordMatch);
-		result.setIban(iban);
 
 		return result;
 	}

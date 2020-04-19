@@ -13,12 +13,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ispp.EcoRenter.model.Actor;
 import com.ispp.EcoRenter.model.Owner;
-import com.ispp.EcoRenter.model.Renter;
 import com.ispp.EcoRenter.model.Smallholding;
 import com.ispp.EcoRenter.service.ActorService;
 import com.ispp.EcoRenter.service.CustomisationService;
 import com.ispp.EcoRenter.service.OwnerService;
-import com.ispp.EcoRenter.service.RenterService;
 import com.ispp.EcoRenter.service.SmallholdingService;
 
 @Controller
@@ -37,9 +35,6 @@ public class ActorController {
 	private CustomisationService customisationService;
 	
 	@Autowired
-	private RenterService renterService;
-	
-	@Autowired
 	private SmallholdingService smallholdingService;
 	
 	public ActorController() {
@@ -51,7 +46,6 @@ public class ActorController {
 		ModelAndView result;
 		Actor actor, principal;
 		boolean isMyProfile;
-		Renter renter;
 		Owner owner;
 		int principalId;
 		String iban, role, level;
@@ -76,21 +70,15 @@ public class ActorController {
 			isMyProfile = actorId == 0 || principalId == actorId;
 			
 			if (isMyProfile) {
-				renter = this.renterService.findOne(principalId);
 				owner = this.ownerService.findOne(principalId);
 				
-				if (renter != null) {
-					iban = this.actorService.getEncodedIban(renter.getIban());
-				} else if (owner != null){
+				if (owner != null){
 					iban = this.actorService.getEncodedIban(owner.getIban());
 					level = this.customisationService.getLevelByOwner(owner);
 					
+					result.addObject("iban", iban);
 					result.addObject("level", level);
-				} else {
-					iban = "";
 				}
-				
-				result.addObject("iban", iban);
 			}
 			
 			actor = (actorId == 0) ? principal : this.actorService.findOne(actorId);

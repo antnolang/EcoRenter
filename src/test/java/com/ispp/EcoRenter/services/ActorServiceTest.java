@@ -19,7 +19,7 @@ public class ActorServiceTest {
 	@Autowired
 	private ActorService actorService;
 	
-
+	
 	/*
 	 * Un administrador puede visitar cualquier perfil
 	 */
@@ -74,7 +74,7 @@ public class ActorServiceTest {
 	/*
 	 * Un owner puede acceder al perfil de un arrendatario
 	 */
-	@WithMockUser("owner2")
+	@WithMockUser("propietario2")
 	@Test
 	@Transactional
 	public void positiveTest_findOne_four() {
@@ -92,7 +92,7 @@ public class ActorServiceTest {
 	/*
 	 * Un renter puede acceder al perfil de un propietario
 	 */
-	@WithMockUser("renter2")
+	@WithMockUser("arrendatario2")
 	@Test
 	@Transactional
 	public void positiveTest_findOne_five() {
@@ -110,7 +110,7 @@ public class ActorServiceTest {
 	 * Un owner puede acceder al perfil de un arrendatario.
 	 * Sin embargo, el owner está baneado.
 	 */
-	@WithMockUser("owner6")
+	@WithMockUser("propietario6")
 	@Test
 	@Transactional
 	public void negativeTest_findOne_one() {
@@ -132,7 +132,7 @@ public class ActorServiceTest {
 	/*
 	 * Un owner no puede acceder al perfil de otro propietario.
 	 */
-	@WithMockUser("owner3")
+	@WithMockUser("propietario3")
 	@Test
 	@Transactional
 	public void negativeTest_findOne_two() {
@@ -154,7 +154,7 @@ public class ActorServiceTest {
 	/*
 	 * Un arrendatario no puede acceder al perfil de otro arrendatario.
 	 */
-	@WithMockUser("renter2")
+	@WithMockUser("arrendatario2")
 	@Test
 	@Transactional
 	public void negativeTest_findOne_three() {	
@@ -235,7 +235,7 @@ public class ActorServiceTest {
 	 * El actor no es un administrator, es un renter
 	 * 
 	 */
-	@WithMockUser("renter2")
+	@WithMockUser("arrendatario2")
 	@Test
 	@Transactional
 	public void negativeTest_ban_dos() {
@@ -322,7 +322,7 @@ public class ActorServiceTest {
 	 * El actor no es un administrator, es un renter
 	 * 
 	 */
-	@WithMockUser("renter2")
+	@WithMockUser("arrendatario2")
 	@Test
 	@Transactional
 	public void negativeTest_unban_three() {

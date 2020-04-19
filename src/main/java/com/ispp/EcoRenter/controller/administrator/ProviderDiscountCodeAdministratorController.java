@@ -89,7 +89,7 @@ public class ProviderDiscountCodeAdministratorController {
 		return result;
     }
     
-    // Save
+    // Delete
 
 	@PostMapping(value = "/edit", params = "delete")
 	public ModelAndView delete(ProviderDiscountCode providerDiscountCode, final BindingResult binding) {

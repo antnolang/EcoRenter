@@ -1,8 +1,7 @@
 package com.ispp.EcoRenter.controller.administrator;
 
 
-import com.ispp.EcoRenter.model.Customisation;
-import com.ispp.EcoRenter.service.CustomisationService;
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ispp.EcoRenter.model.Customisation;
+import com.ispp.EcoRenter.model.Smallholding;
+import com.ispp.EcoRenter.service.CustomisationService;
+import com.ispp.EcoRenter.service.SmallholdingService;
+
 @Controller
 @RequestMapping("/administrator/customisation")
 public class CustomisationAdministratorController {
@@ -20,6 +24,9 @@ public class CustomisationAdministratorController {
 
     @Autowired
     private CustomisationService customisationService;
+    
+    @Autowired
+    private SmallholdingService smallholdingService;
 
     public CustomisationAdministratorController(){
         super();
@@ -70,6 +77,36 @@ public class CustomisationAdministratorController {
         return result;
     }
 
+    
+    @PostMapping(value = "/close", params = "closeDispute")
+    public ModelAndView close(@PathParam("smallholdingId") int smallholdingId) {
+    	ModelAndView result;
+    	
+    	Customisation customisation;
+
+        customisation = this.customisationService.find();
+        
+    	
+    	try {
+    		
+    		
+    		Smallholding small = this.smallholdingService.findOne(smallholdingId);
+    		small.setArgumented(false);
+    		this.smallholdingService.saveDispute(small);
+    		
+    		result = new ModelAndView("redirect:/");
+    		
+    	}catch(Throwable oops) {
+    		
+    		result = this.editModelAndView(customisation, "No se pudo cerrar la disputa, introduzca un identificador valido.");
+    	}
+    	
+    		
+    	return result;
+    	
+        
+    }
+
     // Ancillary methods
 
     protected ModelAndView editModelAndView(Customisation customisation) {
@@ -84,8 +121,18 @@ public class CustomisationAdministratorController {
 		ModelAndView result;
 
 		result = new ModelAndView("customisation/edit");
+		if(messageCode != null) {
+			if(messageCode.equals("No se pudo cerrar la disputa, introduzca un identificador valido.")) {
+				result.addObject("closeError", messageCode);
+			}else {
+				result.addObject("messageCode", messageCode);
+			}
+		}else {
+			result.addObject("messageCode", messageCode);
+		}
+		
 		result.addObject("customisation", customisation);
-		result.addObject("messageCode", messageCode);
+		
 
 		return result;
 	}
