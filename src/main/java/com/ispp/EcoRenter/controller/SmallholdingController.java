@@ -184,6 +184,7 @@ public class SmallholdingController {
 		    if (!((Renter) principal).getCreditCards().isEmpty()) {
 			creditCard = ((Renter) principal).getCreditCards().iterator().next();
 			gotCredit = true;
+			creditCardForm.setId(creditCard.getId());
 
 			result.addObject("creditCard", creditCard);
 
@@ -198,7 +199,9 @@ public class SmallholdingController {
 		    result.addObject("comment", comment);
 
 		}
-	    }
+	    } else {
+			isRentedByRenter = false;
+		}
 	} catch (Exception e) {
 	    isRentedByRenter = false;
 	}

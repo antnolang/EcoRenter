@@ -99,6 +99,7 @@ public class RentOutService {
 
         this.stripePayment(rent.getSmallholding().getPrice(), rent.getSmallholding().getMaxDuration());
         result.getSmallholding().setAvailable(false);
+        result.getSmallholding().setStatus("ALQUILADA");
 
         recipients = new ArrayList<Actor>();
         recipients.add(result.getRenter());
@@ -139,7 +140,10 @@ public class RentOutService {
         CreditCard creditCard;
 
         result = this.create(smallholding);
-        creditCard = this.creditCardService.save(creditCardForm);
+        if(creditCardForm.getId() != 0)
+            creditCard = this.creditCardService.findOne(creditCardForm.getId());
+        else
+            creditCard = this.creditCardService.save(creditCardForm);
         result.setCreditCard(creditCard);
 
         this.validator.validate(result, binding);
@@ -164,6 +168,14 @@ public class RentOutService {
 
         result = this.rentOutRepository.findRentOutByRenter(renterId);
         Assert.notNull(result, "No instancia la colección vacía de alquileres");
+
+        return result;
+    }
+
+    public Collection<RentOut> findRentOutByOwner(int ownerId){
+        Collection<RentOut> result;
+
+        result = this.rentOutRepository.findRentOutByOwner(ownerId);
 
         return result;
     }

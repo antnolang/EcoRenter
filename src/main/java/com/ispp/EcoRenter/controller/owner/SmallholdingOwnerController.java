@@ -168,6 +168,9 @@ public class SmallholdingOwnerController {
 			} catch (final Throwable oops) {
 				if (oops.getMessage().equals("El propietario debe tener un IBAN asociado")) {
 					result = this.createEditModelAndView(smallholdingRec, "Debes tener un IBAN asociado a tu perfil");
+				} 
+				else if(oops.getMessage().equals("No es una imagen")){
+					result = this.createEditModelAndView(smallholdingRec, oops.getMessage());
 				} else {
 					result = this.createEditModelAndView(smallholdingRec, "No se pudo realizar la operación");
 				}

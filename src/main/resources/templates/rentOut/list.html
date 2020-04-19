@@ -28,7 +28,7 @@
                     </div>
 				</div>
 				<div class="mbr-section-btn align-center" style="text-align: center !important;">
-				<a th:if="${ro.valuation == null}" th:href="@{~/renter/valuation/create?rentOutId=} + ${ro.id}" class="btn btn-warning-outline display-4">Realizar valoración</a>
+				<a sec:authorize="hasAuthority('RENTER')" th:if="${ro.valuation == null}" th:href="@{~/renter/valuation/create?rentOutId=} + ${ro.id}" class="btn btn-warning-outline display-4">Realizar valoración</a>
 				<a th:href="@{~/smallholding/display?smallholdingId=} + ${ro.smallholding.id}" class="btn btn-warning-outline display-4">Ver parcela</a></div>
 			</div>				
 			 
@@ -39,7 +39,7 @@
 						<nav aria-label="Page navigation example">
 							<ul class="pagination">
 								<li class="page-item">
-									<a th:href="@{/renter/rentOut/list(size=${roPage.size}, page=${pageNumber})}" th:text=${pageNumber}	class="page-link"></a>
+									<a th:href="@{/rentOut/list(size=${roPage.size}, page=${pageNumber})}" th:text=${pageNumber}	class="page-link"></a>
 								</li>
 							</ul>
 						</nav>

@@ -7,6 +7,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Range;
  
@@ -20,6 +21,9 @@ public class Customisation extends DomainEntity {
 	@NotBlank(message = "No debe estar en blanco")
 	@Email
 	@Column(unique = true)
+	@Pattern(
+		regexp = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$",
+    	message = "Email inválido")
 	private String email;
 		
 	@Range(min = 3, max = 8, message = "Debe estar entre el rango 3 - 8")

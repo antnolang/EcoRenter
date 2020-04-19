@@ -1,4 +1,4 @@
-package com.ispp.EcoRenter.controller.renter;
+package com.ispp.EcoRenter.controller;
 
 import java.util.Collection;
 import java.util.List;
@@ -6,7 +6,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import com.ispp.EcoRenter.model.Actor;
+import com.ispp.EcoRenter.model.Owner;
 import com.ispp.EcoRenter.model.RentOut;
+import com.ispp.EcoRenter.model.Renter;
+import com.ispp.EcoRenter.service.ActorService;
 import com.ispp.EcoRenter.service.RentOutService;
 import com.ispp.EcoRenter.service.RenterService;
 
@@ -20,8 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/renter/rentOut")
-public class RentOutRenterController {
+@RequestMapping("/rentOut")
+public class RentOutController {
 
     // Servicio
 
@@ -29,11 +33,11 @@ public class RentOutRenterController {
     private RentOutService rentOutService;
 
     @Autowired
-    private RenterService renterService;
+    private ActorService actorService;
 
     // Constructor
 
-    public RentOutRenterController(){
+    public RentOutController(){
         super();
     }
 
@@ -62,10 +66,15 @@ public class RentOutRenterController {
         ModelAndView result;
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(4);
-        Collection<RentOut> rentOuts;
+        Collection<RentOut> rentOuts = null;
+        Actor principal;
 
         try {
-            rentOuts = this.rentOutService.findRentOutsByRenter(this.renterService.findByPrincipal().getId());
+            principal = this.actorService.findByPrincipal();
+            if(principal instanceof Renter)
+                rentOuts = this.rentOutService.findRentOutsByRenter(principal.getId());
+            else if(principal instanceof Owner)
+                rentOuts = this.rentOutService.findRentOutByOwner(principal.getId());
 
             result = new ModelAndView("rentOut/list");
             

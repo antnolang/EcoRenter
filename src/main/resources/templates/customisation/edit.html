@@ -37,7 +37,7 @@
 						<div class="dragArea row">
 
 							<div class="col-md-4  form-group" data-for="name">
-								<label>Correo electrónico:</label> <input type="text"
+								<label>Correo electrónico:</label> <input type="email"
 									th:field="*{email}" th:errorclass="fieldError"></input>
 								<p th:if="${#fields.hasErrors('email')}"
 									style="color: red !important;">
@@ -46,7 +46,7 @@
 							</div>
 
 							<div class="col-md-4  form-group" data-for="name">
-								<label>Nivel Oro:</label> <input type="number"
+								<label>Nivel Oro:</label> <input min="1" type="number"
 									th:field="*{goldLevel}" required="required"
 									th:errorclass="fieldError"></input>
 								<p th:if="${#fields.hasErrors('goldLevel')}"
@@ -56,7 +56,7 @@
 							</div>
 
 							<div class="col-md-4  form-group" data-for="name">
-								<label>Nivel Plata:</label> <input type="number"
+								<label>Nivel Plata:</label> <input min="1" type="number"
 									th:field="*{silverLevel}" required="required"
 									th:errorclass="fieldError"></input>
 								<p th:if="${#fields.hasErrors('silverLevel')}"
@@ -67,7 +67,7 @@
 
 							<div data-for="message" class="col-md-12 form-group">
 								<label>Tamaño máximo de las fotos (en MB):</label> <input
-									type="number" th:field="*{maxSizePhoto}" required="required"
+									type="number" min="1" th:field="*{maxSizePhoto}" required="required"
 									th:errorclass="fieldError" placeholder="5 MB"></input>
 								<p th:if="${#fields.hasErrors('maxSizePhoto')}"
 									style="color: red !important;">

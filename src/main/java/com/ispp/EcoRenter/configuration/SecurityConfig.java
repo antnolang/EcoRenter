@@ -47,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/administrator/providerDiscountCode/**").hasAnyAuthority("ADMIN")
 		.antMatchers("/comment/**").hasAnyAuthority("RENTER","OWNER")
 		.antMatchers("/renter/**").hasAnyAuthority("RENTER")
+		.antMatchers("/rentOut/**").hasAnyAuthority("RENTER","OWNER")
 		.and()
 		.formLogin()
 		.loginPage("/login")
@@ -94,7 +95,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		props.put("mail.transport.protocol", "smtp");
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.debug", "true");
+		props.put("mail.debug", "false");
 		
 		
 		return mailSender;

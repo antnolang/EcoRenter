@@ -225,7 +225,7 @@
 								</div>
 
 								<!-- Disputa formulario -->
-
+								
 								<form
 									sec:authorize="hasAuthority('OWNER') || hasAuthority('RENTER')"
 									th:if="${isRentedMySmall || isRentedByRenter }"
@@ -274,7 +274,7 @@
 
 									</div>
 								</form>
-
+								
 								<!-- Pago -->
 
 								<form th:if="${!isRentedByRenter}"

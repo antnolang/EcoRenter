@@ -28,4 +28,7 @@ public interface RentOutRepository extends JpaRepository<RentOut, Integer> {
 
     @Query("select count(ro) from RentOut ro where ro.creditCard.id = ?1")
     Integer findRentOutByCreditCard(int creditCardId);
+
+    @Query("select ro from RentOut ro where ro.smallholding.owner.id = ?1")
+    Collection<RentOut> findRentOutByOwner(int ownerId);
 }
