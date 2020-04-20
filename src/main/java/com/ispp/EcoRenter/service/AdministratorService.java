@@ -16,9 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ispp.EcoRenter.configuration.MyUserDetailsService;
 import com.ispp.EcoRenter.form.AdminForm;
-import com.ispp.EcoRenter.model.Actor;
 import com.ispp.EcoRenter.model.Administrator;
 import com.ispp.EcoRenter.model.Comment;
+import com.ispp.EcoRenter.model.CreditCard;
 import com.ispp.EcoRenter.model.Owner;
 import com.ispp.EcoRenter.model.Photo;
 import com.ispp.EcoRenter.model.RentOut;
@@ -61,6 +61,9 @@ public class AdministratorService {
 
 	@Autowired
 	private OwnerService ownerService;
+	
+	@Autowired
+	private CreditCardService creditCardService;
 
 	public AdministratorService() {
 		super();
@@ -145,6 +148,14 @@ public class AdministratorService {
 		if(!commentsThisRenter.isEmpty()) {
 			for(Comment c : commentsThisRenter) {
 				this.commentService.actorDelete(c);
+			}
+		}
+		
+		Collection<CreditCard> creditCards = renter.getCreditCards();
+		
+		if(!creditCards.isEmpty()) {
+			for(CreditCard c : creditCards) {
+				this.creditCardService.deleteForActor(c);
 			}
 		}
 

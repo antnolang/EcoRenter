@@ -14,7 +14,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.web.util.HtmlUtils;
 
 import com.ispp.EcoRenter.form.CreditCardForm;
 import com.ispp.EcoRenter.model.CreditCard;
@@ -101,17 +100,14 @@ public class CreditCardService {
 		CreditCard result;
 		Renter renter;
 		int creditCardId;
-		String holderName;
 		
 		creditCardId = creditCardForm.getId();
 		
 		Assert.isTrue(creditCardId == 0, "No se puede editar una tarjeta de credito");
 		
 		creditCard = this.create();
-		
-		holderName = HtmlUtils.htmlEscape(creditCardForm.getHolderName().trim());
-		
-		creditCard.setHolderName(holderName);
+				
+		creditCard.setHolderName(creditCardForm.getHolderName().trim());
 		creditCard.setBrandName(creditCardForm.getBrandName().trim());
 		creditCard.setNumber(creditCardForm.getNumber().trim());
 		creditCard.setExpirationMonth(creditCardForm.getExpirationMonth().trim());
@@ -142,6 +138,10 @@ public class CreditCardService {
 		// Actualizamos Renter::creditCards
 		this.renterService.removeCreditCard(renter, creditCard);
 		
+		this.creditCardRepository.delete(creditCard);
+	}
+	
+	public void deleteForActor(CreditCard creditCard) {
 		this.creditCardRepository.delete(creditCard);
 	}
 	
@@ -205,7 +205,6 @@ public class CreditCardService {
 		str_date = year + "-" + month + "-" + "01";
 		
 		expiration = LocalDate.parse(str_date, formatter);
-		//expiration.plusMonths(1).minusDays(1);
 		
 		now = LocalDate.now();
 		
