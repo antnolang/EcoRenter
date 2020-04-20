@@ -205,7 +205,6 @@ public class CreditCardService {
 		str_date = year + "-" + month + "-" + "01";
 		
 		expiration = LocalDate.parse(str_date, formatter);
-		//expiration.plusMonths(1).minusDays(1);
 		
 		now = LocalDate.now();
 		
