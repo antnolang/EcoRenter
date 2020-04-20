@@ -67,14 +67,12 @@ public class DisputeController {
 				
 				this.smallholdingService.saveDispute(smallholding);
 				
-				result.addObject("isArgumented", smallholding.isArgumented());
-			
+				
 				
 			}catch(Throwable oops) {
 				
 				result = new ModelAndView("redirect:/smallholding/display?smallholdingId="+smallholdingId);
-				result.addObject("errorDispute", "No se pudo abrir la disputa, intentelo de nuevo.");
-				result.addObject("isArgumented", smallholding.isArgumented());
+				
 			}
 
 
