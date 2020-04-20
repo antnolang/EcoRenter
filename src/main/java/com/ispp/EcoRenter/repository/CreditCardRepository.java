@@ -8,4 +8,8 @@ import com.ispp.EcoRenter.model.CreditCard;
 @Repository
 public interface CreditCardRepository extends JpaRepository<CreditCard, Integer> {
 
+	
+
+	
+	
 }

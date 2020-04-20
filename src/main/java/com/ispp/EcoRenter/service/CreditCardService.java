@@ -141,6 +141,10 @@ public class CreditCardService {
 		this.creditCardRepository.delete(creditCard);
 	}
 	
+	public void deleteForActor(CreditCard creditCard) {
+		this.creditCardRepository.delete(creditCard);
+	}
+	
 	// Otros metodos -------------------------------------------
 	public Map<Integer, String> getCreditCardEncodedNumber(Collection<CreditCard> creditCards) {
 		Map<Integer, String> results;
