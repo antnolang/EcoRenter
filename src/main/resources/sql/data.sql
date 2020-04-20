@@ -452,18 +452,18 @@ COPY public.owner (id, version, email, name, surname, telephone_number, photo_id
 --
 
 COPY public.smallholding (id, version, address, description, farming_type, is_argumented, is_available, latitude, locality, longitude, max_duration, postal_code, price, province, size, status, title, owner_id) FROM stdin;
-400	0	C/ Bienaventurados	Se trata de una parcela unas dimensiones considerables y que se encuentra en buen estado	frutales	f	f	18.5602014	Morón	-74.2581337	10	41710	99.989999999999995	Sevilla	100	ALQUILADA	Tierra de cultivo en Morón	200
-401	0	C/ Cibeles	La parcela está en buena estado y lista para usar	olivar	f	t	37.1824646	Utrera	-5.7817506	3	41710	199.99000000000001	Sevilla	200	NO ALQUILADA	Tierra de cultivo a las afueras de Sevilla	200
-402	0	C/ Bermejales	Posee certificación ecológica	Frutos secos	f	f	36.2757882	Conil de la Frontera	-6.0889112	1	11140	199.99000000000001	Cádiz	200	ALQUILADA	Parcela de cultivo!!	200
-403	0	C/ Virgen de Fátima	Necesita unos arreglitos pero es acogedora	olivar	f	t	40.3081807	Getafe	-3.7302679	2	28900	499.99000000000001	Madrid	250	NO ALQUILADA	Tierra de cultivo en perfecto estado	200
-404	0	C/ Alfonso XII	Parcela grande y en buen estado	hortalizas	f	f	43.4620412	Santander	-3.8099719	10	39001	100	Santander	50	ALQUILADA	Parcela para cultivo de hortalizas	200
-405	0	C/ Torcuato de Tena	Parcela en buen estado	viñedos	f	t	38.8780585	Badajoz	-6.9702048	3	39001	49.990000000000002	Extremadura	75	NO ALQUILADA	Parcela óptima para el cultivo	200
-406	0	Avenida Cibeles	Parcela lista para usar	olivar	f	f	39.4699014	Castellón de la Plana	-0.0377354	2	12002	369.99000000000001	Valencia	200	ALQUILADA	Parcela para el cultivo de olivos	202
-407	0	C/ Virgen de los Dolores	Parcela acogedora	cultivos industriales	f	f	36.7630203	Roquetas de mar	-2.6115886	1	04740	289.99000000000001	Almería	139	ALQUILADA	Parcela para el cultivo industrial	202
-408	0	Avenida de la Palmera	Está lista para usar	olivar	f	t	41.6521342	Zaragoza	-0.8809428	9	50001	129.99000000000001	Zaragoza	240	NO ALQUILADA	Tierra de cultivo maña	204
-409	0	C/ España	Parcela de grandes dimensiones preparada para el cultivo de hortalizas	hortalizas	t	f	41.1172364	Tarragona	1.2546057	5	43001	175	Cataluña	150	ALQUILADA	Tierra de cultivo en Santander	204
-410	0	C/ Santiago	Se trata de una parcela que cuenta con un sofisticado sistema de riego. Todo muy moderno.	frutales	f	t	41.6521328	Valladolid	-4.728562	12	47007	59.990000000000002	Castilla y León	100	NO ALQUILADA	Parcela en buen estado de Valladolid	203
-411	0	C/ Calatrava	La parcela está bien cuidada. Ha estado en berbecho hace relativamente poco tiempo.	viñedos	f	t	38.959751	Ciudad real	-3.8828283	13	13003	199.99000000000001	Castilla-La Mancha	300	NO ALQUILADA	Parcela para el cultivo de viñedos en Ciudad Real	202
+400	0	C/ Bienaventurados	Se trata de una parcela unas dimensiones considerables y que se encuentra en buen estado	Perenne	f	f	18.5602014	Morón	-74.2581337	10	41710	99.989999999999995	Sevilla	100	ALQUILADA	Tierra de cultivo en Morón	200
+410	0	C/ Santiago	Se trata de una parcela que cuenta con un sofisticado sistema de riego. Todo muy moderno.	Perenne	f	t	41.6521328	Valladolid	-4.728562	12	47007	59.990000000000002	Castilla y León	100	NO ALQUILADA	Parcela en buen estado de Valladolid	203
+401	0	C/ Cibeles	La parcela está en buena estado y lista para usar	Cíclico	f	t	37.1824646	Utrera	-5.7817506	3	41710	199.99000000000001	Sevilla	200	NO ALQUILADA	Tierra de cultivo a las afueras de Sevilla	200
+403	0	C/ Virgen de Fátima	Necesita unos arreglitos pero es acogedora	Cíclico	f	t	40.3081807	Getafe	-3.7302679	2	28900	499.99000000000001	Madrid	250	NO ALQUILADA	Tierra de cultivo en perfecto estado	200
+406	0	Avenida Cibeles	Parcela lista para usar	Cíclico	f	f	39.4699014	Castellón de la Plana	-0.0377354	2	12002	369.99000000000001	Valencia	200	ALQUILADA	Parcela para el cultivo de olivos	202
+408	0	Avenida de la Palmera	Está lista para usar	Cíclico	f	t	41.6521342	Zaragoza	-0.8809428	9	50001	129.99000000000001	Zaragoza	240	NO ALQUILADA	Tierra de cultivo maña	204
+402	0	C/ Bermejales	Posee certificación ecológica	Bienal	f	f	36.2757882	Conil de la Frontera	-6.0889112	1	11140	199.99000000000001	Cádiz	200	ALQUILADA	Parcela de cultivo!!	200
+404	0	C/ Alfonso XII	Parcela grande y en buen estado	Bienal	f	f	43.4620412	Santander	-3.8099719	10	39001	100	Santander	50	ALQUILADA	Parcela para cultivo de hortalizas	200
+409	0	C/ España	Parcela de grandes dimensiones preparada para el cultivo de hortalizas	Bienal	t	f	41.1172364	Tarragona	1.2546057	5	43001	175	Cataluña	150	ALQUILADA	Tierra de cultivo en Santander	204
+411	0	C/ Calatrava	La parcela está bien cuidada. Ha estado en berbecho hace relativamente poco tiempo.	Temporal	f	t	38.959751	Ciudad real	-3.8828283	13	13003	199.99000000000001	Castilla-La Mancha	300	NO ALQUILADA	Parcela para el cultivo de viñedos en Ciudad Real	202
+407	0	C/ Virgen de los Dolores	Parcela acogedora	Temporal	f	f	36.7630203	Roquetas de mar	-2.6115886	1	04740	289.99000000000001	Almería	139	ALQUILADA	Parcela para el cultivo industrial	202
+405	0	C/ Torcuato de Tena	Parcela en buen estado	Temporal	f	t	38.8780585	Badajoz	-6.9702048	3	39001	49.990000000000002	Extremadura	75	NO ALQUILADA	Parcela óptima para el cultivo	200
 \.
 
 
