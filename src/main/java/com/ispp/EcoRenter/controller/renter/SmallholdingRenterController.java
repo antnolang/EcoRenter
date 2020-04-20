@@ -86,8 +86,14 @@ public class SmallholdingRenterController {
 				this.rentoutService.save(rentOut);
 				result = new ModelAndView("redirect:/renter/smallholding/list");
 			} catch(Throwable oops){
-				result = this.smallholdingController.display(smallholdingId);
-				result.addObject("messageCode", "No se ha podido realizar el alquiler correctamente");
+				if(oops.getMessage().equals("La tarjeta de crédito está expirada")){
+					result = this.smallholdingController.display(smallholdingId);
+					result.addObject("messageCode", oops.getMessage());
+				} else {
+					result = this.smallholdingController.display(smallholdingId);
+					result.addObject("messageCode", "No se ha podido realizar el alquiler correctamente");
+				}
+				
 			}
 		}
 
