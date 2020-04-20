@@ -239,10 +239,11 @@ public class SmallholdingController {
 
 	    valuations = this.valuationService.findValuationsBySmallholding(smallholdingId);
 	    if (valuations.isEmpty()) {
-		result.addObject("ratingVacio", "Parcela sin valoraciones");
+		result.addObject("ratingVacio", "*Parcela sin valoraciones");
 	    } else {
 		avgMark = this.valuationService.avgMarkSmallholding(smallholdingId);
 		result.addObject("avgMark", avgMark);
+		
 	    }
 
 	    result.addObject("isRentedMySmall", isRentedMySmall);

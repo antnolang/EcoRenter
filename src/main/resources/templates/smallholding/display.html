@@ -33,13 +33,16 @@
 							<div th:if="${avgMark != null}" class="text-center"style="font-size: 2em;">
 							<div id="dataReadonlyReview" >
 							</div>
-
+							<p style="color: gray !important;font-size: 14px !important;margin-top: 10px !important;">
+							*Valoración media
+							</p>
 							</div>
 
 							<div th:if="${ratingVacio}" class="text-center"style="font-size: 2em;">
 							<div id="dataReadonlyReviewCero" >
 							</div>
-							<p th:text="${ratingVacio}">
+
+							<p style="color: gray;font-size: 14px;margin-top: 10px;" th:text="${ratingVacio}">
 							
 							</p>
 
@@ -120,7 +123,7 @@
 								<div sec:authorize="hasAuthority('RENTER')"
 									th:if="${isRentedByRenter}" onclick="desapareceContacto()"
 									id="contactBtn" class="mbr-section-btn pt-3 align-left">
-									<a class="btn btn-secondary-outline display-4">Contactar
+									<a class="btn btn-secondary display-4">Contactar
 										con el propietario</a>
 								</div>
 								<div sec:authorize="hasAuthority('RENTER')"
@@ -146,7 +149,7 @@
 									th:if="${isRentedMySmall}"
 									onclick="desapareceContactoArrendatario()" id="contactABtn"
 									class="mbr-section-btn pt-3 align-left">
-									<a class="btn btn-secondary-outline display-4">Contactar
+									<a class="btn btn-secondary display-4">Contactar
 										con el arrendatario</a>
 								</div>
 								<div
@@ -473,7 +476,7 @@
 
 								<div class="dragArea row">
 									<button type="submit" name="comentar"
-										style="width: 170px; height: 10px;"
+										style="width: 170px;"
 										class="btn btn-form btn-secondary display-4">Comentar</button>
 									<div data-for="message" class="col-md-12 form-group">
 										<input type="text" placeholder="Escribe un comentario"
@@ -535,9 +538,11 @@
 
 									'minutes' : 'Hace % minutos',
 
-									'seconds' : 'Hace pocos segundos',
+									'second' : 'Hace 1 segundo',
+									
+									'seconds' : 'Hace % segundos',
 
-									'error' : ' ',
+									'error' : 'Hace pocos segundos',
 
 								}
 
