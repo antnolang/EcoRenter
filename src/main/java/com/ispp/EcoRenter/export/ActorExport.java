@@ -2,86 +2,121 @@ package com.ispp.EcoRenter.export;
 
 public class ActorExport {
 	
-	private String name,surname,telephone,username,email;
+	private String myName,mySurname,myTelephone,myUsername,myEmail,MySmallholdingsTtile,myRentOutStartDate,Mycomments;
 	
 	
 	
-	public ActorExport(String name, String surname, String telephone, String username,String email) {
+	public ActorExport(String name, String surname, String telephone, String username,String email,String smallholdings,String rentouts,String comments) {
 		
 		
-		this.name = name;
-		this.surname = surname;
-		this.telephone = telephone;
-		this.username = username;
-		this.email = email;
+		this.myName= name;
+		this.mySurname = surname;
+		this.myTelephone = telephone;
+		this.myUsername = username;
+		this.myEmail = email;
+		this.MySmallholdingsTtile = smallholdings;
+		this.myRentOutStartDate = rentouts;
+		this.Mycomments = comments;
 		
-		
 	}
 
 
 
-	public String getName() {
-		return name;
+	public String getMyName() {
+		return myName;
 	}
 
 
 
-	public void setName(String name) {
-		this.name = name;
+	public void setMyName(String myName) {
+		this.myName = myName;
 	}
 
 
 
-	public String getSurname() {
-		return surname;
+	public String getMySurname() {
+		return mySurname;
 	}
 
 
 
-	public void setSurname(String surname) {
-		this.surname = surname;
+	public void setMySurname(String mySurname) {
+		this.mySurname = mySurname;
 	}
 
 
 
-	public String getTelephone() {
-		return telephone;
+	public String getMyTelephone() {
+		return myTelephone;
 	}
 
 
 
-	public void setTelephone(String telephone) {
-		this.telephone = telephone;
+	public void setMyTelephone(String myTelephone) {
+		this.myTelephone = myTelephone;
 	}
 
 
 
-	public String getUsername() {
-		return username;
+	public String getMyUsername() {
+		return myUsername;
 	}
 
 
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setMyUsername(String myUsername) {
+		this.myUsername = myUsername;
 	}
 
 
 
-	public String getEmail() {
-		return email;
+	public String getMyEmail() {
+		return myEmail;
 	}
 
 
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setMyEmail(String myEmail) {
+		this.myEmail = myEmail;
 	}
 
+
+
+	public String getMySmallholdingsTtile() {
+		return MySmallholdingsTtile;
+	}
+
+
+
+	public void setMySmallholdingsTtile(String mySmallholdingsTtile) {
+		MySmallholdingsTtile = mySmallholdingsTtile;
+	}
+
+
+
+	public String getMyRentOutStartDate() {
+		return myRentOutStartDate;
+	}
+
+
+
+	public void setMyRentOutStartDate(String myRentOutStartDate) {
+		this.myRentOutStartDate = myRentOutStartDate;
+	}
+
+
+
+	public String getMycomments() {
+		return Mycomments;
+	}
+
+
+
+	public void setMycomments(String mycomments) {
+		Mycomments = mycomments;
+	}
 
 
 	
 	
-	
-
 }
