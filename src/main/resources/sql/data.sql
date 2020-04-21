@@ -504,12 +504,12 @@ COPY public.smallholding (id, version, address, description, farming_type, is_ar
 403	0	C/ Virgen de Fátima	Necesita unos arreglitos pero es acogedora	Cíclico	f	t	40.3081807	Getafe	-3.7302679	2	28900	499.99000000000001	Madrid	250	NO ALQUILADA	Tierra de cultivo en perfecto estado	200
 406	0	Avenida Cibeles	Parcela lista para usar	Cíclico	f	f	39.4699014	Castellón de la Plana	-0.0377354	2	12002	369.99000000000001	Valencia	200	ALQUILADA	Parcela para el cultivo de olivos	202
 408	0	Avenida de la Palmera	Está lista para usar	Cíclico	f	t	41.6521342	Zaragoza	-0.8809428	9	50001	129.99000000000001	Zaragoza	240	NO ALQUILADA	Tierra de cultivo maña	204
-402	0	C/ Bermejales	Posee certificación ecológica	Bienal	f	f	36.2757882	Conil de la Frontera	-6.0889112	1	11140	199.99000000000001	Cádiz	200	ALQUILADA	Parcela de cultivo!!	200
 404	0	C/ Alfonso XII	Parcela grande y en buen estado	Bienal	f	f	43.4620412	Santander	-3.8099719	10	39001	100	Santander	50	ALQUILADA	Parcela para cultivo de hortalizas	200
 409	0	C/ España	Parcela de grandes dimensiones preparada para el cultivo de hortalizas	Bienal	t	f	41.1172364	Tarragona	1.2546057	5	43001	175	Cataluña	150	ALQUILADA	Tierra de cultivo en Santander	204
 411	0	C/ Calatrava	La parcela está bien cuidada. Ha estado en berbecho hace relativamente poco tiempo.	Temporal	f	t	38.959751	Ciudad real	-3.8828283	13	13003	199.99000000000001	Castilla-La Mancha	300	NO ALQUILADA	Parcela para el cultivo de viñedos en Ciudad Real	202
-407	0	C/ Virgen de los Dolores	Parcela acogedora	Temporal	f	f	36.7630203	Roquetas de mar	-2.6115886	1	04740	289.99000000000001	Almería	139	ALQUILADA	Parcela para el cultivo industrial	202
-405	0	C/ Torcuato de Tena	Parcela en buen estado	Temporal	f	f	38.8780585	Badajoz	-6.9702048	3	39001	49.990000000000002	Extremadura	75	ALQUILADA	Parcela óptima para el cultivo	200
+402	0	C/ Bermejales	Posee certificación ecológica	Bienal	f	f	36.2757882	Conil de la Frontera	-6.0889112	8	11140	199.99000000000001	Cádiz	200	ALQUILADA	Parcela de cultivo!!	200
+407	0	C/ Virgen de los Dolores	Parcela acogedora	Temporal	f	f	36.7630203	Roquetas de mar	-2.6115886	11	04740	289.99000000000001	Almería	139	ALQUILADA	Parcela para el cultivo industrial	202
+405	0	C/ Torcuato de Tena	Parcela en buen estado	Temporal	f	f	38.8780585	Badajoz	-6.9702048	11	39001	49.990000000000002	Extremadura	75	ALQUILADA	Parcela óptima para el cultivo	200
 \.
 
 
@@ -630,14 +630,14 @@ COPY public.valuation (id, version, mark, valuation_moment) FROM stdin;
 --
 
 COPY public.rent_out (id, version, is_active, month, start_date, credit_card_id, renter_id, smallholding_id, valuation_id) FROM stdin;
-500	0	t	1	2020-02-21 00:00:00	900	300	400	\N
-501	0	t	1	2020-02-20 00:00:00	900	300	402	\N
 502	0	t	7	2019-08-07 00:00:00	901	302	404	700
-503	0	t	2	2020-01-21 00:00:00	902	304	405	701
-504	0	t	1	2020-02-27 00:00:00	902	304	407	\N
 505	0	f	6	2018-04-15 00:00:00	902	304	403	\N
 506	0	f	6	2019-05-20 00:00:00	900	300	400	\N
 507	0	f	6	2017-08-13 00:00:00	903	300	400	\N
+500	0	t	5	2020-03-21 00:00:00	900	300	400	\N
+501	0	t	4	2020-03-25 00:00:00	900	300	402	\N
+504	0	t	3	2020-04-17 00:00:00	902	304	407	\N
+503	0	t	3	2020-04-19 00:00:00	902	304	405	701
 \.
 
 
