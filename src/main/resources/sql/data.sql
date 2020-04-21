@@ -509,7 +509,7 @@ COPY public.smallholding (id, version, address, description, farming_type, is_ar
 409	0	C/ España	Parcela de grandes dimensiones preparada para el cultivo de hortalizas	Bienal	t	f	41.1172364	Tarragona	1.2546057	5	43001	175	Cataluña	150	ALQUILADA	Tierra de cultivo en Santander	204
 411	0	C/ Calatrava	La parcela está bien cuidada. Ha estado en berbecho hace relativamente poco tiempo.	Temporal	f	t	38.959751	Ciudad real	-3.8828283	13	13003	199.99000000000001	Castilla-La Mancha	300	NO ALQUILADA	Parcela para el cultivo de viñedos en Ciudad Real	202
 407	0	C/ Virgen de los Dolores	Parcela acogedora	Temporal	f	f	36.7630203	Roquetas de mar	-2.6115886	1	04740	289.99000000000001	Almería	139	ALQUILADA	Parcela para el cultivo industrial	202
-405	0	C/ Torcuato de Tena	Parcela en buen estado	Temporal	f	t	38.8780585	Badajoz	-6.9702048	3	39001	49.990000000000002	Extremadura	75	NO ALQUILADA	Parcela óptima para el cultivo	200
+405	0	C/ Torcuato de Tena	Parcela en buen estado	Temporal	f	f	38.8780585	Badajoz	-6.9702048	3	39001	49.990000000000002	Extremadura	75	ALQUILADA	Parcela óptima para el cultivo	200
 \.
 
 
@@ -585,7 +585,7 @@ COPY public.eco_truki_photos (eco_truki_id, photos_id) FROM stdin;
 -- Name: hibernate_sequence; Type: SEQUENCE SET; Schema: public; Owner: spring_dev
 --
 
-SELECT pg_catalog.setval('public.hibernate_sequence', 65, true);
+SELECT pg_catalog.setval('public.hibernate_sequence', 66, true);
 
 
 --
