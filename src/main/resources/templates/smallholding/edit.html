@@ -41,10 +41,13 @@
 						enctype="multipart/form-data" class="mbr-form form-with-styler"
 						data-form-title=" Form">
 
-						<input type="hidden" value="0.0" id="latitude" name="latitude"
-							data-geocomplete="lat"> <input type="hidden" value="0.0"
-							id="longitude" name="longitude" data-geocomplete="lng"> <input
-							type="hidden" th:field="*{id}" th:value="${smallholding.id}" /> <input
+						<input type="hidden" value="0.0" id="latitude" name="latitude"  th:field="*{latitude}"
+							data-geocomplete="lat"> 
+							<input type="hidden" th:field="*{longitude}"
+							id="longitude" name="longitude" data-geocomplete="lng"> 
+							<input
+							type="hidden" th:field="*{id}" th:value="${smallholding.id}" /> 
+							<input
 							type="hidden" th:field="*{version}"
 							th:value="${smallholding.version}" />
 

@@ -140,9 +140,10 @@ public class RentOutService {
         CreditCard creditCard;
 
         result = this.create(smallholding);
-        if(creditCardForm.getId() != 0)
+        if(creditCardForm.getId() != 0){
+            this.creditCardService.checkExpiredCreditCardForm(creditCardForm);
             creditCard = this.creditCardService.findOne(creditCardForm.getId());
-        else
+        } else
             creditCard = this.creditCardService.save(creditCardForm);
         result.setCreditCard(creditCard);
 

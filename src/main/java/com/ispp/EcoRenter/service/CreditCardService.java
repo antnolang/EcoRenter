@@ -210,6 +210,25 @@ public class CreditCardService {
 		
 		Assert.isTrue(now.isBefore(expiration), "La tarjeta de crédito está expirada");
 	}
+
+	protected void checkExpiredCreditCardForm(CreditCardForm creditCardForm){
+		String year, month, str_date;
+		DateTimeFormatter formatter;
+		LocalDate now, expiration;
+		
+		formatter = DateTimeFormatter.ofPattern("yy-MM-dd");
+		
+		year = creditCardForm.getExpirationYear();
+		month = creditCardForm.getExpirationMonth();
+		
+		str_date = year + "-" + month + "-" + "01";
+		
+		expiration = LocalDate.parse(str_date, formatter);
+		
+		now = LocalDate.now();
+		
+		Assert.isTrue(now.isBefore(expiration), "La tarjeta de crédito está expirada");
+	}
 	
 	public Collection<String> getCreditCardMakes() {
 		List<String> results;
