@@ -155,7 +155,7 @@ public class ActorOwnerController {
 		
 		
 		String smallString = "";
-		int countSmall = 0;
+		int countSmalls = 0;
 		int smallSize = smalls.size();
 
 		String rentString = "";
@@ -168,10 +168,10 @@ public class ActorOwnerController {
 
 
 		for(Smallholding s: smalls) {
-			countSmall++;
+			countSmalls++;
 
 
-			if(countSmall == smallSize) {
+			if(countSmalls == smallSize) {
 				smallString = smallString + s.getTitle();
 			}else {
 				smallString = smallString + s.getTitle()+",";
