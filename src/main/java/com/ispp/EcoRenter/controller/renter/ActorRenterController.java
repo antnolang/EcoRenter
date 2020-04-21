@@ -1,5 +1,7 @@
 package com.ispp.EcoRenter.controller.renter;
 
+import java.util.Collection;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -19,12 +21,18 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ispp.EcoRenter.export.ActorExport;
 import com.ispp.EcoRenter.form.RenterForm;
 import com.ispp.EcoRenter.model.Actor;
+import com.ispp.EcoRenter.model.Comment;
 import com.ispp.EcoRenter.model.Customisation;
+import com.ispp.EcoRenter.model.RentOut;
 import com.ispp.EcoRenter.model.Renter;
+import com.ispp.EcoRenter.model.Smallholding;
 import com.ispp.EcoRenter.register.RenterRegister;
 import com.ispp.EcoRenter.service.ActorService;
+import com.ispp.EcoRenter.service.CommentService;
 import com.ispp.EcoRenter.service.CustomisationService;
+import com.ispp.EcoRenter.service.RentOutService;
 import com.ispp.EcoRenter.service.RenterService;
+import com.ispp.EcoRenter.service.SmallholdingService;
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
@@ -44,6 +52,15 @@ public class ActorRenterController {
 
 	@Autowired
 	private CustomisationService customisationService;
+
+	@Autowired
+	private SmallholdingService smallholdingService;
+
+	@Autowired
+	private RentOutService rentoutService;
+
+	@Autowired
+	private CommentService commentService;
 
 	public ActorRenterController() {
 		super();
@@ -130,8 +147,58 @@ public class ActorRenterController {
 
 		Renter principal = this.renterService.findByPrincipal();
 
-		// TODO: Carlos, revisa esto
-		ActorExport toExport = new ActorExport(principal.getName(),principal.getSurname(), principal.getTelephoneNumber(), principal.getUserAccount().getUsername(), principal.getEmail());
+		Collection<Smallholding> smalls = this.smallholdingService.findSmallholdingsByRenterId(principal.getId());
+		Collection<RentOut> rents = this.rentoutService.findRentOutsByRenter(principal.getId());
+		Collection<Comment> comments = this.commentService.findCommentsByActor(principal.getId());
+
+		String smallString = "";
+		int countSmall = 0;
+		int smallSize = smalls.size();
+
+		String rentString = "";
+		int countRents = 0;
+		int rentSize = rents.size();
+
+		String commentString = "";
+		int countComments= 0;
+		int commentSize = comments.size();
+
+
+		for(Smallholding s: smalls) {
+			countSmall++;
+
+
+			if(countSmall == smallSize) {
+				smallString = smallString + s.getTitle();
+			}else {
+				smallString = smallString + s.getTitle()+",";
+			}
+		}
+
+		for(RentOut r : rents) {
+			countRents++;
+
+
+			if(countRents == rentSize) {
+				rentString = rentString + r.getStartDate().toString();
+			}else {
+				rentString = rentString + r.getStartDate().toString()+",";
+			}
+		}
+
+		for(Comment c : comments) {
+			countComments++;
+
+			if(countComments == commentSize) {
+				commentString = commentString + c.getText();
+			}else {
+				commentString = commentString + c.getText()+",";
+			}
+
+		}
+
+
+		ActorExport toExport = new ActorExport(principal.getName(),principal.getSurname(), principal.getTelephoneNumber(), principal.getUserAccount().getUsername(), principal.getEmail(),smallString,rentString,commentString);
 
 
 		response.setContentType("text/csv");
