@@ -57,19 +57,19 @@ public class ValuationService {
 
         Valuation result;
         RentOut rentOut;
-        Calendar startDateCalendarPlus1;
-        Date startDatePlus1;
+        // Calendar startDateCalendarPlus1;
+        // Date startDatePlus1;
 
         rentOut = this.rentOutService.findOne(rentOutId);
         Assert.isTrue(rentOut.getRenter().equals(this.renterService.findByPrincipal()), "El arrendatario debe valorar sobre parcelas que ha alquilado");
-        
+        /*
         startDateCalendarPlus1= Calendar.getInstance();
         startDateCalendarPlus1.setTime(rentOut.getStartDate());
         startDateCalendarPlus1.add(Calendar.MONTH, 1);
         startDatePlus1 = startDateCalendarPlus1.getTime();
 
         Assert.isTrue(this.utilityService.getCurrentMoment().after(startDatePlus1), "Para realizar una valoración debe haber transcurrido un mes del alquiler");
-
+        */
         result = this.valuationRepository.save(valuation);
 
         this.addValuation(rentOut, valuation);
