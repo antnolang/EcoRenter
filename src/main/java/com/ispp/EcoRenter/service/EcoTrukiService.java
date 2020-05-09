@@ -20,7 +20,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.util.HtmlUtils;
 
 import com.ispp.EcoRenter.form.EcoTrukiForm;
 import com.ispp.EcoRenter.model.EcoTruki;
@@ -113,8 +112,8 @@ public class EcoTrukiService {
 		int id;
 		
 		id = ecoTrukiForm.getId();
-		title = HtmlUtils.htmlEscape(ecoTrukiForm.getTitle().trim());
-		description = HtmlUtils.htmlEscape(ecoTrukiForm.getDescription().trim());
+		title = ecoTrukiForm.getTitle().trim();
+		description = ecoTrukiForm.getDescription().trim();
 		
 		ecoTruki = (id <= 0) ? this.create() : this.findOne(id);
 		ecoTruki.setTitle(title);

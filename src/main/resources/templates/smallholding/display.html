@@ -48,6 +48,16 @@
 
 							</div>
 
+							<div th:if="${messageCode != null || messageCode != ''}" class="text-center"style="font-size: 2em;">
+								<div id="dataReadonlyReviewCero" >
+								</div>
+	
+								<p style="color: red !important;font-size: 14px;margin-top: 14px;" th:text="${messageCode}">
+								
+								</p>
+	
+							</div>
+
 						</div>
 
 						<div class="align-left aside-content">
@@ -420,11 +430,6 @@
 											<p style="color: red !important;">
 												<span id="cvvCodeError"></span>
 											</p>
-										</div>
-
-										<div class="col-md-12 form-group" data-for="name"
-											th:if="${messageCode != null || messageCode != ''}">
-											<p th:text="${messageCode}" style="color: red !important;"></p>
 										</div>
 
 										<div data-for="message" class="col-md-12 form-group">
